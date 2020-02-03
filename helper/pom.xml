@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>pine-framework</artifactId>
+        <groupId>com.pineframework.core</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.pineframework.core.helper</groupId>
+    <artifactId>helper</artifactId>
+    <version>${helper.version}</version>
+
+    <name>Helper</name>
+
+    <description>
+        Helper module include helpers ad utils class.
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.pineframework.core.test</groupId>
+            <artifactId>test</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${artifactId}_${project.version}</finalName>
+    </build>
+</project>
