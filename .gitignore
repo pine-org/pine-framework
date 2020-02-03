@@ -24,7 +24,7 @@ hs_err_pid*
 
 # folders
 /.idea/
-/target/
+/.target/
 
 # IDE project file
 *.iml
