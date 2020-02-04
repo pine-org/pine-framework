@@ -20,6 +20,7 @@ public final class StringUtils {
      * returns {@code false}.
      *
      * @param str a string reference to be checked against {@code null}
+
      * @return {@code true} if the provided reference is {@code null} otherwise
      * {@code false}
      */
@@ -32,6 +33,7 @@ public final class StringUtils {
      * returns {@code false}.
      *
      * @param str a string reference to be checked against {@code  not null}
+
      * @return {@code true} if the provided reference is {@code  not null} otherwise
      * {@code false}
      */
@@ -42,14 +44,14 @@ public final class StringUtils {
     /**
      * Checks that the specified object reference is not {@code null} and not empty. This
      * method is designed primarily for doing parameter validation in methods
-     * and constructors
+     * and constructors.
      *
      * @param str the string reference to check for emptiness
      * @throws IllegalArgumentException if {@code str} is {@code null} or is empty
      */
     public static void requireNotEmpty(String str) {
         if (isEmpty(str)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("string cannot be null or empty");
         }
     }
 
@@ -59,7 +61,8 @@ public final class StringUtils {
      * the specified {@code separator}.
      *
      * @param separator the separator that separates each element
-     * @param strings   the strings to join together.
+     * @param strings   the strings to join together
+     *
      * @return a new {@code String} that is composed of the {@code strings}
      * separated by the {@code separator}
      */
@@ -71,7 +74,8 @@ public final class StringUtils {
      * Return new String as title case style word. This
      * method is designed primarily for apply on a word.
      *
-     * @param word the {@code word} that be changed to title case word.
+     * @param word the {@code word} that be changed to title case word
+     *
      * @return new String as title case style word
      */
     public static String convertToTitleCase(String word) {
@@ -84,7 +88,8 @@ public final class StringUtils {
      * method is designed primarily for apply on a sentences. The sentences have to split
      * then pass to {@code convertToTitleCase}.
      *
-     * @param words the {@code words} that be changed to title case words.
+     * @param words the {@code words} that be changed to title case words
+     *
      * @return new String as title case style sentence
      */
     public static String convertToTitleCase(String... words) {
@@ -99,7 +104,8 @@ public final class StringUtils {
      * method is designed primarily for apply on a phrases. the phrases have to split
      * then pass to {@code convertToCamelCase}.
      *
-     * @param words the {@code words} that be changed to title case words.
+     * @param words the {@code words} that be changed to title case words
+     *
      * @return new String as title case style sentence
      */
     public static String convertToCamelCase(String... words) {
