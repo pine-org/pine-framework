@@ -19,24 +19,24 @@ public final class StringUtils {
      * Returns {@code true} if the provided reference is {@code null} otherwise
      * returns {@code false}.
      *
-     * @param val a string reference to be checked against {@code null}
+     * @param str a string reference to be checked against {@code null}
      * @return {@code true} if the provided reference is {@code null} otherwise
      * {@code false}
      */
-    public static boolean isEmpty(String val) {
-        return Objects.isNull(val) || val.isEmpty();
+    public static boolean isEmpty(String str) {
+        return Objects.isNull(str) || str.isEmpty();
     }
 
     /**
      * Returns {@code true} if the provided reference is {@code not null} otherwise
      * returns {@code false}.
      *
-     * @param val a string reference to be checked against {@code  not null}
+     * @param str a string reference to be checked against {@code  not null}
      * @return {@code true} if the provided reference is {@code  not null} otherwise
      * {@code false}
      */
-    public static boolean notEmpty(String val) {
-        return !isEmpty(val);
+    public static boolean notEmpty(String str) {
+        return !isEmpty(str);
     }
 
     /**
