@@ -1,5 +1,6 @@
 package com.pineframework.core.helper;
 
+import com.pineframework.core.datastructure.BooleanOptional;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;

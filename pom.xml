@@ -39,11 +39,13 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <test.version>1.0.0-SNAPSHOT</test.version>
         <helper.version>1.0.0-SNAPSHOT</helper.version>
+        <data-structur.version>1.0.0-SNAPSHOT</data-structur.version>
     </properties>
 
     <modules>
         <module>test</module>
         <module>helper</module>
+        <module>data-structure</module>
     </modules>
 
     <dependencies>
