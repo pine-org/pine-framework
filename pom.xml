@@ -46,6 +46,7 @@
         <module>test</module>
         <module>helper</module>
         <module>data-structure</module>
+        <module>sample</module>
     </modules>
 
     <dependencies>
@@ -92,20 +93,14 @@
 
         <!-- utility -->
         <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr</artifactId>
+            <version>0.10.2</version>
+        </dependency>
+        <dependency>
             <groupId>com.ibm.icu</groupId>
             <artifactId>icu4j</artifactId>
             <version>64.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.9.11</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 

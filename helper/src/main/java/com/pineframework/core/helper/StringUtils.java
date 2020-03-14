@@ -110,4 +110,5 @@ public final class StringUtils {
                 .reduce((first, rest) -> first.concat(convertToTitleCase(rest)))
                 .get();
     }
+
 }
