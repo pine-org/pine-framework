@@ -9,14 +9,16 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.pineframework.core.helper</groupId>
-    <artifactId>helper</artifactId>
-    <version>${helper.version}</version>
+    <groupId>com.pineframework.core.messaging.activemq</groupId>
+    <artifactId>activemq</artifactId>
+    <version>${activemq.version}</version>
+    <packaging>jar</packaging>
 
-    <name>Helper</name>
+    <name>Active MQ Classic</name>
 
     <description>
-        Helper module include helpers ad utils class.
+        This module is a component that include all configuration and staff in order to
+        connect to ActiveMQ Classic and work with message.
     </description>
 
     <dependencies>
@@ -26,14 +28,22 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.pineframework.core.test</groupId>
-            <artifactId>test</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>test</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-client</artifactId>
+            <version>5.15.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+            <version>2.2.1.RELEASE</version>
         </dependency>
     </dependencies>
-
     <build>
         <finalName>${project.artifactId}_${project.version}</finalName>
     </build>
+
 </project>
