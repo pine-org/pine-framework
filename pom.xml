@@ -39,6 +39,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
+        <properties.version>1.0.0-SNAPSHOT</properties.version>
         <test.version>1.0.0-SNAPSHOT</test.version>
         <helper.version>1.0.0-SNAPSHOT</helper.version>
         <data-structur.version>1.0.0-SNAPSHOT</data-structur.version>
@@ -51,6 +52,8 @@
         <module>data-structure</module>
         <module>sample</module>
         <module>activemq</module>
+        <module>properties</module>
+        <module>configuration-server</module>
     </modules>
 
     <dependencyManagement>
@@ -73,6 +76,11 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+
         <!--driver-->
         <dependency>
             <groupId>com.oracle</groupId>
@@ -84,34 +92,32 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.6</version>
         </dependency>
 
         <!--logger-->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <version>2.13.0</version>
-            <scope>compile</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.13.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.13.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>jul-to-slf4j</artifactId>
-            <version>1.7.30</version>
-            <scope>compile</scope>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.slf4j</groupId>-->
+        <!--            <artifactId>slf4j-log4j12</artifactId>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.logging.log4j</groupId>-->
+        <!--            <artifactId>log4j-api</artifactId>-->
+        <!--            <scope>compile</scope>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.logging.log4j</groupId>-->
+        <!--            <artifactId>log4j-core</artifactId>-->
+        <!--            <scope>compile</scope>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.slf4j</groupId>-->
+        <!--            <artifactId>jul-to-slf4j</artifactId>-->
+        <!--            <scope>compile</scope>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>net.logstash.log4j</groupId>
             <artifactId>jsonevent-layout</artifactId>
@@ -165,23 +171,21 @@
 
     <profiles>
         <profile>
-            <id>Product</id>
+            <id>Production</id>
             <properties>
-                <env>product</env>
-                <build.profile.id>product</build.profile.id>
-                <profileActive>product</profileActive>
+                <env>production</env>
+                <build.profile.id>production</build.profile.id>
                 <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
         <profile>
-            <id>Develop</id>
+            <id>Development</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <env>develop</env>
-                <build.profile.id>develop</build.profile.id>
-                <profileActive>develop</profileActive>
+                <env>development</env>
+                <build.profile.id>development</build.profile.id>
                 <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
@@ -190,7 +194,6 @@
             <properties>
                 <env>test</env>
                 <build.profile.id>test</build.profile.id>
-                <profileActive>test</profileActive>
             </properties>
         </profile>
         <profile>
@@ -198,7 +201,6 @@
             <properties>
                 <env>uat</env>
                 <build.profile.id>uat</build.profile.id>
-                <profileActive>uat</profileActive>
                 <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
