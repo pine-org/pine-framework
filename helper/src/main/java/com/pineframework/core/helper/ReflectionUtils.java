@@ -76,15 +76,6 @@ public final class ReflectionUtils {
                 .orElse(new HashSet<>());
     }
 
-    public static Set<Class<?>> getClasses(String packageName) {
-        String root = packageName.split("\\.")[0];
-        return walkThrowPackage(packageName)
-                .filter(s -> s.endsWith(".class"))
-                .map(s -> root + "." + substringBetween(s, root + ".", ".class"))
-                .map(s -> Try.of(() -> Class.forName(s)).get())
-                .collect(Collectors.toSet());
-    }
-
     public static Set<Class<?>> getClassesByAnnotation(String packageName, Class<? extends Annotation> annotation) {
         String root = packageName.split("\\.")[0];
         return walkThrowPackage(packageName)
@@ -92,6 +83,15 @@ public final class ReflectionUtils {
                 .map(s -> root + "." + substringBetween(s, root + ".", ".class"))
                 .map(s -> Try.of(() -> Class.forName(s)).get())
                 .filter(clazz -> clazz.isAnnotationPresent(annotation))
+                .collect(Collectors.toSet());
+    }
+
+    public static Set<Class<?>> getClasses(String packageName) {
+        String root = packageName.split("\\.")[0];
+        return walkThrowPackage(packageName)
+                .filter(s -> s.endsWith(".class"))
+                .map(s -> root + "." + substringBetween(s, root + ".", ".class"))
+                .map(s -> Try.of(() -> Class.forName(s)).get())
                 .collect(Collectors.toSet());
     }
 
@@ -148,9 +148,21 @@ public final class ReflectionUtils {
 
         static {
             converters.putAll(PrimitiveConverter.converters);
-            converters.put(LocalDate.class, (v) -> Try.of(() -> ((TIMESTAMP) v).dateValue().toLocalDate()).get());
-            converters.put(LocalDateTime.class, (v) -> Try.of(() -> ((TIMESTAMP) v).timestampValue().toLocalDateTime()).get());
-            converters.put(LocalTime.class, (v) -> Try.of(() -> ((TIMESTAMP) v).timestampValue().getTime()).get());
+            converters.put(LocalDate.class, (v) -> convertToLocalDate((TIMESTAMP) v));
+            converters.put(LocalDateTime.class, (v) -> convertToLocalDateAndTime((TIMESTAMP) v));
+            converters.put(LocalTime.class, (v) -> convertToLocalTime((TIMESTAMP) v));
+        }
+
+        private static Long convertToLocalTime(TIMESTAMP v) {
+            return Try.of(() -> v.timestampValue().getTime()).get();
+        }
+
+        private static LocalDate convertToLocalDate(TIMESTAMP v) {
+            return Try.of(() -> v.dateValue().toLocalDate()).get();
+        }
+
+        private static LocalDateTime convertToLocalDateAndTime(TIMESTAMP v) {
+            return Try.of(() -> v.timestampValue().toLocalDateTime()).get();
         }
     }
 
@@ -163,9 +175,21 @@ public final class ReflectionUtils {
             converters.put(Long.class, (v) -> Long.valueOf(String.valueOf(v)));
             converters.put(String.class, (v) -> String.valueOf(v));
             converters.put(Boolean.class, (v) -> Integer.valueOf(String.valueOf(v)).intValue() == 1);
-            converters.put(LocalDate.class, (v) -> LocalDate.parse(String.valueOf(v), ofPattern("yyyy-MM-dd")));
-            converters.put(LocalDateTime.class, (v) -> LocalDateTime.parse(String.valueOf(v), ofPattern("yyyy-MM-dd HH:mm:ss")));
-            converters.put(LocalTime.class, (v) -> LocalTime.parse(String.valueOf(v), ofPattern("HH:mm:ss")));
+            converters.put(LocalDate.class, (v) -> extractDate(v));
+            converters.put(LocalDateTime.class, (v) -> extractDateAndTime(v));
+            converters.put(LocalTime.class, (v) -> extractTime(v));
+        }
+
+        private static LocalTime extractTime(Object v) {
+            return LocalTime.parse(String.valueOf(v), ofPattern("HH:mm:ss"));
+        }
+
+        private static LocalDate extractDate(Object v) {
+            return LocalDate.parse(String.valueOf(v), ofPattern("yyyy-MM-dd"));
+        }
+
+        private static LocalDateTime extractDateAndTime(Object v) {
+            return LocalDateTime.parse(String.valueOf(v), ofPattern("yyyy-MM-dd HH:mm:ss"));
         }
     }
 }

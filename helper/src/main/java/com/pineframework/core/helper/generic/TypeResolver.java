@@ -42,6 +42,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 /**
  * Enhanced type resolution utilities.
  *
@@ -496,76 +499,77 @@ public final class TypeResolver {
     }
 
     /**
-     * Resolves the raw class for the {@code genericType}, using the type variable information from the {@code subType}
+     * Resolves the raw class for the {@code type}, using the type variable information from the {@code owner}
      * else {@link Unknown} if the raw class cannot be resolved.
      *
-     * @param genericType to resolve raw class for
-     * @param subType     to extract type variable information from
-     * @return raw class for the {@code genericType} else {@link Unknown} if it cannot be resolved
+     * @param type  to resolve raw class for
+     * @param owner to extract type variable information from
+     * @return raw class for the {@code type} else {@link Unknown} if it cannot be resolved
      */
-    public static Class<?> resolveRawClass(Type genericType, Class<?> subType) {
-        return resolveRawClass(genericType, subType, null);
+    public static Class<?> resolveRawClass(Type type, Class<?> owner) {
+        return resolveRawClass(type, owner, null);
     }
 
-    private static Class<?> resolveRawClass(Type genericType, Class<?> subType, Class<?> functionalInterface) {
-        if (genericType instanceof Class) {
-            return (Class<?>) genericType;
-        } else if (genericType instanceof ParameterizedType) {
-            return resolveRawClass(((ParameterizedType) genericType).getRawType(), subType, functionalInterface);
-        } else if (genericType instanceof GenericArrayType) {
-            GenericArrayType arrayType = (GenericArrayType) genericType;
-            Class<?> component = resolveRawClass(arrayType.getGenericComponentType(), subType, functionalInterface);
+    private static Class<?> resolveRawClass(Type type, Class<?> owner, Class<?> clazz) {
+        if (type instanceof Class) {
+            return (Class<?>) type;
+
+        } else if (type instanceof ParameterizedType) {
+            return resolveRawClass(((ParameterizedType) type).getRawType(), owner, clazz);
+
+        } else if (type instanceof GenericArrayType) {
+            Class<?> component = resolveRawClass(((GenericArrayType) type).getGenericComponentType(), owner, clazz);
             return Array.newInstance(component, 0).getClass();
-        } else if (genericType instanceof TypeVariable) {
-            TypeVariable<?> variable = (TypeVariable<?>) genericType;
-            genericType = getTypeVariableMap(subType, functionalInterface).get(variable);
-            genericType = genericType == null ? resolveBound(variable)
-                    : resolveRawClass(genericType, subType, functionalInterface);
+
+        } else if (type instanceof TypeVariable) {
+            type = getTypeVariableMap(owner, clazz).get((TypeVariable<?>) type);
+            type = (isNull(type)) ? resolveBound((TypeVariable<?>) type) : resolveRawClass(type, owner, clazz);
         }
 
-        return genericType instanceof Class ? (Class<?>) genericType : Unknown.class;
+        return type instanceof Class ? (Class<?>) type : Unknown.class;
     }
 
-    private static Map<TypeVariable<?>, Type> getTypeVariableMap(final Class<?> targetType,
-                                                                 Class<?> functionalInterface) {
-        Reference<Map<TypeVariable<?>, Type>> ref = TYPE_VARIABLE_CACHE.get(targetType);
-        Map<TypeVariable<?>, Type> map = ref != null ? ref.get() : null;
+    private static Map<TypeVariable<?>, Type> getTypeVariableMap(final Class<?> type, Class<?> clazz) {
+        Reference<Map<TypeVariable<?>, Type>> ref = TYPE_VARIABLE_CACHE.get(type);
 
-        if (map == null) {
-            map = new HashMap<TypeVariable<?>, Type>();
-
-            // Populate lambdas
-            if (functionalInterface != null) populateLambdaArgs(functionalInterface, targetType, map);
-
-            // Populate interfaces
-            populateSuperTypeArgs(targetType.getGenericInterfaces(), map, functionalInterface != null);
-
-            // Populate super classes and interfaces
-            Type genericType = targetType.getGenericSuperclass();
-            Class<?> type = targetType.getSuperclass();
-            while (type != null && !Object.class.equals(type)) {
-                if (genericType instanceof ParameterizedType) {
-                    populateTypeArgs((ParameterizedType) genericType, map, false);
-                }
-                populateSuperTypeArgs(type.getGenericInterfaces(), map, false);
-
-                genericType = type.getGenericSuperclass();
-                type = type.getSuperclass();
-            }
-
-            // Populate enclosing classes
-            type = targetType;
-            while (type.isMemberClass()) {
-                genericType = type.getGenericSuperclass();
-                if (genericType instanceof ParameterizedType) {
-                    populateTypeArgs((ParameterizedType) genericType, map, functionalInterface != null);
-                }
-
-                type = type.getEnclosingClass();
-            }
-
-            if (CACHE_ENABLED) TYPE_VARIABLE_CACHE.put(targetType, new WeakReference<Map<TypeVariable<?>, Type>>(map));
+        if (nonNull(ref)) {
+            return ref.get();
         }
+
+        Map<TypeVariable<?>, Type> map = new HashMap<>();
+
+        if (nonNull(clazz)) {
+            populateLambdaArgs(clazz, type, map);
+        }
+
+        populateSuperTypeArgs(type.getGenericInterfaces(), map, nonNull(clazz));
+
+        Type generic = type.getGenericSuperclass();
+        Class<?> superclass = type.getSuperclass();
+
+        while (superclass != null && !Object.class.equals(superclass)) {
+
+            if (generic instanceof ParameterizedType) {
+                populateTypeArgs((ParameterizedType) generic, map, false);
+            }
+            populateSuperTypeArgs(superclass.getGenericInterfaces(), map, false);
+
+            generic = superclass.getGenericSuperclass();
+            superclass = superclass.getSuperclass();
+        }
+
+        superclass = type;
+        while (superclass.isMemberClass()) {
+            generic = superclass.getGenericSuperclass();
+
+            if (generic instanceof ParameterizedType) {
+                populateTypeArgs((ParameterizedType) generic, map, clazz != null);
+            }
+
+            superclass = superclass.getEnclosingClass();
+        }
+
+        if (CACHE_ENABLED) TYPE_VARIABLE_CACHE.put(type, new WeakReference<>(map));
 
         return map;
     }
@@ -573,8 +577,7 @@ public final class TypeResolver {
     /**
      * Populates the {@code map} with with variable/argument pairs for the given {@code types}.
      */
-    private static void populateSuperTypeArgs(final Type[] types, final Map<TypeVariable<?>, Type> map,
-                                              boolean depthFirst) {
+    private static void populateSuperTypeArgs(final Type[] types, final Map<TypeVariable<?>, Type> map, boolean depthFirst) {
         for (Type type : types) {
             if (type instanceof ParameterizedType) {
                 ParameterizedType parameterizedType = (ParameterizedType) type;
@@ -647,8 +650,7 @@ public final class TypeResolver {
     /**
      * Populates the {@code map} with variable/argument pairs for the {@code functionalInterface}.
      */
-    private static void populateLambdaArgs(Class<?> functionalInterface, final Class<?> lambdaType,
-                                           Map<TypeVariable<?>, Type> map) {
+    private static void populateLambdaArgs(Class<?> functionalInterface, final Class<?> lambdaType, Map<TypeVariable<?>, Type> map) {
         if (RESOLVES_LAMBDAS) {
             // Find SAM
             for (Method m : functionalInterface.getMethods()) {

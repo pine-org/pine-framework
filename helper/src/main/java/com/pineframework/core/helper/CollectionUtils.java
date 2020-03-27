@@ -130,20 +130,20 @@ public final class CollectionUtils {
      * Perform subtract operation between two collections on specific equality. All objects included in {@code c1} but
      * not included in {@code c2}
      *
-     * @param c1        the first collection
-     * @param c2        the second collection
-     * @param condition the equality condition
-     * @param <E>       the type of object that held by the first collection
-     * @param <T>       the type of object that held by the second collection
+     * @param c1  the first collection
+     * @param c2  the second collection
+     * @param poc the predicate of comparision
+     * @param <E> the type of object that held by the first collection
+     * @param <T> the type of object that held by the second collection
      * @return new collection that, it is subset of {@code c1}
      */
-    public static <E, T> Collection<E> subtract(Collection<E> c1, Collection<T> c2, BiFunction<E, T, Boolean> condition) {
+    public static <E, T> Collection<E> subtract(Collection<E> c1, Collection<T> c2, BiFunction<E, T, Boolean> poc) {
         requiredElement(c1);
         requiredElement(c2);
-        requireNonNull(condition);
+        requireNonNull(poc);
 
         return c1.stream()
-                .filter(e1 -> c2.stream().noneMatch(e2 -> condition.apply(e1, e2)))
+                .filter(e1 -> c2.stream().noneMatch(e2 -> poc.apply(e1, e2)))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
