@@ -9,6 +9,9 @@
     <module name="BeforeExecutionExclusionFileFilter">
         <property name="fileNamePattern" value="module\-info\.java$"/>
     </module>
+    <module name="SuppressionFilter">
+        <property name="file" value="suppressions.xml"/>
+    </module>
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>
         <message key="containsTab" value="این خط {0} نمیتواند دارای کاراکتر Tab باشد"/>

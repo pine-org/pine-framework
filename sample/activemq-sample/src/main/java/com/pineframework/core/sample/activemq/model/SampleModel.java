@@ -1,6 +1,6 @@
 package com.pineframework.core.sample.activemq.model;
 
-import com.pineframework.core.datastructure.MessageModel;
+import com.pineframework.core.datastructure.model.MessageModel;
 
 public class SampleModel extends MessageModel {
 

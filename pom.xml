@@ -43,7 +43,11 @@
         <test.version>1.0.0-SNAPSHOT</test.version>
         <helper.version>1.0.0-SNAPSHOT</helper.version>
         <data-structur.version>1.0.0-SNAPSHOT</data-structur.version>
+        <configuration-server.version>1.0.0-SNAPSHOT</configuration-server.version>
         <activemq.version>1.0.0-SNAPSHOT</activemq.version>
+        <business.version>1.0.0-SNAPSHOT</business.version>
+        <dependencies.version>1.0.0-SNAPSHOT</dependencies.version>
+        <boot-dependencies.version>1.0.0-SNAPSHOT</boot-dependencies.version>
     </properties>
 
     <modules>
@@ -54,6 +58,9 @@
         <module>activemq</module>
         <module>properties</module>
         <module>configuration-server</module>
+        <module>business</module>
+        <module>dependencies</module>
+        <module>boot-dependencies</module>
     </modules>
 
     <dependencyManagement>
@@ -76,22 +83,12 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
 
         <!--driver-->
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc8</artifactId>
             <version>12.2.0.1</version>
-        </dependency>
-
-        <!--common-->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
         </dependency>
 
         <!--logger-->
@@ -104,13 +101,17 @@
             <artifactId>jsonevent-layout</artifactId>
             <version>1.7</version>
         </dependency>
+
+        <!-- utility -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.javers</groupId>
             <artifactId>javers-core</artifactId>
             <version>5.6.3</version>
         </dependency>
-
-        <!-- utility -->
         <dependency>
             <groupId>io.vavr</groupId>
             <artifactId>vavr</artifactId>
@@ -138,6 +139,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}_${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

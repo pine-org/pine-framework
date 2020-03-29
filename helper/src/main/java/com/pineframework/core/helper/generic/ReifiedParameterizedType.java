@@ -4,20 +4,22 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 
+import static java.lang.System.arraycopy;
+
 class ReifiedParameterizedType implements ParameterizedType {
 
     private final ParameterizedType original;
 
-    private final Type[] reifiedTypeArguments;
+    private final Type[] reifiedTypeArgs;
 
     ReifiedParameterizedType(ParameterizedType original) {
         this.original = original;
-        this.reifiedTypeArguments = new Type[original.getActualTypeArguments().length];
+        this.reifiedTypeArgs = new Type[original.getActualTypeArguments().length];
     }
 
     @Override
     public Type[] getActualTypeArguments() {
-        return reifiedTypeArguments;
+        return reifiedTypeArgs;
     }
 
     @Override
@@ -33,8 +35,8 @@ class ReifiedParameterizedType implements ParameterizedType {
     /**
      * NOTE: This method should only be called once per instance.
      */
-    void setReifiedTypeArguments(Type[] reifiedTypeArguments) {
-        System.arraycopy(reifiedTypeArguments, 0, this.reifiedTypeArguments, 0, this.reifiedTypeArguments.length);
+    void setReifiedTypeArgs(Type[] reifiedTypeArgs) {
+        arraycopy(reifiedTypeArgs, 0, this.reifiedTypeArgs, 0, this.reifiedTypeArgs.length);
     }
 
     /**
@@ -97,13 +99,13 @@ class ReifiedParameterizedType implements ParameterizedType {
 
         ReifiedParameterizedType that = (ReifiedParameterizedType) o;
         return original.equals(that.original)
-                && Arrays.equals(reifiedTypeArguments, that.reifiedTypeArguments);
+                && Arrays.equals(reifiedTypeArgs, that.reifiedTypeArgs);
     }
 
     @Override
     public int hashCode() {
         int result = original.hashCode();
-        result = 31 * result + Arrays.hashCode(reifiedTypeArguments);
+        result = 31 * result + Arrays.hashCode(reifiedTypeArgs);
         return result;
     }
 }

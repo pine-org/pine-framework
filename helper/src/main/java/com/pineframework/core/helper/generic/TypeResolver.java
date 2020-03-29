@@ -91,10 +91,10 @@ public final class TypeResolver {
             });
 
             GET_CONSTANT_POOL = Class.class.getDeclaredMethod("getConstantPool");
-            String constantPoolName = JAVA_VERSION < 9
-                    ? "sun.reflect.ConstantPool"
-                    : "jdk.internal.reflect.ConstantPool";
+
+            String constantPoolName = JAVA_VERSION < 9 ? "sun.reflect.ConstantPool" : "jdk.internal.reflect.ConstantPool";
             Class<?> constantPoolClass = Class.forName(constantPoolName);
+
             GET_CONSTANT_POOL_SIZE = constantPoolClass.getDeclaredMethod("getSize");
             GET_CONSTANT_POOL_METHOD_AT = constantPoolClass.getDeclaredMethod("getMethodAt", int.class);
 
@@ -260,7 +260,7 @@ public final class TypeResolver {
 
             if (!changed) return parameterizedType;
 
-            result.setReifiedTypeArguments(reifiedTypeArguments);
+            result.setReifiedTypeArgs(reifiedTypeArguments);
             return result;
         } else if (genericType instanceof GenericArrayType) {
             final GenericArrayType genericArrayType = (GenericArrayType) genericType;
@@ -581,8 +581,13 @@ public final class TypeResolver {
         for (Type type : types) {
             if (type instanceof ParameterizedType) {
                 ParameterizedType parameterizedType = (ParameterizedType) type;
-                if (!depthFirst) populateTypeArgs(parameterizedType, map, depthFirst);
+
+                if (!depthFirst) {
+                    populateTypeArgs(parameterizedType, map, depthFirst);
+                }
+
                 Type rawType = parameterizedType.getRawType();
+
                 if (rawType instanceof Class) {
                     populateSuperTypeArgs(((Class<?>) rawType).getGenericInterfaces(), map, depthFirst);
                 }

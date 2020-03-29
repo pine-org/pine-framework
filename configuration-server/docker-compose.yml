@@ -1,0 +1,14 @@
+version: '2.2'
+services:
+  configuration-server:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: configuration-server
+    ports:
+      - 8888
+    networks:
+      - network1
+
+networks:
+  network1:

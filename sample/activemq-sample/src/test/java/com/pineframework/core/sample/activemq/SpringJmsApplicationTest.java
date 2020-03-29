@@ -1,6 +1,6 @@
 package com.pineframework.core.sample.activemq;
 
-import com.pineframework.core.messaging.activemq.config.QueueHelper;
+import com.pineframework.core.messaging.activemq.service.QueueServiceProxy;
 import com.pineframework.core.sample.activemq.model.SampleModel;
 import com.pineframework.core.test.AbstractTest;
 import org.junit.jupiter.api.DisplayName;
@@ -11,12 +11,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("sample activemq-queue test ")
+@DisplayName("ActiveMQ Sample Test ")
 @SpringBootTest
 public class SpringJmsApplicationTest extends AbstractTest {
 
     @Autowired
-    private QueueHelper queueHelper;
+    private QueueServiceProxy queueServiceProxy;
 
     @DisplayName("send message get OK status")
     @ParameterizedTest
@@ -25,8 +25,8 @@ public class SpringJmsApplicationTest extends AbstractTest {
         SampleModel model = new SampleModel();
         model.setMessage(text);
 
-        queueHelper.publish(model);
-        queueHelper.readStatus(model);
+        queueServiceProxy.publish(model);
+        queueServiceProxy.writeStatus(model);
         infoLog(model);
 
         assertThat(model.getStatus()).isEqualTo("Accepted");

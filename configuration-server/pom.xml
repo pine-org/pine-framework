@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.pineframework.core.configurationserver</groupId>
     <artifactId>configuration-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${configuration-server.version}</version>
     <name>configuration-server</name>
     <description>Demo project for Spring Boot</description>
 

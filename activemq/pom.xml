@@ -23,9 +23,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.pineframework.core.datastructure</groupId>
-            <artifactId>data-structure</artifactId>
-            <version>${data-structur.version}</version>
+            <groupId>com.pineframework.core.dependencies</groupId>
+            <artifactId>dependencies</artifactId>
+            <version>${dependencies.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -35,9 +39,12 @@
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-broker</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
-    <build>
-        <finalName>${project.artifactId}_${project.version}</finalName>
-    </build>
 
 </project>

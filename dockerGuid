@@ -2,11 +2,10 @@
    curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/usr/local/bin/docker-machine &&
    chmod +x /usr/local/bin/docker-machine
 
- docker-machine --version
+docker-machine --version
 
- docker build -t configuration-server .
- docker image ls
-
+docker build -t configuration-server .
+docker image ls
 docker run -p 8888:8888 configuration-server
 
- docker container exec -it ae bash
+docker container exec -it ae bash

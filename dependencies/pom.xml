@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>pine-framework</artifactId>
+        <groupId>com.pineframework.core</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.pineframework.core.dependencies</groupId>
+    <artifactId>dependencies</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.pineframework.core.datastructure</groupId>
+            <artifactId>data-structure</artifactId>
+            <version>${data-structur.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pineframework.core.properties</groupId>
+            <artifactId>properties</artifactId>
+            <version>${properties.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pineframework.core.helper</groupId>
+            <artifactId>helper</artifactId>
+            <version>${helper.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>
