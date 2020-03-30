@@ -37,12 +37,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <useIncrementalCompilation>false</useIncrementalCompilation>
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
         <properties.version>1.0.0-SNAPSHOT</properties.version>
         <test.version>1.0.0-SNAPSHOT</test.version>
         <helper.version>1.0.0-SNAPSHOT</helper.version>
         <data-structur.version>1.0.0-SNAPSHOT</data-structur.version>
+        <i18n.version>1.0.0-SNAPSHOT</i18n.version>
         <configuration-server.version>1.0.0-SNAPSHOT</configuration-server.version>
         <activemq.version>1.0.0-SNAPSHOT</activemq.version>
         <business.version>1.0.0-SNAPSHOT</business.version>
@@ -61,6 +63,7 @@
         <module>business</module>
         <module>dependencies</module>
         <module>boot-dependencies</module>
+        <module>i18n</module>
     </modules>
 
     <dependencyManagement>
@@ -92,10 +95,10 @@
         </dependency>
 
         <!--logger-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-log4j2</artifactId>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>net.logstash.log4j</groupId>
             <artifactId>jsonevent-layout</artifactId>
@@ -143,6 +146,15 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <compilerArgs>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.1</version>
                 <dependencies>
@@ -168,15 +180,25 @@
 
     <profiles>
         <profile>
-            <id>Production</id>
+            <id>Docker</id>
             <properties>
-                <env>production</env>
-                <build.profile.id>production</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
+                <host>host.docker.internal</host>
+            </properties>
+        </profile>
+        <profile>
+            <id>Localhost</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <host>localhost</host>
             </properties>
         </profile>
         <profile>
             <id>Check-style</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -221,6 +243,14 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>Production</id>
+            <properties>
+                <env>production</env>
+                <build.profile.id>production</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
         </profile>
         <profile>
             <id>Development</id>

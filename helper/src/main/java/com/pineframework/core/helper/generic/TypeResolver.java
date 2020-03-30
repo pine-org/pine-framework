@@ -18,7 +18,6 @@ package com.pineframework.core.helper.generic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.Unsafe;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -34,8 +33,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -80,15 +77,6 @@ public final class TypeResolver {
         JAVA_VERSION = Double.parseDouble(System.getProperty("java.specification.version", "0"));
 
         try {
-            final Unsafe unsafe = AccessController.doPrivileged(new PrivilegedExceptionAction<Unsafe>() {
-                @Override
-                public Unsafe run() throws Exception {
-                    final Field f = Unsafe.class.getDeclaredField("theUnsafe");
-                    f.setAccessible(true);
-
-                    return (Unsafe) f.get(null);
-                }
-            });
 
             GET_CONSTANT_POOL = Class.class.getDeclaredMethod("getConstantPool");
 
@@ -100,11 +88,6 @@ public final class TypeResolver {
 
             // setting the methods as accessible
             Field overrideField = AccessibleObject.class.getDeclaredField("override");
-            long overrideFieldOffset = unsafe.objectFieldOffset(overrideField);
-            unsafe.putBoolean(GET_CONSTANT_POOL, overrideFieldOffset, true);
-            unsafe.putBoolean(GET_CONSTANT_POOL_SIZE, overrideFieldOffset, true);
-            unsafe.putBoolean(GET_CONSTANT_POOL_METHOD_AT, overrideFieldOffset, true);
-
             // additional checks - make sure we get a result when invoking the Class::getConstantPool and
             // ConstantPool::getSize on a class
             Object constantPool = GET_CONSTANT_POOL.invoke(Object.class);
