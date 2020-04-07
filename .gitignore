@@ -25,6 +25,7 @@ hs_err_pid*
 # folders
 /.idea/
 */target/
+target/
 /.scannerwork
 
 # IDE project file
