@@ -1,5 +1,6 @@
 package com.pineframework.core.sample.activemq;
 
+import com.pineframework.core.datastructure.model.messaging.MqStatus;
 import com.pineframework.core.messaging.activemq.service.QueueServiceProxy;
 import com.pineframework.core.sample.activemq.model.SampleModel;
 import com.pineframework.core.test.AbstractTest;
@@ -29,6 +30,6 @@ public class SpringJmsApplicationTest extends AbstractTest {
         queueServiceProxy.writeStatus(model);
         infoLog(model);
 
-        assertThat(model.getStatus()).isEqualTo("Accepted");
+        assertThat(model.getStatus()).isEqualTo(MqStatus.ACCEPTED);
     }
 }

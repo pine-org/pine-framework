@@ -18,7 +18,7 @@
 
     <description>
         This module is a component that include all configuration and staff in order to
-        connect to ActiveMQ Classic and work with message.
+        connect to ActiveMQ Classic and work with messaging architecture.
     </description>
 
     <dependencies>
@@ -44,7 +44,6 @@
             <artifactId>activemq-broker</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
 </project>

@@ -1,6 +1,6 @@
 package com.pineframework.core.messaging.activemq.service;
 
-import com.pineframework.core.datastructure.model.MessageModel;
+import com.pineframework.core.datastructure.model.messaging.MessageModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,9 @@ import java.util.UUID;
 
 import static io.vavr.control.Try.run;
 
+/**
+ * @author Saman Alishirishahrbabak
+ */
 @Component
 public class PublisherService implements Loggable {
 
@@ -33,12 +36,12 @@ public class PublisherService implements Loggable {
 
     public MessageModel publish(MessageModel model) {
         model.setCorrelationId(UUID.randomUUID().toString());
-        jmsTemplate.convertAndSend(messageQueue, model, message -> writeToModel(message, model));
+        jmsTemplate.convertAndSend(messageQueue, model, message -> writeMessage(message, model));
         infoLog(model);
         return model;
     }
 
-    public Message writeToModel(Message message, MessageModel model) {
+    public Message writeMessage(Message message, MessageModel model) {
         run(() -> message.setJMSCorrelationID(model.getCorrelationId()));
         return message;
     }

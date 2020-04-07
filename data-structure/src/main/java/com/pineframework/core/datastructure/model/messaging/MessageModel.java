@@ -1,10 +1,12 @@
-package com.pineframework.core.datastructure.model;
+package com.pineframework.core.datastructure.model.messaging;
+
+import com.pineframework.core.datastructure.model.AbstractTransient;
 
 public class MessageModel extends AbstractTransient<Long, Integer> {
 
     private String correlationId;
 
-    private String status;
+    private MqStatus status;
 
     public String getCorrelationId() {
         return correlationId;
@@ -14,11 +16,11 @@ public class MessageModel extends AbstractTransient<Long, Integer> {
         this.correlationId = correlationId;
     }
 
-    public String getStatus() {
+    public MqStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(MqStatus status) {
         this.status = status;
     }
 }

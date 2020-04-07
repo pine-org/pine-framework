@@ -2,6 +2,7 @@ package com.pineframework.core.messaging.activemq.config;
 
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -14,10 +15,18 @@ import org.springframework.jms.support.converter.MessageType;
 
 import javax.jms.Queue;
 
+/**
+ * Configuration for connect to ActiveMQ Classic. Create bean from {@link ActiveMqConfiguration} when {@code cs}
+ * profile was added to application properties.
+ * {@link ActiveMqConfiguration} support json type.
+ *
+ * @author Saman Alishirishahrbabak
+ */
 @Configuration
 @EnableJms
-@Profile("test")
-public class TestJmsActiveMqConfig {
+@RefreshScope
+@Profile("cs")
+public class ActiveMqConfiguration {
 
     @Value("${messaging.message-gueue.name}")
     private String messageQueue;

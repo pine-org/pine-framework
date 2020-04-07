@@ -1,6 +1,7 @@
 package com.pineframework.core.messaging.activemq.service;
 
-import com.pineframework.core.datastructure.model.MessageModel;
+import com.pineframework.core.datastructure.model.messaging.MessageModel;
+import com.pineframework.core.datastructure.model.messaging.MqStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,13 @@ import javax.jms.Queue;
 
 import static com.pineframework.core.messaging.activemq.utils.MessageSelectorGenerator.correlationIdSelectors;
 
+/**
+ * @author Saman Alishirishahrbabak
+ */
 @Component
 public class SubscriberService implements Loggable {
+
+    public static final String ACCEPTED = "Accepted";
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -35,11 +41,11 @@ public class SubscriberService implements Loggable {
     @JmsListener(destination = "${messaging.message-gueue.name}")
     public void subscribe(MessageModel model, @Header(JmsHeaders.CORRELATION_ID) String correlationID) {
         infoLog(model);
-        sendStatus("Accepted", correlationID);
+        sendStatus(MqStatus.ACCEPTED, correlationID);
     }
 
-    public void sendStatus(String status, String correlationId) {
-        jmsTemplate.convertAndSend(statusQueue, status, message -> {
+    public void sendStatus(MqStatus status, String correlationId) {
+        jmsTemplate.convertAndSend(statusQueue, status.getValue(), message -> {
             message.setJMSCorrelationID(correlationId);
             return message;
         });
@@ -49,7 +55,8 @@ public class SubscriberService implements Loggable {
         model.setStatus(getStatus(model.getCorrelationId()));
     }
 
-    public String getStatus(String correlationId) {
-        return (String) jmsTemplate.receiveSelectedAndConvert(statusQueue, correlationIdSelectors(correlationId));
+    public MqStatus getStatus(String correlationId) {
+        String s = (String) jmsTemplate.receiveSelectedAndConvert(statusQueue, correlationIdSelectors(correlationId));
+        return MqStatus.instanceOf(s);
     }
 }

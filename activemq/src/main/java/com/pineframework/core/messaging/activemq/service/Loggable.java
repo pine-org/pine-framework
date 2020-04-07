@@ -5,6 +5,9 @@ import org.slf4j.Logger;
 
 import static java.lang.String.format;
 
+/**
+ * @author Saman Alishirishahrbabak
+ */
 public interface Loggable {
 
     default void infoLog(AbstractTransient model) {
