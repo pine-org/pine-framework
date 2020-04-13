@@ -1,5 +1,6 @@
 package com.pineframework.core.messaging.activemq.service;
 
+import com.pineframework.core.contract.log.Loggable;
 import com.pineframework.core.datastructure.model.messaging.MessageModel;
 import com.pineframework.core.datastructure.model.messaging.MqStatus;
 import org.slf4j.Logger;

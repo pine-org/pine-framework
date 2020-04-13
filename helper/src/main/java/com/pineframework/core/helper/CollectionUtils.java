@@ -1,13 +1,15 @@
 package com.pineframework.core.helper;
 
-import com.pineframework.core.datastructure.BooleanOptional;
+import com.pineframework.core.datastructure.model.optional.BooleanOptional;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -28,7 +30,52 @@ import static java.util.Objects.requireNonNull;
  */
 public final class CollectionUtils {
 
+    public static final int DEFAULT_SIZE = 10;
+
+    public static final int MIN_SIZE = 0;
+
+    public static final List EMPTY_LIST = createSearchableList(Object.class, MIN_SIZE);
+
     private CollectionUtils() {
+    }
+
+    public static <E> List<E> createSearchableList(Class<E> c, int length) {
+
+        if (length < MIN_SIZE) {
+            throw new NullPointerException("array.exception.null");
+        }
+
+        return new ArrayList<E>(length);
+    }
+
+    public static <E> List<E> createEditableList(Class<E> c, int length) {
+        if (length < MIN_SIZE) {
+            throw new NullPointerException("array.exception.null");
+        }
+
+        return new LinkedList<E>();
+    }
+
+    public static <T> boolean isEmpty(T[] a) {
+        return a == null && a.length == 0;
+    }
+
+    public static <T> boolean isEmpty(Collection<T> c) {
+        return c == null && c.size() == 0;
+    }
+
+    public static <T, E> List<E> map(List<T> list, Function<T, E> function) {
+        return list.stream().map(function).collect(Collectors.toList());
+    }
+
+    public static <T, E> E[] map(T[] models, Function<T, E> function, Class<?> type) {
+        return Arrays.stream(models)
+                .map(function)
+                .toArray(size -> (E[]) Array.newInstance(type, size));
+    }
+
+    public static <E> E[] createArray(Class<?> type, int length) {
+        return (E[]) Array.newInstance(type, length);
     }
 
     /**
@@ -41,7 +88,7 @@ public final class CollectionUtils {
      * return {@code false}
      */
     public static <T> BooleanOptional isThereAnyElement(T[] array) {
-        return BooleanOptional.of(array != null && array.length >= 1);
+        return BooleanOptional.check(array != null && array.length >= 1);
     }
 
     /**
@@ -54,7 +101,7 @@ public final class CollectionUtils {
      * return {@code false}
      */
     public static <T> BooleanOptional isThereAnyElement(Collection<T> collection) {
-        return BooleanOptional.of(collection != null && !collection.isEmpty());
+        return BooleanOptional.check(collection != null && !collection.isEmpty());
     }
 
     /**
@@ -236,7 +283,24 @@ public final class CollectionUtils {
         requiredElement(array);
         requireNonNull(condition);
 
-        return BooleanOptional.of(Arrays.stream(array).anyMatch(condition));
+        return BooleanOptional.check(Arrays.stream(array).anyMatch(condition));
+    }
+
+    /**
+     * Returns {@code true} if this list contains the specified element that it is match with the {@code condition}
+     * otherwise return {@code false}.
+     *
+     * @param array the reference to be check
+     * @param item  the item that we want to find it
+     * @param <T>   the type of elements
+     * @return {@code true} if this list contains the specified element that it is match with the {@code condition}
+     * otherwise return {@code false}.
+     */
+    public static <T> boolean contains(T[] array, T item) {
+        requiredElement(array);
+        requireNonNull(item);
+
+        return Arrays.stream(array).anyMatch(t -> t.equals(item));
     }
 
     /**

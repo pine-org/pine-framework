@@ -1,0 +1,300 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+<module name="Checker">
+    <property name="charset" value="UTF-8"/>
+    <property name="severity" value="error"/>
+    <property name="fileExtensions" value="java"/>
+    <module name="SuppressWarningsFilter"/>
+    <module name="BeforeExecutionExclusionFileFilter">
+        <property name="fileNamePattern" value="module\-info\.java$"/>
+    </module>
+    <module name="SuppressionFilter">
+        <property name="file" value="suppressions.xml"/>
+    </module>
+    <module name="FileTabCharacter">
+        <property name="eachLine" value="true"/>
+        <message key="containsTab" value="This line {0} cannot be include the 'TAB' character"/>
+    </module>
+    <module name="FileLength">
+        <property name="max" value="500"/>
+        <message key="maxLen.file" value="The class cannot be include more than 500 lines"/>
+    </module>
+    <module name="TreeWalker">
+        <module name="SuppressWarningsHolder"/>
+        <module name="SuppressWarnings">
+            <property name="id" value="checkstyle:suppresswarnings"/>
+        </module>
+        <module name="MethodLength">
+            <property name="max" value="12"/>
+            <property name="countEmpty" value="false"/>
+            <message key="maxLen.method"
+                     value="The length of a method cannot be more than 10 line, but your method has {0} lines"/>
+        </module>
+        <module name="LineLength">
+            <property name="max" value="120"/>
+            <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
+            <message key="maxLineLen" value="Maximum length of one line is 120 characters"/>
+        </module>
+        <module name="OuterTypeFilename">
+            <message key="type.file.mismatch" value="Name of class and file have got to be the same as each others"/>
+        </module>
+
+        <!--
+        <module name="IllegalTokenText">
+                 <property name="tokens" value="STRING_LITERAL, CHAR_LITERAL"/>
+                 <property name="format"
+                           value="\\u00(09|0(a|A)|0(c|C)|0(d|D)|22|27|5(C|c))|\\(0(10|11|12|14|15|42|47)|134)"/>
+                 <property name="message" value="Consider using special escape sequence instead of octal value or Unicode escaped value."/>
+             </module>
+             -->
+
+        <module name="AvoidEscapedUnicodeCharacters">
+            <property name="allowEscapesForControlCharacters" value="true"/>
+            <property name="allowByTailComment" value="true"/>
+            <property name="allowNonPrintableEscapes" value="true"/>
+        </module>
+        <module name="AvoidStarImport">
+            <message key="import.avoidStar" value="Use the '.*' is not permitted in imports"/>
+        </module>
+        <module name="OneTopLevelClass">
+            <message key="one.top.level.class"
+                     value="Every file has only one Top Level Class, Top Level Interface and Top Level Enum"/>
+        </module>
+        <module name="NoLineWrap">
+            <message key="no.line.wrap" value="Statements have got to written in one line without wrapping"/>
+        </module>
+        <module name="EmptyBlock">
+            <property name="option" value="TEXT"/>
+            <property name="tokens" value="LITERAL_TRY, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_SWITCH"/>
+            <message key="block.empty" value="Empty block is not allowed"/>
+        </module>
+       <!-- <module name="NeedBraces">
+            <property name="allowSingleLineStatement" value="true"/>
+            <message key="needBraces" value="You must use '{}' in the ''{0}''"/>
+        </module>-->
+        <module name="LeftCurly">
+            <message key="line.new" value="''{0}'' must be define in new line"/>
+            <message key="line.previous" value="''{0}'' must be define in previous line"/>
+        </module>
+        <module name="RightCurly">
+            <property name="id" value="RightCurlySame"/>
+            <property name="tokens"
+                      value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE,  LITERAL_DO"/>
+            <message key="line.alone"
+                     value="In the clauses such as if, else, for, while, try, method_def, class_def, … the start block
+                     is located at the end of line and end block id located at the next line"/>
+            <message key="line.break.before"
+                     value="In the clauses such as if, else, for, while, try, method_def, class_def, … the start block
+                     is located at the end of line and end block id located at the next line"/>
+            <message key="line.same"
+                     value="In the clauses such as if, else, for, while, try, method_def, class_def, … the start block
+                     is located at the end of line and end block id located at the next line"/>
+        </module>
+        <module name="WhitespaceAround">
+            <property name="allowEmptyConstructors" value="true"/>
+            <property name="allowEmptyLambdas" value="true"/>
+            <property name="allowEmptyMethods" value="true"/>
+            <property name="allowEmptyTypes" value="true"/>
+            <property name="allowEmptyLoops" value="true"/>
+            <message key="ws.notFollowed"
+                     value="character ''{0}'' must have distance as many as one space with the next character"/>
+            <message key="ws.notPreceded"
+                     value="character ''{0}'' must have distance as many as one space with the previous character"/>
+        </module>
+        <module name="OneStatementPerLine">
+            <message key="multiple.statements.line" value="Every line has only one statement"/>
+        </module>
+        <module name="MultipleVariableDeclarations">
+            <message key="multiple.variable.declarations" value="All fields and variables must be defined separately"/>
+        </module>
+        <module name="ArrayTypeStyle">
+            <message key="array.type.style" value="Array definition is not correct"/>
+        </module>
+        <module name="MissingSwitchDefault">
+            <message key="missing.switch.default" value="Switch statement must have default clause"/>
+        </module>
+        <module name="FallThrough">
+            <message key="fall.through"
+                     value="In switch statement have got to use one of these 'return', 'break', 'continue' and 'throw'"/>
+            <message key="fall.through.last"
+                     value="In switch statement have got to use one of these 'return', 'break', 'continue' and 'throw'"/>
+        </module>
+        <module name="UpperEll">
+            <message key="upperEll" value="Use Long instead of long"/>
+        </module>
+        <module name="ModifierOrder">
+            <message key="annotation.order" value="Modifiers order is wrong"/>
+            <message key="mod.order" value="Modifiers order is wrong"/>
+        </module>
+        <module name="EmptyLineSeparator">
+            <property name="allowNoEmptyLineBetweenFields" value="false"/>
+            <property name="allowMultipleEmptyLines" value="false"/>
+            <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>
+            <message key="empty.line.separator.multiple.lines" value="There are more than one empty line before {0}"/>
+            <message key="empty.line.separator.multiple.lines.after"
+                     value="بThere are more than one empty line after {0}"/>
+            <message key="empty.line.separator.multiple.lines.inside" value="There are more than one empty line"/>
+            <message key="empty.line.separator" value="{0} has to define separately"/>
+        </module>
+        <module name="SeparatorWrap">
+            <property name="id" value="SeparatorWrapDot"/>
+            <property name="tokens" value="DOT"/>
+            <property name="option" value="nl"/>
+            <message key="line.new" value="''{0}'' has to define in new line"/>
+            <message key="line.previous" value="''{0}'' must be in previous line"/>
+        </module>
+        <module name="SeparatorWrap">
+            <property name="id" value="SeparatorWrapComma"/>
+            <property name="tokens" value="COMMA"/>
+            <property name="option" value="EOL"/>
+            <message key="line.new" value="''{0}'' has to define in new line"/>
+            <message key="line.previous" value="''{0}'' must be in previous line"/>
+        </module>
+        <module name="SeparatorWrap">
+            <!-- ELLIPSIS is EOL until https://github.com/google/styleguide/issues/258 -->
+            <property name="id" value="SeparatorWrapEllipsis"/>
+            <property name="tokens" value="ELLIPSIS"/>
+            <property name="option" value="EOL"/>
+        </module>
+        <module name="SeparatorWrap">
+            <!-- ARRAY_DECLARATOR is EOL until https://github.com/google/styleguide/issues/259 -->
+            <property name="id" value="SeparatorWrapArrayDeclarator"/>
+            <property name="tokens" value="ARRAY_DECLARATOR"/>
+            <property name="option" value="EOL"/>
+        </module>
+        <module name="SeparatorWrap">
+            <property name="id" value="SeparatorWrapMethodRef"/>
+            <property name="tokens" value="METHOD_REF"/>
+            <property name="option" value="nl"/>
+        </module>
+        <module name="ConstantName">
+            <message key="name.invalidPattern" value="Naming of {0} constant is wrong"/>
+        </module>
+        <module name="PackageName">
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+            <message key="name.invalidPattern" value="Naming of {0} package is wrong"/>
+        </module>
+        <module name="TypeName">
+            <message key="name.invalidPattern" value="Type name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        <module name="MemberName">
+            <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$"/>
+            <message key="name.invalidPattern" value="Naming of {0} field is wrong"/>
+        </module>
+        <module name="ParameterName">
+            <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+            <message key="name.invalidPattern" value="Naming of {0} parameter is wrong"/>
+        </module>
+        <module name="StaticVariableName">
+            <message key="name.invalidPattern" value="Naming of {0} static variable is wrong"/>
+        </module>
+        <module name="LambdaParameterName">
+            <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+            <message key="name.invalidPattern" value="Lambda parameter name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        <module name="CatchParameterName">
+            <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+            <message key="name.invalidPattern" value="Catch parameter name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        <module name="LocalVariableName">
+            <property name="tokens" value="VARIABLE_DEF"/>
+            <property name="format" value="^[a-z]([a-z0-9][a-zA-Z0-9]*)?$"/>
+            <message key="name.invalidPattern" value="Naming of {0} local variable is wrong"/>
+        </module>
+        <module name="ClassTypeParameterName">
+            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
+            <message key="name.invalidPattern" value="Class type name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        <module name="MethodTypeParameterName">
+            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
+            <message key="name.invalidPattern" value="Method type name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        <module name="InterfaceTypeParameterName">
+            <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)"/>
+            <message key="name.invalidPattern" value="Interface type name ''{0}'' must match pattern ''{1}''."/>
+        </module>
+        <module name="NoFinalizer"/>
+        <module name="GenericWhitespace">
+            <message key="ws.followed" value="Character ''{0}'' does not must have distance with next character"/>
+            <message key="ws.preceded" value="Character ''{0}'' does not must have distance with previous character"/>
+            <message key="ws.illegalFollow" value="Character ''{0}'' must have distance with next character"/>
+            <message key="ws.notPreceded" value="Character ''{0}'' must have distance with previous character"/>
+        </module>
+        <module name="Indentation">
+            <property name="basicOffset" value="4"/>
+            <property name="braceAdjustment" value="0"/>
+            <property name="caseIndent" value="4"/>
+            <property name="throwsIndent" value="4"/>
+            <property name="lineWrappingIndentation" value="4"/>
+            <property name="arrayInitIndent" value="4"/>
+            <message key="indentation.error"
+                     value="''{0}'' has wrong indent ''{1}'', but expected indent is ''{2}''"/>
+            <message key="indentation.error.multi"
+                     value="''{0}'' has wrong indent ''{1}'', but expected indent is between ''{2}''"/>
+            <message key="indentation.child.error"
+                     value="''{0}'' has wrong indent ''{1}'', but expected indent is ''{2}''"/>
+            <message key="indentation.child.error.multi"
+                     value="''{0}'' has wrong indent ''{1}'', but expected indent is between''{2}''"/>
+        </module>
+        <module name="AbbreviationAsWordInName">
+            <property name="ignoreFinal" value="false"/>
+            <property name="allowedAbbreviationLength" value="1"/>
+            <message key="abbreviation.as.word"
+                     value="The name ''{0}'' cannot have more than one uppercase character sequentially"/>
+        </module>
+        <module name="OverloadMethodsDeclarationOrder">
+            <message key="overload.methods.declaration"
+                     value="Overloaded methods must be defined after each other, but the other method defined at ''{0}'' line"/>
+        </module>
+        <module name="VariableDeclarationUsageDistance">
+            <!--            <message key="variable.declaration.usage.distance" value=""/>-->
+            <!--            <message key="variable.declaration.usage.distance.extend" value=""/>-->
+        </module>
+        <module name="MethodParamPad"/>
+        <module name="NoWhitespaceBefore">
+            <property name="tokens" value="COMMA, SEMI, POST_INC, POST_DEC, DOT, ELLIPSIS, METHOD_REF"/>
+            <property name="allowLineBreaks" value="true"/>
+            <message key="ws.preceded" value="Character ''{0}'' does not must have distance with the next character"/>
+        </module>
+        <module name="ParenPad"/>
+        <module name="OperatorWrap">
+            <property name="option" value="NL"/>
+            <property name="tokens"
+                      value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR, METHOD_REF "/>
+            <message key="line.new" value="''{0}'' must be in new line"/>
+            <message key="line.previous" value="''{0}'' must be in previous line"/>
+        </module>
+        <module name="AnnotationLocation">
+            <property name="id" value="AnnotationLocationMostCases"/>
+            <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF"/>
+        </module>
+        <module name="AnnotationLocation">
+            <property name="id" value="AnnotationLocationVariables"/>
+            <property name="tokens" value="VARIABLE_DEF"/>
+            <property name="allowSamelineMultipleAnnotations" value="true"/>
+        </module>
+        <!--<module name="NonEmptyAtclauseDescription"/>-->
+
+        <!--
+           <module name="AtclauseOrder">
+                    <property name="tagOrder" value="@param, @return, @throws, @deprecated"/>
+                    <property name="target"
+                              value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
+                </module>
+                -->
+        <module name="MethodName">
+            <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9_]*$"/>
+            <message key="name.invalidPattern" value="Naming of ''{0}'' is wrong"/>
+        </module>
+        <module name="EmptyCatchBlock">
+            <property name="exceptionVariableName" value="expected"/>
+        </module>
+        <module name="CommentsIndentation">
+            <message key="comments.indentation.block"
+                     value="Comment spacing is {1} and it is wrong, but the correct spacing is {2}"/>
+            <message key="comments.indentation.single"
+                     value="Comment spacing is {1} and it is wrong, but the correct spacing is {2}"/>
+        </module>
+    </module>
+</module>

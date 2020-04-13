@@ -1,10 +1,10 @@
 version: '2.2'
 services:
-  configuration-server:
+  configuration-loader:
     build:
-      context: ./configuration-server
+      context: ./configuration-loader
       dockerfile: Dockerfile
-    image: configuration-server
+    image: configuration-loader
     ports:
       - 8888:8888
     networks:

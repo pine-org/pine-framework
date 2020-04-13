@@ -38,31 +38,37 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <useIncrementalCompilation>false</useIncrementalCompilation>
+
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
+        <javaee.version>8.0.1</javaee.version>
+        <hibernate.version>5.4.14.Final</hibernate.version>
+
+        <data-structur.version>1.0.0-SNAPSHOT</data-structur.version>
+        <helper.version>1.0.0-SNAPSHOT</helper.version>
+        <contratc.version>1.0.0-SNAPSHOT</contratc.version>
         <properties.version>1.0.0-SNAPSHOT</properties.version>
         <test.version>1.0.0-SNAPSHOT</test.version>
-        <helper.version>1.0.0-SNAPSHOT</helper.version>
-        <data-structur.version>1.0.0-SNAPSHOT</data-structur.version>
         <i18n.version>1.0.0-SNAPSHOT</i18n.version>
-        <configuration-server.version>1.0.0-SNAPSHOT</configuration-server.version>
+        <dependencies.version>1.0.0-SNAPSHOT</dependencies.version>
+        <spring-boot-dependencies.version>1.0.0-SNAPSHOT</spring-boot-dependencies.version>
+        <configuration-loader.version>1.0.0-SNAPSHOT</configuration-loader.version>
         <activemq.version>1.0.0-SNAPSHOT</activemq.version>
         <business.version>1.0.0-SNAPSHOT</business.version>
-        <dependencies.version>1.0.0-SNAPSHOT</dependencies.version>
-        <boot-dependencies.version>1.0.0-SNAPSHOT</boot-dependencies.version>
     </properties>
 
     <modules>
-        <module>test</module>
-        <module>helper</module>
         <module>data-structure</module>
+        <module>helper</module>
+        <module>contract</module>
+        <module>test</module>
+        <module>dependencies</module>
+        <module>spring-boot-dependencies</module>
         <module>sample</module>
         <module>activemq</module>
         <module>properties</module>
-        <module>configuration-server</module>
+        <module>configuration-loader</module>
         <module>business</module>
-        <module>dependencies</module>
-        <module>boot-dependencies</module>
         <module>i18n</module>
     </modules>
 
@@ -86,23 +92,42 @@
     </dependencyManagement>
 
     <dependencies>
-
-        <!--driver-->
+        <!--ORM-->
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc8</artifactId>
             <version>12.2.0.1</version>
         </dependency>
-
-        <!--logger-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-starter-log4j2</artifactId>-->
-        <!--        </dependency>-->
         <dependency>
-            <groupId>net.logstash.log4j</groupId>
-            <artifactId>jsonevent-layout</artifactId>
-            <version>1.7</version>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-envers</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-testing</artifactId>
+            <version>${hibernate.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- utility -->
@@ -124,6 +149,11 @@
             <groupId>com.ibm.icu</groupId>
             <artifactId>icu4j</artifactId>
             <version>64.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.log4j</groupId>
+            <artifactId>jsonevent-layout</artifactId>
+            <version>1.7</version>
         </dependency>
 
         <!--json-->
@@ -195,7 +225,7 @@
             </properties>
         </profile>
         <profile>
-            <id>Check-style</id>
+            <id>Parsi-Check-style</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -222,8 +252,58 @@
                                 <id>validate</id>
                                 <phase>validate</phase>
                                 <configuration>
-                                    <configLocation>checkstyle.xml</configLocation>
-                                    <configLocation>google_check_style.xml</configLocation>
+                                    <configLocation>parsi-check-style/checkstyle.xml</configLocation>
+                                    <configLocation>parsi-check-style/google_check_style.xml</configLocation>
+                                    <encoding>UTF-8</encoding>
+                                    <consoleOutput>true</consoleOutput>
+                                    <failsOnError>true</failsOnError>
+
+                                    <failOnViolation>true</failOnViolation>
+                                    <includeResources>false</includeResources>
+                                    <includeTestResources>false</includeTestResources>
+                                    <logViolationsToConsole>true</logViolationsToConsole>
+                                    <maxAllowedViolations>0</maxAllowedViolations>
+                                    <violationSeverity>error</violationSeverity>
+                                </configuration>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>English-Check-style</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-checkstyle-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.github.sevntu-checkstyle</groupId>
+                                <artifactId>sevntu-checks</artifactId>
+                                <version>1.35.0</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>com.puppycrawl.tools</groupId>
+                                <artifactId>checkstyle</artifactId>
+                                <version>8.18</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <id>validate</id>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <configLocation>english-check-style/checkstyle.xml</configLocation>
+                                    <configLocation>english-check-style/google_check_style.xml</configLocation>
                                     <encoding>UTF-8</encoding>
                                     <consoleOutput>true</consoleOutput>
                                     <failsOnError>true</failsOnError>

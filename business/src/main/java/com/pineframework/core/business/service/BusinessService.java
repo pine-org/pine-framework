@@ -1,8 +1,8 @@
 package com.pineframework.core.business.service;
 
-import com.pineframework.core.datastructure.model.AbstractTransient;
-import com.pineframework.core.datastructure.persistence.Persistence;
-import com.pineframework.core.datastructure.transformer.Transformer;
+import com.pineframework.core.datastructure.model.FlatTransient;
+import com.pineframework.core.datastructure.persistence.FlatPersistence;
+import com.pineframework.core.contract.transformer.Transformer;
 import io.vavr.control.Try;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +15,8 @@ import java.util.Map;
 @Transactional
 public interface BusinessService<
         I extends Serializable,
-        V extends Serializable,
-        M extends AbstractTransient<I, V>,
-        P extends Persistence<I, V>,
+        M extends FlatTransient<I>,
+        P extends FlatPersistence<I>,
         R extends Repository<I, P>,
         T extends Transformer<I, M, P>> {
 

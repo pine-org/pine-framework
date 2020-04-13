@@ -1,6 +1,6 @@
 package com.pineframework.core.datastructure.model;
 
-public class EmptyModel implements Transient<Integer, Integer> {
+public class EmptyModel implements Transient<Integer> {
 
     private static final long serialVersionUID = 7595836524580695687L;
 

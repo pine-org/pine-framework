@@ -1,8 +1,8 @@
 package com.pineframework.core.datastructure.model.messaging;
 
-import com.pineframework.core.datastructure.model.AbstractTransient;
+import com.pineframework.core.datastructure.model.FlatTransient;
 
-public class MessageModel extends AbstractTransient<Long, Integer> {
+public class MessageModel extends FlatTransient<Long> {
 
     private String correlationId;
 

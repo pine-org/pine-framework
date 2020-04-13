@@ -1,6 +1,6 @@
 package com.pineframework.core.datastructure.persistence;
 
-public class EmptyPersistence implements Persistence<Integer, Integer> {
+public class EmptyPersistence implements Persistable<Integer> {
 
     @Override
     public Integer getId() {

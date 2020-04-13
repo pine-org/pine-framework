@@ -4,8 +4,8 @@
 
 docker-machine --version
 
-docker build -t configuration-server .
+docker build -t configuration-loader .
 docker image ls
-docker run -p 8888:8888 configuration-server
+docker run -p 8888:8888 configuration-loader
 
 docker container exec -it ae bash

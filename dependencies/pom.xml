@@ -30,6 +30,11 @@
             <version>${helper.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.pineframework.core.contract</groupId>
+            <artifactId>contract</artifactId>
+            <version>${contratc.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.pineframework.core.i18n</groupId>
             <artifactId>i18n</artifactId>
             <version>${i18n.version}</version>

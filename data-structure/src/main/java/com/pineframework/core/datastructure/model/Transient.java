@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @param <I> the type of identity
  * @author Saman Alishirishahrbabak
  */
-public interface Transient<I extends Serializable, V extends Serializable> extends Serializable {
+public interface Transient<I extends Serializable> extends Serializable {
 
     /**
      * Identity accessor.
@@ -25,5 +25,5 @@ public interface Transient<I extends Serializable, V extends Serializable> exten
      *
      * @return data version
      */
-    V getVersion();
+    Integer getVersion();
 }

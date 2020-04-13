@@ -2,6 +2,9 @@ package com.pineframework.core.messaging.activemq.utils;
 
 import static java.lang.String.format;
 
+/**
+ * @author Saman Alishirishahrbabak
+ */
 public class MessageSelectorGenerator {
 
     public static String correlationIdSelectors(String correlationId) {
