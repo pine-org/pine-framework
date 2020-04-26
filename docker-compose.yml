@@ -1,23 +1,24 @@
 version: '2.2'
 services:
-  configuration-loader:
+  config-server:
+    image: config-server
     build:
-      context: ./configuration-loader
+      context: ./config-server
       dockerfile: Dockerfile
-    image: configuration-loader
     ports:
       - 8888:8888
     networks:
-      - pinenetwork
+      - pineframework
   activemq-sample:
+    image: activemq-sample
     build:
       context: ./sample/activemq-sample/
       dockerfile: Dockerfile
-    image: activemq-sample
+    depends_on:
+      - config-server
     ports:
       - 9091:9091
     networks:
-      - pinenetwork
-
+      - pineframework
 networks:
-  pinenetwork:
+  pineframework:

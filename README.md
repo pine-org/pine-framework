@@ -48,8 +48,37 @@ If you want to deploy products on docker that installed on your machine and ever
     mvn clean install -P Development,English-Check-style,Docker
 
 ## Run
-Run on local machine
+### Development Environment (deploy on localhost)
+Run all tools on your machine.
 
+Build the project:
+
+ - `mvn clean install -P Development,English-Check-style,Localhost,ConfigServer`
+
+Run configuration service on your machine:
+ - `cd config-server`
+ - `mvn spring-boot:run`
+
+ - [Configuration repository](https://github.com/pine-org/pine-framework/tree/master/configuration-repository)
+
+ - [Configuration Service Console](http://127.0.0.1:8888/configuration-server/development)
+
+Run your modules on your machine:
+
+ - Add config-server profile to application.properties 
+ - `cd your modules`
+ - `mvn spring-boot:run`
+
+### Development Environment (deploy on docker)
+Run all tools on your machine.
+
+Build the project:
+
+ - `mvn clean install -P Development-Docker,English-Check-style,Docker`
+
+Run configuration service and modules on your machine:
+
+ - `docker-compose up --build` 
 
 ## Test
-    mvn test
+ - `mvn test -P Test`

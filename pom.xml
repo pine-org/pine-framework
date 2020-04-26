@@ -39,6 +39,9 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <useIncrementalCompilation>false</useIncrementalCompilation>
 
+        <config-server-profile>empty</config-server-profile>
+        <activemq-profile>empty</activemq-profile>
+
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
         <javaee.version>8.0.1</javaee.version>
@@ -52,7 +55,7 @@
         <i18n.version>1.0.0-SNAPSHOT</i18n.version>
         <dependencies.version>1.0.0-SNAPSHOT</dependencies.version>
         <spring-boot-dependencies.version>1.0.0-SNAPSHOT</spring-boot-dependencies.version>
-        <configuration-loader.version>1.0.0-SNAPSHOT</configuration-loader.version>
+        <config-server.version>1.0.0-SNAPSHOT</config-server.version>
         <activemq.version>1.0.0-SNAPSHOT</activemq.version>
         <business.version>1.0.0-SNAPSHOT</business.version>
     </properties>
@@ -67,7 +70,7 @@
         <module>sample</module>
         <module>activemq</module>
         <module>properties</module>
-        <module>configuration-loader</module>
+        <module>config-server</module>
         <module>business</module>
         <module>i18n</module>
     </modules>
@@ -210,25 +213,7 @@
 
     <profiles>
         <profile>
-            <id>Docker</id>
-            <properties>
-                <host>host.docker.internal</host>
-            </properties>
-        </profile>
-        <profile>
-            <id>Localhost</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <host>localhost</host>
-            </properties>
-        </profile>
-        <profile>
             <id>Parsi-Check-style</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -276,9 +261,6 @@
         </profile>
         <profile>
             <id>English-Check-style</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -324,6 +306,24 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>AccessDockerToHost</id>
+            <properties>
+                <database.host>host.docker.internal</database.host>
+                <queue.host>host.docker.internal</queue.host>
+                <config.service.host>config-server</config.service.host>
+            </properties>
+        </profile>
+        <profile>
+            <id>Localhost</id>
+            <properties>
+                <database.host>localhost</database.host>
+                <queue.host>localhost</queue.host>
+                <config.service.host>localhost</config.service.host>
+            </properties>
+        </profile>
+
         <profile>
             <id>Production</id>
             <properties>
@@ -334,12 +334,17 @@
         </profile>
         <profile>
             <id>Development</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <env>development</env>
                 <build.profile.id>development</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>UAT</id>
+            <properties>
+                <env>uat</env>
+                <build.profile.id>uat</build.profile.id>
                 <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
@@ -350,12 +355,17 @@
                 <build.profile.id>test</build.profile.id>
             </properties>
         </profile>
+
         <profile>
-            <id>UAT</id>
+            <id>ConfigServer</id>
             <properties>
-                <env>uat</env>
-                <build.profile.id>uat</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
+                <config-server-profile>config-server</config-server-profile>
+            </properties>
+        </profile>
+        <profile>
+            <id>ActiveMQ</id>
+            <properties>
+                <activemq-profile>activemq</activemq-profile>
             </properties>
         </profile>
     </profiles>

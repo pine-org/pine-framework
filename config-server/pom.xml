@@ -7,11 +7,10 @@
         <groupId>com.pineframework.core</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <groupId>com.pineframework.core.configurationloader</groupId>
-    <artifactId>configuration-loader</artifactId>
-    <version>${configuration-loader.version}</version>
-    <name>Configuration Loader</name>
-    <description>Demo project for Spring Boot</description>
+    <groupId>com.pineframework.core.configurationservice</groupId>
+    <artifactId>config-server</artifactId>
+    <version>${config-server.version}</version>
+    <name>Config Server</name>
 
     <dependencies>
         <dependency>

@@ -1,4 +1,4 @@
-package com.pineframework.core.configurationloader;
+package com.pineframework.core.configurationservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 
 @SpringBootApplication
 @EnableConfigServer
-public class ConfigurationLoaderApplication {
+public class ConfigurationServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ConfigurationLoaderApplication.class, args);
+        SpringApplication.run(ConfigurationServiceApplication.class, args);
     }
 
 }

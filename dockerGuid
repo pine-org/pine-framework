@@ -1,11 +1,24 @@
- base=https://github.com/docker/machine/releases/download/v0.16.0 &&
+base=https://github.com/docker/machine/releases/download/v0.16.0 &&
    curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/usr/local/bin/docker-machine &&
    chmod +x /usr/local/bin/docker-machine
 
 docker-machine --version
 
-docker build -t configuration-loader .
+for mac
+Go to System Preferences > Security & Privacy Then hit the "Allow" button to let Oracle (VirtualBox) load.
+sudo "/Library/Application Support/VirtualBox/LaunchDaemons/VirtualBoxStartup.sh" restart
+
+$ docker-machine create --driver=virtualbox test
+
+
+
+
+docker build -t config-server .
 docker image ls
-docker run -p 8888:8888 configuration-loader
+docker run -p 8888:8888 config-server
 
 docker container exec -it ae bash
+
+docker system prune
+docker-compose up --build
+
