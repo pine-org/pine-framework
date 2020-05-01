@@ -39,7 +39,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <useIncrementalCompilation>false</useIncrementalCompilation>
 
-        <config-server-profile>empty</config-server-profile>
+        <config-profile>empty</config-profile>
         <activemq-profile>empty</activemq-profile>
 
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
@@ -56,6 +56,7 @@
         <dependencies.version>1.0.0-SNAPSHOT</dependencies.version>
         <spring-boot-dependencies.version>1.0.0-SNAPSHOT</spring-boot-dependencies.version>
         <config-server.version>1.0.0-SNAPSHOT</config-server.version>
+        <config-server-address.version>1.0.0-SNAPSHOT</config-server-address.version>
         <activemq.version>1.0.0-SNAPSHOT</activemq.version>
         <business.version>1.0.0-SNAPSHOT</business.version>
     </properties>
@@ -73,6 +74,7 @@
         <module>config-server</module>
         <module>business</module>
         <module>i18n</module>
+        <module>config-server-address</module>
     </modules>
 
     <dependencyManagement>
@@ -312,7 +314,7 @@
             <properties>
                 <database.host>host.docker.internal</database.host>
                 <queue.host>host.docker.internal</queue.host>
-                <config.service.host>config-server</config.service.host>
+                <config.server.host>host.docker.internal</config.server.host>
             </properties>
         </profile>
         <profile>
@@ -320,7 +322,7 @@
             <properties>
                 <database.host>localhost</database.host>
                 <queue.host>localhost</queue.host>
-                <config.service.host>localhost</config.service.host>
+                <config.server.host>localhost</config.server.host>
             </properties>
         </profile>
 
@@ -359,8 +361,28 @@
         <profile>
             <id>ConfigServer</id>
             <properties>
-                <config-server-profile>config-server</config-server-profile>
+                <config-profile>config-server</config-profile>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.pineframework.core.configserveraddress</groupId>
+                    <artifactId>config-server-address</artifactId>
+                    <version>${config-server-address.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>Properties-File</id>
+            <properties>
+                <config-profile>properties-file</config-profile>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.pineframework.core.properties</groupId>
+                    <artifactId>properties</artifactId>
+                    <version>${properties.version}</version>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
             <id>ActiveMQ</id>

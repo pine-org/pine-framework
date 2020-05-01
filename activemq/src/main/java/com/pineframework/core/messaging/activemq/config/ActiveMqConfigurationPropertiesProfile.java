@@ -23,7 +23,7 @@ import javax.jms.Queue;
  */
 @Configuration
 @EnableJms
-@Profile("activemq")
+@Profile("properties-file")
 public class ActiveMqConfigurationPropertiesProfile {
 
     @Value("${messaging.message-gueue.name}")

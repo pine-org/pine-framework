@@ -16,9 +16,9 @@ import org.springframework.jms.support.converter.MessageType;
 import javax.jms.Queue;
 
 /**
- * Configuration for connect to ActiveMQ Classic. Create bean from {@link ActiveMqConfigurationServerProfile}
+ * Configuration for connect to ActiveMQ Classic. Create bean from {@link ActiveMqConfigServerProfile}
  * when {@code config-server} profile was added to application properties.
- * {@link ActiveMqConfigurationServerProfile} support json type.
+ * {@link ActiveMqConfigServerProfile} support json type.
  *
  * @author Saman Alishirishahrbabak
  */
@@ -26,7 +26,7 @@ import javax.jms.Queue;
 @EnableJms
 @RefreshScope
 @Profile("config-server")
-public class ActiveMqConfigurationServerProfile {
+public class ActiveMqConfigServerProfile {
 
     @Value("${messaging.message-gueue.name}")
     private String messageQueue;
