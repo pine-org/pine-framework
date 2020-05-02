@@ -47,16 +47,16 @@
         <javaee.version>8.0.1</javaee.version>
         <hibernate.version>5.4.14.Final</hibernate.version>
 
+        <properties.version>1.0.0-SNAPSHOT</properties.version>
+        <config-server-address.version>1.0.0-SNAPSHOT</config-server-address.version>
         <data-structur.version>1.0.0-SNAPSHOT</data-structur.version>
         <helper.version>1.0.0-SNAPSHOT</helper.version>
         <contratc.version>1.0.0-SNAPSHOT</contratc.version>
-        <properties.version>1.0.0-SNAPSHOT</properties.version>
         <test.version>1.0.0-SNAPSHOT</test.version>
         <i18n.version>1.0.0-SNAPSHOT</i18n.version>
         <dependencies.version>1.0.0-SNAPSHOT</dependencies.version>
         <spring-boot-dependencies.version>1.0.0-SNAPSHOT</spring-boot-dependencies.version>
         <config-server.version>1.0.0-SNAPSHOT</config-server.version>
-        <config-server-address.version>1.0.0-SNAPSHOT</config-server-address.version>
         <activemq.version>1.0.0-SNAPSHOT</activemq.version>
         <business.version>1.0.0-SNAPSHOT</business.version>
     </properties>
@@ -175,16 +175,12 @@
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}_${project.version}</finalName>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
-                <configuration>
-                    <compilerArgs>
-                    </compilerArgs>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -359,7 +355,7 @@
         <profile>
             <id>ConfigServer</id>
             <properties>
-                <config-profile>config-server</config-profile>
+                <config-profile>config-server,internationalization</config-profile>
             </properties>
             <dependencies>
                 <dependency>
@@ -370,9 +366,9 @@
             </dependencies>
         </profile>
         <profile>
-            <id>Properties-File</id>
+            <id>PropertiesFile</id>
             <properties>
-                <config-profile>properties-file</config-profile>
+                <config-profile>properties-file,internationalization</config-profile>
             </properties>
             <dependencies>
                 <dependency>

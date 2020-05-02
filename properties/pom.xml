@@ -6,14 +6,18 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.pineframework.core.properties</groupId>
     <artifactId>properties</artifactId>
-    <version>${properties.version}</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Properties</name>
-
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
     <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <filters>
             <filter>src/main/resources/env/log4j-${env}.properties</filter>
-            <filter>src/main/resources/env/application-config-server-${env}.properties</filter>
             <filter>src/main/resources/env/application-activemq-${env}.properties</filter>
             <filter>src/main/resources/env/application-database-${env}.properties</filter>
         </filters>

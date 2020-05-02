@@ -9,8 +9,13 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Config Server Address</name>
-
+    <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
     <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <filters>
             <filter>src/main/resources/env/application-config-server-${env}.properties</filter>
         </filters>
