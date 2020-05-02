@@ -26,10 +26,10 @@ import javax.jms.Queue;
 @Profile("properties-file")
 public class ActiveMqConfigurationPropertiesProfile {
 
-    @Value("${messaging.message-gueue.name}")
+    @Value("${messaging.message-queue.name}")
     private String messageQueue;
 
-    @Value("${messaging.status-gueue.name}")
+    @Value("${messaging.status-queue.name}")
     private String statusQueue;
 
     @Bean("messageQueue")

@@ -41,7 +41,7 @@ Download [Jenkins](https://jenkins.io/download/) in WAR format then execute comm
 ## Build
 If you want to deploy products on your machine and every tools installed on your machine
 
-    mvn clean install -P Development,English-Check-style,Localhost
+    mvn clean install -P Development,Localhost,ConfigServer,ActiveMQ,English-Check-style
 
 If you want to deploy products on docker that installed on your machine and every tools installed on your machine
 
@@ -52,29 +52,26 @@ If you want to deploy products on docker that installed on your machine and ever
 Run all tools on your machine.
 
 Build the project:
-
- - `mvn clean install -P Development,English-Check-style,Localhost,ConfigServer`
+ - `mvn -f ./config-server-address/pom.xml clean install -P Development,Localhost`
+ - `mvn -f ./properties/pom.xml clean install -P Development,Localhost`
+ - `mvn clean install -P Development,Localhost,ConfigServer,ActiveMQ,English-Check-style`
 
 Run configuration service on your machine:
- - `cd config-server`
- - `mvn spring-boot:run`
+ - `mvn -f ./config-server/pom.xml spring-boot:run`
 
  - [Configuration repository](https://github.com/pine-org/pine-framework/tree/master/configuration-repository)
 
- - [Configuration Service Console](http://127.0.0.1:8888/configuration-server/development)
+ - [Configuration Service Console](http://127.0.0.1:8888/config-server/profile-name)
 
 Run your modules on your machine:
 
  - Add config-server profile to application.properties 
- - `cd your modules`
- - `mvn spring-boot:run`
+ - `mvn -f ./your module/pom.xml spring-boot:run`
 
 ### Development Environment (deploy on docker)
-Run all tools on your machine.
-
 Build the project:
 
- - `mvn clean install -P Development-Docker,English-Check-style,Docker`
+ - ``
 
 Run configuration service and modules on your machine:
 

@@ -2,16 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>pine-framework</artifactId>
-        <groupId>com.pineframework.core</groupId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.pineframework.core.configserveraddress</groupId>
     <artifactId>config-server-address</artifactId>
-    <version>${config-server-address.version}</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Config Server Address</name>
 
@@ -29,5 +24,45 @@
             </resource>
         </resources>
     </build>
-
+    <profiles>
+        <profile>
+            <id>Localhost</id>
+            <properties>
+                <database.host>localhost</database.host>
+                <queue.host>localhost</queue.host>
+                <config.server.host>localhost</config.server.host>
+            </properties>
+        </profile>
+        <profile>
+            <id>Production</id>
+            <properties>
+                <env>production</env>
+                <build.profile.id>production</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>Development</id>
+            <properties>
+                <env>development</env>
+                <build.profile.id>development</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>UAT</id>
+            <properties>
+                <env>uat</env>
+                <build.profile.id>uat</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>Test</id>
+            <properties>
+                <env>test</env>
+                <build.profile.id>test</build.profile.id>
+            </properties>
+        </profile>
+    </profiles>
 </project>

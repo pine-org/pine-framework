@@ -39,7 +39,7 @@ public class SubscriberService implements Loggable {
         return logger;
     }
 
-    @JmsListener(destination = "${messaging.message-gueue.name}")
+    @JmsListener(destination = "${messaging.message-queue.name}")
     public void subscribe(MessageModel model, @Header(JmsHeaders.CORRELATION_ID) String correlationID) {
         infoLog(model);
         sendStatus(MqStatus.ACCEPTED, correlationID);

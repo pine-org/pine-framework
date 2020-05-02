@@ -70,11 +70,9 @@
         <module>spring-boot-dependencies</module>
         <module>sample</module>
         <module>activemq</module>
-        <module>properties</module>
         <module>config-server</module>
         <module>business</module>
         <module>i18n</module>
-        <module>config-server-address</module>
     </modules>
 
     <dependencyManagement>
