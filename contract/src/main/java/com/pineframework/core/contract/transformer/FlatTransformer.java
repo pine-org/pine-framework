@@ -1,8 +1,8 @@
 package com.pineframework.core.contract.transformer;
 
-import com.pineframework.core.helper.GenericUtils;
 import com.pineframework.core.datastructure.model.FlatTransient;
 import com.pineframework.core.datastructure.persistence.FlatPersistence;
+import com.pineframework.core.helper.GenericUtils;
 import io.vavr.control.Try;
 
 import java.io.Serializable;

@@ -69,10 +69,10 @@
             <property name="tokens" value="LITERAL_TRY, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_SWITCH"/>
             <message key="block.empty" value="Empty block is not allowed"/>
         </module>
-       <!-- <module name="NeedBraces">
-            <property name="allowSingleLineStatement" value="true"/>
-            <message key="needBraces" value="You must use '{}' in the ''{0}''"/>
-        </module>-->
+        <!-- <module name="NeedBraces">
+             <property name="allowSingleLineStatement" value="true"/>
+             <message key="needBraces" value="You must use '{}' in the ''{0}''"/>
+         </module>-->
         <module name="LeftCurly">
             <message key="line.new" value="''{0}'' must be define in new line"/>
             <message key="line.previous" value="''{0}'' must be define in previous line"/>

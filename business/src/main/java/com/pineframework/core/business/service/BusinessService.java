@@ -1,8 +1,8 @@
 package com.pineframework.core.business.service;
 
+import com.pineframework.core.contract.transformer.Transformer;
 import com.pineframework.core.datastructure.model.FlatTransient;
 import com.pineframework.core.datastructure.persistence.FlatPersistence;
-import com.pineframework.core.contract.transformer.Transformer;
 import io.vavr.control.Try;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
