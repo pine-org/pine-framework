@@ -20,8 +20,8 @@
             <version>${dependencies.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.pineframework.core.bootdependencies</groupId>
-            <artifactId>boot-dependencies</artifactId>
+            <groupId>com.pineframework.core.springbootdependencies</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
             <version>${spring-boot-dependencies.version}</version>
         </dependency>
         <dependency>

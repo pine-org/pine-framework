@@ -12,6 +12,7 @@
     <groupId>com.pineframework.core.springbootdependencies</groupId>
     <artifactId>spring-boot-dependencies</artifactId>
     <version>${spring-boot-dependencies.version}</version>
+    <name>Spring Boot Dependencies</name>
 
     <dependencies>
         <dependency>
