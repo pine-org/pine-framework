@@ -46,6 +46,13 @@ public abstract class FlatTransformer<I extends Serializable,
         return Try.of(() -> (M) getModelType().newInstance()).get();
     }
 
+    protected M createModel(I id, Integer version) {
+        M parent = createModel();
+        parent.setId(id);
+        parent.setVersion(version);
+        return parent;
+    }
+
     @Override
     public void addToModel(E e, M m, int deep, String... field) {
         AdditionalTransformer.super.addToModel(e, m, deep, field);

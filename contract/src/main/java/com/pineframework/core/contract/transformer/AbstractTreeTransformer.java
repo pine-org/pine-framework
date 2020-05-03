@@ -40,17 +40,17 @@ public abstract class AbstractTreeTransformer<I extends Serializable,
     }
 
     public void transformParent(E e, M m, int deep, String[] fields) {
+        M parent = null;
+
         if (nonNull(e.getParent())) {
             deep--;
-            m.setParent(transform(e.getParent(), deep, fields));
+            parent = transform(e.getParent(), deep, fields);
         }
 
-        if (deep == 0) {
-            M parent = createModel();
-            parent.setId(e.getParent().getId());
-            parent.setVersion(e.getParent().getVersion());
-            m.setParent(parent);
-        }
+        if (deep == 0)
+            parent = createModel(e.getParent().getId(), e.getParent().getVersion());
+
+        m.setParent(parent);
     }
 
     @Override

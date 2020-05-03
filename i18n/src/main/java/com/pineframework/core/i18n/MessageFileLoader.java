@@ -6,6 +6,6 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("classpath:messages.properties")
 @PropertySource("classpath:messages_fa.properties")
-public class MessageLoader {
+public class MessageFileLoader {
 
 }

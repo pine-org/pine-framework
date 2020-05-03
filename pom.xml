@@ -302,7 +302,6 @@
                 </plugins>
             </build>
         </profile>
-
         <profile>
             <id>AccessDockerToHost</id>
             <properties>
@@ -319,7 +318,6 @@
                 <config.server.host>localhost</config.server.host>
             </properties>
         </profile>
-
         <profile>
             <id>Production</id>
             <properties>
@@ -351,11 +349,10 @@
                 <build.profile.id>test</build.profile.id>
             </properties>
         </profile>
-
         <profile>
             <id>ConfigServer</id>
             <properties>
-                <config-profile>config-server,internationalization</config-profile>
+                <config-profile>config-server,internationalization,general</config-profile>
             </properties>
             <dependencies>
                 <dependency>
@@ -368,7 +365,7 @@
         <profile>
             <id>PropertiesFile</id>
             <properties>
-                <config-profile>properties-file,internationalization</config-profile>
+                <config-profile>properties-file,internationalization,general</config-profile>
             </properties>
             <dependencies>
                 <dependency>

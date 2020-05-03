@@ -1,5 +1,6 @@
-package com.pineframework.core.business.service;
+package com.pineframework.core.contract.service.entityservice;
 
+import com.pineframework.core.contract.repository.Repository;
 import com.pineframework.core.contract.transformer.Transformer;
 import com.pineframework.core.datastructure.model.FlatTransient;
 import com.pineframework.core.datastructure.persistence.FlatPersistence;
@@ -13,11 +14,11 @@ import java.util.Collections;
 import java.util.Map;
 
 @Transactional
-public interface BusinessService<
+public interface BusinessEntityService<
         I extends Serializable,
         M extends FlatTransient<I>,
         P extends FlatPersistence<I>,
-        R extends Repository<I, P>,
+        R extends Repository<I, P, R>,
         T extends Transformer<I, M, P>> {
 
     Class<M> getModelType();

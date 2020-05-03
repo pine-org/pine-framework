@@ -26,6 +26,10 @@
             <artifactId>helper</artifactId>
             <version>${helper.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
