@@ -1,0 +1,14 @@
+@startuml
+
+package "Base Component" {
+[Helper Component]
+[data Component]
+}
+
+package "Other Groups" {
+FTP - [Second Component]
+
+[First Component] --> FTP
+}
+
+@enduml

@@ -24,13 +24,6 @@
                 <role>developer</role>
             </roles>
         </developer>
-        <developer>
-            <name>Aref Gholami</name>
-            <email>rf.gholami@yahoo.com</email>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
     </developers>
 
     <properties>
@@ -46,10 +39,16 @@
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
         <javaee.version>8.0.1</javaee.version>
         <hibernate.version>5.4.14.Final</hibernate.version>
+        <asciidoctor.maven.plugin.version>2.0.0-RC.1</asciidoctor.maven.plugin.version>
+        <asciidoctorj.diagram.version>2.0.2</asciidoctorj.diagram.version>
+        <asciidoctorj.pdf.version>1.5.3</asciidoctorj.pdf.version>
+        <asciidoctorj.version>2.3.0</asciidoctorj.version>
+        <jruby.version>9.2.11.1</jruby.version>
 
+        <document.version>1.0.0-SNAPSHOT</document.version>
         <properties.version>1.0.0-SNAPSHOT</properties.version>
         <config-server-address.version>1.0.0-SNAPSHOT</config-server-address.version>
-        <data-structur.version>1.0.0-SNAPSHOT</data-structur.version>
+        <data-model.version>1.0.0-SNAPSHOT</data-model.version>
         <helper.version>1.0.0-SNAPSHOT</helper.version>
         <contratc.version>1.0.0-SNAPSHOT</contratc.version>
         <test.version>1.0.0-SNAPSHOT</test.version>
@@ -62,17 +61,18 @@
     </properties>
 
     <modules>
-        <module>data-structure</module>
         <module>helper</module>
+        <module>data-model</module>
         <module>contract</module>
         <module>test</module>
         <module>dependencies</module>
         <module>spring-boot-dependencies</module>
-        <module>sample</module>
         <module>activemq</module>
         <module>config-server</module>
         <module>business</module>
         <module>i18n</module>
+        <module>document</module>
+        <module>tutorial</module>
     </modules>
 
     <dependencyManagement>
@@ -380,6 +380,130 @@
             <properties>
                 <activemq-profile>activemq</activemq-profile>
             </properties>
+        </profile>
+        <profile>
+            <id>Document</id>
+            <build>
+                <defaultGoal>generate-resources</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctor-maven-plugin</artifactId>
+                        <version>${asciidoctor.maven.plugin.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.asciidoctor</groupId>
+                                <artifactId>asciidoctorj-diagram</artifactId>
+                                <version>${asciidoctorj.diagram.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.asciidoctor</groupId>
+                                <artifactId>asciidoctorj-pdf</artifactId>
+                                <version>${asciidoctorj.pdf.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.jruby</groupId>
+                                <artifactId>jruby-complete</artifactId>
+                                <version>${jruby.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.asciidoctor</groupId>
+                                <artifactId>asciidoctorj</artifactId>
+                                <version>${asciidoctorj.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <sourceDirectory>docs</sourceDirectory>
+                            <requires>
+                                <require>asciidoctor-diagram</require>
+                            </requires>
+                            <attributes>
+                                <endpoint-url>http://example.org</endpoint-url>
+                                <sourcedir>${project.build.sourceDirectory}</sourcedir>
+                                <project-version>${project.version}</project-version>
+                            </attributes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>generate-html-doc</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>process-asciidoc</goal>
+                                </goals>
+                                <configuration>
+                                    <backend>html5</backend>
+                                    <attributes>
+                                        <imagesdir>./images</imagesdir>
+                                        <toc>left</toc>
+                                        <icons>font</icons>
+                                        <sectanchors>true</sectanchors>
+                                        <idprefix/>
+                                        <idseparator>-</idseparator>
+                                    </attributes>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>generate-pdf-doc</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>process-asciidoc</goal>
+                                </goals>
+                                <configuration>
+                                    <backend>pdf</backend>
+                                    <sourceHighlighter>coderay</sourceHighlighter>
+                                    <attributes>
+                                        <icons>font</icons>
+                                        <pagenums/>
+                                        <toc/>
+                                        <idprefix/>
+                                        <idseparator>-</idseparator>
+                                    </attributes>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>asciidoc-to-html</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>process-asciidoc</goal>
+                                </goals>
+                                <configuration>
+                                    <backend>html5</backend>
+                                    <sourceHighlighter>coderay</sourceHighlighter>
+                                    <attributes>
+                                        <imagesdir>./images</imagesdir>
+                                        <toc>left</toc>
+                                        <icons>font</icons>
+                                        <sectanchors>true</sectanchors>
+                                        <idprefix/>
+                                        <idseparator>-</idseparator>
+                                        <docinfo1>true</docinfo1>
+                                    </attributes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.github.jeluard</groupId>
+                        <artifactId>plantuml-maven-plugin</artifactId>
+                        <version>1.2</version>
+                        <configuration>
+                            <sourceFiles>
+                                <directory>${basedir}</directory>
+                                <includes>
+                                    <include>diagrams/uml/**/*.puml</include>
+                                </includes>
+                            </sourceFiles>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>net.sourceforge.plantuml</groupId>
+                                <artifactId>plantuml</artifactId>
+                                <version>8059</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

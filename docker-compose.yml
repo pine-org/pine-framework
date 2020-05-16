@@ -12,7 +12,7 @@ services:
   activemq-sample:
     image: activemq-sample
     build:
-      context: ./sample/activemq-sample/
+      context: ./tutorial/activemq-sample/rest-api
       dockerfile: Dockerfile
     depends_on:
       - config-server

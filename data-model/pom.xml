@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>pine-framework</artifactId>
+        <groupId>com.pineframework.core</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.pineframework.core.datamodel</groupId>
+    <artifactId>data-model</artifactId>
+    <version>${data-model.version}</version>
+
+    <name>Data Model</name>
+
+    <description>
+        This module include all objects that hold just data (for example: Bean, Value Object)
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.pineframework.core.helper</groupId>
+            <artifactId>helper</artifactId>
+            <version>${helper.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+    </dependencies>
+
+
+</project>

@@ -1,7 +1,7 @@
 package com.pineframework.core.messaging.activemq.service;
 
 import com.pineframework.core.contract.log.Loggable;
-import com.pineframework.core.datastructure.model.messaging.MessageModel;
+import com.pineframework.core.datastructure.model.message.MessageModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

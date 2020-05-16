@@ -1,6 +1,6 @@
 package com.pineframework.core.helper;
 
-import com.pineframework.core.datastructure.model.optional.BooleanOptional;
+import com.pineframework.core.helper.optional.BooleanOptional;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Array;
@@ -88,7 +88,7 @@ public final class CollectionUtils {
      * return {@code false}
      */
     public static <T> BooleanOptional isThereAnyElement(T[] array) {
-        return BooleanOptional.check(array != null && array.length >= 1);
+        return BooleanOptional.of(array != null && array.length >= 1);
     }
 
     /**
@@ -101,7 +101,7 @@ public final class CollectionUtils {
      * return {@code false}
      */
     public static <T> BooleanOptional isThereAnyElement(Collection<T> collection) {
-        return BooleanOptional.check(collection != null && !collection.isEmpty());
+        return BooleanOptional.of(collection != null && !collection.isEmpty());
     }
 
     /**
@@ -283,7 +283,7 @@ public final class CollectionUtils {
         requiredElement(array);
         requireNonNull(condition);
 
-        return BooleanOptional.check(Arrays.stream(array).anyMatch(condition));
+        return BooleanOptional.of(Arrays.stream(array).anyMatch(condition));
     }
 
     /**

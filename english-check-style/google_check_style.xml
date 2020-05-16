@@ -133,7 +133,7 @@
             <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>
             <message key="empty.line.separator.multiple.lines" value="There are more than one empty line before {0}"/>
             <message key="empty.line.separator.multiple.lines.after"
-                     value="بThere are more than one empty line after {0}"/>
+                     value="There are more than one empty line after {0}"/>
             <message key="empty.line.separator.multiple.lines.inside" value="There are more than one empty line"/>
             <message key="empty.line.separator" value="{0} has to define separately"/>
         </module>

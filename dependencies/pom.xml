@@ -15,9 +15,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.pineframework.core.datastructure</groupId>
-            <artifactId>data-structure</artifactId>
-            <version>${data-structur.version}</version>
+            <groupId>com.pineframework.core.datamodel</groupId>
+            <artifactId>data-model</artifactId>
+            <version>${data-model.version}</version>
         </dependency>
         <dependency>
             <groupId>com.pineframework.core.helper</groupId>

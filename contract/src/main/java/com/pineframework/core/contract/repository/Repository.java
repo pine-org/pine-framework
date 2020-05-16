@@ -1,8 +1,8 @@
 package com.pineframework.core.contract.repository;
 
-public interface Repository<I, E, R> {
+public interface Repository<I, E> {
 
     Class<E> getType();
 
-    R getImplementation();
+    <R extends FlatRepository> R getImpl();
 }

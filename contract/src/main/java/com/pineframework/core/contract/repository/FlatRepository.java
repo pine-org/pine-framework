@@ -14,7 +14,7 @@ import java.util.Optional;
  */
 public interface FlatRepository {
 
-    EntityManager getEntityManager();
+    EntityManager getStorageSession();
 
     int getBatchSize();
 
@@ -91,13 +91,13 @@ public interface FlatRepository {
                                                                                Object value,
                                                                                Class<E> clazz);
 
-    <I extends Serializable, E extends FlatPersistence<I>> Long countAll(Class<E> clazz);
+    <I extends Serializable, E extends FlatPersistence<I>> Long count(Class<E> clazz);
 
     <I extends Serializable, E extends FlatPersistence<I>> Long count(Specification<E> condition,
                                                                       Class<E> clazz);
 
-    <I extends Serializable, E extends FlatPersistence<I>> Boolean isExist(Specification<E> condition,
-                                                                           Class<E> clazz);
+    <I extends Serializable, E extends FlatPersistence<I>> Boolean contains(Specification<E> condition,
+                                                                            Class<E> clazz);
 
     <I extends Serializable, E extends FlatPersistence<I>> E getReference(I id, Class<E> clazz);
 
