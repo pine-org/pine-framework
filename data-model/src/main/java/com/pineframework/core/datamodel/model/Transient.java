@@ -1,4 +1,4 @@
-package com.pineframework.core.datastructure.model;
+package com.pineframework.core.datamodel.model;
 
 import java.io.Serializable;
 

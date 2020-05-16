@@ -1,4 +1,4 @@
-package com.pineframework.core.datastructure.persistence;
+package com.pineframework.core.datamodel.persistence;
 
 public class EmptyPersistence implements Persistable<Integer> {
 

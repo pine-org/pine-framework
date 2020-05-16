@@ -1,4 +1,4 @@
-package com.pineframework.core.datastructure.persistence;
+package com.pineframework.core.datamodel.persistence;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

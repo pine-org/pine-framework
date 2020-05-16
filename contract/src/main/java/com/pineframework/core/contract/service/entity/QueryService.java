@@ -4,9 +4,9 @@ import com.pineframework.core.contract.query.Specification;
 import com.pineframework.core.contract.repository.QueryRepository;
 import com.pineframework.core.contract.service.AroundServiceOperation;
 import com.pineframework.core.contract.transformer.Transformer;
-import com.pineframework.core.datastructure.model.FlatTransient;
-import com.pineframework.core.datastructure.model.paging.Paging;
-import com.pineframework.core.datastructure.persistence.FlatPersistence;
+import com.pineframework.core.datamodel.model.FlatTransient;
+import com.pineframework.core.datamodel.model.paging.Paging;
+import com.pineframework.core.datamodel.persistence.FlatPersistence;
 
 import java.io.Serializable;
 import java.util.List;

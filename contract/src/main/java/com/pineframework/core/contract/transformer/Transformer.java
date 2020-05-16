@@ -1,7 +1,7 @@
 package com.pineframework.core.contract.transformer;
 
-import com.pineframework.core.datastructure.model.Transient;
-import com.pineframework.core.datastructure.persistence.Persistable;
+import com.pineframework.core.datamodel.model.Transient;
+import com.pineframework.core.datamodel.persistence.Persistable;
 
 import java.io.Serializable;
 import java.util.List;

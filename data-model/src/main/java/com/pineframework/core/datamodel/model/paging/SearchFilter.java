@@ -1,7 +1,4 @@
-package com.pineframework.core.datastructure.model.paging;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.pineframework.core.helper.serializing.ArrayDeserializer;
+package com.pineframework.core.datamodel.model.paging;
 
 import java.util.List;
 
@@ -11,7 +8,6 @@ public class SearchFilter {
 
     private String fieldName;
 
-    @JsonDeserialize(using = ArrayDeserializer.class)
     private List<Object> values;
 
     public String getFieldName() {

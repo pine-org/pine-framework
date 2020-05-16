@@ -15,16 +15,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.pineframework.core.datamodel</groupId>
-            <artifactId>data-model</artifactId>
-            <version>${data-model.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.pineframework.core.helper</groupId>
-            <artifactId>helper</artifactId>
-            <version>${helper.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.pineframework.core.contract</groupId>
             <artifactId>contract</artifactId>
             <version>${contratc.version}</version>

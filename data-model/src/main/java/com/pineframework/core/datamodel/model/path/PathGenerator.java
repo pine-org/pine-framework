@@ -1,6 +1,6 @@
-package com.pineframework.core.datastructure.model.path;
+package com.pineframework.core.datamodel.model.path;
 
-import com.pineframework.core.datastructure.persistence.TreePersistence;
+import com.pineframework.core.datamodel.persistence.TreePersistence;
 
 import java.io.Serializable;
 

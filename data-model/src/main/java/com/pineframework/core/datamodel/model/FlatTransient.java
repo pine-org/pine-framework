@@ -1,7 +1,7 @@
-package com.pineframework.core.datastructure.model;
+package com.pineframework.core.datamodel.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pineframework.core.datastructure.persistence.FlatPersistence;
+import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import io.vavr.control.Try;
 
 import java.io.Serializable;

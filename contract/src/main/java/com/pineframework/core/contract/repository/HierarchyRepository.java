@@ -1,6 +1,6 @@
 package com.pineframework.core.contract.repository;
 
-import com.pineframework.core.datastructure.persistence.TreePersistence;
+import com.pineframework.core.datamodel.persistence.TreePersistence;
 
 import java.io.Serializable;
 import java.util.List;

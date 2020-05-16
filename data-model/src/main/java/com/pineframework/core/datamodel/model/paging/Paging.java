@@ -1,7 +1,7 @@
-package com.pineframework.core.datastructure.model.paging;
+package com.pineframework.core.datamodel.model.paging;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.pineframework.core.datastructure.model.FlatTransient;
+import com.pineframework.core.datamodel.model.FlatTransient;
 
 import java.io.Serializable;
 import java.util.ArrayList;

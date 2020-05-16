@@ -1,4 +1,4 @@
-package com.pineframework.core.datastructure.model.paging;
+package com.pineframework.core.datamodel.model.paging;
 
 import java.io.Serializable;
 import java.util.Objects;

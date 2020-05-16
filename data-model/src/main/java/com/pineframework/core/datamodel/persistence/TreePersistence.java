@@ -1,4 +1,4 @@
-package com.pineframework.core.datastructure.persistence;
+package com.pineframework.core.datamodel.persistence;
 
 import javax.persistence.Transient;
 import java.io.Serializable;

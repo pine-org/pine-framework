@@ -1,6 +1,6 @@
 package com.pineframework.core.messaging.activemq.service;
 
-import com.pineframework.core.datastructure.model.message.MessageModel;
+import com.pineframework.core.datamodel.model.message.MessageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

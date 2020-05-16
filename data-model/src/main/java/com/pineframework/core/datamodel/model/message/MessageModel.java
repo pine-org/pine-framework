@@ -1,6 +1,6 @@
-package com.pineframework.core.datastructure.model.message;
+package com.pineframework.core.datamodel.model.message;
 
-import com.pineframework.core.datastructure.model.FlatTransient;
+import com.pineframework.core.datamodel.model.FlatTransient;
 
 public class MessageModel extends FlatTransient<Long> {
 

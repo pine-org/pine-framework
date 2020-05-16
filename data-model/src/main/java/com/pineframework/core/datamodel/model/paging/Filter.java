@@ -1,7 +1,4 @@
-package com.pineframework.core.datastructure.model.paging;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.pineframework.core.helper.serializing.ArrayDeserializer;
+package com.pineframework.core.datamodel.model.paging;
 
 import java.io.Serializable;
 
@@ -9,7 +6,6 @@ public class Filter implements Serializable {
 
     private String fieldName;
 
-    @JsonDeserialize(using = ArrayDeserializer.class)
     private Object[] values;
 
     private Operator operator;

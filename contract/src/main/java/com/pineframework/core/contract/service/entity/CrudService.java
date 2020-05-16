@@ -3,8 +3,8 @@ package com.pineframework.core.contract.service.entity;
 import com.pineframework.core.contract.repository.CrudRepository;
 import com.pineframework.core.contract.service.AroundServiceOperation;
 import com.pineframework.core.contract.transformer.Transformer;
-import com.pineframework.core.datastructure.model.FlatTransient;
-import com.pineframework.core.datastructure.persistence.FlatPersistence;
+import com.pineframework.core.datamodel.model.FlatTransient;
+import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;

@@ -2,7 +2,7 @@ package com.pineframework.core.contract.repository;
 
 import com.pineframework.core.contract.query.Column;
 import com.pineframework.core.contract.query.Specification;
-import com.pineframework.core.datastructure.persistence.FlatPersistence;
+import com.pineframework.core.datamodel.persistence.FlatPersistence;
 
 import java.io.Serializable;
 import java.util.List;

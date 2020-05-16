@@ -1,6 +1,6 @@
 package com.pineframework.core.tutorial.activemqsample;
 
-import com.pineframework.core.datastructure.model.message.MqStatus;
+import com.pineframework.core.datamodel.model.message.MqStatus;
 import com.pineframework.core.messaging.activemq.service.QueueServiceProxy;
 import com.pineframework.core.test.AbstractTest;
 import com.pineframework.core.tutorial.activemqsample.model.SampleModel;

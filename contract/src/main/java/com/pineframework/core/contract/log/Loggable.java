@@ -1,6 +1,6 @@
 package com.pineframework.core.contract.log;
 
-import com.pineframework.core.datastructure.model.FlatTransient;
+import com.pineframework.core.datamodel.model.FlatTransient;
 import org.slf4j.Logger;
 
 import static java.lang.String.format;

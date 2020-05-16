@@ -148,21 +148,21 @@ public final class ReflectionUtils {
 
         static {
             converters.putAll(PrimitiveConverter.converters);
-            converters.put(LocalDate.class, (v) -> convertToLocalDate((TIMESTAMP) v));
-            converters.put(LocalDateTime.class, (v) -> convertToLocalDateAndTime((TIMESTAMP) v));
-            converters.put(LocalTime.class, (v) -> convertToLocalTime((TIMESTAMP) v));
+            converters.put(LocalDate.class, (o) -> convertToLocalDate((TIMESTAMP) o));
+            converters.put(LocalDateTime.class, (o) -> convertToLocalDateAndTime((TIMESTAMP) o));
+            converters.put(LocalTime.class, (o) -> convertToLocalTime((TIMESTAMP) o));
         }
 
-        private static Long convertToLocalTime(TIMESTAMP v) {
-            return Try.of(() -> v.timestampValue().getTime()).get();
+        private static Long convertToLocalTime(TIMESTAMP o) {
+            return Try.of(() -> o.timestampValue().getTime()).get();
         }
 
-        private static LocalDate convertToLocalDate(TIMESTAMP v) {
-            return Try.of(() -> v.dateValue().toLocalDate()).get();
+        private static LocalDate convertToLocalDate(TIMESTAMP o) {
+            return Try.of(() -> o.dateValue().toLocalDate()).get();
         }
 
-        private static LocalDateTime convertToLocalDateAndTime(TIMESTAMP v) {
-            return Try.of(() -> v.timestampValue().toLocalDateTime()).get();
+        private static LocalDateTime convertToLocalDateAndTime(TIMESTAMP o) {
+            return Try.of(() -> o.timestampValue().toLocalDateTime()).get();
         }
     }
 
@@ -171,25 +171,25 @@ public final class ReflectionUtils {
         private static Map<Class, Function> converters = new HashMap();
 
         static {
-            converters.put(Integer.class, (v) -> Integer.valueOf(String.valueOf(v)));
-            converters.put(Long.class, (v) -> Long.valueOf(String.valueOf(v)));
-            converters.put(String.class, (v) -> String.valueOf(v));
-            converters.put(Boolean.class, (v) -> Integer.valueOf(String.valueOf(v)).intValue() == 1);
-            converters.put(LocalDate.class, (v) -> extractDate(v));
-            converters.put(LocalDateTime.class, (v) -> extractDateAndTime(v));
-            converters.put(LocalTime.class, (v) -> extractTime(v));
+            converters.put(Integer.class, (o) -> Integer.valueOf(String.valueOf(o)));
+            converters.put(Long.class, (o) -> Long.valueOf(String.valueOf(o)));
+            converters.put(String.class, (o) -> String.valueOf(o));
+            converters.put(Boolean.class, (o) -> Integer.valueOf(String.valueOf(o)).intValue() == 1);
+            converters.put(LocalDate.class, (o) -> extractDate(o));
+            converters.put(LocalDateTime.class, (o) -> extractDateAndTime(o));
+            converters.put(LocalTime.class, (o) -> extractTime(o));
         }
 
-        private static LocalTime extractTime(Object v) {
-            return LocalTime.parse(String.valueOf(v), ofPattern("HH:mm:ss"));
+        private static LocalTime extractTime(Object o) {
+            return LocalTime.parse(String.valueOf(o), ofPattern("HH:mm:ss"));
         }
 
-        private static LocalDate extractDate(Object v) {
-            return LocalDate.parse(String.valueOf(v), ofPattern("yyyy-MM-dd"));
+        private static LocalDate extractDate(Object o) {
+            return LocalDate.parse(String.valueOf(o), ofPattern("yyyy-MM-dd"));
         }
 
-        private static LocalDateTime extractDateAndTime(Object v) {
-            return LocalDateTime.parse(String.valueOf(v), ofPattern("yyyy-MM-dd HH:mm:ss"));
+        private static LocalDateTime extractDateAndTime(Object o) {
+            return LocalDateTime.parse(String.valueOf(o), ofPattern("yyyy-MM-dd HH:mm:ss"));
         }
     }
 }

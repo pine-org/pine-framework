@@ -1,7 +1,7 @@
 package com.pineframework.core.contract.service;
 
-import com.pineframework.core.datastructure.model.FlatTransient;
-import com.pineframework.core.datastructure.persistence.FlatPersistence;
+import com.pineframework.core.datamodel.model.FlatTransient;
+import com.pineframework.core.datamodel.persistence.FlatPersistence;
 
 import java.io.Serializable;
 
