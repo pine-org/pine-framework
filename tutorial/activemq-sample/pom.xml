@@ -18,12 +18,18 @@
         <module>rest-api</module>
         <module>business-service</module>
         <module>model</module>
+        <module>integration-test</module>
     </modules>
     <dependencies>
         <dependency>
             <groupId>com.pineframework.core.dependencies</groupId>
             <artifactId>dependencies</artifactId>
             <version>${dependencies.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pineframework.core.business</groupId>
+            <artifactId>business</artifactId>
+            <version>${business.version}</version>
         </dependency>
         <dependency>
             <groupId>com.pineframework.core.messaging.activemq</groupId>

@@ -21,140 +21,140 @@ public interface FlatRepository {
     /**
      * Save operation
      *
-     * @param entity
-     * @param clazz
-     * @param <I>    <description>id</description>
-     * @param <E>    <description>entity</description>
-     * @return <description>persisted entity</description>
+     * @param e
+     * @param c
+     * @param <I> <description>id</description>
+     * @param <E> <description>e</description>
+     * @return <description>persisted e</description>
      */
-    <I extends Serializable, E extends FlatPersistence<I>> Optional<E> save(E entity, Class<E> clazz);
+    <I extends Serializable, E extends FlatPersistence<I>> Optional<E> save(E e, Class<E> c);
 
     /**
      * @param id
-     * @param clazz
-     * @param <I>   <description>id</description>
-     * @param <E>   <description>entity</description>
-     * @return <description>persisted entity</description>
+     * @param c
+     * @param <I> <description>id</description>
+     * @param <E> <description>e</description>
+     * @return <description>persisted e</description>
      */
-    <I extends Serializable, E extends FlatPersistence<I>> Optional<E> findById(I id, Class<E> clazz);
+    <I extends Serializable, E extends FlatPersistence<I>> Optional<E> findById(I id, Class<E> c);
 
     /**
      * Physically delete
      *
      * @param id
-     * @param clazz
-     * @param <I>   <description>id</description>
-     * @param <E>   <description>entity</description>
+     * @param c
+     * @param <I> <description>id</description>
+     * @param <E> <description>e</description>
      */
-    <I extends Serializable, E extends FlatPersistence<I>> void delete(I id, Class<E> clazz);
+    <I extends Serializable, E extends FlatPersistence<I>> void delete(I id, Class<E> c);
 
     /**
      * Select all records in a list
      *
-     * @param clazz
-     * @param <I>   <description>id</description>
-     * @param <E>   <description>entity</description>
-     * @return <description>list of entity</description>
+     * @param c
+     * @param <I> <description>id</description>
+     * @param <E> <description>e</description>
+     * @return <description>list of e</description>
      */
-    <I extends Serializable, E extends FlatPersistence<I>> List<E> findAll(Class<E> clazz);
+    <I extends Serializable, E extends FlatPersistence<I>> List<E> findAll(Class<E> c);
 
     /**
      * Select records with where clause {@link Specification}
      *
      * @param condition
-     * @param clazz
+     * @param c
      * @param <I>       <description>id</description>
-     * @param <E>       <description>entity</description>
-     * @return <description>list of entity</description>
+     * @param <E>       <description>e</description>
+     * @return <description>list of e</description>
      */
-    <I extends Serializable, E extends FlatPersistence<I>> List<E> find(Specification<E> condition, Class<E> clazz);
+    <I extends Serializable, E extends FlatPersistence<I>> List<E> find(Specification<E> condition, Class<E> c);
 
-    <I extends Serializable, E extends FlatPersistence<I>, V> List<V> find(Specification<E> specification,
-                                                                           Class<E> entity,
-                                                                           Class<V> vo,
+    <I extends Serializable, E extends FlatPersistence<I>, M> List<M> find(Specification<E> specification,
+                                                                           Class<E> e,
+                                                                           Class<M> m,
                                                                            Column<E> column);
 
     <I extends Serializable, E extends FlatPersistence<I>> List<E> find(Specification<E> condition,
                                                                         int first,
                                                                         int max,
-                                                                        Class<E> clazz);
+                                                                        Class<E> c);
 
     <I extends Serializable, E extends FlatPersistence<I>> List<E> find(int first,
                                                                         int max,
-                                                                        Class<E> clazz);
+                                                                        Class<E> c);
 
     <I extends Serializable, E extends FlatPersistence<I>> Optional<E> findOneByField(String field,
                                                                                       Object value,
-                                                                                      Class<E> clazz);
+                                                                                      Class<E> c);
 
     <I extends Serializable, E extends FlatPersistence<I>> List<E> findByField(String field,
                                                                                Object value,
-                                                                               Class<E> clazz);
+                                                                               Class<E> c);
 
-    <I extends Serializable, E extends FlatPersistence<I>> Long count(Class<E> clazz);
+    <I extends Serializable, E extends FlatPersistence<I>> Long count(Class<E> c);
 
     <I extends Serializable, E extends FlatPersistence<I>> Long count(Specification<E> condition,
-                                                                      Class<E> clazz);
+                                                                      Class<E> c);
 
     <I extends Serializable, E extends FlatPersistence<I>> Boolean contains(Specification<E> condition,
-                                                                            Class<E> clazz);
+                                                                            Class<E> c);
 
-    <I extends Serializable, E extends FlatPersistence<I>> E getReference(I id, Class<E> clazz);
+    <I extends Serializable, E extends FlatPersistence<I>> E getReference(I id, Class<E> c);
 
     <I extends Serializable, E extends FlatPersistence<I>> List<E> findByIdentities(I[] identities,
-                                                                                    Class<E> clazz);
+                                                                                    Class<E> c);
 
-    <I extends Serializable, E extends FlatPersistence<I>, V> Optional<V> findOne(Specification<E> specification,
-                                                                                  Class<E> entity,
-                                                                                  Class<V> vo,
+    <I extends Serializable, E extends FlatPersistence<I>, M> Optional<M> findOne(Specification<E> specification,
+                                                                                  Class<E> e,
+                                                                                  Class<M> m,
                                                                                   Column<E> column);
 
     /**
      * Select one record with where clause {@link Specification}
      *
      * @param condition
-     * @param clazz
+     * @param c
      * @param <I>       <description>id</description>
-     * @param <E>       <description>entity</description>
-     * @return <description>one entity</description>
+     * @param <E>       <description>e</description>
+     * @return <description>one e</description>
      */
     <I extends Serializable, E extends FlatPersistence<I>> Optional<E> findOne(Specification<E> condition,
-                                                                               Class<E> clazz);
+                                                                               Class<E> c);
 
     <I extends Serializable, K extends Serializable, E extends FlatPersistence<I>> List<E> findIn(String field,
                                                                                                   K[] valueList,
-                                                                                                  Class<E> clazz);
+                                                                                                  Class<E> c);
 
     /**
      * save batch of entities
      *
      * @param entities
-     * @param clazz
+     * @param c
      * @param <I>      <description>id</description>
-     * @param <E>      <description>entity</description>
+     * @param <E>      <description>e</description>
      * @return
      */
-    <I extends Serializable, E extends FlatPersistence<I>> List<I> batchSave(List<E> entities, Class<E> clazz);
+    <I extends Serializable, E extends FlatPersistence<I>> List<I> batchSave(List<E> entities, Class<E> c);
 
     /**
      * delete batch of entities
      *
      * @param identities
-     * @param clazz
+     * @param c
      * @param <I>        <description>id</description>
-     * @param <E>        <description>entity</description>
+     * @param <E>        <description>e</description>
      */
-    <I extends Serializable, E extends FlatPersistence<I>> void batchDelete(List<I> identities, Class<E> clazz);
+    <I extends Serializable, E extends FlatPersistence<I>> void batchDelete(List<I> identities, Class<E> c);
 
     /**
      * Save operation
      *
-     * @param entity
-     * @param clazz
-     * @param <I>    <description>id</description>
-     * @param <E>    <description>entity</description>
-     * @return <description>merge entity</description>
+     * @param e
+     * @param c
+     * @param <I> <description>id</description>
+     * @param <E> <description>e</description>
+     * @return <description>merge e</description>
      */
-    <I extends Serializable, E extends FlatPersistence<I>> Optional<E> merge(E entity, Class<E> clazz);
+    <I extends Serializable, E extends FlatPersistence<I>> Optional<E> merge(E e, Class<E> c);
 
 }

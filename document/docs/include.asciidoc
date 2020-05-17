@@ -7,5 +7,6 @@ I'm keepin' it open.
 
 An 'open block', like this one, can contain other blocks.
 
-It can also act as any other block. (TODO)
+It can also act as any other block.
+(TODO)
 --

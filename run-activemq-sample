@@ -1,1 +1,1 @@
-java -jar ./sample/activemq-sample/target/activemq-sample-*.jar
+java -jar ./tutorial/activemq-sample/rest-api/target/activemq-sample-*.jar

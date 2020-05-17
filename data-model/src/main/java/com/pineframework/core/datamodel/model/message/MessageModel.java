@@ -2,25 +2,16 @@ package com.pineframework.core.datamodel.model.message;
 
 import com.pineframework.core.datamodel.model.FlatTransient;
 
-public class MessageModel extends FlatTransient<Long> {
+public abstract class MessageModel extends FlatTransient<String> {
 
-    private String correlationId;
+    private Object content;
 
-    private MqStatus status;
-
-    public String getCorrelationId() {
-        return correlationId;
+    public Object getContent() {
+        return content;
     }
 
-    public void setCorrelationId(String correlationId) {
-        this.correlationId = correlationId;
+    public void setContent(Object content) {
+        this.content = content;
     }
 
-    public MqStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(MqStatus status) {
-        this.status = status;
-    }
 }

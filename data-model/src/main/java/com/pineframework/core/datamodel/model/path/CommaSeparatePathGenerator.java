@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
-import static com.pineframework.core.helper.optional.BooleanOptional.of;
 import static java.lang.String.format;
 import static java.util.Objects.nonNull;
 
@@ -31,8 +30,9 @@ public class CommaSeparatePathGenerator<I extends Serializable, E extends TreePe
      */
     @Override
     public void setPath(E entity, String parentPath) {
-        of(nonNull(parentPath))
-                .other(() -> entity.setPath(format("%s", entity.getParent().getId())))
-                .ifTrue(() -> entity.setPath(format("%s,%s", parentPath, entity.getParent().getId())));
+        if (nonNull(parentPath))
+            entity.setPath(format("%s,%s", parentPath, entity.getParent().getId()));
+        else
+            entity.setPath(format("%s", entity.getParent().getId()));
     }
 }

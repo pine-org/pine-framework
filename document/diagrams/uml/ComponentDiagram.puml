@@ -1,6 +1,7 @@
 @startuml
-
-rectangle BaseComponent {
+skinparam shadowing false
+rectangle "Domain" as domain{
+rectangle "Base Component" as baseComponent {
 component "Data Model" as dataModel
 component "Helper" as helper
 component "Test" as test
@@ -17,21 +18,16 @@ business ..> dependencies
 business ..> test
 }
 
-rectangle "Facility Component"{
+rectangle "Facility Component" as facilityComponent {
 component "Initializer Dependencies" as initDependencies
-note top of initDependencies
-Example: Spring Boot
-end note
 component "Classic Queue" as classicQueue
-note top of classicQueue
-Example: Apache Actvie MQ Classic
-end note
-
 classicQueue ..> dependencies
 initDependencies ..> i18n
+
+initDependencies -[hidden]up- classicQueue
 }
 
-rectangle "Domain Component Template"{
+rectangle "Domain Component Template" as templateComponent{
 component "component" as comp
 component "Business Service" as businessService
 component "Model" as model
@@ -45,15 +41,19 @@ comp *- exposer
 businessService ..> model
 exposer ..> businessService
 }
-
-rectangle "Cloud"{
+}
+rectangle "Cloud" as cloud{
 component "Config Server" as configServer
 component "Service Registration and Discovery" as serviceRegistry
 component "Gateway" as gateway
 }
 
-rectangle "Configuration"{
+rectangle "Configuration" as configuration{
 component "Properties" as properties
 component "Config Server Address" as configServerAddress
 }
+
+domain -[hidden]up- cloud
+domain -[hidden]up- configuration
+
 @enduml

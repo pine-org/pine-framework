@@ -6,9 +6,10 @@ import org.slf4j.LoggerFactory;
 import static java.lang.String.format;
 
 public class AbstractTest {
+
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public void infoLog(Object o) {
-        logger.info(format("LOG: %s", o));
+    public void logInfo(Object o) {
+        logger.info(format("LOG [INFO]: %s", o));
     }
 }

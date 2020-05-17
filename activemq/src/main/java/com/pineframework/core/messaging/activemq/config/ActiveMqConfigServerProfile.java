@@ -28,15 +28,15 @@ import javax.jms.Queue;
 @Profile("config-server")
 public class ActiveMqConfigServerProfile {
 
-    @Value("${messaging.message-queue.name}")
-    private String messageQueue;
+    @Value("${messaging.main-queue.name}")
+    private String mainQueue;
 
     @Value("${messaging.status-queue.name}")
     private String statusQueue;
 
-    @Bean("messageQueue")
-    public Queue messageQueue() {
-        return new ActiveMQQueue(messageQueue);
+    @Bean("mainQueue")
+    public Queue mainQueue() {
+        return new ActiveMQQueue(mainQueue);
     }
 
     @Bean("statusQueue")

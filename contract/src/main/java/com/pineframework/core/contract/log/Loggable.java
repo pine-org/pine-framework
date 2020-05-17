@@ -1,6 +1,5 @@
 package com.pineframework.core.contract.log;
 
-import com.pineframework.core.datamodel.model.FlatTransient;
 import org.slf4j.Logger;
 
 import static java.lang.String.format;
@@ -10,12 +9,16 @@ import static java.lang.String.format;
  */
 public interface Loggable {
 
-    default void infoLog(FlatTransient model) {
-        getLogger().info(format("LOG: %s", model));
+    default void logInfo(Object model) {
+        getLogger().info(format("LOG [INFO]: %s", model));
     }
 
-    default void infoLog(String str) {
-        getLogger().info(format("LOG: %s", str));
+    default void logDebug(Object model) {
+        getLogger().debug(format("LOG [DEBUG]: %s", model));
+    }
+
+    default void logError(Object model) {
+        getLogger().error(format("LOG [ERROR]: %s", model));
     }
 
     Logger getLogger();

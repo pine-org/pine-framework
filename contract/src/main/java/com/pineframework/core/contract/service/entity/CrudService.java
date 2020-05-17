@@ -31,7 +31,7 @@ public interface CrudService<I extends Serializable,
         beforeSave(entity, m);
 
         I id = getRepository().save(entity)
-                .orElseGet(() -> createEmptyPersistence())
+                .orElseGet(() -> createEmptyPersistenceObject())
                 .getId();
 
         afterSave(entity, m);
@@ -40,13 +40,13 @@ public interface CrudService<I extends Serializable,
     }
 
     default Optional<M> findById(I id) {
-        E entity = getRepository().findById(id).orElseGet(() -> createEmptyPersistence());
+        E entity = getRepository().findById(id).orElseGet(() -> createEmptyPersistenceObject());
         M m = getTransformer().transform(entity);
         return ofNullable(m);
     }
 
     default void update(M m) {
-        E entity = getRepository().findById(m.getId()).orElseGet(() -> createEmptyPersistence());
+        E entity = getRepository().findById(m.getId()).orElseGet(() -> createEmptyPersistenceObject());
 
         if (!Objects.equals(m.getVersion(), entity.getVersion()))
             throw new RuntimeException();
@@ -59,7 +59,7 @@ public interface CrudService<I extends Serializable,
     }
 
     default void delete(I id) {
-        E entity = getRepository().findById(id).orElseGet(() -> createEmptyPersistence());
+        E entity = getRepository().findById(id).orElseGet(() -> createEmptyPersistenceObject());
         M m = getTransformer().transform(entity);
 
         beforeDelete(m);

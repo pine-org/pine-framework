@@ -64,7 +64,7 @@ Run config server on your machine:
  - [Configuration Service Console](http://127.0.0.1:8888/config-server/profile-name)
 
 Run your modules on your machine:
- - `java -jar ./sample/activemq-sample/target/config-server-1.0.0-SNAPSHOT.jar`
+ - `java -jar ./tutorial/activemq-sample/rest-api/target/config-server-1.0.0-SNAPSHOT.jar`
 
 ### Development Environment (deploy on docker)
 Run configuration service and modules on your machine:

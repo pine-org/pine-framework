@@ -1,14 +1,15 @@
 Asciidoctor Demo
 ================
+
 ////
 Big ol' comment
 
 sittin' right 'tween this here title 'n header metadata
 ////
-Dan Allen <thedoc@asciidoctor.org>
-:description: A demo of Asciidoctor. This document +
-              exercises numerous features of AsciiDoc +
-              to test Asciidoctor compliance.
+Dan Allen <thedoc@asciidoctor.org> :description: A demo of Asciidoctor.
+This document +
+exercises numerous features of AsciiDoc +
+to test Asciidoctor compliance.
 :library: Asciidoctor
 ifdef::asciidoctor[]
 :source-highlighter: coderay
@@ -23,7 +24,8 @@ endif::asciidoctor[]
 :plus: &#43;
 
 [role='lead']
-This is a demonstration of {library}. And this is the preamble of this document.
+This is a demonstration of {library}.
+And this is the preamble of this document.
 
 ## PlantUML Plugin
 
@@ -56,6 +58,7 @@ NOTE: Items marked with TODO are either not yet supported or a work in progress.
 * double underscore around a __sub__string in a word emphasize that substring
 * use carrots around characters to make them ^super^script
 * use tildes around characters to make them ~sub~script
+
 ifdef::basebackend-html[]
 * to pass through +++<u>HTML</u>+++ directly, surround the text with triple plus
 endif::basebackend-html[]
@@ -73,7 +76,8 @@ endif::basebackend-docbook[]
 - handle words with unicode characters like in the name Gregory Romé
 - claim your copyright (C), registered trademark (R) or trademark (TM)
 
-You can write text http://example.com[with inline links], optionally{sp}using an explicit link:http://example.com[link prefix]. In either case, the link can have a http://example.com?foo=bar&lang=en[query string].
+You can write text http://example.com[with inline links], optionally{sp}using an explicit link:http://example.com[link prefix].
+In either case, the link can have a http://example.com?foo=bar&lang=en[query string].
 
 If you want to break a line +
 just end it in a {plus} sign +
@@ -99,21 +103,22 @@ and continue typing on the next line.
 * items
 
 .Statement
-I swear I left it in 'Guy\'s' car. Let\'s go look for it.
+I swear I left it in 'Guy\'s' car.
+Let\'s go look for it.
 
 [[defs]]
 term::
-  definition
-line two
-[[another_term]]another term::
+definition line two
+
+[[another_term]]
+another term::
 
   another definition, which can be literal (indented) or regular paragraph
 
 This should be a standalone paragraph, not grabbed by the definition list.
 
 [[nested]]
-* first level
-written on two lines
+* first level written on two lines
 * first level
 +
 ....
@@ -152,7 +157,7 @@ image::tiger.png[]
 include::include.asciidoc[]
 
 .Asciidoctor usage example, should contain 3 lines
-[source, ruby]
+[source,ruby]
 ----
 doc = Asciidoctor::Document.new("*This* is it!", :header_footer => false)
 
@@ -181,7 +186,7 @@ La la la
 
 Here's another quote:
 
-[quote, Sir Arthur Conan Doyle, The Adventures of Sherlock Holmes]
+[quote,Sir Arthur Conan Doyle,The Adventures of Sherlock Holmes]
 ____
 When you have eliminated all which is impossible, then whatever remains, however improbable, must be the truth.
 ____
@@ -204,7 +209,6 @@ We forgot to mention in <<numbered>> that you can change the numbering style.
 // This attribute line will get reattached to the next block
 // despite being followed by a trailing blank line
 [id='wrapup']
-
 == Wrap-up
 
 NOTE: AsciiDoc is quite cool, you should try it!
@@ -222,6 +226,8 @@ Or you could return to the xref:first[] or <<purpose,Purpose>>.
 Here's a reference to the definition of <<another_term>>, in case you forgot it.
 
 [NOTE]
-One more thing. Happy documenting!
+One more thing.
+Happy documenting!
 
-[[google]]When all else fails, head over to <http://google.com>.
+[[google]]
+When all else fails, head over to <http://google.com>.

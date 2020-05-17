@@ -95,6 +95,30 @@
     </dependencyManagement>
 
     <dependencies>
+        <!--java ee-->
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>${javaee.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reactivestreams</groupId>
+            <artifactId>reactive-streams</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
         <!--ORM-->
         <dependency>
             <groupId>com.oracle</groupId>

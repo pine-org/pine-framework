@@ -1,5 +1,6 @@
 package com.pineframework.core.datamodel.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import io.vavr.control.Try;
@@ -10,12 +11,13 @@ import java.util.Objects;
 
 /**
  * All models such as value objects, data transfer object (DTO), etc should be extended from {@code AbstractTransient}.
- * {@code AbstractTransient} implements equals and hash code and also {@code toString} method.
+ * {@code FlatTransient} implements equals and hash code and also {@code toString} method.
  *
  * @param <I> the type of identity
  */
 public abstract class FlatTransient<I extends Serializable> implements Transient<I> {
 
+    @JsonIgnore
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     protected I id;

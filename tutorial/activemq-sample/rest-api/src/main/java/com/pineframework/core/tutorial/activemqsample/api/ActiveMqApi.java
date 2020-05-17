@@ -1,10 +1,11 @@
 package com.pineframework.core.tutorial.activemqsample.api;
 
-import com.pineframework.core.messaging.activemq.service.QueueServiceProxy;
+import com.pineframework.core.business.service.QueueService;
 import com.pineframework.core.tutorial.activemqsample.model.SampleModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,15 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Serializable;
 import java.util.Locale;
 
-@Api(value = "example/api/v1", description = "", tags = {"Example API"})
+@Api(value = "activemq-sample/v1/api", tags = {"Active MQ Sample API"})
 @RestController
-@RequestMapping("api/v1")
-public class ActiveMqApi {
+@RequestMapping("v1/api")
+public class ActiveMqApi<I extends Serializable> {
 
     @Autowired
-    private QueueServiceProxy queueServiceProxy;
+    @Qualifier("sampleMainQueueService")
+    private QueueService<String, SampleModel> service;
 
     @Autowired
     private MessageSource messageSource;
@@ -30,8 +33,8 @@ public class ActiveMqApi {
     @ApiOperation(value = "${restfulApi.update.value}", notes = "${restfulApi.update.notes}")
     @PostMapping
     public ResponseEntity<String> sendToQueue(@RequestBody SampleModel model) {
-        queueServiceProxy.publish(model);
-        return ResponseEntity.ok(model.getCorrelationId());
+        String id = service.save(model);
+        return ResponseEntity.ok(model.getId());
     }
 
     @GetMapping
