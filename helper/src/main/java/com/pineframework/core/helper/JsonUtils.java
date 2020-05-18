@@ -26,6 +26,9 @@ import static com.pineframework.core.helper.StringUtils.isEmpty;
 
 public final class JsonUtils {
 
+    private JsonUtils() {
+    }
+
     public static final Logger LOGGER = LogUtils.getLogger(JsonUtils.class);
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();

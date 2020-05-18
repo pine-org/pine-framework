@@ -34,16 +34,16 @@ public interface QueryRepository<I extends Serializable, E extends FlatPersisten
         return getImpl().find(condition, first, max, getType());
     }
 
-    default <V> List<V> find(Specification<E> specification, Class<V> vo, Column<E> column) {
-        return getImpl().find(specification, getType(), vo, column);
+    default <M> List<M> find(Specification<E> specification, Class<M> m, Column<E> column) {
+        return getImpl().find(specification, getType(), m, column);
     }
 
     default Optional<E> findOne(Specification<E> condition) {
         return getImpl().findOne(condition, getType());
     }
 
-    default <V> Optional<V> findOne(Specification<E> specification, Class<V> vo, Column<E> column) {
-        return getImpl().findOne(specification, getType(), vo, column);
+    default <M> Optional<M> findOne(Specification<E> specification, Class<M> m, Column<E> column) {
+        return getImpl().findOne(specification, getType(), m, column);
     }
 
     default Long count(Class<E> c) {
@@ -71,11 +71,11 @@ public interface QueryRepository<I extends Serializable, E extends FlatPersisten
     }
 
     default List<E> findByIdentities(List<I> identities) {
-        return getImpl()
-                .findByIdentities(identities.toArray(createArray(Serializable.class, identities.size())), getType());
+        I[] a = identities.toArray(createArray(Serializable.class, identities.size()));
+        return getImpl().findByIdentities(a, getType());
     }
 
-    default <K extends Serializable> List<E> findIn(String field, K[] valueList) {
-        return getImpl().findIn(field, valueList, getType());
+    default <T extends Serializable> List<E> findIn(String field, T[] values) {
+        return getImpl().findIn(field, values, getType());
     }
 }

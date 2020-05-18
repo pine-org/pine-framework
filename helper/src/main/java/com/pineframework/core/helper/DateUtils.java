@@ -25,6 +25,9 @@ import java.util.Date;
  */
 public final class DateUtils {
 
+    private DateUtils() {
+    }
+
     public static final Logger LOGGER = LoggerFactory.getLogger(DateUtils.class);
 
     public static final ULocale PERSIAN_LOCALE = new ULocale("fa_IR@calendar=persian");

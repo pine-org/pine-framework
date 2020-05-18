@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.support.JmsHeaders;
 import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -15,7 +16,8 @@ import java.util.Map;
 /**
  * @author Saman Alishirishahrbabak
  */
-public abstract class ListenerService<I extends Serializable, M extends FlatTransient<I>>
+@Transactional
+public abstract class QueueListener<I extends Serializable, M extends FlatTransient<I>>
         implements Loggable {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());

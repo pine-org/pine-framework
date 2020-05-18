@@ -1,5 +1,7 @@
-package com.pineframework.core.contract.transformer;
+package com.pineframework.core.business.transformer;
 
+import com.pineframework.core.contract.transformer.AdditionalTransformer;
+import com.pineframework.core.contract.transformer.Transformer;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import com.pineframework.core.helper.GenericUtils;

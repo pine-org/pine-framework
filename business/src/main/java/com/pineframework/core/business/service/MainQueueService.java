@@ -1,5 +1,6 @@
 package com.pineframework.core.business.service;
 
+import com.pineframework.core.contract.service.IdentityGenerator;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
