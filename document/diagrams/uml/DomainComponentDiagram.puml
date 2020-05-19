@@ -1,6 +1,7 @@
 @startuml
 skinparam shadowing false
 rectangle "Domain" as domain{
+
 rectangle "Base Component" as baseComponent {
 component "Data Model" as dataModel
 component "Helper" as helper
@@ -23,7 +24,6 @@ component "Initializer Dependencies" as initDependencies
 component "Classic Queue" as classicQueue
 classicQueue ..> dependencies
 initDependencies ..> i18n
-
 initDependencies -[hidden]up- classicQueue
 }
 
@@ -32,7 +32,6 @@ component "component" as comp
 component "Business Service" as businessService
 component "Model" as model
 component "Exposer" as exposer
-
 comp ..> dependencies
 comp ..> test
 comp *- businessService
@@ -41,19 +40,8 @@ comp *- exposer
 businessService ..> model
 exposer ..> businessService
 }
-}
-rectangle "Cloud" as cloud{
-component "Config Server" as configServer
-component "Service Registration and Discovery" as serviceRegistry
-component "Gateway" as gateway
-}
 
-rectangle "Configuration" as configuration{
-component "Properties" as properties
-component "Config Server Address" as configServerAddress
-}
 
-domain -[hidden]up- cloud
-domain -[hidden]up- configuration
+}
 
 @enduml

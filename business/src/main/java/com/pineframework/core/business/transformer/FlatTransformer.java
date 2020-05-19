@@ -4,6 +4,7 @@ import com.pineframework.core.contract.transformer.AdditionalTransformer;
 import com.pineframework.core.contract.transformer.Transformer;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
+import com.pineframework.core.helper.CollectionUtils;
 import com.pineframework.core.helper.GenericUtils;
 import io.vavr.control.Try;
 
@@ -14,7 +15,7 @@ import java.util.Objects;
 import static com.pineframework.core.helper.CollectionUtils.EMPTY_LIST;
 import static com.pineframework.core.helper.CollectionUtils.createArray;
 import static com.pineframework.core.helper.CollectionUtils.isEmpty;
-import static com.pineframework.core.helper.CollectionUtils.map;
+import static com.pineframework.core.helper.CollectionUtils.mapTo;
 
 /**
  * @author Saman Alishiri
@@ -130,18 +131,18 @@ public abstract class FlatTransformer<I extends Serializable,
     public M[] transform(E[] entities, int deep, String... field) {
         return isEmpty(entities)
                 ? createArray(getModelType(), 0)
-                : map(entities, e -> transform(e, deep, field), getModelType());
+                : mapTo(entities, e -> transform(e, deep, field), getModelType());
     }
 
     public E[] transform(M[] models, int deep, String... field) {
         return isEmpty(models)
                 ? createArray(getEntityType(), 0)
-                : map(models, e -> transform(e, deep, field), getEntityType());
+                : mapTo(models, e -> transform(e, deep, field), getEntityType());
     }
 
     @Override
     public List<M> transformEntitiesToModels(List<E> entities, int deep, String... field) {
-        return isEmpty(entities) ? EMPTY_LIST : map(entities, e -> transform(e, deep, field));
+        return isEmpty(entities) ? EMPTY_LIST : CollectionUtils.mapTo(entities, e -> transform(e, deep, field));
     }
 
     @Override
@@ -151,7 +152,7 @@ public abstract class FlatTransformer<I extends Serializable,
 
     @Override
     public List<E> transformModelsToEntities(List<M> models, int deep, String... field) {
-        return isEmpty(models) ? EMPTY_LIST : map(models, m -> transform(m, deep, field));
+        return isEmpty(models) ? EMPTY_LIST : CollectionUtils.mapTo(models, m -> transform(m, deep, field));
     }
 
     @Override

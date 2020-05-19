@@ -1,0 +1,7 @@
+@startuml
+skinparam shadowing false
+rectangle "Configuration" as configuration{
+component "Properties" as properties
+component "Config Server Address" as configServerAddress
+}
+@enduml

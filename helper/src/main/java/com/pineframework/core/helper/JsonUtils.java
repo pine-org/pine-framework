@@ -26,12 +26,12 @@ import static com.pineframework.core.helper.StringUtils.isEmpty;
 
 public final class JsonUtils {
 
-    private JsonUtils() {
-    }
-
     public static final Logger LOGGER = LogUtils.getLogger(JsonUtils.class);
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+    private JsonUtils() {
+    }
 
     public static Map<String, String> convertToMap(String str) {
         return Try.of(() -> OBJECT_MAPPER.readValue(str, new TypeReference<Map<String, String>>() {

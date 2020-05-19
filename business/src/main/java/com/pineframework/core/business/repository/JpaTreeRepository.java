@@ -2,11 +2,9 @@ package com.pineframework.core.business.repository;
 
 import com.pineframework.core.contract.repository.BatchRepository;
 import com.pineframework.core.contract.repository.CrudRepository;
-import com.pineframework.core.contract.repository.FlatRepository;
 import com.pineframework.core.contract.repository.HierarchyRepository;
 import com.pineframework.core.contract.repository.QueryRepository;
 import com.pineframework.core.contract.repository.TreeRepository;
-import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import com.pineframework.core.datamodel.persistence.TreePersistence;
 import com.pineframework.core.helper.GenericUtils;
 import org.springframework.beans.factory.annotation.Autowired;

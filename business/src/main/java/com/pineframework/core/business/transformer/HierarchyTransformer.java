@@ -3,6 +3,7 @@ package com.pineframework.core.business.transformer;
 import com.pineframework.core.contract.transformer.TreeTransformer;
 import com.pineframework.core.datamodel.model.TreeTransient;
 import com.pineframework.core.datamodel.persistence.TreePersistence;
+import com.pineframework.core.helper.CollectionUtils;
 
 import java.io.Serializable;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 import static com.pineframework.core.helper.CollectionUtils.EMPTY_LIST;
 import static com.pineframework.core.helper.CollectionUtils.contains;
 import static com.pineframework.core.helper.CollectionUtils.isEmpty;
-import static com.pineframework.core.helper.CollectionUtils.map;
+import static com.pineframework.core.helper.CollectionUtils.mapTo;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -25,7 +26,10 @@ public abstract class HierarchyTransformer<I extends Serializable,
     @Override
     public void addToEntity(E e, M m, int deep, String... fields) {
         super.addToEntity(e, m, deep, fields);
-        if (nonNull(m.getParent())) e.setParent(transform(m.getParent(), deep, fields));
+
+        if (nonNull(m.getParent()))
+            e.setParent(transform(m.getParent(), deep, fields));
+
         e.setPath(m.getPath());
     }
 
@@ -33,9 +37,12 @@ public abstract class HierarchyTransformer<I extends Serializable,
     public void addToModel(E e, M m, int deep, String... fields) {
         super.addToModel(e, m, deep, fields);
 
-        if (isNull(e) || (deep == EXIT)) return;
-        if (contains(fields, "parent")) transformParent(e, m, deep, fields);
-        if (contains(fields, "path")) m.setPath(e.getPath());
+        if (isNull(e) || (deep == EXIT))
+            return;
+        if (contains(fields, "parent"))
+            transformParent(e, m, deep, fields);
+        if (contains(fields, "path"))
+            m.setPath(e.getPath());
 
         m.setLeaf(e.isLeaf());
     }
@@ -43,12 +50,10 @@ public abstract class HierarchyTransformer<I extends Serializable,
     public void transformParent(E e, M m, int deep, String[] fields) {
         M parent = null;
 
-        if (nonNull(e.getParent())) {
-            deep--;
-            parent = transform(e.getParent(), deep, fields);
-        }
+        if (nonNull(e.getParent()))
+            parent = transform(e.getParent(), deep--, fields);
 
-        if (deep == 0)
+        if (deep == EXIT)
             parent = createModel(e.getParent().getId(), e.getParent().getVersion());
 
         m.setParent(parent);
@@ -56,7 +61,7 @@ public abstract class HierarchyTransformer<I extends Serializable,
 
     @Override
     public List<M> lazyTransform(List<E> entities, int deep, String... fields) {
-        return isEmpty(entities) ? EMPTY_LIST : map(entities, entity -> lazyTransform(entity, deep, fields));
+        return isEmpty(entities) ? EMPTY_LIST : mapTo(entities, entity -> lazyTransform(entity, deep, fields));
     }
 
     @Override
@@ -79,7 +84,7 @@ public abstract class HierarchyTransformer<I extends Serializable,
         if (isNull(e) || (level == EXIT)) return null;
 
         M model = transform(e, deep, fields);
-        model.setChildren(map(e.getChildren(), entity -> hierarchyTransform(entity, level - 1, deep, fields)));
+        model.setChildren(mapTo(e.getChildren(), entity -> hierarchyTransform(entity, level - 1, deep, fields)));
         return model;
     }
 

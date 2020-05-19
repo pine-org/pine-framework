@@ -22,8 +22,12 @@ import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
+import static java.util.Collections.frequency;
 import static java.util.Objects.isNull;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toCollection;
 
 /**
  * @author Saman Alishirishahrbabak
@@ -64,13 +68,17 @@ public final class CollectionUtils {
         return c == null && c.size() == 0;
     }
 
-    public static <T, E> List<E> map(List<T> list, Function<T, E> function) {
-        return list.stream().map(function).collect(Collectors.toList());
+    public static <T, E> List<E> mapTo(List<T> list, Function<T, E> f) {
+        return list.stream().map(f).collect(Collectors.toList());
     }
 
-    public static <T, E> E[] map(T[] models, Function<T, E> function, Class<?> type) {
+    public static <T, E> Collection<E> mapTo(Collection<T> c, Function<T, E> f) {
+        return c.stream().map(f).collect(toCollection(ArrayList::new));
+    }
+
+    public static <T, E> E[] mapTo(T[] models, Function<T, E> f, Class<?> type) {
         return Arrays.stream(models)
-                .map(function)
+                .map(f)
                 .toArray(size -> (E[]) Array.newInstance(type, size));
     }
 
@@ -82,26 +90,26 @@ public final class CollectionUtils {
      * Return {@code true} if provided reference has at least one element otherwise
      * return {@code false}.
      *
-     * @param array an array reference to be check for emptiness
+     * @param a an a reference to be check for emptiness
      * @param <T>   the type of the reference
      * @return {@code true} if provided reference has at least one element otherwise
      * return {@code false}
      */
-    public static <T> BooleanOptional isThereAnyElement(T[] array) {
-        return BooleanOptional.of(array != null && array.length >= 1);
+    public static <T> BooleanOptional isThereAnyElement(T[] a) {
+        return BooleanOptional.of(a != null && a.length >= 1);
     }
 
     /**
      * Return {@code true} if provided reference has at least one element otherwise
      * return {@code false}.
      *
-     * @param collection an collection reference to be check for emptiness
+     * @param c an c reference to be check for emptiness
      * @param <T>        the type of the reference
      * @return {@code true} if provided reference has at least one element otherwise
      * return {@code false}
      */
-    public static <T> BooleanOptional isThereAnyElement(Collection<T> collection) {
-        return BooleanOptional.of(collection != null && !collection.isEmpty());
+    public static <T> BooleanOptional isThereAnyElement(Collection<T> c) {
+        return BooleanOptional.of(c != null && !c.isEmpty());
     }
 
     /**
@@ -109,14 +117,14 @@ public final class CollectionUtils {
      * method is designed primarily for doing parameter validation in methods
      * and constructors.
      *
-     * @param array the array reference to check for emptiness
+     * @param a the a reference to check for emptiness
      * @param <T>   the type of the reference
-     * @throws IllegalArgumentException if {@code array} is {@code null} or is empty
+     * @throws IllegalArgumentException if {@code a} is {@code null} or is empty
      */
-    public static <T> void requiredElement(T[] array) {
-        isThereAnyElement(array)
+    public static <T> void requiredElement(T[] a) {
+        isThereAnyElement(a)
                 .ifFalse(() -> {
-                    throw new IllegalArgumentException("array must have at least one element");
+                    throw new IllegalArgumentException("a must have at least one element");
                 });
     }
 
@@ -125,28 +133,28 @@ public final class CollectionUtils {
      * method is designed primarily for doing parameter validation in methods
      * and constructors.
      *
-     * @param collection the collection reference to check for emptiness
+     * @param c the c reference to check for emptiness
      * @param <T>        the type of the reference
-     * @throws IllegalArgumentException if {@code collection} is {@code null} or is empty
+     * @throws IllegalArgumentException if {@code c} is {@code null} or is empty
      */
-    public static <T> void requiredElement(Collection<T> collection) {
-        isThereAnyElement(collection)
+    public static <T> void requiredElement(Collection<T> c) {
+        isThereAnyElement(c)
                 .ifFalse(() -> {
-                    throw new IllegalArgumentException("collection must have at least one element");
+                    throw new IllegalArgumentException("c must have at least one element");
                 });
     }
 
     /**
-     * Return an element randomly and throws IllegalArgumentException if {@code array} is {@code null} or is empty.
+     * Return an element randomly and throws IllegalArgumentException if {@code a} is {@code null} or is empty.
      *
-     * @param array the array reference for choosing an element randomly
+     * @param a the a reference for choosing an element randomly
      * @param <T>   the type of the reference
-     * @return an element of array
-     * @throws IllegalArgumentException if {@code array} is {@code null} or is empty
+     * @return an element of a
+     * @throws IllegalArgumentException if {@code a} is {@code null} or is empty
      */
-    public static final <T> T chooseRandomly(T... array) {
-        requiredElement(array);
-        return array[(int) (Math.random() * array.length)];
+    public static final <T> T chooseRandomly(T... a) {
+        requiredElement(a);
+        return a[(int) (Math.random() * a.length)];
     }
 
     /**
@@ -179,19 +187,19 @@ public final class CollectionUtils {
      *
      * @param c1  the first collection
      * @param c2  the second collection
-     * @param poc the predicate of comparision
+     * @param f the comparision condition
      * @param <E> the type of object that held by the first collection
      * @param <T> the type of object that held by the second collection
      * @return new collection that, it is subset of {@code c1}
      */
-    public static <E, T> Collection<E> subtract(Collection<E> c1, Collection<T> c2, BiFunction<E, T, Boolean> poc) {
+    public static <E, T> Collection<E> subtract(Collection<E> c1, Collection<T> c2, BiFunction<E, T, Boolean> f) {
         requiredElement(c1);
         requiredElement(c2);
-        requireNonNull(poc);
+        requireNonNull(f);
 
         return c1.stream()
-                .filter(e1 -> c2.stream().noneMatch(e2 -> poc.apply(e1, e2)))
-                .collect(Collectors.toCollection(ArrayList::new));
+                .filter(e1 -> c2.stream().noneMatch(e2 -> f.apply(e1, e2)))
+                .collect(toCollection(ArrayList::new));
     }
 
     /**
@@ -213,18 +221,19 @@ public final class CollectionUtils {
      *
      * @param c1  the first collection
      * @param c2  the second collection
+     * @param f  comparision condition
      * @param <E> the type of object that held by the first collection
      * @param <T> the type of object that held by the second collection
      * @return new collection include common items between {@code c1} and {@code c2}
      */
-    public static <E, T> List<E> intersection(Collection<E> c1, Collection<T> c2, BiFunction<E, T, Boolean> condition) {
+    public static <E, T> Collection<E> intersection(Collection<E> c1, Collection<T> c2, BiFunction<E, T, Boolean> f) {
         requiredElement(c1);
         requiredElement(c2);
-        requireNonNull(condition);
+        requireNonNull(f);
 
         return c1.stream()
-                .filter(e1 -> c2.stream().anyMatch(e2 -> condition.apply(e1, e2)))
-                .collect(Collectors.toCollection(ArrayList::new));
+                .filter(e1 -> c2.stream().anyMatch(e2 -> f.apply(e1, e2)))
+                .collect(toCollection(ArrayList::new));
     }
 
     /**
@@ -237,103 +246,103 @@ public final class CollectionUtils {
      * @param <T> the type of object that held by the second collection
      * @return new collection include common elements between {@code c1} and {@code c2}
      */
-    public static <E, T> List<E> intersection(Collection<E> c1, Collection<T> c2) {
-        return intersection(c1, c2, (f, s) -> Objects.equals(f, s));
+    public static <E, T> Collection<E> intersection(Collection<E> c1, Collection<T> c2) {
+        return intersection(c1, c2, (first, second) -> Objects.equals(first, second));
     }
 
     /**
-     * Find frequency of the elements in a collection. Return a new map that include the elements as a key
+     * Find frequency of the elements in a c. Return a new map that include the elements as a key
      * and counting of them as a value.
      *
-     * @param collection the reference to be check frequency of its elements
+     * @param c the reference to be check frequency of its elements
      * @param <E>        the type of elements
      * @return a new map that include the elements as a key
      * and counting of them as a value.
      */
-    public static <E> Map<E, Long> findFrequency(Collection<E> collection) {
-        requiredElement(collection);
-        return collection.stream().collect(Collectors.groupingBy(c -> c, Collectors.counting()));
+    public static <E> Map<E, Long> findFrequency(Collection<E> c) {
+        requiredElement(c);
+        return c.stream().collect(groupingBy(e -> e, counting()));
     }
 
     /**
-     * Find the elements that be repeated in  a collection then return as a new collection.
+     * Find the elements that be repeated in  a c then return as a new c.
      *
-     * @param collection the reference that to be finding repeated elements
+     * @param c the reference that to be finding repeated elements
      * @param <E>        the type of elements
-     * @return new collection that include repeated elements
+     * @return new c that include repeated elements
      */
-    public static <E> Collection<E> findRepetitiveElements(Collection<E> collection) {
-        requiredElement(collection);
-        return collection.stream()
-                .filter(i -> Collections.frequency(collection, i) > 1)
-                .collect(Collectors.toCollection(HashSet::new));
+    public static <E> Collection<E> findRepetitiveElements(Collection<E> c) {
+        requiredElement(c);
+        return c.stream()
+                .filter(e -> frequency(c, e) > 1)
+                .collect(toCollection(HashSet::new));
     }
 
     /**
-     * Returns {@code true} if this list contains the specified element that it is match with the {@code condition}
+     * Returns {@code true} if this list contains the specified element that it is match with the {@code p}
      * otherwise return {@code false}.
      *
-     * @param array     the reference to be check
-     * @param condition the condition that array elements have to check via it
+     * @param a     the reference to be check
+     * @param p the p that a elements have to check via it
      * @param <T>       the type of elements
-     * @return {@code true} if this list contains the specified element that it is match with the {@code condition}
+     * @return {@code true} if this list contains the specified element that it is match with the {@code p}
      * otherwise return {@code false}.
      */
-    public static <T> BooleanOptional contains(T[] array, Predicate<? super T> condition) {
-        requiredElement(array);
-        requireNonNull(condition);
+    public static <T> BooleanOptional contains(T[] a, Predicate<? super T> p) {
+        requiredElement(a);
+        requireNonNull(p);
 
-        return BooleanOptional.of(Arrays.stream(array).anyMatch(condition));
+        return BooleanOptional.of(Arrays.stream(a).anyMatch(p));
     }
 
     /**
      * Returns {@code true} if this list contains the specified element that it is match with the {@code condition}
      * otherwise return {@code false}.
      *
-     * @param array the reference to be check
+     * @param a the reference to be check
      * @param item  the item that we want to find it
      * @param <T>   the type of elements
      * @return {@code true} if this list contains the specified element that it is match with the {@code condition}
      * otherwise return {@code false}.
      */
-    public static <T> boolean contains(T[] array, T item) {
-        requiredElement(array);
+    public static <T> boolean contains(T[] a, T item) {
+        requiredElement(a);
         requireNonNull(item);
 
-        return Arrays.stream(array).anyMatch(t -> t.equals(item));
+        return Arrays.stream(a).anyMatch(e -> e.equals(item));
     }
 
     /**
-     * Find a element that is match via the {@code condition}. Return element that, is encapsulated to {@link Optional},
+     * Find a element that is match via the {@code p}. Return element that, is encapsulated to {@link Optional},
      * if there is no elements, return empty {@link Optional}
      *
-     * @param array     the reference to be check
-     * @param condition the condition that array elements have to check via it
+     * @param a     the reference to be check
+     * @param p the p that a elements have to check via it
      * @param <T>       the type of elements
      * @return element that, is encapsulated to {@link Optional}, if there is no elements, return empty {@link Optional}
      */
-    public static <T> Optional<T> findAny(T[] array, Predicate<? super T> condition) {
-        requiredElement(array);
-        requireNonNull(condition);
+    public static <T> Optional<T> findAny(T[] a, Predicate<? super T> p) {
+        requiredElement(a);
+        requireNonNull(p);
 
-        return Arrays.stream(array)
-                .filter(condition)
+        return Arrays.stream(a)
+                .filter(p)
                 .findAny();
     }
 
     /**
      * Perform union operation on two arrays and return new array included elements of two the other arrays.
      *
-     * @param array1 the first reference
-     * @param array2 the second reference
+     * @param a1 the first reference
+     * @param a2 the second reference
      * @param <T>    the type of elements
      * @return new array included elements of two the other arrays
      */
-    public static <T> T[] union(T[] array1, T... array2) {
-        requiredElement(array1);
-        requiredElement(array2);
+    public static <T> T[] union(T[] a1, T... a2) {
+        requiredElement(a1);
+        requiredElement(a2);
 
-        return ArrayUtils.addAll(array1, array2);
+        return ArrayUtils.addAll(a1, a2);
     }
 
     /**
@@ -355,18 +364,18 @@ public final class CollectionUtils {
     }
 
     /**
-     * Create a map structure from collection elements.
+     * Create a map structure from c elements.
      *
-     * @param collection the reference of collection
+     * @param c the reference of c
      * @param key        the operation to create keys
      * @param value      the reference of value that will be map to key
-     * @param <T>        the type of collection elements
+     * @param <T>        the type of c elements
      * @param <K>        the type of key
      * @param <V>        the type of value
-     * @return new map of collection elements
+     * @return new map of c elements
      */
-    public static <T, K, V> Map<K, V> toMap(Collection<T> collection, Function<T, K> key, Function<T, V> value) {
-        return collection.stream().collect(Collectors.toMap(key, value));
+    public static <T, K, V> Map<K, V> mapOf(Collection<T> c, Function<T, K> key, Function<T, V> value) {
+        return c.stream().collect(Collectors.toMap(key, value));
     }
 
     /**
@@ -380,8 +389,11 @@ public final class CollectionUtils {
      * @param <V>   the type of value
      * @return new map of array elements
      */
-    public static <T, K, V> Map<K, V> toMap(T[] a, Function<T, K> key, Function<T, V> value) {
+    public static <T, K, V> Map<K, V> mapOf(T[] a, Function<T, K> key, Function<T, V> value) {
         return Arrays.stream(a).collect(Collectors.toMap(key, value));
     }
 
+    public static <E> List<E> listOf(Collection<E> c) {
+        return new ArrayList<>(c);
+    }
 }

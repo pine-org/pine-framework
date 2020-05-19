@@ -1,4 +1,4 @@
-package com.pineframework.core.tutorial.activemqsample;
+package com.pineframework.core.tutorial.activemqsample.business;
 
 import com.pineframework.core.business.service.MainQueueService;
 import com.pineframework.core.tutorial.activemqsample.model.SampleModel;

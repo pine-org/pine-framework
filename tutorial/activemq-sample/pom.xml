@@ -19,6 +19,7 @@
         <module>business-service</module>
         <module>model</module>
         <module>integration-test</module>
+        <module>documentation</module>
     </modules>
     <dependencies>
         <dependency>

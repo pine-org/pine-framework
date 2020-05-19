@@ -1,4 +1,4 @@
-package com.pineframework.core.tutorial.activemqsample;
+package com.pineframework.core.tutorial.activemqsample.business;
 
 import com.pineframework.core.business.service.QueueListener;
 import com.pineframework.core.business.service.QueueService;

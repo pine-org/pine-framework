@@ -1,4 +1,4 @@
-package com.pineframework.core.business.utils;
+package com.pineframework.core.business.helper;
 
 import java.io.Serializable;
 

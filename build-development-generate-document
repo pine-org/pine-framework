@@ -1,5 +1,5 @@
 mvn -f ./config-server-address/pom.xml clean install -P Development,Localhost
 mvn -f ./properties/pom.xml clean install -P Development,Localhost
 mvn clean install -P Development,Localhost,PropertiesFile,ActiveMQ,English-Check-style
-mvn clean com.github.jeluard:plantuml-maven-plugin:generate -P Document
+mvn com.github.jeluard:plantuml-maven-plugin:generate -P Document
 mvn process-resources -P Document

@@ -13,7 +13,7 @@ import javax.jms.Queue;
 import java.io.Serializable;
 import java.util.Optional;
 
-import static com.pineframework.core.business.utils.QueueQueryUtils.correlationIdClause;
+import static com.pineframework.core.business.helper.QueueQueryUtils.correlationIdClause;
 import static io.vavr.control.Try.run;
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
