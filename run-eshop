@@ -1,0 +1,1 @@
+java -jar ./tutorial/e-shop/rest-api/target/e-shop-*.jar

@@ -40,9 +40,9 @@
         <profile>
             <id>Localhost</id>
             <properties>
-                <database.host>localhost</database.host>
-                <queue.host>localhost</queue.host>
-                <config.server.host>localhost</config.server.host>
+                <database.host>localhost:3306</database.host>
+                <queue.host>localhost:61616</queue.host>
+                <config.server.host>localhost:8888</config.server.host>
             </properties>
         </profile>
         <profile>
