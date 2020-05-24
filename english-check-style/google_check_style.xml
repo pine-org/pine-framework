@@ -29,7 +29,7 @@
             <property name="max" value="12"/>
             <property name="countEmpty" value="false"/>
             <message key="maxLen.method"
-                     value="The length of a method cannot be more than 10 line, but your method has {0} lines"/>
+                     value="The length of a method cannot be more than 12 line, but your method has {0} lines"/>
         </module>
         <module name="LineLength">
             <property name="max" value="120"/>

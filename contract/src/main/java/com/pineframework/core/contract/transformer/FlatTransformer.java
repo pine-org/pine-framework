@@ -6,7 +6,7 @@ import com.pineframework.core.datamodel.persistence.Persistable;
 import java.io.Serializable;
 import java.util.List;
 
-public interface Transformer<I extends Serializable, M extends Transient, E extends Persistable<I>> {
+public interface FlatTransformer<I extends Serializable, M extends Transient, E extends Persistable<I>> {
 
     E createEntity();
 
@@ -24,6 +24,14 @@ public interface Transformer<I extends Serializable, M extends Transient, E exte
 
     E transform(M m, E e, String... field);
 
+    M[] transform(E[] entities, int deep, String... field);
+
+    M[] transform(E[] entities, String... field);
+
+    E[] transform(M[] models, int deep, String... field);
+
+    E[] transform(M[] models, String... field);
+
     List<M> transformEntitiesToModels(List<E> entities, int deep, String... field);
 
     List<M> transformEntitiesToModels(List<E> entities, String... field);
@@ -31,4 +39,5 @@ public interface Transformer<I extends Serializable, M extends Transient, E exte
     List<E> transformModelsToEntities(List<M> models, int deep, String... field);
 
     List<E> transformModelsToEntities(List<M> models, String... field);
+
 }

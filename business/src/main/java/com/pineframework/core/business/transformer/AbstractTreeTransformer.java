@@ -3,14 +3,10 @@ package com.pineframework.core.business.transformer;
 import com.pineframework.core.contract.transformer.TreeTransformer;
 import com.pineframework.core.datamodel.model.TreeTransient;
 import com.pineframework.core.datamodel.persistence.TreePersistence;
-import com.pineframework.core.helper.CollectionUtils;
 
 import java.io.Serializable;
-import java.util.List;
 
-import static com.pineframework.core.helper.CollectionUtils.EMPTY_LIST;
 import static com.pineframework.core.helper.CollectionUtils.contains;
-import static com.pineframework.core.helper.CollectionUtils.isEmpty;
 import static com.pineframework.core.helper.CollectionUtils.mapTo;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -18,10 +14,10 @@ import static java.util.Objects.nonNull;
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-public abstract class HierarchyTransformer<I extends Serializable,
+public abstract class AbstractTreeTransformer<I extends Serializable,
         M extends TreeTransient<I, M>,
         E extends TreePersistence<I, E>>
-        extends FlatTransformer<I, M, E> implements TreeTransformer<I, M, E> {
+        extends AbstractFlatTransformer<I, M, E> implements TreeTransformer<I, M, E> {
 
     @Override
     public void addToEntity(E e, M m, int deep, String... fields) {
@@ -57,26 +53,6 @@ public abstract class HierarchyTransformer<I extends Serializable,
             parent = createModel(e.getParent().getId(), e.getParent().getVersion());
 
         m.setParent(parent);
-    }
-
-    @Override
-    public List<M> lazyTransform(List<E> entities, int deep, String... fields) {
-        return isEmpty(entities) ? EMPTY_LIST : mapTo(entities, entity -> lazyTransform(entity, deep, fields));
-    }
-
-    @Override
-    public List<M> lazyTransform(List<E> entities, String... fields) {
-        return lazyTransform(entities, FIRST_DEEP, fields);
-    }
-
-    @Override
-    public M lazyTransform(E e, int deep, String... fields) {
-        return transform(e, deep, fields);
-    }
-
-    @Override
-    public M lazyTransform(E e, String... fields) {
-        return lazyTransform(e, FIRST_DEEP, fields);
     }
 
     @Override

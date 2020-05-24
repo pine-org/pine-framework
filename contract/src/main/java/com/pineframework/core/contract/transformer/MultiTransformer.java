@@ -13,9 +13,9 @@ public interface MultiTransformer {
 
     ObjectRegistry getTransformerRegistry();
 
-    <T extends Transformer> T getTransformer();
+    <T extends FlatTransformer> T getTransformer();
 
-    default <T extends Transformer> T getTransformer(String name) {
+    default <T extends FlatTransformer> T getTransformer(String name) {
         return (T) getTransformerRegistry().lookup(name);
     }
 }

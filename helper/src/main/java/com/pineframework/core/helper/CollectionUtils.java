@@ -7,7 +7,6 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +19,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static java.util.Collections.frequency;
@@ -90,8 +90,8 @@ public final class CollectionUtils {
      * Return {@code true} if provided reference has at least one element otherwise
      * return {@code false}.
      *
-     * @param a an a reference to be check for emptiness
-     * @param <T>   the type of the reference
+     * @param a   an a reference to be check for emptiness
+     * @param <T> the type of the reference
      * @return {@code true} if provided reference has at least one element otherwise
      * return {@code false}
      */
@@ -103,8 +103,8 @@ public final class CollectionUtils {
      * Return {@code true} if provided reference has at least one element otherwise
      * return {@code false}.
      *
-     * @param c an c reference to be check for emptiness
-     * @param <T>        the type of the reference
+     * @param c   an c reference to be check for emptiness
+     * @param <T> the type of the reference
      * @return {@code true} if provided reference has at least one element otherwise
      * return {@code false}
      */
@@ -117,8 +117,8 @@ public final class CollectionUtils {
      * method is designed primarily for doing parameter validation in methods
      * and constructors.
      *
-     * @param a the a reference to check for emptiness
-     * @param <T>   the type of the reference
+     * @param a   the a reference to check for emptiness
+     * @param <T> the type of the reference
      * @throws IllegalArgumentException if {@code a} is {@code null} or is empty
      */
     public static <T> void requiredElement(T[] a) {
@@ -133,8 +133,8 @@ public final class CollectionUtils {
      * method is designed primarily for doing parameter validation in methods
      * and constructors.
      *
-     * @param c the c reference to check for emptiness
-     * @param <T>        the type of the reference
+     * @param c   the c reference to check for emptiness
+     * @param <T> the type of the reference
      * @throws IllegalArgumentException if {@code c} is {@code null} or is empty
      */
     public static <T> void requiredElement(Collection<T> c) {
@@ -147,8 +147,8 @@ public final class CollectionUtils {
     /**
      * Return an element randomly and throws IllegalArgumentException if {@code a} is {@code null} or is empty.
      *
-     * @param a the a reference for choosing an element randomly
-     * @param <T>   the type of the reference
+     * @param a   the a reference for choosing an element randomly
+     * @param <T> the type of the reference
      * @return an element of a
      * @throws IllegalArgumentException if {@code a} is {@code null} or is empty
      */
@@ -181,13 +181,17 @@ public final class CollectionUtils {
         return isNull(set) ? emptySet() : set;
     }
 
+    public static <T> T[] ofNullable(T[] a) {
+        return isNull(a) ? (T[]) Array.newInstance(Object.class, 0) : a;
+    }
+
     /**
      * Perform subtract operation between two collections on specific equality. All objects included in {@code c1} but
      * not included in {@code c2}
      *
      * @param c1  the first collection
      * @param c2  the second collection
-     * @param f the comparision condition
+     * @param f   the comparision condition
      * @param <E> the type of object that held by the first collection
      * @param <T> the type of object that held by the second collection
      * @return new collection that, it is subset of {@code c1}
@@ -200,6 +204,11 @@ public final class CollectionUtils {
         return c1.stream()
                 .filter(e1 -> c2.stream().noneMatch(e2 -> f.apply(e1, e2)))
                 .collect(toCollection(ArrayList::new));
+    }
+
+    public static <E, T> E[] subtract(E[] c1, T[] c2, BiFunction<E, T, Boolean> f, Class<?> c) {
+        Collection<E> collection = subtract(asList(c1), asList(c2), f);
+        return collection.toArray((E[]) Array.newInstance(c, collection.size()));
     }
 
     /**
@@ -221,7 +230,7 @@ public final class CollectionUtils {
      *
      * @param c1  the first collection
      * @param c2  the second collection
-     * @param f  comparision condition
+     * @param f   comparision condition
      * @param <E> the type of object that held by the first collection
      * @param <T> the type of object that held by the second collection
      * @return new collection include common items between {@code c1} and {@code c2}
@@ -234,6 +243,12 @@ public final class CollectionUtils {
         return c1.stream()
                 .filter(e1 -> c2.stream().anyMatch(e2 -> f.apply(e1, e2)))
                 .collect(toCollection(ArrayList::new));
+    }
+
+    public static <E, T> E[] intersection(E[] c1, T[] c2, BiFunction<E, T, Boolean> f, Class<?> c) {
+        Collection<E> collection = intersection(asList(c1), asList(c2), f);
+        return collection.toArray((E[]) Array.newInstance(c, collection.size()));
+
     }
 
     /**
@@ -254,8 +269,8 @@ public final class CollectionUtils {
      * Find frequency of the elements in a c. Return a new map that include the elements as a key
      * and counting of them as a value.
      *
-     * @param c the reference to be check frequency of its elements
-     * @param <E>        the type of elements
+     * @param c   the reference to be check frequency of its elements
+     * @param <E> the type of elements
      * @return a new map that include the elements as a key
      * and counting of them as a value.
      */
@@ -267,8 +282,8 @@ public final class CollectionUtils {
     /**
      * Find the elements that be repeated in  a c then return as a new c.
      *
-     * @param c the reference that to be finding repeated elements
-     * @param <E>        the type of elements
+     * @param c   the reference that to be finding repeated elements
+     * @param <E> the type of elements
      * @return new c that include repeated elements
      */
     public static <E> Collection<E> findRepetitiveElements(Collection<E> c) {
@@ -282,9 +297,9 @@ public final class CollectionUtils {
      * Returns {@code true} if this list contains the specified element that it is match with the {@code p}
      * otherwise return {@code false}.
      *
-     * @param a     the reference to be check
-     * @param p the p that a elements have to check via it
-     * @param <T>       the type of elements
+     * @param a   the reference to be check
+     * @param p   the p that a elements have to check via it
+     * @param <T> the type of elements
      * @return {@code true} if this list contains the specified element that it is match with the {@code p}
      * otherwise return {@code false}.
      */
@@ -299,9 +314,9 @@ public final class CollectionUtils {
      * Returns {@code true} if this list contains the specified element that it is match with the {@code condition}
      * otherwise return {@code false}.
      *
-     * @param a the reference to be check
-     * @param item  the item that we want to find it
-     * @param <T>   the type of elements
+     * @param a    the reference to be check
+     * @param item the item that we want to find it
+     * @param <T>  the type of elements
      * @return {@code true} if this list contains the specified element that it is match with the {@code condition}
      * otherwise return {@code false}.
      */
@@ -316,9 +331,9 @@ public final class CollectionUtils {
      * Find a element that is match via the {@code p}. Return element that, is encapsulated to {@link Optional},
      * if there is no elements, return empty {@link Optional}
      *
-     * @param a     the reference to be check
-     * @param p the p that a elements have to check via it
-     * @param <T>       the type of elements
+     * @param a   the reference to be check
+     * @param p   the p that a elements have to check via it
+     * @param <T> the type of elements
      * @return element that, is encapsulated to {@link Optional}, if there is no elements, return empty {@link Optional}
      */
     public static <T> Optional<T> findAny(T[] a, Predicate<? super T> p) {
@@ -333,9 +348,9 @@ public final class CollectionUtils {
     /**
      * Perform union operation on two arrays and return new array included elements of two the other arrays.
      *
-     * @param a1 the first reference
-     * @param a2 the second reference
-     * @param <T>    the type of elements
+     * @param a1  the first reference
+     * @param a2  the second reference
+     * @param <T> the type of elements
      * @return new array included elements of two the other arrays
      */
     public static <T> T[] union(T[] a1, T... a2) {
@@ -366,12 +381,12 @@ public final class CollectionUtils {
     /**
      * Create a map structure from c elements.
      *
-     * @param c the reference of c
-     * @param key        the operation to create keys
-     * @param value      the reference of value that will be map to key
-     * @param <T>        the type of c elements
-     * @param <K>        the type of key
-     * @param <V>        the type of value
+     * @param c     the reference of c
+     * @param key   the operation to create keys
+     * @param value the reference of value that will be map to key
+     * @param <T>   the type of c elements
+     * @param <K>   the type of key
+     * @param <V>   the type of value
      * @return new map of c elements
      */
     public static <T, K, V> Map<K, V> mapOf(Collection<T> c, Function<T, K> key, Function<T, V> value) {

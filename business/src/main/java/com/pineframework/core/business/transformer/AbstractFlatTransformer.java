@@ -1,10 +1,9 @@
 package com.pineframework.core.business.transformer;
 
 import com.pineframework.core.contract.transformer.AdditionalTransformer;
-import com.pineframework.core.contract.transformer.Transformer;
+import com.pineframework.core.contract.transformer.FlatTransformer;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
-import com.pineframework.core.helper.CollectionUtils;
 import com.pineframework.core.helper.GenericUtils;
 import io.vavr.control.Try;
 
@@ -20,10 +19,10 @@ import static com.pineframework.core.helper.CollectionUtils.mapTo;
 /**
  * @author Saman Alishiri
  */
-public abstract class FlatTransformer<I extends Serializable,
+public abstract class AbstractFlatTransformer<I extends Serializable,
         M extends FlatTransient<I>,
         E extends FlatPersistence<I>>
-        implements Transformer<I, M, E>, AdditionalTransformer<I, M, E> {
+        implements FlatTransformer<I, M, E>, AdditionalTransformer<I, M, E> {
 
     public static final int END_DEEP = -1;
 
@@ -128,12 +127,21 @@ public abstract class FlatTransformer<I extends Serializable,
         return transform(m, e, FIRST_DEEP, field);
     }
 
+    @Override
     public M[] transform(E[] entities, int deep, String... field) {
         return isEmpty(entities)
                 ? createArray(getModelType(), 0)
                 : mapTo(entities, e -> transform(e, deep, field), getModelType());
     }
 
+    @Override
+    public M[] transform(E[] entities, String... field) {
+        return isEmpty(entities)
+                ? createArray(getModelType(), 0)
+                : mapTo(entities, e -> transform(e, FIRST_DEEP, field), getModelType());
+    }
+
+    @Override
     public E[] transform(M[] models, int deep, String... field) {
         return isEmpty(models)
                 ? createArray(getEntityType(), 0)
@@ -141,8 +149,15 @@ public abstract class FlatTransformer<I extends Serializable,
     }
 
     @Override
+    public E[] transform(M[] models, String... field) {
+        return isEmpty(models)
+                ? createArray(getEntityType(), 0)
+                : mapTo(models, e -> transform(e, FIRST_DEEP, field), getEntityType());
+    }
+
+    @Override
     public List<M> transformEntitiesToModels(List<E> entities, int deep, String... field) {
-        return isEmpty(entities) ? EMPTY_LIST : CollectionUtils.mapTo(entities, e -> transform(e, deep, field));
+        return isEmpty(entities) ? EMPTY_LIST : mapTo(entities, e -> transform(e, deep, field));
     }
 
     @Override
@@ -152,11 +167,12 @@ public abstract class FlatTransformer<I extends Serializable,
 
     @Override
     public List<E> transformModelsToEntities(List<M> models, int deep, String... field) {
-        return isEmpty(models) ? EMPTY_LIST : CollectionUtils.mapTo(models, m -> transform(m, deep, field));
+        return isEmpty(models) ? EMPTY_LIST : mapTo(models, m -> transform(m, deep, field));
     }
 
     @Override
     public List<E> transformModelsToEntities(List<M> models, String... field) {
         return transformModelsToEntities(models, FIRST_DEEP, field);
     }
+
 }

@@ -1,8 +1,8 @@
-package com.pineframework.core.contract.service.entity;
+package com.pineframework.core.contract.service.entityservice;
 
 import com.pineframework.core.contract.repository.CrudRepository;
 import com.pineframework.core.contract.service.AroundServiceOperation;
-import com.pineframework.core.contract.transformer.Transformer;
+import com.pineframework.core.contract.transformer.FlatTransformer;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +17,11 @@ import static java.util.Optional.ofNullable;
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 @Transactional
-public interface CrudService<I extends Serializable,
+public interface CrudEntityService<I extends Serializable,
         M extends FlatTransient<I>,
         E extends FlatPersistence<I>,
         R extends CrudRepository<I, E>,
-        T extends Transformer<I, M, E>>
+        T extends FlatTransformer<I, M, E>>
         extends EntityService<I, M, E, R, T>, AroundServiceOperation<I, M, E> {
 
     default Optional<I> save(M m) {
@@ -29,14 +29,10 @@ public interface CrudService<I extends Serializable,
         E entity = getTransformer().transform(m);
 
         beforeSave(entity, m);
-
-        I id = getRepository().save(entity)
-                .orElseGet(() -> createEmptyPersistenceObject())
-                .getId();
-
+        getRepository().save(entity);
         afterSave(entity, m);
 
-        return ofNullable(id);
+        return ofNullable(entity.getId());
     }
 
     default Optional<M> findById(I id) {

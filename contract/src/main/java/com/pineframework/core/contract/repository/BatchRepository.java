@@ -12,10 +12,6 @@ import java.util.List;
  */
 public interface BatchRepository<I extends Serializable, E extends FlatPersistence<I>> extends Repository<I, E> {
 
-    default List<I> batchSave(List<E> entities) {
-        return getImpl().batchSave(entities, getType());
-    }
-
     default void batchUpdate(List<E> entities) {
         for (int i = 0; i < entities.size(); i++) {
 
@@ -24,12 +20,6 @@ public interface BatchRepository<I extends Serializable, E extends FlatPersisten
                 getImpl().getStorageSession().clear();
             }
 
-            getImpl().getStorageSession().merge(entities.get(i));
-
         }
-    }
-
-    default void batchDelete(List<I> identities) {
-        getImpl().batchDelete(identities, getType());
     }
 }

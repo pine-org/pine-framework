@@ -12,20 +12,16 @@ import java.util.Optional;
  */
 public interface CrudRepository<I extends Serializable, E extends FlatPersistence<I>> extends Repository<I, E> {
 
-    default Optional<E> save(E entity) {
-        return getImpl().save(entity, getType());
+    default void save(E... entity) {
+        getImpl().save(getType(), entity);
     }
 
     default Optional<E> findById(I id) {
-        return getImpl().findById(id, getType());
+        return getImpl().findOne(getType(), id);
     }
 
-    default void delete(I id) {
-        getImpl().delete(id, getType());
-    }
-
-    default E getReference(I id) {
-        return getImpl().getReference(id, getType());
+    default void delete(I... id) {
+        getImpl().delete(getType(), id);
     }
 
 }

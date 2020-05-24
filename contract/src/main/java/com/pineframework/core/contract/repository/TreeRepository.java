@@ -1,19 +1,36 @@
 package com.pineframework.core.contract.repository;
 
+import com.pineframework.core.datamodel.model.select.SelectChildren;
+import com.pineframework.core.datamodel.model.select.SelectSubTreeAsList;
+import com.pineframework.core.datamodel.model.select.SelectTreeAsList;
 import com.pineframework.core.datamodel.persistence.TreePersistence;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Optional;
 
-public interface TreeRepository extends FlatRepository {
+/**
+ * data access layer for tree structure
+ *
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
+public interface TreeRepository<I extends Serializable, E extends TreePersistence<I, E>> extends Repository<I, E> {
 
-    <I extends Serializable, E extends TreePersistence<I, E>> List<E> findChildren(I id, Class<E> c);
+    default E[] findChildren(I id) {
+        return getImpl().find(new SelectChildren<E>(getType(), id));
+    }
 
-    <I extends Serializable, E extends TreePersistence<I, E>> List<E> findListTree(I id, Class<E> c);
+    default E[] findTreeAsList(I id) {
+        E root = getImpl().findOne(getType(), id).get();
+        return getImpl().find(new SelectTreeAsList<E>(getType(), root.getPath()));
+    }
 
-    <I extends Serializable, E extends TreePersistence<I, E>> List<E> findListSubTree(I id, Class<E> c);
+    default E[] findSubTreeAsList(I id) {
+        E root = getImpl().findOne(getType(), id).get();
+        return getImpl().find(new SelectSubTreeAsList<E>(getType(), root.getPath()));
+    }
 
-    <I extends Serializable, E extends TreePersistence<I, E>> Optional<E> findTree(I id, Class<E> c);
+    default Optional<E> findTree(I id) {
+        return getImpl().findOne(getType(), id);
+    }
 
 }

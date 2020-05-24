@@ -4,7 +4,6 @@ import com.pineframework.core.datamodel.model.TreeTransient;
 import com.pineframework.core.datamodel.persistence.TreePersistence;
 
 import java.io.Serializable;
-import java.util.List;
 
 
 /**
@@ -16,15 +15,7 @@ public interface TreeTransformer<
         I extends Serializable,
         M extends TreeTransient<I, M>,
         E extends TreePersistence<I, E>>
-        extends Transformer<I, M, E> {
-
-    List<M> lazyTransform(List<E> entities, int deep, String... fields);
-
-    M lazyTransform(E e, int deep, String... fields);
-
-    List<M> lazyTransform(List<E> entities, String... fields);
-
-    M lazyTransform(E e, String... fields);
+        extends FlatTransformer<I, M, E> {
 
     M hierarchyTransform(E e, int level, int deep, String... fields);
 

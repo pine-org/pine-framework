@@ -8,5 +8,5 @@ public interface Repository<I extends Serializable, E extends FlatPersistence<I>
 
     Class<E> getType();
 
-    <R extends FlatRepository> R getImpl();
+    JpaRepository getImpl();
 }

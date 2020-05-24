@@ -1,6 +1,7 @@
 package com.pineframework.core.contract.log;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static java.lang.String.format;
 
@@ -22,4 +23,8 @@ public interface Loggable {
     }
 
     Logger getLogger();
+
+    default Logger defaultLogger() {
+        return LoggerFactory.getLogger(getClass());
+    }
 }

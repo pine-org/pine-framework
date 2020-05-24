@@ -1,4 +1,4 @@
-package com.pineframework.core.contract.query;
+package com.pineframework.core.datamodel.model.filter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -17,7 +17,7 @@ import javax.persistence.criteria.Root;
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 @FunctionalInterface
-public interface Specification<E> {
+public interface Filter<E> {
 
     /**
      * generate where clause
