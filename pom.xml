@@ -34,6 +34,7 @@
 
         <config-profile>empty</config-profile>
         <activemq-profile>empty</activemq-profile>
+        <database>empty</database>
 
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
@@ -233,6 +234,38 @@
 
     <profiles>
         <profile>
+            <id>Production</id>
+            <properties>
+                <env>production</env>
+                <build.profile.id>production</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>Development</id>
+            <properties>
+                <env>development</env>
+                <build.profile.id>development</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>UAT</id>
+            <properties>
+                <env>uat</env>
+                <build.profile.id>uat</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>Test</id>
+            <properties>
+                <env>test</env>
+                <build.profile.id>test</build.profile.id>
+            </properties>
+        </profile>
+
+        <profile>
             <id>Parsi-Check-style</id>
             <build>
                 <plugins>
@@ -342,37 +375,7 @@
                 <config.server.host>localhost</config.server.host>
             </properties>
         </profile>
-        <profile>
-            <id>Production</id>
-            <properties>
-                <env>production</env>
-                <build.profile.id>production</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>Development</id>
-            <properties>
-                <env>development</env>
-                <build.profile.id>development</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>UAT</id>
-            <properties>
-                <env>uat</env>
-                <build.profile.id>uat</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>Test</id>
-            <properties>
-                <env>test</env>
-                <build.profile.id>test</build.profile.id>
-            </properties>
-        </profile>
+
         <profile>
             <id>ConfigServer</id>
             <properties>
@@ -399,12 +402,20 @@
                 </dependency>
             </dependencies>
         </profile>
+
         <profile>
             <id>ActiveMQ</id>
             <properties>
                 <activemq-profile>activemq</activemq-profile>
             </properties>
         </profile>
+        <profile>
+            <id>Database</id>
+            <properties>
+                <database>database</database>
+            </properties>
+        </profile>
+
         <profile>
             <id>Document</id>
             <build>
