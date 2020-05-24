@@ -90,20 +90,17 @@ public interface BatchEntityService<I extends Serializable,
         afterBatchDelete(models);
     }
 
-    default void batchDelete(E[] entities) {
-        batchDelete((I[]) mapTo(entities, e -> e.getId(), Long.class));
-    }
-
     default I[] batchOperations(M[] models, I[] identities) {
         E[] entities = getRepository().findByIdentities(identities);
         beforeBatchOperations(entities, models);
 
-        batchDelete(subtract(entities, models, (e, m) -> areEquivalence(e, m), getPersistenceType()));
+        E[] deletedEntities = subtract(entities, models, (e, m) -> areEquivalence(e, m), getPersistenceType());
+        batchDelete(mapTo(deletedEntities, e -> e.getId(), Long.class));
         batchUpdate(intersection(models, entities, (m, e) -> areEquivalence(m, e), getTransientType()));
-        I[] added = batchSave(subtract(models, entities, (m, e) -> areEquivalence(m, e), getPersistenceType()));
+        I[] addedEntityIdentities = batchSave(subtract(models, entities, (m, e) -> areEquivalence(m, e), getPersistenceType()));
 
         afterBatchOperations(entities, models);
-        return added;
+        return addedEntityIdentities;
     }
 
     default void batch(M[] models, Consumer<M> operation) {
