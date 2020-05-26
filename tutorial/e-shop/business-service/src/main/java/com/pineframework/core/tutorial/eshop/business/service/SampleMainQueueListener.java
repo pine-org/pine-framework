@@ -1,4 +1,4 @@
-package com.pineframework.core.tutorial.eshop.business;
+package com.pineframework.core.tutorial.eshop.business.service;
 
 import com.pineframework.core.business.service.QueueListener;
 import com.pineframework.core.business.service.QueueService;
@@ -15,10 +15,9 @@ public class SampleMainQueueListener extends QueueListener<String, SampleModel> 
 
     @Autowired
     @Qualifier("sampleStatusQueueService")
-    private QueueService<String, SampleModel> statusQueue;
+    private QueueService<String, SampleModel, SampleModel.Builder> statusQueue;
 
     protected void process(SampleModel model, Map<String, Object> metadata) {
-        model.setContent(MqStatus.ACCEPTED);
-        statusQueue.save(model);
+        statusQueue.save(new SampleModel.Builder().id(model.getId()).content(MqStatus.ACCEPTED).build());
     }
 }

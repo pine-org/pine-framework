@@ -1,6 +1,5 @@
 package com.pineframework.core.datamodel.persistence;
 
-import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,6 @@ public abstract class TreePersistence<I extends Serializable, E extends TreePers
     /**
      * @return parent entity
      */
-    @Transient
     public E getParent() {
         return parent;
     }
@@ -38,7 +36,6 @@ public abstract class TreePersistence<I extends Serializable, E extends TreePers
     /**
      * @return children
      */
-    @Transient
     public List<E> getChildren() {
         return children;
     }
@@ -53,7 +50,6 @@ public abstract class TreePersistence<I extends Serializable, E extends TreePers
     /**
      * @return path of node
      */
-    @Transient
     public String getPath() {
         return path;
     }
@@ -70,7 +66,6 @@ public abstract class TreePersistence<I extends Serializable, E extends TreePers
      *
      * @return object
      */
-    @Transient
     public Object getAdditionalInfo() {
         return getId();
     }
@@ -80,7 +75,6 @@ public abstract class TreePersistence<I extends Serializable, E extends TreePers
      *
      * @return boolean
      */
-    @Transient
     public boolean isLeaf() {
         return Objects.isNull(getChildren()) || getChildren().isEmpty();
     }

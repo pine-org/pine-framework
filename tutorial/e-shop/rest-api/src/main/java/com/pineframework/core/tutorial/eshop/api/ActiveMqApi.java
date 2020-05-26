@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.Serializable;
 import java.util.Locale;
+import java.util.Optional;
 
 @Api(value = "e-shop/v1/api", tags = {"E Shop API"})
 @RestController
@@ -25,16 +26,16 @@ public class ActiveMqApi<I extends Serializable> {
 
     @Autowired
     @Qualifier("sampleMainQueueService")
-    private QueueService<String, SampleModel> service;
+    private QueueService<String, SampleModel, SampleModel.Builder> service;
 
     @Autowired
     private MessageSource messageSource;
 
     @ApiOperation(value = "${restfulApi.update.value}", notes = "${restfulApi.update.notes}")
     @PostMapping
-    public ResponseEntity<String> sendToQueue(@RequestBody SampleModel model) {
-        String id = service.save(model);
-        return ResponseEntity.ok(model.getId());
+    public ResponseEntity<String> sendToQueue(@RequestBody SampleModel m) {
+        Optional<SampleModel> model = service.save(m);
+        return ResponseEntity.ok(model.get().getId());
     }
 
     @GetMapping

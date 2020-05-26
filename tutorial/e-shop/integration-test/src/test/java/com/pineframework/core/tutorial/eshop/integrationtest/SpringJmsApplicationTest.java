@@ -21,24 +21,19 @@ public class SpringJmsApplicationTest extends AbstractTest {
 
     @Autowired
     @Qualifier("sampleMainQueueService")
-    private QueueService<String, SampleModel> mainQueue;
+    private QueueService<String, SampleModel, SampleModel.Builder> mainQueue;
 
     @Autowired
     @Qualifier("sampleStatusQueueService")
-    private QueueService<String, SampleModel> statusQueue;
+    private QueueService<String, SampleModel, SampleModel.Builder> statusQueue;
 
     @DisplayName("Send message to main queue get ACCEPTED status from status queue")
     @ParameterizedTest
     @ValueSource(strings = {"Hello", "Great", "Bye"})
     public void save_SendMessagesToMainQueue_GetAcceptedStatusFromStatusQueue(String text) {
-        SampleModel model = new SampleModel();
-        model.setContent(text);
-
-        String id = mainQueue.save(model);
-
-        Optional<SampleModel> status = statusQueue.findById(id);
-        logInfo(model);
-
+        Optional<SampleModel> message = mainQueue.save(new SampleModel.Builder().content(text).build());
+        Optional<SampleModel> status = statusQueue.findById(message.get().getId());
+        logInfo(message);
         assertThat(MqStatus.valueOf(String.valueOf(status.get().getContent()))).isEqualTo(MqStatus.ACCEPTED);
     }
 }

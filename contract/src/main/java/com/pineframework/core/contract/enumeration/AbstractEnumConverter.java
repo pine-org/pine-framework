@@ -46,8 +46,8 @@ public abstract class AbstractEnumConverter<T, E extends Enum<E> & Convertible<T
         if (Objects.isNull(dbData)) return null;
 
         return EnumSet.allOf(enumClassType).stream()
-            .filter(e -> Objects.equals(e.getValue(), dbData))
-            .findFirst()
-            .orElseThrow(RuntimeException::new);
+                .filter(e -> Objects.equals(e.getValue(), dbData))
+                .findFirst()
+                .orElseThrow(RuntimeException::new);
     }
 }

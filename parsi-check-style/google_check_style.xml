@@ -116,8 +116,8 @@
             <message key="upperEll" value="در تعریف ثابت هایی از جنس long باید از L بزرگ استفاده شود"/>
         </module>
         <module name="ModifierOrder">
-            <message key="annotation.order" value="اولویت modifiers درست رعایت نشده است"/>
-            <message key="mod.order" value="اولویت modifiers درست رعایت نشده است"/>
+            <message key="annotation.order" value="اولویت modifiers درست رعایت نشده است {0}"/>
+            <message key="mod.order" value="اولویت modifiers درست رعایت نشده است {0}"/>
         </module>
         <module name="EmptyLineSeparator">
             <property name="allowNoEmptyLineBetweenFields" value="false"/>

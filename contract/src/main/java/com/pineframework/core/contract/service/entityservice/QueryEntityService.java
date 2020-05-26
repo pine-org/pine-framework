@@ -1,7 +1,7 @@
 package com.pineframework.core.contract.service.entityservice;
 
 import com.pineframework.core.contract.repository.QueryRepository;
-import com.pineframework.core.contract.transformer.FlatTransformer;
+import com.pineframework.core.contract.transformer.ImmutableFlatTransformer;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.model.paging.Page;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
@@ -18,8 +18,9 @@ public interface QueryEntityService<I extends Serializable,
         M extends FlatTransient<I>,
         E extends FlatPersistence<I>,
         R extends QueryRepository<I, E>,
-        T extends FlatTransformer<I, M, E>>
-        extends EntityService<I, M, E, R, T> {
+        B extends FlatTransient.Builder<I, M, B>,
+        T extends ImmutableFlatTransformer<I, M, E, B>>
+        extends EntityService<I, M, E, R, B, T> {
 
     default M[] findAll() {
         return ofNullable(getTransformer().transform(getRepository().findAll()));

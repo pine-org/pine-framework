@@ -4,7 +4,7 @@ import com.pineframework.core.contract.repository.BatchRepository;
 import com.pineframework.core.contract.repository.CrudRepository;
 import com.pineframework.core.contract.repository.QueryRepository;
 import com.pineframework.core.contract.service.AroundServiceOperation;
-import com.pineframework.core.contract.transformer.FlatTransformer;
+import com.pineframework.core.contract.transformer.ImmutableFlatTransformer;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +25,9 @@ public interface BatchEntityService<I extends Serializable,
         M extends FlatTransient<I>,
         E extends FlatPersistence<I>,
         R extends CrudRepository<I, E> & QueryRepository<I, E> & BatchRepository<I, E>,
-        T extends FlatTransformer<I, M, E>>
-        extends EntityService<I, M, E, R, T>, AroundServiceOperation<I, M, E> {
+        B extends FlatTransient.Builder<I, M, B>,
+        T extends ImmutableFlatTransformer<I, M, E, B>>
+        extends EntityService<I, M, E, R, B, T>, AroundServiceOperation<I, M, E> {
 
     default void beforeBatchSave(E[] entities, M[] models) {
         for (int i = 0; i < entities.length; i++)

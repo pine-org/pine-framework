@@ -11,11 +11,12 @@ import java.io.Serializable;
  *
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-public interface TreeTransformer<
+public interface ImmutableTreeTransformer<
         I extends Serializable,
         M extends TreeTransient<I, M>,
-        E extends TreePersistence<I, E>>
-        extends FlatTransformer<I, M, E> {
+        E extends TreePersistence<I, E>,
+        B extends TreeTransient.Builder<I, M, B>>
+        extends ImmutableFlatTransformer<I, M, E, B> {
 
     M hierarchyTransform(E e, int level, int deep, String... fields);
 

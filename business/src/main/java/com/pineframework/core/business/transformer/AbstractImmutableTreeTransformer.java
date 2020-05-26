@@ -1,6 +1,6 @@
 package com.pineframework.core.business.transformer;
 
-import com.pineframework.core.contract.transformer.TreeTransformer;
+import com.pineframework.core.contract.transformer.ImmutableTreeTransformer;
 import com.pineframework.core.datamodel.model.TreeTransient;
 import com.pineframework.core.datamodel.persistence.TreePersistence;
 
@@ -14,10 +14,14 @@ import static java.util.Objects.nonNull;
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-public abstract class AbstractTreeTransformer<I extends Serializable,
+public abstract class AbstractImmutableTreeTransformer<I extends Serializable,
         M extends TreeTransient<I, M>,
-        E extends TreePersistence<I, E>>
-        extends AbstractFlatTransformer<I, M, E> implements TreeTransformer<I, M, E> {
+        E extends TreePersistence<I, E>,
+        B extends TreeTransient.Builder<I, M, B>>
+        extends AbstractImmutableFlatTransformer<I, M, E, B> implements ImmutableTreeTransformer<I, M, E, B> {
+
+    @Override
+    public abstract B getBuilder(E e);
 
     @Override
     public void addToEntity(E e, M m, int deep, String... fields) {
@@ -30,38 +34,39 @@ public abstract class AbstractTreeTransformer<I extends Serializable,
     }
 
     @Override
-    public void addToModel(E e, M m, int deep, String... fields) {
-        super.addToModel(e, m, deep, fields);
+    public void addToModel(E e, B builder, int deep, String... fields) {
+        super.addToModel(e, builder, deep, fields);
 
         if (isNull(e) || (deep == EXIT))
             return;
         if (contains(fields, "parent"))
-            transformParent(e, m, deep, fields);
+            transformParent(e, builder, deep, fields);
         if (contains(fields, "path"))
-            m.setPath(e.getPath());
+            builder.path(e.getPath());
 
-        m.setLeaf(e.isLeaf());
+        builder.isLeaf(e.isLeaf());
     }
 
-    public void transformParent(E e, M m, int deep, String[] fields) {
+    public void transformParent(E e, B builder, int deep, String[] fields) {
         M parent = null;
 
         if (nonNull(e.getParent()))
             parent = transform(e.getParent(), deep--, fields);
-
         if (deep == EXIT)
-            parent = createModel(e.getParent().getId(), e.getParent().getVersion());
+            parent = (M) getBuilder(e).id(e.getId()).version(e.getVersion()).build();
 
-        m.setParent(parent);
+        builder.parent(parent);
     }
 
     @Override
     public M hierarchyTransform(E e, int level, int deep, String... fields) {
-        if (isNull(e) || (level == EXIT)) return null;
+        if (isNull(e) || (level == EXIT))
+            return null;
 
-        M model = transform(e, deep, fields);
-        model.setChildren(mapTo(e.getChildren(), entity -> hierarchyTransform(entity, level - 1, deep, fields)));
-        return model;
+        return (M) getBuilder(e)
+                .children(mapTo(e.getChildren(), entity -> hierarchyTransform(entity, level - 1, deep, fields)))
+                .from(transform(e, deep, fields))
+                .build();
     }
 
     @Override

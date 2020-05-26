@@ -3,7 +3,6 @@ package com.pineframework.core.business.service;
 import com.pineframework.core.contract.log.Loggable;
 import com.pineframework.core.contract.service.QueueIdentityGenerator;
 import com.pineframework.core.datamodel.model.FlatTransient;
-import com.pineframework.core.datamodel.model.message.MessageModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,9 @@ import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
 
 @Transactional
-public abstract class QueueService<I extends Serializable, M extends FlatTransient<I>> implements Loggable {
+public abstract class QueueService<I extends Serializable,
+        M extends FlatTransient<I>,
+        B extends FlatTransient.Builder<I, M, B>> implements Loggable {
 
     @Autowired
     private JmsTemplate jmsTemplate;
@@ -29,7 +30,7 @@ public abstract class QueueService<I extends Serializable, M extends FlatTransie
 
     protected abstract Queue getQueue();
 
-    protected abstract Class<M> getTransientType();
+    protected abstract B getBuilder();
 
     public QueueIdentityGenerator getIdentityGenerator() {
         return identityGenerator;
@@ -40,16 +41,14 @@ public abstract class QueueService<I extends Serializable, M extends FlatTransie
         return message;
     }
 
-    public I save(M model) {
-        if (isNull(model.getId()))
-            model.setId((I) getIdentityGenerator().next());
-
+    public Optional<M> save(M m) {
+        final M model = isNull(m.getId()) ? getBuilder().from(m).id((I) getIdentityGenerator().next()).build() : m;
         jmsTemplate.convertAndSend(getQueue(), model, message -> writeMetaData(message, model));
-        return model.getId();
+        return ofNullable(model);
     }
 
     public Optional<M> findById(I id) {
         Object o = jmsTemplate.receiveSelectedAndConvert(getQueue(), correlationIdClause(id));
-        return (Optional<M>) ofNullable((MessageModel) o);
+        return ofNullable((M) o);
     }
 }

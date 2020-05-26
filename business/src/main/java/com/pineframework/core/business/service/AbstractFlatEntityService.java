@@ -6,7 +6,7 @@ import com.pineframework.core.contract.repository.QueryRepository;
 import com.pineframework.core.contract.service.entityservice.BatchEntityService;
 import com.pineframework.core.contract.service.entityservice.CrudEntityService;
 import com.pineframework.core.contract.service.entityservice.QueryEntityService;
-import com.pineframework.core.contract.transformer.FlatTransformer;
+import com.pineframework.core.contract.transformer.ImmutableFlatTransformer;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import com.pineframework.core.helper.GenericUtils;
@@ -18,10 +18,11 @@ public abstract class AbstractFlatEntityService<I extends Serializable,
         M extends FlatTransient<I>,
         E extends FlatPersistence<I>,
         R extends CrudRepository<I, E> & QueryRepository<I, E> & BatchRepository<I, E>,
-        T extends FlatTransformer<I, M, E>>
-        implements CrudEntityService<I, M, E, R, T>,
-        QueryEntityService<I, M, E, R, T>,
-        BatchEntityService<I, M, E, R, T> {
+        B extends FlatTransient.Builder<I, M, B>,
+        T extends ImmutableFlatTransformer<I, M, E, B>>
+        implements CrudEntityService<I, M, E, R, B, T>,
+        QueryEntityService<I, M, E, R, B, T>,
+        BatchEntityService<I, M, E, R, B, T> {
 
     protected final Logger logger = defaultLogger();
 

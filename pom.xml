@@ -3,19 +3,15 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.pineframework.core</groupId>
     <artifactId>pine-framework</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-
     <name>Pine Framework</name>
-
     <description>
         Pine Framework is microservices framework based on Java language.
         This framework is implemented for microservices products.
     </description>
-
     <developers>
         <developer>
             <name>Saman Alishirishahrbabak</name>
@@ -25,7 +21,6 @@
             </roles>
         </developer>
     </developers>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -35,6 +30,9 @@
         <config-profile>empty</config-profile>
         <activemq-profile>empty</activemq-profile>
         <database>empty</database>
+
+        <activemq-test-profile>activemq-test</activemq-test-profile>
+        <database-test-profile>database-test</database-test-profile>
 
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
@@ -60,7 +58,6 @@
         <activemq.version>1.0.0-SNAPSHOT</activemq.version>
         <business.version>1.0.0-SNAPSHOT</business.version>
     </properties>
-
     <modules>
         <module>helper</module>
         <module>data-model</module>
@@ -75,7 +72,6 @@
         <module>document</module>
         <module>tutorial</module>
     </modules>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -94,7 +90,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
         <!--java ee-->
         <dependency>
@@ -113,13 +108,11 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-
         <dependency>
             <groupId>org.reactivestreams</groupId>
             <artifactId>reactive-streams</artifactId>
             <version>1.0.2</version>
         </dependency>
-
         <!--ORM-->
         <dependency>
             <groupId>com.oracle</groupId>
@@ -161,17 +154,16 @@
             <version>${hibernate.version}</version>
             <scope>test</scope>
         </dependency>
-
         <!-- utility -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.javers</groupId>
-            <artifactId>javers-core</artifactId>
-            <version>5.6.3</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.javers</groupId>-->
+<!--            <artifactId>javers-core</artifactId>-->
+<!--            <version>5.6.3</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>io.vavr</groupId>
             <artifactId>vavr</artifactId>
@@ -182,13 +174,17 @@
             <artifactId>icu4j</artifactId>
             <version>64.2</version>
         </dependency>
-        <dependency>
-            <groupId>net.logstash.log4j</groupId>
-            <artifactId>jsonevent-layout</artifactId>
-            <version>1.7</version>
-        </dependency>
-
+<!--        <dependency>-->
+<!--            <groupId>net.logstash.log4j</groupId>-->
+<!--            <artifactId>jsonevent-layout</artifactId>-->
+<!--            <version>1.7</version>-->
+<!--        </dependency>-->
         <!--json-->
+        <dependency>
+            <groupId>net.minidev</groupId>
+            <artifactId>json-smart</artifactId>
+            <version>2.3</version>
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -202,7 +198,6 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
     </dependencies>
-
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
@@ -235,7 +230,6 @@
             </plugin>
         </plugins>
     </build>
-
     <profiles>
         <profile>
             <id>Production</id>
@@ -265,6 +259,8 @@
             <id>Test</id>
             <properties>
                 <env>test</env>
+                <activemq-test-profile>activemq-test</activemq-test-profile>
+                <database-test-profile>database-test</database-test-profile>
                 <build.profile.id>test</build.profile.id>
             </properties>
         </profile>

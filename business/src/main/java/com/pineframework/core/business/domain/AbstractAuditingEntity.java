@@ -20,11 +20,12 @@ import java.time.LocalDateTime;
  */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@Access(AccessType.PROPERTY)
+@Access(AccessType.FIELD)
 public abstract class AbstractAuditingEntity<I extends Serializable> extends FlatPersistence<I> {
 
-    @Override
     @Column(name = "INSERT_USER_ID", updatable = false)
+    @Access(AccessType.PROPERTY)
+    @Override
     public Long getInsertUserId() {
         return insertUserId;
     }
@@ -35,6 +36,8 @@ public abstract class AbstractAuditingEntity<I extends Serializable> extends Fla
     }
 
     @Column(name = "MODIFY_USER_ID")
+    @Access(AccessType.PROPERTY)
+    @Override
     public Long getModifyUserId() {
         return modifyUserId;
     }
@@ -44,8 +47,9 @@ public abstract class AbstractAuditingEntity<I extends Serializable> extends Fla
         this.modifyUserId = modifyUserId;
     }
 
-    @Override
     @Column(name = "INSERT_DATE", updatable = false)
+    @Access(AccessType.PROPERTY)
+    @Override
     public LocalDateTime getInsertDate() {
         return insertDate;
     }
@@ -55,8 +59,9 @@ public abstract class AbstractAuditingEntity<I extends Serializable> extends Fla
         this.insertDate = insertDate;
     }
 
-    @Override
     @Column(name = "MODIFY_DATE")
+    @Access(AccessType.PROPERTY)
+    @Override
     public LocalDateTime getModifyDate() {
         return modifyDate;
     }
@@ -66,8 +71,9 @@ public abstract class AbstractAuditingEntity<I extends Serializable> extends Fla
         this.modifyDate = modifyDate;
     }
 
-    @Override
     @Column(name = "INSERT_UNIT_ID", updatable = false)
+    @Access(AccessType.PROPERTY)
+    @Override
     public Long getInsertUnitId() {
         return super.getInsertUnitId();
     }
@@ -77,8 +83,9 @@ public abstract class AbstractAuditingEntity<I extends Serializable> extends Fla
         super.setInsertUnitId(insertUnitId);
     }
 
-    @Override
     @Column(name = "MODIFY_UNIT_ID")
+    @Access(AccessType.PROPERTY)
+    @Override
     public Long getModifyUnitId() {
         return super.getModifyUnitId();
     }
@@ -88,9 +95,10 @@ public abstract class AbstractAuditingEntity<I extends Serializable> extends Fla
         super.setModifyUnitId(modifyUnitId);
     }
 
-    @Override
     @Version
     @Column(name = "VERSION")
+    @Access(AccessType.PROPERTY)
+    @Override
     public Integer getVersion() {
         return version;
     }

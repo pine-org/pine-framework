@@ -13,13 +13,21 @@ import java.util.List;
 public abstract class TreeTransient<I extends Serializable, M extends TreeTransient>
         extends FlatTransient<I> {
 
-    private M parent;
+    protected final M parent;
 
-    private List<M> children = new ArrayList<>();
+    protected final List<M> children;
 
-    private String path;
+    protected final String path;
 
-    private Boolean isLeaf;
+    protected final Boolean isLeaf;
+
+    protected TreeTransient(Builder builder) {
+        super(builder);
+        this.parent = (M) builder.parent;
+        this.children = builder.children;
+        this.path = builder.path;
+        this.isLeaf = builder.isLeaf;
+    }
 
     public Object getDedicatedData() {
         return getId();
@@ -29,32 +37,66 @@ public abstract class TreeTransient<I extends Serializable, M extends TreeTransi
         return parent;
     }
 
-    public void setParent(M parent) {
-        this.parent = parent;
-    }
-
     public List<M> getChildren() {
         return children;
-    }
-
-    public void setChildren(List<M> children) {
-        this.children = children;
     }
 
     public String getPath() {
         return path;
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     public Boolean isLeaf() {
         return isLeaf;
     }
 
-    public void setLeaf(Boolean leaf) {
-        isLeaf = leaf;
+    public abstract static class Builder<I extends Serializable, M extends TreeTransient<I, M>,
+            B extends FlatTransient.Builder<I, M, B>>
+            extends FlatTransient.Builder<I, M, B> {
+
+        private M parent;
+
+        private List<M> children = new ArrayList<>();
+
+        private String path;
+
+        private Boolean isLeaf;
+
+        public Builder() {
+            super();
+        }
+
+        public B parent(M parent) {
+            this.parent = parent;
+            return (B) this;
+        }
+
+        public B children(List<M> children) {
+            this.children = children;
+            return (B) this;
+        }
+
+        public B path(String path) {
+            this.path = path;
+            return (B) this;
+        }
+
+        public B isLeaf(Boolean isLeaf) {
+            this.isLeaf = isLeaf;
+            return (B) this;
+        }
+
+        @Override
+        public B from(M model) {
+            super.from(model);
+            this.parent = (M) model.getParent();
+            this.children = model.getChildren();
+            this.path = model.getPath();
+            this.isLeaf = model.isLeaf;
+            return (B) this;
+        }
+
+        @Override
+        public abstract M build();
     }
 
 }

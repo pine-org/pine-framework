@@ -124,8 +124,8 @@
             <message key="upperEll" value="Use Long instead of long"/>
         </module>
         <module name="ModifierOrder">
-            <message key="annotation.order" value="Modifiers order is wrong"/>
-            <message key="mod.order" value="Modifiers order is wrong"/>
+            <message key="annotation.order" value="Modifiers order is wrong {0}"/>
+            <message key="mod.order" value="''{0}'' modifier out of order with the JLS suggestions"/>
         </module>
         <module name="EmptyLineSeparator">
             <property name="allowNoEmptyLineBetweenFields" value="false"/>

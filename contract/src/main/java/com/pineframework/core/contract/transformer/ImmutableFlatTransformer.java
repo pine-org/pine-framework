@@ -1,16 +1,19 @@
 package com.pineframework.core.contract.transformer;
 
-import com.pineframework.core.datamodel.model.Transient;
-import com.pineframework.core.datamodel.persistence.Persistable;
+import com.pineframework.core.datamodel.model.FlatTransient;
+import com.pineframework.core.datamodel.persistence.FlatPersistence;
 
 import java.io.Serializable;
 import java.util.List;
 
-public interface FlatTransformer<I extends Serializable, M extends Transient, E extends Persistable<I>> {
+public interface ImmutableFlatTransformer<I extends Serializable,
+        M extends FlatTransient<I>,
+        E extends FlatPersistence<I>,
+        B extends FlatTransient.Builder<I, M, B>> {
 
     E createEntity();
 
-    M createModel();
+    B getBuilder(E e);
 
     M transform(E e, int deep, String... fields);
 
@@ -32,12 +35,12 @@ public interface FlatTransformer<I extends Serializable, M extends Transient, E 
 
     E[] transform(M[] models, String... field);
 
-    List<M> transformEntitiesToModels(List<E> entities, int deep, String... field);
+    List<M> transformToModels(List<E> entities, int deep, String... field);
 
-    List<M> transformEntitiesToModels(List<E> entities, String... field);
+    List<M> transformToModels(List<E> entities, String... field);
 
-    List<E> transformModelsToEntities(List<M> models, int deep, String... field);
+    List<E> transformToEntities(List<M> models, int deep, String... field);
 
-    List<E> transformModelsToEntities(List<M> models, String... field);
+    List<E> transformToEntities(List<M> models, String... field);
 
 }

@@ -17,37 +17,41 @@ import java.util.Objects;
  */
 public abstract class FlatTransient<I extends Serializable> implements Transient<I> {
 
+    protected final I id;
+
+    protected final LocalDateTime insertDate;
+
+    protected final Long insertUserId;
+
+    protected final Long insertUnitId;
+
+    protected final LocalDateTime modifyDate;
+
+    protected final Long modifyUserId;
+
+    protected final Long modifyUnitId;
+
+    protected final Integer version;
+
     @JsonIgnore
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    protected I id;
-
-    protected LocalDateTime insertDate;
-
-    protected Long insertUserId;
-
-    protected Long insertUnitId;
-
-    protected LocalDateTime modifyDate;
-
-    protected Long modifyUserId;
-
-    protected Long modifyUnitId;
-
-    protected Integer version;
+    protected FlatTransient(FlatTransient.Builder builder) {
+        this.id = (I) builder.id;
+        this.insertDate = builder.insertDate;
+        this.insertUserId = builder.insertUserId;
+        this.insertUnitId = builder.insertUnitId;
+        this.modifyDate = builder.modifyDate;
+        this.modifyUserId = builder.modifyUserId;
+        this.modifyUnitId = builder.modifyUnitId;
+        this.version = builder.version;
+    }
 
     /**
      * @return id
      */
     public I getId() {
         return id;
-    }
-
-    /**
-     * @param id
-     */
-    public void setId(I id) {
-        this.id = id;
     }
 
     /**
@@ -58,24 +62,10 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
     }
 
     /**
-     * @param insertDate
-     */
-    public void setInsertDate(LocalDateTime insertDate) {
-        this.insertDate = insertDate;
-    }
-
-    /**
      * @return user id
      */
     public Long getInsertUserId() {
         return insertUserId;
-    }
-
-    /**
-     * @param insertUserId
-     */
-    public void setInsertUserId(Long insertUserId) {
-        this.insertUserId = insertUserId;
     }
 
     /**
@@ -86,24 +76,10 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
     }
 
     /**
-     * @param insertUnitId
-     */
-    public void setInsertUnitId(Long insertUnitId) {
-        this.insertUnitId = insertUnitId;
-    }
-
-    /**
      * @return date
      */
     public LocalDateTime getModifyDate() {
         return modifyDate;
-    }
-
-    /**
-     * @param modifyDate
-     */
-    public void setModifyDate(LocalDateTime modifyDate) {
-        this.modifyDate = modifyDate;
     }
 
     /**
@@ -114,13 +90,6 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
     }
 
     /**
-     * @param modifyUserId
-     */
-    public void setModifyUserId(Long modifyUserId) {
-        this.modifyUserId = modifyUserId;
-    }
-
-    /**
      * @return organization id
      */
     public Long getModifyUnitId() {
@@ -128,24 +97,10 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
     }
 
     /**
-     * @param modifyUnitId
-     */
-    public void setModifyUnitId(Long modifyUnitId) {
-        this.modifyUnitId = modifyUnitId;
-    }
-
-    /**
      * @return version
      */
     public Integer getVersion() {
         return version;
-    }
-
-    /**
-     * @param version
-     */
-    public void setVersion(Integer version) {
-        this.version = version;
     }
 
     @Override
@@ -164,6 +119,84 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
     @Override
     public String toString() {
         return Try.of(() -> objectMapper.writeValueAsString(this)).get();
+    }
+
+    public abstract static class Builder<I extends Serializable,
+            M extends FlatTransient<I>,
+            B extends FlatTransient.Builder<I, M, B>> {
+
+        protected I id;
+
+        protected LocalDateTime insertDate;
+
+        protected Long insertUserId;
+
+        protected Long insertUnitId;
+
+        protected LocalDateTime modifyDate;
+
+        protected Long modifyUserId;
+
+        protected Long modifyUnitId;
+
+        protected Integer version;
+
+        protected Builder() {
+        }
+
+        public B id(I id) {
+            this.id = id;
+            return (B) this;
+        }
+
+        public B insertDate(LocalDateTime insertDate) {
+            this.insertDate = insertDate;
+            return (B) this;
+        }
+
+        public B insertUserId(Long insertUserId) {
+            this.insertUserId = insertUserId;
+            return (B) this;
+        }
+
+        public B insertUnitId(Long insertUnitId) {
+            this.insertUnitId = insertUnitId;
+            return (B) this;
+        }
+
+        public B modifyDate(LocalDateTime modifyDate) {
+            this.modifyDate = modifyDate;
+            return (B) this;
+        }
+
+        public B modifyUserId(Long modifyUserId) {
+            this.modifyUserId = modifyUserId;
+            return (B) this;
+        }
+
+        public B modifyUnitId(Long modifyUnitId) {
+            this.modifyUnitId = modifyUnitId;
+            return (B) this;
+        }
+
+        public B version(Integer version) {
+            this.version = version;
+            return (B) this;
+        }
+
+        public B from(M model) {
+            this.id = model.getId();
+            this.insertDate = model.getInsertDate();
+            this.insertUserId = model.getInsertUserId();
+            this.insertUnitId = model.getInsertUnitId();
+            this.modifyDate = model.getModifyDate();
+            this.modifyUserId = model.getModifyUserId();
+            this.modifyUnitId = model.getModifyUnitId();
+            this.version = model.getVersion();
+            return (B) this;
+        }
+
+        public abstract M build();
     }
 
 }

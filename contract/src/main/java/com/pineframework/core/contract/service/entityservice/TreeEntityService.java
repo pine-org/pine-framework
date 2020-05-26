@@ -4,7 +4,7 @@ import com.pineframework.core.contract.repository.TreeRepository;
 import com.pineframework.core.contract.service.AroundServiceOperation;
 import com.pineframework.core.contract.service.BusinessService;
 import com.pineframework.core.contract.service.PathGeneratorStrategy;
-import com.pineframework.core.contract.transformer.TreeTransformer;
+import com.pineframework.core.contract.transformer.ImmutableTreeTransformer;
 import com.pineframework.core.datamodel.model.TreeTransient;
 import com.pineframework.core.datamodel.persistence.TreePersistence;
 import io.vavr.control.Option;
@@ -25,7 +25,9 @@ public interface TreeEntityService<I extends Serializable,
         M extends TreeTransient<I, M>,
         E extends TreePersistence<I, E>,
         R extends TreeRepository<I, E>,
-        T extends TreeTransformer<I, M, E>> extends BusinessService<I, M, E, R, T>, AroundServiceOperation<I, M, E> {
+        B extends TreeTransient.Builder<I, M, B>,
+        T extends ImmutableTreeTransformer<I, M, E, B>>
+        extends BusinessService<I, M, E, R, B, T>, AroundServiceOperation<I, M, E> {
 
     PathGeneratorStrategy<I, E> getPathGenerator();
 

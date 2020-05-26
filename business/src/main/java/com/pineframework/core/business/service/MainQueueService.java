@@ -12,8 +12,9 @@ import java.io.Serializable;
 /**
  * @author Saman Alishirishahrbabak
  */
-public abstract class MainQueueService<I extends Serializable, M extends FlatTransient<I>>
-        extends QueueService<I, M> {
+public abstract class MainQueueService<I extends Serializable,
+        M extends FlatTransient<I>,
+        B extends FlatTransient.Builder<I, M, B>> extends QueueService<I, M, B> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 

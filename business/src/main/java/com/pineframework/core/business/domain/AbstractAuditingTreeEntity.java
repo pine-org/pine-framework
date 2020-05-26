@@ -27,13 +27,14 @@ import java.util.List;
  */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@Access(AccessType.PROPERTY)
+@Access(AccessType.FIELD)
 public abstract class AbstractAuditingTreeEntity
         <I extends Serializable, E extends TreePersistence> extends TreePersistence<I, E> {
 
-    @Override
     @JoinColumn(name = "PARENT_ID", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY)
+    @Access(AccessType.PROPERTY)
+    @Override
     public E getParent() {
         return parent;
     }
@@ -43,8 +44,9 @@ public abstract class AbstractAuditingTreeEntity
         this.parent = parent;
     }
 
-    @Override
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Access(AccessType.PROPERTY)
+    @Override
     public List<E> getChildren() {
         return children;
     }
@@ -53,8 +55,9 @@ public abstract class AbstractAuditingTreeEntity
         this.children = children;
     }
 
-    @Override
     @Column(name = "PATH")
+    @Access(AccessType.PROPERTY)
+    @Override
     public String getPath() {
         return path;
     }
@@ -64,8 +67,9 @@ public abstract class AbstractAuditingTreeEntity
         this.path = path;
     }
 
-    @Override
     @Column(name = "INSERT_USER_ID", updatable = false)
+    @Access(AccessType.PROPERTY)
+    @Override
     public Long getInsertUserId() {
         return insertUserId;
     }
@@ -76,6 +80,8 @@ public abstract class AbstractAuditingTreeEntity
     }
 
     @Column(name = "MODIFY_USER_ID")
+    @Access(AccessType.PROPERTY)
+    @Override
     public Long getModifyUserId() {
         return modifyUserId;
     }
@@ -85,8 +91,9 @@ public abstract class AbstractAuditingTreeEntity
         this.modifyUserId = modifyUserId;
     }
 
-    @Override
     @Column(name = "INSERT_DATE", updatable = false)
+    @Access(AccessType.PROPERTY)
+    @Override
     public LocalDateTime getInsertDate() {
         return insertDate;
     }
@@ -96,8 +103,9 @@ public abstract class AbstractAuditingTreeEntity
         this.insertDate = insertDate;
     }
 
-    @Override
     @Column(name = "MODIFY_DATE")
+    @Access(AccessType.PROPERTY)
+    @Override
     public LocalDateTime getModifyDate() {
         return modifyDate;
     }
@@ -107,8 +115,9 @@ public abstract class AbstractAuditingTreeEntity
         this.modifyDate = modifyDate;
     }
 
-    @Override
     @Column(name = "INSERT_UNIT_ID", updatable = false)
+    @Access(AccessType.PROPERTY)
+    @Override
     public Long getInsertUnitId() {
         return super.getInsertUnitId();
     }
@@ -118,8 +127,9 @@ public abstract class AbstractAuditingTreeEntity
         super.setInsertUnitId(insertUnitId);
     }
 
-    @Override
     @Column(name = "MODIFY_UNIT_ID")
+    @Access(AccessType.PROPERTY)
+    @Override
     public Long getModifyUnitId() {
         return super.getModifyUnitId();
     }
@@ -129,9 +139,10 @@ public abstract class AbstractAuditingTreeEntity
         super.setModifyUnitId(modifyUnitId);
     }
 
-    @Override
     @Version
     @Column(name = "VERSION")
+    @Access(AccessType.PROPERTY)
+    @Override
     public Integer getVersion() {
         return version;
     }
