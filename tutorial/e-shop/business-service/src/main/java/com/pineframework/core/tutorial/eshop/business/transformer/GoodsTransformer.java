@@ -20,7 +20,7 @@ public class GoodsTransformer extends AbstractImmutableFlatTransformer<Long, Goo
     }
 
     @Override
-    public Builder getBuilder(GoodsEntity e) {
+    public Builder getModelBuilder(GoodsEntity e) {
         return new Builder(e.getName(), e.getCode());
     }
 }

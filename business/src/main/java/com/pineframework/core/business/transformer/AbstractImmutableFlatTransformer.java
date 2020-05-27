@@ -75,7 +75,7 @@ public abstract class AbstractImmutableFlatTransformer<I extends Serializable,
 
     @Override
     public M transform(E e, int deep, String... fields) {
-        B builder = getBuilder(e);
+        B builder = getModelBuilder(e);
 
         if (isNull(e) || (deep == EXIT))
             return null;

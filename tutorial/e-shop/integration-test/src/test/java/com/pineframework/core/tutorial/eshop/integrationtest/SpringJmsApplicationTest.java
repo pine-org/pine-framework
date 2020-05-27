@@ -1,6 +1,7 @@
 package com.pineframework.core.tutorial.eshop.integrationtest;
 
-import com.pineframework.core.business.service.QueueService;
+import com.pineframework.core.business.service.queue.AbstractQueueService;
+import com.pineframework.core.contract.service.queue.QueueService;
 import com.pineframework.core.datamodel.model.message.MqStatus;
 import com.pineframework.core.test.AbstractTest;
 import com.pineframework.core.tutorial.eshop.model.SampleModel;
@@ -20,11 +21,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SpringJmsApplicationTest extends AbstractTest {
 
     @Autowired
-    @Qualifier("sampleMainQueueService")
+    @Qualifier("mainQueueService")
     private QueueService<String, SampleModel, SampleModel.Builder> mainQueue;
 
     @Autowired
-    @Qualifier("sampleStatusQueueService")
+    @Qualifier("statusQueueService")
     private QueueService<String, SampleModel, SampleModel.Builder> statusQueue;
 
     @DisplayName("Send message to main queue get ACCEPTED status from status queue")

@@ -1,5 +1,6 @@
 package com.pineframework.core.messaging.activemq.config;
 
+import com.pineframework.core.contract.config.QueueConfiguration;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +26,7 @@ import javax.jms.Queue;
 @Configuration
 @EnableJms
 @Profile("test")
-public class ActiveMqConfigurationTestProfile {
+public class ActiveMqConfigurationTestProfile implements QueueConfiguration {
 
     @Value("${messaging.main-queue.name}")
     private String mainQueue;
@@ -34,11 +35,13 @@ public class ActiveMqConfigurationTestProfile {
     private String statusQueue;
 
     @Bean("mainQueue")
+    @Override
     public Queue mainQueue() {
         return new ActiveMQQueue(mainQueue);
     }
 
     @Bean("statusQueue")
+    @Override
     public Queue statusQueue() {
         return new ActiveMQQueue(statusQueue);
     }

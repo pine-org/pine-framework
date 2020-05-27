@@ -13,7 +13,7 @@ public interface ImmutableFlatTransformer<I extends Serializable,
 
     E createEntity();
 
-    B getBuilder(E e);
+    B getModelBuilder(E e);
 
     M transform(E e, int deep, String... fields);
 

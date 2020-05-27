@@ -1,12 +1,12 @@
 package com.pineframework.core.business.helper;
 
-import com.pineframework.core.contract.service.QueueIdentityGenerator;
+import com.pineframework.core.contract.service.QueueIdGenerator;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-public class DefaultQueueIdentityGenerator implements QueueIdentityGenerator<String> {
+public class DefaultQueueIdGenerator implements QueueIdGenerator<String> {
 
     @Override
     public String next() {

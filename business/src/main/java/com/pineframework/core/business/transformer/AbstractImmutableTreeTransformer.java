@@ -21,7 +21,7 @@ public abstract class AbstractImmutableTreeTransformer<I extends Serializable,
         extends AbstractImmutableFlatTransformer<I, M, E, B> implements ImmutableTreeTransformer<I, M, E, B> {
 
     @Override
-    public abstract B getBuilder(E e);
+    public abstract B getModelBuilder(E e);
 
     @Override
     public void addToEntity(E e, M m, int deep, String... fields) {
@@ -53,7 +53,7 @@ public abstract class AbstractImmutableTreeTransformer<I extends Serializable,
         if (nonNull(e.getParent()))
             parent = transform(e.getParent(), deep--, fields);
         if (deep == EXIT)
-            parent = (M) getBuilder(e).id(e.getId()).version(e.getVersion()).build();
+            parent = (M) getModelBuilder(e).id(e.getId()).version(e.getVersion()).build();
 
         builder.parent(parent);
     }
@@ -63,7 +63,7 @@ public abstract class AbstractImmutableTreeTransformer<I extends Serializable,
         if (isNull(e) || (level == EXIT))
             return null;
 
-        return (M) getBuilder(e)
+        return (M) getModelBuilder(e)
                 .children(mapTo(e.getChildren(), entity -> hierarchyTransform(entity, level - 1, deep, fields)))
                 .from(transform(e, deep, fields))
                 .build();

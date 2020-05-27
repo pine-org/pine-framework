@@ -1,4 +1,4 @@
-package com.pineframework.core.business.service;
+package com.pineframework.core.business.service.queue;
 
 import com.pineframework.core.datamodel.model.FlatTransient;
 import org.slf4j.Logger;
@@ -12,17 +12,16 @@ import java.io.Serializable;
 /**
  * @author Saman Alishirishahrbabak
  */
-public abstract class MainQueueService<I extends Serializable,
-        M extends FlatTransient<I>,
-        B extends FlatTransient.Builder<I, M, B>> extends QueueService<I, M, B> {
+public abstract class StatusQueueService<I extends Serializable, M extends FlatTransient<I>,
+        B extends FlatTransient.Builder<I, M, B>>
+        extends AbstractQueueService<I, M, B> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    @Qualifier("mainQueue")
+    @Qualifier("statusQueue")
     private Queue queue;
 
-    @Override
     public Queue getQueue() {
         return queue;
     }
