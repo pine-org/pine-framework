@@ -4,7 +4,9 @@ import com.pineframework.core.business.transformer.AbstractImmutableFlatTransfor
 import com.pineframework.core.tutorial.eshop.business.domain.GoodsEntity;
 import com.pineframework.core.tutorial.eshop.model.GoodsModel;
 import com.pineframework.core.tutorial.eshop.model.GoodsModel.Builder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GoodsTransformer extends AbstractImmutableFlatTransformer<Long, GoodsModel, GoodsEntity, Builder> {
 
     @Override
