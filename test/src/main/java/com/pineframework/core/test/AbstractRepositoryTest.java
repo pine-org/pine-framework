@@ -9,9 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -51,12 +53,14 @@ public abstract class AbstractRepositoryTest<E extends CrudRepository & QueryRep
         FlatPersistence entity = getData(name);
         getOperator().save(entity);
         assertNotNull(entity.getId());
+        logInfo(format("save %s is successful -> %d", name, entity.getId()));
     }
 
     @Override
-    public void findAllData(int expectedSize) {
-        FlatPersistence[] entities = getOperator().findAll();
-        assertNotNull(entities);
-        assertEquals(expectedSize, entities.length);
+    public void findAllDataAndExpectedCountIs(int count) {
+        FlatPersistence[] data = getOperator().findAll();
+        assertNotNull(data);
+        assertEquals(count, data.length);
+        logInfo(Arrays.toString(data));
     }
 }

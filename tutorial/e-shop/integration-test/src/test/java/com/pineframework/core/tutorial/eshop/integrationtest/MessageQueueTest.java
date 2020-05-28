@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import static com.pineframework.core.tutorial.eshop.business.helper.StatusHelper.toEnum;
 
-@DisplayName("E-Shop Message Queue Tests ")
+@DisplayName("E-Shop Message Queue Tests")
 @SpringBootTest
 public class MessageQueueTest extends AbstractTest {
 

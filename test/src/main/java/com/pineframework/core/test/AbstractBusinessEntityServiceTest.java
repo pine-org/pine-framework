@@ -9,10 +9,12 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -52,12 +54,15 @@ public abstract class AbstractBusinessEntityServiceTest<E extends CrudEntityServ
     public void saveDataThenAssertIdIsNotNull(String name) {
         Optional<Long> id = getOperator().save(getData(name));
         assertNotNull(id.get());
+        logInfo(format("save %s is successful -> %d", name, id.get()));
     }
 
     @Override
-    public void findAllData(int expectedSize) {
-        FlatTransient[] models = getOperator().findAll();
-        assertNotNull(models);
-        assertEquals(expectedSize, models.length);
+    public void findAllDataAndExpectedCountIs(int count) {
+        FlatTransient[] data = getOperator().findAll();
+        assertNotNull(data);
+        assertEquals(count, data.length);
+        logInfo(Arrays.toString(data));
     }
+
 }

@@ -43,7 +43,7 @@ public class GoodsEntityServiceTest extends AbstractBusinessEntityServiceTest<Go
     @DisplayName("Find all models and expected size is three.")
     @Order(2)
     public void findAll_FindAllModel_ReturnModelArray() {
-        findAllData(3);
+        findAllDataAndExpectedCountIs(3);
     }
 
 }

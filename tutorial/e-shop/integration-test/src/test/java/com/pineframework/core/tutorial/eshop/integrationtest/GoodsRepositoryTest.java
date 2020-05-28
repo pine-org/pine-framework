@@ -15,7 +15,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import java.math.BigDecimal;
 import java.util.Map;
 
-@DisplayName("E-Shop Goods Repository Test ")
+@DisplayName("E-Shop Goods Repository Test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 public class GoodsRepositoryTest extends AbstractRepositoryTest<GoodsRepository> {
 
@@ -57,6 +57,6 @@ public class GoodsRepositoryTest extends AbstractRepositoryTest<GoodsRepository>
     @DisplayName("Find all entities and expected size is three.")
     @Order(2)
     public void findAll_FindAllEntity_ReturnEntityArray() {
-        findAllData(3);
+        findAllDataAndExpectedCountIs(3);
     }
 }

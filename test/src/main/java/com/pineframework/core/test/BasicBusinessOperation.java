@@ -12,5 +12,5 @@ public interface BasicBusinessOperation<T, E> {
 
     void saveDataThenAssertIdIsNotNull(String name);
 
-    void findAllData(int expectedSize);
+    void findAllDataAndExpectedCountIs(int count);
 }
