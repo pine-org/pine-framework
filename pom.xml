@@ -159,11 +159,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.javers</groupId>-->
-<!--            <artifactId>javers-core</artifactId>-->
-<!--            <version>5.6.3</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.javers</groupId>-->
+        <!--            <artifactId>javers-core</artifactId>-->
+        <!--            <version>5.6.3</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>io.vavr</groupId>
             <artifactId>vavr</artifactId>
@@ -174,11 +174,11 @@
             <artifactId>icu4j</artifactId>
             <version>64.2</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>net.logstash.log4j</groupId>-->
-<!--            <artifactId>jsonevent-layout</artifactId>-->
-<!--            <version>1.7</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>net.logstash.log4j</groupId>-->
+        <!--            <artifactId>jsonevent-layout</artifactId>-->
+        <!--            <version>1.7</version>-->
+        <!--        </dependency>-->
         <!--json-->
         <dependency>
             <groupId>net.minidev</groupId>

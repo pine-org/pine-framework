@@ -1,7 +1,7 @@
 package com.pineframework.core.tutorial.eshop.api;
 
 import com.pineframework.core.business.service.queue.AbstractQueueService;
-import com.pineframework.core.tutorial.eshop.model.SampleModel;
+import com.pineframework.core.tutorial.eshop.model.MessageModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +26,15 @@ public class ActiveMqApi<I extends Serializable> {
 
     @Autowired
     @Qualifier("mainQueueService")
-    private AbstractQueueService<String, SampleModel, SampleModel.Builder> service;
+    private AbstractQueueService<String, MessageModel, MessageModel.Builder> service;
 
     @Autowired
     private MessageSource messageSource;
 
     @ApiOperation(value = "${restfulApi.update.value}", notes = "${restfulApi.update.notes}")
     @PostMapping
-    public ResponseEntity<String> sendToQueue(@RequestBody SampleModel m) {
-        Optional<SampleModel> model = service.save(m);
+    public ResponseEntity<String> sendToQueue(@RequestBody MessageModel m) {
+        Optional<MessageModel> model = service.save(m);
         return ResponseEntity.ok(model.get().getId());
     }
 

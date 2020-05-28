@@ -5,31 +5,31 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.pineframework.core.datamodel.model.message.AbstractMessageModel;
 
-@JsonDeserialize(builder = SampleModel.Builder.class)
+@JsonDeserialize(builder = MessageModel.Builder.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class SampleModel extends AbstractMessageModel<String> {
+public final class MessageModel extends AbstractMessageModel<String> {
 
-    private SampleModel(SampleModel.Builder builder) {
+    private MessageModel(MessageModel.Builder builder) {
         super(builder);
     }
 
     @JsonPOJOBuilder(withPrefix = "")
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class Builder extends AbstractMessageModel.Builder<String, SampleModel, SampleModel.Builder> {
+    public static class Builder extends AbstractMessageModel.Builder<String, MessageModel, MessageModel.Builder> {
 
         public Builder() {
             super();
         }
 
         @Override
-        public SampleModel.Builder from(SampleModel model) {
+        public MessageModel.Builder from(MessageModel model) {
             super.from(model);
             return this;
         }
 
         @Override
-        public SampleModel build() {
-            return new SampleModel(this);
+        public MessageModel build() {
+            return new MessageModel(this);
         }
     }
 }

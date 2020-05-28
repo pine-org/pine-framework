@@ -1,6 +1,5 @@
 package com.pineframework.core.business.service.queue;
 
-import com.pineframework.core.business.service.queue.AbstractQueueService;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

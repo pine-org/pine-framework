@@ -2,7 +2,6 @@ package com.pineframework.core.tutorial.eshop.business.domain;
 
 import com.pineframework.core.business.domain.AbstractAuditingEntity;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
-import com.pineframework.core.datamodel.persistence.TreePersistence;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.AuditOverrides;
 import org.hibernate.envers.Audited;

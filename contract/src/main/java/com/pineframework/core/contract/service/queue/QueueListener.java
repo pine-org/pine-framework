@@ -1,8 +1,6 @@
 package com.pineframework.core.contract.service.queue;
 
 import com.pineframework.core.datamodel.model.FlatTransient;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.support.JmsHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 
