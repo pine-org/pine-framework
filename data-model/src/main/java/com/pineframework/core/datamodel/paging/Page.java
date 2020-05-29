@@ -1,8 +1,8 @@
-package com.pineframework.core.datamodel.model.paging;
+package com.pineframework.core.datamodel.paging;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.pineframework.core.datamodel.model.filter.Filter;
+import com.pineframework.core.datamodel.filter.Filter;
 
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com

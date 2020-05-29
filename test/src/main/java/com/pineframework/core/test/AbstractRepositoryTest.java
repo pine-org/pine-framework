@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,12 +26,11 @@ public abstract class AbstractRepositoryTest<E extends CrudRepository & QueryRep
 
     protected final E operator;
 
-    protected Map<String, FlatPersistence> entities;
+    protected Map<String, FlatPersistence> records = new HashMap<>();
 
     public AbstractRepositoryTest(E service) {
         this.operator = service;
-        entities = new HashMap<>();
-        initData(entities);
+        initData(records);
     }
 
     @BeforeEach
@@ -45,7 +45,7 @@ public abstract class AbstractRepositoryTest<E extends CrudRepository & QueryRep
 
     @Override
     public final FlatPersistence getData(String name) {
-        return entities.get(name);
+        return records.get(name);
     }
 
     @Override
@@ -62,5 +62,28 @@ public abstract class AbstractRepositoryTest<E extends CrudRepository & QueryRep
         assertNotNull(data);
         assertEquals(count, data.length);
         logInfo(Arrays.toString(data));
+    }
+
+    @Override
+    public void updateCurrentDataWith(String name) {
+
+    }
+
+    @Override
+    public void deleteDataThenDecreaseCount(String name) {
+        long countBeforeDelete = getOperator().count();
+        getOperator().delete(findData(name).get().getId());
+        long countAfterDelete = getOperator().count();
+
+        assertEquals(1, (countBeforeDelete - countAfterDelete));
+        logInfo(format("delete %s is successful", name));
+
+    }
+
+    private Optional<FlatPersistence> findData(String name) {
+        Optional<FlatPersistence> data = getOperator().findOne(getData(name).toFilter());
+        assertNotNull(data.get());
+        assertNotNull(data.get().getId());
+        return data;
     }
 }

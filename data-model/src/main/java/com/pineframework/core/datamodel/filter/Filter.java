@@ -1,4 +1,4 @@
-package com.pineframework.core.datamodel.model.filter;
+package com.pineframework.core.datamodel.filter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

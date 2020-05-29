@@ -1,4 +1,4 @@
-package com.pineframework.core.datamodel.model.paging;
+package com.pineframework.core.datamodel.paging;
 
 import java.util.List;
 

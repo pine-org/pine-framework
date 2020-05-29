@@ -11,6 +11,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.Rollback;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -33,15 +34,15 @@ public class GoodsRepositoryTest extends AbstractRepositoryTest<GoodsRepository>
         models.put("table", table);
 
         GoodsEntity desk = new GoodsEntity();
-        table.setName("Desk");
-        table.setCode("002");
-        table.setPrice(BigDecimal.valueOf(7575, 2));
+        desk.setName("Desk");
+        desk.setCode("002");
+        desk.setPrice(BigDecimal.valueOf(7575, 2));
         models.put("desk", desk);
 
         GoodsEntity chair = new GoodsEntity();
-        table.setName("Chair");
-        table.setCode("003");
-        table.setPrice(BigDecimal.valueOf(6565, 2));
+        chair.setName("Chair");
+        chair.setCode("003");
+        chair.setPrice(BigDecimal.valueOf(6565, 2));
         models.put("chair", chair);
     }
 
@@ -49,14 +50,23 @@ public class GoodsRepositoryTest extends AbstractRepositoryTest<GoodsRepository>
     @ValueSource(strings = {"table", "desk", "chair"})
     @DisplayName("Save three entities")
     @Order(1)
-    void save_SaveNewGoods_ReturnId(String name) {
+    @Rollback(false)
+    public void save_SaveNewGoodsEntityInDatabase_ReturnId(String name) {
         saveDataThenAssertIdIsNotNull(name);
     }
 
     @Test
     @DisplayName("Find all entities and expected size is three.")
     @Order(2)
-    public void findAll_FindAllEntity_ReturnEntityArray() {
+    public void findAll_FindAllGoodsEntity_ReturnGoodsEntityArray() {
         findAllDataAndExpectedCountIs(3);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"table", "desk", "chair"})
+    @DisplayName("Delete three entities")
+    @Order(3)
+    public void delete_WhenDataIsDelete_ThenDecreaseCountAllAsManyOne(String name) {
+        deleteDataThenDecreaseCount(name);
     }
 }

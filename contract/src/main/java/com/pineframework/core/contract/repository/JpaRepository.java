@@ -1,8 +1,8 @@
 package com.pineframework.core.contract.repository;
 
-import com.pineframework.core.datamodel.model.paging.Pageable;
-import com.pineframework.core.datamodel.model.select.Select;
+import com.pineframework.core.datamodel.paging.Pageable;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
+import com.pineframework.core.datamodel.select.Select;
 
 import javax.persistence.EntityManager;
 import java.io.Serializable;

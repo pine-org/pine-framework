@@ -1,7 +1,7 @@
 package com.pineframework.core.tutorial.eshop.integrationtest;
 
 import com.pineframework.core.datamodel.model.FlatTransient;
-import com.pineframework.core.test.AbstractBusinessEntityServiceTest;
+import com.pineframework.core.test.AbstractEntityServiceTest;
 import com.pineframework.core.tutorial.eshop.business.service.GoodsEntityService;
 import com.pineframework.core.tutorial.eshop.model.GoodsModel;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 @DisplayName("E-Shop Goods Service Tests")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
-public class GoodsEntityServiceTest extends AbstractBusinessEntityServiceTest<GoodsEntityService> {
+public class GoodsEntityServiceTest extends AbstractEntityServiceTest<GoodsEntityService> {
 
     @Autowired
     public GoodsEntityServiceTest(GoodsEntityService service) {
@@ -35,15 +35,23 @@ public class GoodsEntityServiceTest extends AbstractBusinessEntityServiceTest<Go
     @ValueSource(strings = {"table", "desk", "chair"})
     @DisplayName("Save three models")
     @Order(1)
-    public void save_SaveGoodsModel_ReturnId(String name) {
+    public void save_SaveNewGoodsModelInDatabase_ReturnId(String name) {
         saveDataThenAssertIdIsNotNull(name);
     }
 
     @Test
     @DisplayName("Find all models and expected size is three.")
     @Order(2)
-    public void findAll_FindAllModel_ReturnModelArray() {
+    public void findAll_FindAllGoodsModel_ReturnGoodsModelArray() {
         findAllDataAndExpectedCountIs(3);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"table", "desk", "chair"})
+    @DisplayName("Delete three models")
+    @Order(3)
+    public void delete_WhenDataIsDelete_ThenDecreaseCountAllAsManyOne(String name) {
+        deleteDataThenDecreaseCount(name);
     }
 
 }

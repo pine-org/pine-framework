@@ -1,28 +1,31 @@
-package com.pineframework.core.datamodel.model.select;
+package com.pineframework.core.datamodel.select;
 
-import com.pineframework.core.datamodel.model.filter.Filter;
+import com.pineframework.core.datamodel.filter.Filter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import java.io.Serializable;
 import java.util.function.BiFunction;
 
-import static java.lang.String.format;
+import static java.util.Objects.isNull;
 
-public class SelectTreeAsList<E> implements Select<E, E> {
+public class SelectChildren<E> implements Select<E, E> {
 
     private Class<E> type;
 
-    private String path;
+    private Serializable id;
 
-    public SelectTreeAsList(Class<E> type, String path) {
+    public SelectChildren(Class<E> type, Serializable id) {
         this.type = type;
-        this.path = path;
+        this.id = id;
     }
 
     @Override
     public Filter<E>[] getFilter() {
-        Filter<E> filter = (root, query, cb) -> cb.like(root.get("path"), format("%s%s", path, "%"));
+        Filter<E> filterNullParent = (root, query, cb) -> cb.isNull(root.get("parent"));
+        Filter<E> filterByParent = (root, query, cb) -> cb.equal(root.get("parent"), id);
+        Filter<E> filter = isNull(id) ? filterNullParent : filterByParent;
         return new Filter[]{filter};
     }
 

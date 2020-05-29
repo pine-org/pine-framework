@@ -1,6 +1,7 @@
 package com.pineframework.core.tutorial.eshop.business.domain;
 
 import com.pineframework.core.business.domain.AbstractAuditingEntity;
+import com.pineframework.core.datamodel.filter.Filter;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import org.hibernate.envers.AuditOverride;
 import org.hibernate.envers.AuditOverrides;
@@ -69,5 +70,13 @@ public class GoodsEntity extends AbstractAuditingEntity<Long> {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    @Override
+    public Filter<GoodsEntity>[] toFilter() {
+        Filter[] filters = new Filter[2];
+        filters[0] = (root, query, cb) -> cb.equal(root.get("code"), getCode());
+        filters[1] = (root, query, cb) -> cb.equal(root.get("name"), getName());
+        return filters;
     }
 }

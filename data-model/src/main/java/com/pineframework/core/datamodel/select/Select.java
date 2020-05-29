@@ -1,6 +1,6 @@
-package com.pineframework.core.datamodel.model.select;
+package com.pineframework.core.datamodel.select;
 
-import com.pineframework.core.datamodel.model.filter.Filter;
+import com.pineframework.core.datamodel.filter.Filter;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

@@ -20,19 +20,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public abstract class AbstractBusinessEntityServiceTest<E extends CrudEntityService &
-        QueryEntityService &
-        BatchEntityService>
+public abstract class AbstractEntityServiceTest<E extends CrudEntityService & QueryEntityService & BatchEntityService>
         extends AbstractTest implements BasicBusinessOperation<FlatTransient, E> {
 
     protected final E operator;
 
-    protected Map<String, FlatTransient> models;
+    protected Map<String, FlatTransient> records = new HashMap<>();
 
-    public AbstractBusinessEntityServiceTest(E service) {
+    public AbstractEntityServiceTest(E service) {
         this.operator = service;
-        models = new HashMap<>();
-        initData(models);
+        initData(records);
     }
 
     @BeforeEach
@@ -47,7 +44,7 @@ public abstract class AbstractBusinessEntityServiceTest<E extends CrudEntityServ
 
     @Override
     public final FlatTransient getData(String name) {
-        return models.get(name);
+        return records.get(name);
     }
 
     @Override
@@ -65,4 +62,24 @@ public abstract class AbstractBusinessEntityServiceTest<E extends CrudEntityServ
         logInfo(Arrays.toString(data));
     }
 
+    @Override
+    public void updateCurrentDataWith(String name) {
+    }
+
+    @Override
+    public void deleteDataThenDecreaseCount(String name) {
+        long countBeforeDelete = getOperator().count();
+        getOperator().delete(findData(name).get().getId());
+        long countAfterDelete = getOperator().count();
+
+        assertEquals(1, (countBeforeDelete - countAfterDelete));
+        logInfo(format("delete %s is successful", name));
+    }
+
+    public Optional<FlatTransient> findData(String name) {
+        Optional<FlatTransient> data = getOperator().findByExample(getData(name));
+        assertNotNull(data.get());
+        assertNotNull(data.get().getId());
+        return data;
+    }
 }

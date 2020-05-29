@@ -13,4 +13,8 @@ public interface BasicBusinessOperation<T, E> {
     void saveDataThenAssertIdIsNotNull(String name);
 
     void findAllDataAndExpectedCountIs(int count);
+
+    void updateCurrentDataWith(String name);
+
+    void deleteDataThenDecreaseCount(String name);
 }

@@ -1,4 +1,4 @@
-package com.pineframework.core.datamodel.model.filter;
+package com.pineframework.core.datamodel.filter;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

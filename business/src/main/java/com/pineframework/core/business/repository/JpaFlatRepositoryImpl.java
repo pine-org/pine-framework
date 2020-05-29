@@ -1,10 +1,10 @@
 package com.pineframework.core.business.repository;
 
 import com.pineframework.core.contract.repository.JpaRepository;
-import com.pineframework.core.datamodel.model.paging.Pageable;
-import com.pineframework.core.datamodel.model.select.Select;
-import com.pineframework.core.datamodel.model.select.SelectAll;
+import com.pineframework.core.datamodel.paging.Pageable;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
+import com.pineframework.core.datamodel.select.Select;
+import com.pineframework.core.datamodel.select.SelectAll;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

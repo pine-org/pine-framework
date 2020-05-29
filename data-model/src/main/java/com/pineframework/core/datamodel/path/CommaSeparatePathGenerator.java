@@ -1,4 +1,4 @@
-package com.pineframework.core.datamodel.model.path;
+package com.pineframework.core.datamodel.path;
 
 import com.pineframework.core.datamodel.persistence.TreePersistence;
 import org.springframework.stereotype.Component;

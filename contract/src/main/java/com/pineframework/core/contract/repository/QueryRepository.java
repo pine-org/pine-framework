@@ -1,13 +1,14 @@
 package com.pineframework.core.contract.repository;
 
-import com.pineframework.core.datamodel.model.filter.Filter;
-import com.pineframework.core.datamodel.model.paging.Page;
-import com.pineframework.core.datamodel.model.paging.Pageable;
-import com.pineframework.core.datamodel.model.select.SelectAll;
-import com.pineframework.core.datamodel.model.select.SelectByDifferentReturnType;
-import com.pineframework.core.datamodel.model.select.SelectByFilter;
-import com.pineframework.core.datamodel.model.select.SelectCount;
+import com.pineframework.core.datamodel.filter.Filter;
+import com.pineframework.core.datamodel.model.FlatTransient;
+import com.pineframework.core.datamodel.paging.Page;
+import com.pineframework.core.datamodel.paging.Pageable;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
+import com.pineframework.core.datamodel.select.SelectAll;
+import com.pineframework.core.datamodel.select.SelectByDifferentReturnType;
+import com.pineframework.core.datamodel.select.SelectByFilter;
+import com.pineframework.core.datamodel.select.SelectCount;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -44,7 +45,7 @@ public interface QueryRepository<I extends Serializable, E extends FlatPersisten
         return getImpl().findOne(new SelectByFilter<E>(getType(), filters));
     }
 
-    default <M> Optional<M> findOne(SelectByDifferentReturnType<E, M> select) {
+    default <M extends FlatTransient> Optional<M> findOne(SelectByDifferentReturnType<E, M> select) {
         return getImpl().findOne(select);
     }
 

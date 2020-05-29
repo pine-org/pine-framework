@@ -1,5 +1,8 @@
 package com.pineframework.core.datamodel.persistence;
 
+import com.pineframework.core.datamodel.filter.Filter;
+
+import java.beans.Transient;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -138,6 +141,11 @@ public abstract class FlatPersistence<I extends Serializable> implements Persist
      */
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    @Transient
+    public <E extends FlatPersistence> Filter<E>[] toFilter() {
+        return new Filter[0];
     }
 
     @Override

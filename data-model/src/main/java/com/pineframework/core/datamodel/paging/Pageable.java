@@ -1,6 +1,6 @@
-package com.pineframework.core.datamodel.model.paging;
+package com.pineframework.core.datamodel.paging;
 
-import com.pineframework.core.datamodel.model.filter.Filter;
+import com.pineframework.core.datamodel.filter.Filter;
 
 public interface Pageable {
     int getOffset();
