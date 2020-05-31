@@ -2,7 +2,7 @@ package com.pineframework.core.tutorial.eshop;
 
 import com.pineframework.core.business.helper.DefaultQueueIdGenerator;
 import com.pineframework.core.business.repository.JpaRepositoryImpl;
-import com.pineframework.core.contract.config.TransactionaBeanFactory;
+import com.pineframework.core.contract.config.TransactionalBeanFactory;
 import com.pineframework.core.contract.repository.JpaRepository;
 import com.pineframework.core.contract.service.QueueIdGenerator;
 import com.pineframework.core.contract.service.queue.QueueListener;
@@ -36,10 +36,10 @@ import javax.jms.Queue;
 public class BeanContext {
 
     @Autowired
-    private TransactionaBeanFactory transactionaBeanFactory;
+    private TransactionalBeanFactory transactionalBeanFactory;
 
     private <T, E> E createTransactionalBean(T service, Class<E> type) {
-        return Try.of(() -> transactionaBeanFactory.createTransactionalBean(service, type)).get();
+        return Try.of(() -> transactionalBeanFactory.createTransactionalBean(service, type)).get();
     }
 
     @Bean(name = "jpaRepository")

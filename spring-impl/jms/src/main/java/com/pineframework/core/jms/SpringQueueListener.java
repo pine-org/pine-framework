@@ -19,11 +19,11 @@ import java.util.HashMap;
 /**
  * @author Saman Alishirishahrbabak
  */
-@Scope( proxyMode = ScopedProxyMode.TARGET_CLASS )
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SpringQueueListener<I extends Serializable,
         M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>>
-        implements Loggable, QueueListener<I,M> {
+        implements Loggable, QueueListener<I, M> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
