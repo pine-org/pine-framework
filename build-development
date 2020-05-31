@@ -1,3 +1,4 @@
-mvn -f ./config-server-address/pom.xml clean install -P Development,Localhost,MySQL
-mvn -f ./properties/pom.xml clean install -P Development,Localhost
-mvn clean install -P Development,Localhost,PropertiesFile,ActiveMQ,Database,English-Check-style
+mvn clean install
+mvn -f ./pine/pom.xml clean install -P Development,Localhost,ActiveMQ,MySQL,English-Check-style
+mvn -f ./spring-impl/pom.xml clean install -P Development,Localhost,ActiveMQ,MySQL,English-Check-style
+mvn -f ./tutorial/pom.xml clean install -P Development,Localhost,ActiveMQ,MySQL,English-Check-style,PropertiesFile

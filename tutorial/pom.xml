@@ -2,11 +2,6 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>pine-framework</artifactId>
-        <groupId>com.pineframework.core</groupId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.pineframework.core.tutorial</groupId>
@@ -14,8 +9,33 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Tutorial</name>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <useIncrementalCompilation>false</useIncrementalCompilation>
 
+        <asciidoctor.maven.plugin.version>2.0.0-RC.1</asciidoctor.maven.plugin.version>
+        <asciidoctorj.diagram.version>2.0.2</asciidoctorj.diagram.version>
+        <asciidoctorj.pdf.version>1.5.3</asciidoctorj.pdf.version>
+        <asciidoctorj.version>2.3.0</asciidoctorj.version>
+        <jruby.version>9.2.11.1</jruby.version>
+
+        <config-profile>empty</config-profile>
+        <mq-profile>empty</mq-profile>
+        <database>empty</database>
+    </properties>
     <modules>
         <module>e-shop</module>
     </modules>
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+            </plugin>
+        </plugins>
+    </build>
 </project>

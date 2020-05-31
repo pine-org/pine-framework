@@ -12,19 +12,50 @@
     <artifactId>rest-api</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>E-Shop -> Rest API</name>
-
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.pineframework.core.springimpl</groupId>
+                <artifactId>spring-impl</artifactId>
+                <version>1.0.0-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>com.pineframework.core.tutorial.eshop</groupId>
-            <artifactId>business-service</artifactId>
+            <artifactId>business</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.pineframework.core.springbootdependencies</groupId>
-            <artifactId>spring-boot-dependencies</artifactId>
-            <version>${spring-boot-dependencies.version}</version>
+            <groupId>com.pineframework.core.jms</groupId>
+            <artifactId>jms</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pineframework.core.messaging.activemq</groupId>
+            <artifactId>activemq</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pineframework.core.i18n</groupId>
+            <artifactId>spring-i18n</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pineframework.core.transaction</groupId>
+            <artifactId>transaction</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <!--test-->
+        <dependency>
+            <groupId>com.pineframework.core.test</groupId>
+            <artifactId>pine-test</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

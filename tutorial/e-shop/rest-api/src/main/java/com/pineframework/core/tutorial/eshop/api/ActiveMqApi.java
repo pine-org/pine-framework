@@ -1,6 +1,6 @@
 package com.pineframework.core.tutorial.eshop.api;
 
-import com.pineframework.core.business.service.queue.AbstractQueueService;
+import com.pineframework.core.contract.service.queue.QueueService;
 import com.pineframework.core.tutorial.eshop.model.MessageModel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +26,7 @@ public class ActiveMqApi<I extends Serializable> {
 
     @Autowired
     @Qualifier("mainQueueService")
-    private AbstractQueueService<String, MessageModel, MessageModel.Builder> service;
+    private QueueService<String, MessageModel, MessageModel.Builder> service;
 
     @Autowired
     private MessageSource messageSource;

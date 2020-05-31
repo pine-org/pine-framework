@@ -1,0 +1,47 @@
+@startuml
+skinparam shadowing false
+rectangle "Domain" as domain{
+
+rectangle "Base Component" as baseComponent {
+component "Data Model" as dataModel
+component "Helper" as helper
+component "Test" as pine-test
+component "I18N" as i18n
+component "Contract" as contract
+component "Dependencies" as dependencies
+component "Business" as pine-business
+helper ..> pine-test
+contract ..> dataModel
+contract ..> helper
+dependencies ..> contract
+dependencies ..> i18n
+pine-business ..> dependencies
+pine-business ..> pine-test
+}
+
+rectangle "Facility Component" as facilityComponent {
+component "Initializer Dependencies" as initDependencies
+component "Classic Queue" as classicQueue
+classicQueue ..> dependencies
+initDependencies ..> i18n
+initDependencies -[hidden]up- classicQueue
+}
+
+rectangle "Domain Component Template" as templateComponent{
+component "component" as comp
+component "Business Service" as businessService
+component "Model" as model
+component "Exposer" as exposer
+comp ..> dependencies
+comp ..> pine-test
+comp *- businessService
+comp *- model
+comp *- exposer
+businessService ..> model
+exposer ..> businessService
+}
+
+
+}
+
+@enduml
