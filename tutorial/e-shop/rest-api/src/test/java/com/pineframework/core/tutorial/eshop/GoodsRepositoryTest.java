@@ -5,8 +5,10 @@ import com.pineframework.core.test.AbstractRepositoryTest;
 import com.pineframework.core.tutorial.eshop.business.domain.GoodsEntity;
 import com.pineframework.core.tutorial.eshop.business.repository.GoodsRepository;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import java.util.Map;
 @DisplayName("E-Shop Goods Repository Test")
 @Transactional
 @Commit
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 public class GoodsRepositoryTest extends AbstractRepositoryTest<GoodsRepository> {
 
@@ -56,7 +59,6 @@ public class GoodsRepositoryTest extends AbstractRepositoryTest<GoodsRepository>
     @ValueSource(strings = {"table", "desk", "chair"})
     @DisplayName("Save three entities")
     @Order(1)
-    @Rollback(false)
     public void save_SaveNewGoodsEntityInDatabase_ReturnId(String name) {
         saveDataThenAssertIdIsNotNull(name);
     }
