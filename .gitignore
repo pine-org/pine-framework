@@ -27,6 +27,6 @@ hs_err_pid*
 */target/
 target/
 /.scannerwork
-
+/config-repository
 # IDE project file
 *.iml
