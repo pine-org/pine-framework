@@ -37,6 +37,10 @@ public interface QueryRepository<I extends Serializable, E extends FlatPersisten
         return getImpl().paging(getType(), page);
     }
 
+    default E[] find(I... identities) {
+        return getImpl().find(new SelectByFilter<E>(getType(), (root, query, cb) -> root.get("id").in(identities)));
+    }
+
     default <M> M[] find(SelectByDifferentReturnType<E, M> select) {
         return getImpl().find(select);
     }
@@ -55,10 +59,6 @@ public interface QueryRepository<I extends Serializable, E extends FlatPersisten
 
     default Boolean contains(Filter<E>... filters) {
         return count(filters) > 0;
-    }
-
-    default E[] findByIdentities(I... identities) {
-        return getImpl().find(new SelectByFilter<E>(getType(), (root, query, cb) -> root.get("id").in(identities)));
     }
 
 }

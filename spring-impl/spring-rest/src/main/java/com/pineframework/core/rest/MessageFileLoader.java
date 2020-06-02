@@ -1,4 +1,4 @@
-package com.pineframework.core.i18n;
+package com.pineframework.core.rest;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;

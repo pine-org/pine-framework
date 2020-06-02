@@ -21,8 +21,9 @@ public interface CrudEntityService<I extends Serializable,
         R extends CrudRepository<I, E>,
         B extends FlatTransient.Builder<I, M, B>,
         T extends ImmutableFlatTransformer<I, M, E, B>>
-        extends EntityService<I, M, E, R, B, T>, AroundServiceOperation<I, M, E> {
+        extends EntityService<I, M, E, R, B, T>, AroundServiceOperation<I, M, E>, CrudService<I, M> {
 
+    @Override
     default Optional<I> save(M m) {
 
         E entity = getTransformer().transform(m);
@@ -34,12 +35,14 @@ public interface CrudEntityService<I extends Serializable,
         return ofNullable(entity.getId());
     }
 
+    @Override
     default Optional<M> findById(I id) {
         E entity = getRepository().findById(id).orElseGet(() -> createEmptyPersistenceObject());
         M m = getTransformer().transform(entity);
         return ofNullable(m);
     }
 
+    @Override
     default void update(M m) {
         E entity = getRepository().findById(m.getId()).orElseGet(() -> createEmptyPersistenceObject());
 
@@ -53,6 +56,7 @@ public interface CrudEntityService<I extends Serializable,
         afterUpdate(entity, m, oldData);
     }
 
+    @Override
     default void delete(I id) {
         E entity = getRepository().findById(id).orElseGet(() -> createEmptyPersistenceObject());
         M m = getTransformer().transform(entity);

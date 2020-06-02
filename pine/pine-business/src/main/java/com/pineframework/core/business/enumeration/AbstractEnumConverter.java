@@ -1,5 +1,7 @@
-package com.pineframework.core.contract.enumeration;
+package com.pineframework.core.business.enumeration;
 
+import com.pineframework.core.business.exception.NotFoundEquivalentEnum;
+import com.pineframework.core.contract.enumeration.Convertible;
 import com.pineframework.core.helper.GenericUtils;
 
 import javax.persistence.AttributeConverter;
@@ -48,6 +50,6 @@ public abstract class AbstractEnumConverter<T, E extends Enum<E> & Convertible<T
         return EnumSet.allOf(enumClassType).stream()
                 .filter(e -> Objects.equals(e.getValue(), dbData))
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotFoundEquivalentEnum::new);
     }
 }

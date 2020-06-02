@@ -72,7 +72,7 @@ public abstract class AbstractEntityServiceTest<E extends CrudEntityService & Qu
     }
 
     public Optional<FlatTransient> findData(String name) {
-        Optional<FlatTransient> data = getOperator().findByExample(getData(name));
+        Optional<FlatTransient> data = getOperator().findByModel(getData(name));
         assertNotNull(data.get());
         assertNotNull(data.get().getId());
         return data;

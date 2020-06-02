@@ -21,13 +21,15 @@ public interface QueryEntityService<I extends Serializable,
         R extends QueryRepository<I, E>,
         B extends FlatTransient.Builder<I, M, B>,
         T extends ImmutableFlatTransformer<I, M, E, B>>
-        extends EntityService<I, M, E, R, B, T> {
+        extends EntityService<I, M, E, R, B, T>, QueryService<I, M> {
 
+    @Override
     default M[] findAll() {
         return CollectionUtils.ofNullable(getTransformer().transform(getRepository().findAll()));
     }
 
-    default Page find(Page page) {
+    @Override
+    default Page findByPage(Page page) {
         Long count = getRepository().count(page.getFilters());
         if (count == 0)
             return page;
@@ -40,11 +42,18 @@ public interface QueryEntityService<I extends Serializable,
         return page;
     }
 
-    default long count(Filter<E>... filters) {
+    @Override
+    default long count(Filter... filters) {
         return getRepository().count(filters);
     }
 
-    default Optional<M> findByExample(M m) {
+    @Override
+    default M[] findByFilter(Filter... filters) {
+        return getTransformer().transform((E[]) getRepository().find(filters));
+    }
+
+    @Override
+    default Optional<M> findByModel(M m) {
         E e = getRepository().findOne(getTransformer().transform(m).toFilter()).get();
         return Optional.ofNullable(getTransformer().transform(e));
     }

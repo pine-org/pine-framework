@@ -19,7 +19,7 @@
     </properties>
     <modules>
         <module>activemq</module>
-        <module>spring-i18n</module>
+        <module>spring-rest</module>
         <module>jms</module>
         <module>config-server</module>
         <module>transaction</module>

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.interceptor.TransactionProxyFactoryBean;
 import org.springframework.transaction.jta.JtaTransactionManager;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
@@ -24,7 +23,7 @@ public class TransactionHelper implements TransactionalBeanFactory {
         proxy.setTarget(service);
         // Programmatically setup transaction attributes
         Properties transactionAttributes = new Properties();
-        transactionAttributes.put("*","PROPAGATION_REQUIRED");
+        transactionAttributes.put("*", "PROPAGATION_REQUIRED");
         proxy.setTransactionAttributes(transactionAttributes);
         // Finish FactoryBean setup
         proxy.afterPropertiesSet();

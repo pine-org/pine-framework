@@ -1,4 +1,4 @@
-package com.pineframework.core.i18n;
+package com.pineframework.core.rest;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -19,7 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @PropertySource("classpath:info.properties")
 @ConfigurationProperties(prefix = "info")
-@ComponentScan(value = {"com.pineframework.core.i18n"})
+@ComponentScan(value = {"com.pineframework.core.rest"})
 public class SwaggerConfiguration {
 
     @Value("${configuration.scan-package}")

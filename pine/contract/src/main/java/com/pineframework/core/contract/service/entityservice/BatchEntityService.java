@@ -25,7 +25,7 @@ public interface BatchEntityService<I extends Serializable,
         R extends CrudRepository<I, E> & QueryRepository<I, E> & BatchRepository<I, E>,
         B extends FlatTransient.Builder<I, M, B>,
         T extends ImmutableFlatTransformer<I, M, E, B>>
-        extends EntityService<I, M, E, R, B, T>, AroundServiceOperation<I, M, E> {
+        extends EntityService<I, M, E, R, B, T>, AroundServiceOperation<I, M, E>, BatchService<I, M> {
 
     default void beforeBatchSave(E[] entities, M[] models) {
         for (int i = 0; i < entities.length; i++)
@@ -63,6 +63,7 @@ public interface BatchEntityService<I extends Serializable,
     default void afterBatchOperations(E[] entities, M[] models) {
     }
 
+    @Override
     default I[] batchSave(M[] models) {
         E[] entities = getTransformer().transform(models);
 
@@ -73,24 +74,27 @@ public interface BatchEntityService<I extends Serializable,
         return mapTo(entities, e -> e.getId(), Long.class);
     }
 
+    @Override
     default void batchUpdate(M[] models) {
-        E[] entities = getRepository().findByIdentities(mapTo(models, m -> m.getId(), Long.class));
+        E[] entities = getRepository().find((I[]) mapTo(models, m -> m.getId(), Long.class));
         M[] oldData = getTransformer().transform(entities);
         beforeBatchUpdate(entities, models);
         batch(models, m -> getTransformer().transform(m, getRepository().findById(m.getId()).get()));
         afterBatchUpdate(entities, models, oldData);
     }
 
+    @Override
     default void batchDelete(I[] identities) {
-        M[] models = getTransformer().transform(getRepository().findByIdentities(identities));
+        M[] models = getTransformer().transform(getRepository().find(identities));
 
         beforeBatchDelete(models);
         getRepository().delete(identities);
         afterBatchDelete(models);
     }
 
+    @Override
     default I[] batchOperations(M[] models, I[] identities) {
-        E[] entities = getRepository().findByIdentities(identities);
+        E[] entities = getRepository().find(identities);
         beforeBatchOperations(entities, models);
 
         E[] deletedEntities = subtract(entities, models, (e, m) -> areEquivalence(e, m), getPersistenceType());
@@ -102,6 +106,7 @@ public interface BatchEntityService<I extends Serializable,
         return addedIds;
     }
 
+    @Override
     default void batch(M[] models, Consumer<M> operation) {
         for (int i = 0; i < models.length; i++) {
             if (i > 0 && i % getRepository().getImpl().getBatchSize() == 0) {

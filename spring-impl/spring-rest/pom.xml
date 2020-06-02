@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.pineframework.core.i18n</groupId>
-    <artifactId>spring-i18n</artifactId>
+    <groupId>com.pineframework.core.rest</groupId>
+    <artifactId>spring-rest</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <dependencies>
         <dependency>

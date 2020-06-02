@@ -25,7 +25,7 @@ public interface TreeEntityService<I extends Serializable,
         R extends TreeRepository<I, E>,
         B extends TreeTransient.Builder<I, M, B>,
         T extends ImmutableTreeTransformer<I, M, E, B>>
-        extends BusinessService<I, M, E, R, B, T>, AroundServiceOperation<I, M, E> {
+        extends BusinessService<I, M, E, R, B, T>, AroundServiceOperation<I, M, E>, TreeService<I, M> {
 
     PathGenerator<I, E> getPathGenerator();
 
@@ -56,18 +56,22 @@ public interface TreeEntityService<I extends Serializable,
         }
     }
 
+    @Override
     default M[] findChildren(I id) {
         return getTransformer().transform(getRepository().findChildren(id));
     }
 
+    @Override
     default M[] findTreeAsList(I id) {
         return getTransformer().transform(getRepository().findTreeAsList(id));
     }
 
+    @Override
     default M[] findSubTreeAsList(I id) {
         return getTransformer().transform(getRepository().findSubTreeAsList(id));
     }
 
+    @Override
     default M findTree(I id) {
         E e = getRepository().findTree(id).orElseGet(() -> createEmptyPersistenceObject());
         return getTransformer().hierarchyTransform(e);

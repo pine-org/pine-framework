@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @Api(value = "e-shop/v1/api", tags = {"E Shop API"})
 @RestController
-@RequestMapping("v1/api")
+@RequestMapping("v1/api/queue")
 public class ActiveMqApi<I extends Serializable> {
 
     @Autowired
@@ -33,7 +33,7 @@ public class ActiveMqApi<I extends Serializable> {
 
     @ApiOperation(value = "${restfulApi.update.value}", notes = "${restfulApi.update.notes}")
     @PostMapping
-    public ResponseEntity<String> sendToQueue(@RequestBody MessageModel m) {
+    public ResponseEntity<String> save(@RequestBody MessageModel m) {
         Optional<MessageModel> model = service.save(m);
         return ResponseEntity.ok(model.get().getId());
     }

@@ -12,11 +12,11 @@ public class Page implements Pageable {
 
     private int offset = 0;
 
-    private int limit = 0;
+    private int limit = 10;
 
     private int currentPage = 0;
 
-    private int pageSize = 0;
+    private int pageSize = 10;
 
     private Long totalCount = 0L;
 
