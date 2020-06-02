@@ -14,8 +14,10 @@ import com.pineframework.core.tutorial.eshop.business.repository.GoodsRepository
 import com.pineframework.core.tutorial.eshop.business.service.GoodsEntityService;
 import com.pineframework.core.tutorial.eshop.business.service.GoodsEntityServiceImpl;
 import com.pineframework.core.tutorial.eshop.business.service.MainQueueListenerProcessor;
-import com.pineframework.core.tutorial.eshop.business.service.MainQueueServiceImpl;
-import com.pineframework.core.tutorial.eshop.business.service.StatusQueueServiceImpl;
+import com.pineframework.core.tutorial.eshop.business.service.MainQueueProxyServiceImpl;
+import com.pineframework.core.tutorial.eshop.business.service.MainQueueService;
+import com.pineframework.core.tutorial.eshop.business.service.StatusQueueProxyService;
+import com.pineframework.core.tutorial.eshop.business.service.StatusQueueProxyServiceImpl;
 import com.pineframework.core.tutorial.eshop.business.transformer.GoodsTransformer;
 import com.pineframework.core.tutorial.eshop.model.MessageModel;
 import io.vavr.control.Try;
@@ -75,13 +77,13 @@ public class BeanContext {
     }
 
     @Bean(name = "mainQueueService")
-    public QueueService mainQueueService(@Qualifier("springQueueService") QueueService service) {
-        return createTransactionalBean(new MainQueueServiceImpl(service), QueueService.class);
+    public MainQueueService mainQueueService(@Qualifier("springQueueService") QueueService service) {
+        return createTransactionalBean(new MainQueueProxyServiceImpl(service), MainQueueService.class);
     }
 
     @Bean(name = "statusQueueService")
-    public QueueService statusQueueService(@Qualifier("springQueueService") QueueService service) {
-        return createTransactionalBean(new StatusQueueServiceImpl(service), QueueService.class);
+    public StatusQueueProxyService statusQueueService(@Qualifier("springQueueService") QueueService service) {
+        return createTransactionalBean(new StatusQueueProxyServiceImpl(service), StatusQueueProxyService.class);
     }
 
     @Bean(name = "mainQueueListener")

@@ -8,6 +8,7 @@ import com.pineframework.core.helper.LogUtils;
 import com.pineframework.core.rest.ErrorResponse;
 import org.hibernate.JDBCException;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 @RestControllerAdvice
+@Qualifier("pineExceptionProvider")
 public final class ExceptionProvider extends AbstractExceptionProvider {
 
     private final Logger logger = LogUtils.getLogger(ExceptionProvider.class);
