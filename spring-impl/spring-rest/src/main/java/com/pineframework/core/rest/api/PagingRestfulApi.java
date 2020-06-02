@@ -31,7 +31,7 @@ public interface PagingRestfulApi<I extends Serializable, M extends FlatTransien
      * @param paging
      * @return list of value objects
      */
-    @ApiOperation(value = "${restfulApi.find.value}", notes = "${restfulApi.find.notes}")
+    @ApiOperation(value = "${restfulApi.page.value}", notes = "${restfulApi.page.notes}")
     @PostMapping("find/paging")
     default ResponseEntity<Page> find(
             @ApiParam(name = "Model", value = "${restfulApi.page.param}", required = true)

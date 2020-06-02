@@ -8,5 +8,5 @@ import java.util.Map;
 @FunctionalInterface
 public interface QueueListenerProcessor<I extends Serializable, M extends FlatTransient<I>> {
 
-    void process(QueueService queueService, M model, Map<String, Object> metadata);
+    void process(M model, Map<String, Object> metadata);
 }

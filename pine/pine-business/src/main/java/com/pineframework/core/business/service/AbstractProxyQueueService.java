@@ -3,9 +3,7 @@ package com.pineframework.core.business.service;
 import com.pineframework.core.contract.log.Loggable;
 import com.pineframework.core.contract.service.QueueIdGenerator;
 import com.pineframework.core.contract.service.queue.QueueService;
-import com.pineframework.core.datamodel.filter.Filter;
 import com.pineframework.core.datamodel.model.FlatTransient;
-import com.pineframework.core.datamodel.paging.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,7 +47,7 @@ public abstract class AbstractProxyQueueService<I extends Serializable,
     }
 
     @Override
-    public Optional<I> save(M m) {
+    public Optional<M> save(M m) {
         return service.save(m);
     }
 
@@ -58,38 +56,4 @@ public abstract class AbstractProxyQueueService<I extends Serializable,
         return service.findById(id);
     }
 
-    @Override
-    public void update(M m) {
-
-    }
-
-    @Override
-    public void delete(I id) {
-
-    }
-
-    @Override
-    public M[] findAll() {
-        return null;
-    }
-
-    @Override
-    public Page findByPage(Page page) {
-        return null;
-    }
-
-    @Override
-    public long count(Filter... filters) {
-        return 0;
-    }
-
-    @Override
-    public M[] findByFilter(Filter... filters) {
-        return null;
-    }
-
-    @Override
-    public Optional<M> findByModel(M m) {
-        return Optional.empty();
-    }
 }
