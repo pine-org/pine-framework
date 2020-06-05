@@ -32,7 +32,7 @@ public final class ExceptionProvider extends AbstractExceptionProvider {
      * @return
      */
     @ExceptionHandler(CoreException.class)
-    public ResponseEntity<ErrorResponse> coreException(CoreException e) {
+    public ResponseEntity<ErrorResponse[]> coreException(CoreException e) {
         return response(error(e));
     }
 
@@ -43,7 +43,7 @@ public final class ExceptionProvider extends AbstractExceptionProvider {
      * @return
      */
     @ExceptionHandler(NotSameVersionException.class)
-    public ResponseEntity<ErrorResponse> notSameVersion(NotSameVersionException e) {
+    public ResponseEntity<ErrorResponse[]> notSameVersion(NotSameVersionException e) {
         return response(error(e));
     }
 
@@ -54,7 +54,7 @@ public final class ExceptionProvider extends AbstractExceptionProvider {
      * @return
      */
     @ExceptionHandler(NotFoundEquivalentEnum.class)
-    public ResponseEntity<ErrorResponse> notFoundEquivalentEnum(NotFoundEquivalentEnum e) {
+    public ResponseEntity<ErrorResponse[]> notFoundEquivalentEnum(NotFoundEquivalentEnum e) {
         return response(error(e));
     }
 
@@ -76,7 +76,7 @@ public final class ExceptionProvider extends AbstractExceptionProvider {
      * @return
      */
     @ExceptionHandler(JDBCException.class)
-    public ResponseEntity<ErrorResponse> jdbcException(JDBCException e) {
+    public ResponseEntity<ErrorResponse[]> jdbcException(JDBCException e) {
         return response(error(new CoreException(e.getMessage(), e.getErrorCode())));
     }
 
