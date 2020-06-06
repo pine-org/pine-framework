@@ -1,9 +1,9 @@
 package com.pineframework.core.tutorial.eshop;
 
 import com.pineframework.core.contract.service.queue.QueueService;
+import com.pineframework.core.datamodel.model.message.MessageModel;
 import com.pineframework.core.datamodel.model.message.MqStatus;
 import com.pineframework.core.test.AbstractTest;
-import com.pineframework.core.tutorial.eshop.model.MessageModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,11 +22,11 @@ public class MessageQueueTest extends AbstractTest {
 
     @Autowired
     @Qualifier("mainQueueService")
-    private QueueService<String, MessageModel, MessageModel.Builder> mainQueue;
+    private QueueService mainQueue;
 
     @Autowired
     @Qualifier("statusQueueService")
-    private QueueService<String, MessageModel, MessageModel.Builder> statusQueue;
+    private QueueService statusQueue;
 
     @DisplayName("Send message to main queue and get accepted status from status queue")
     @ParameterizedTest

@@ -34,7 +34,7 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
     protected final Integer version;
 
     @JsonIgnore
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    protected final ObjectMapper objectMapper = new ObjectMapper();
 
     protected FlatTransient(FlatTransient.Builder builder) {
         this.id = (I) builder.id;

@@ -1,74 +1,57 @@
 package com.pineframework.core.jms;
 
-import com.pineframework.core.contract.service.QueueIdGenerator;
+import com.pineframework.core.business.helper.DefaultQueueIdGenerator;
+import com.pineframework.core.contract.service.CorrelationIdGenerator;
 import com.pineframework.core.contract.service.queue.QueueService;
-import com.pineframework.core.datamodel.model.FlatTransient;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pineframework.core.datamodel.model.message.MessageModel;
+import io.vavr.control.Try;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 
-import javax.jms.Message;
 import javax.jms.Queue;
-import java.io.Serializable;
+import javax.jms.TextMessage;
 import java.util.Optional;
 
 import static com.pineframework.core.business.helper.QueueQueryUtils.correlationIdClause;
-import static io.vavr.control.Try.run;
 import static java.util.Objects.isNull;
 import static java.util.Optional.ofNullable;
 
-public class SpringQueueService<I extends Serializable,
-        M extends FlatTransient<I>,
-        B extends FlatTransient.Builder<I, M, B>> implements QueueService<I, M, B> {
+public class SpringQueueService implements QueueService<String, MessageModel> {
 
-    @Autowired
     private JmsTemplate jmsTemplate;
 
     private Queue queue;
 
-    private QueueIdGenerator idGenerator;
+    private CorrelationIdGenerator idGenerator = new DefaultQueueIdGenerator();
 
-    private B modelBuilder;
+    private MessageModel.Builder modelBuilder = new MessageModel.Builder();
 
-    public SpringQueueService(Queue queue, QueueIdGenerator idGenerator, B modelBuilder) {
+    public SpringQueueService(Queue queue, JmsTemplate jmsTemplate) {
         this.queue = queue;
-        this.idGenerator = idGenerator;
-        this.modelBuilder = modelBuilder;
-    }
-
-    public JmsTemplate getJmsTemplate() {
-        return jmsTemplate;
+        this.jmsTemplate = jmsTemplate;
     }
 
     @Override
-    public Queue getQueue() {
-        return queue;
-    }
-
-    @Override
-    public QueueIdGenerator getIdGenerator() {
-        return idGenerator;
-    }
-
-    @Override
-    public B getModelBuilder() {
-        return modelBuilder;
-    }
-
-    @Override
-    public Optional<M> save(M m) {
-        final M model = isNull(m.getId()) ? getModelBuilder().from(m).id((I) getIdGenerator().next()).build() : m;
-        getJmsTemplate().convertAndSend(getQueue(), model, message -> writeMetaData(message, model));
+    public Optional<MessageModel> save(MessageModel m) {
+        final MessageModel model = isNull(m.getId()) ? modelBuilder.from(m).id(idGenerator.next()).build() : m;
+        jmsTemplate.send(queue, createMessage(model));
         return ofNullable(model);
     }
 
-    @Override
-    public Optional<M> findById(I id) {
-        Object o = getJmsTemplate().receiveSelectedAndConvert(getQueue(), correlationIdClause(id));
-        return ofNullable((M) o);
+    public MessageCreator createMessage(MessageModel m) {
+        return session -> {
+            TextMessage message = session.createTextMessage();
+            message.setText(m.toString());
+            message.setJMSCorrelationID(String.valueOf(m.getId()));
+            return message;
+        };
     }
 
-    protected Message writeMetaData(Message message, M model) {
-        run(() -> message.setJMSCorrelationID((String) model.getId()));
-        return message;
+    @Override
+    public Optional<MessageModel> findById(String id) {
+        TextMessage textMessage = (TextMessage) jmsTemplate.receiveSelected(queue, correlationIdClause(id));
+        String text = Try.of(() -> textMessage.getText()).get();
+        return ofNullable(modelBuilder.fromJson(String.valueOf(text)).build());
     }
+
 }

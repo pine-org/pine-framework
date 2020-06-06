@@ -6,14 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.jms.annotation.EnableJms;
-import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
-import org.springframework.jms.config.JmsListenerContainerFactory;
-import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
-import org.springframework.jms.support.converter.MessageConverter;
-import org.springframework.jms.support.converter.MessageType;
 
 import javax.jms.Queue;
+import java.util.Map;
+
+import static com.pineframework.core.helper.CollectionUtils.mapOf;
 
 /**
  * Configuration for connect to ActiveMQ Classic. Create bean from {@link ActiveMqConfigurationTestProfile} when
@@ -22,43 +19,15 @@ import javax.jms.Queue;
  *
  * @author Saman Alishirishahrbabak
  */
-
 @Configuration
-@EnableJms
 @Profile("test")
 public class ActiveMqConfigurationTestProfile implements QueueConfiguration {
 
-    @Value("${messaging.main-queue.name}")
-    private String mainQueue;
+    @Value("${message-queue-name}")
+    private String[] queues;
 
-    @Value("${messaging.status-queue.name}")
-    private String statusQueue;
-
-    @Bean("mainQueue")
-    @Override
-    public Queue mainQueue() {
-        return new ActiveMQQueue(mainQueue);
+    @Bean("queues")
+    public Map<String, Queue> createQueue() {
+        return mapOf(queues, s -> s, s -> new ActiveMQQueue(s));
     }
-
-    @Bean("statusQueue")
-    @Override
-    public Queue statusQueue() {
-        return new ActiveMQQueue(statusQueue);
-    }
-
-    @Bean
-    public JmsListenerContainerFactory<?> queueListenerFactory() {
-        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setMessageConverter(messageConverter());
-        return factory;
-    }
-
-    @Bean
-    public MessageConverter messageConverter() {
-        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-        converter.setTargetType(MessageType.TEXT);
-        converter.setTypeIdPropertyName("_type");
-        return converter;
-    }
-
 }

@@ -21,7 +21,7 @@ import static com.pineframework.core.rest.ExceptionUtils.checkErrors;
 public abstract class AbstractQueueRestApi<I extends Serializable,
         M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>,
-        S extends QueueService<I, M, B>> implements Rest<S> {
+        S extends QueueService<I, M>> implements Rest<S> {
 
     protected S service;
 
