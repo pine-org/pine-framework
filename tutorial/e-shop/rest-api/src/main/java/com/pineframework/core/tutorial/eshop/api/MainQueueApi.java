@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "e-shop/v1/api/queue", tags = {"E Shop Queue API"})
 @RestController
 @RequestMapping("v1/api/queue")
-public class MainQueueApi extends AbstractQueueRestApi<String, MessageModel, MessageModel.Builder,
-        QueueService<String, MessageModel>> {
+public class MainQueueApi extends AbstractQueueRestApi<String, MessageModel, QueueService<String, MessageModel>> {
 
     @Autowired
     public MainQueueApi(@Qualifier("mainQueueService") QueueService service) {
