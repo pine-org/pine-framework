@@ -1,8 +1,7 @@
 package com.pineframework.core.rest.api;
 
 import com.pineframework.core.business.exception.AbstractException;
-import com.pineframework.core.rest.ErrorResponse;
-import com.pineframework.core.rest.I18nHelper;
+import com.pineframework.core.rest.helper.I18nHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -5,7 +5,6 @@ import com.pineframework.core.business.exception.ExceptionArray;
 import com.pineframework.core.business.exception.NotFoundEquivalentEnum;
 import com.pineframework.core.business.exception.NotSameVersionException;
 import com.pineframework.core.helper.LogUtils;
-import com.pineframework.core.rest.ErrorResponse;
 import org.hibernate.JDBCException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;

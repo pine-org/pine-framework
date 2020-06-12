@@ -15,7 +15,7 @@ public class TransactionHelper implements TransactionalBeanFactory {
     @Autowired
     private JtaTransactionManager transactionManager;
 
-    public <T, E> E createTransactionalBean(T service, Class<E> type) {
+    public <T, E> E create(T service, Class<E> type) {
         TransactionProxyFactoryBean proxy = new TransactionProxyFactoryBean();
         // Inject transaction manager here
         proxy.setTransactionManager(transactionManager);

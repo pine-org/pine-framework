@@ -66,7 +66,7 @@ public class GoodsRepositoryTest extends AbstractRepositoryTest<GoodsRepository>
     @DisplayName("Find all entities and expected size is three.")
     @Order(2)
     public void findAll_FindAllGoodsEntity_ReturnGoodsEntityArray() {
-        findAllDataAndExpectedCountIs(3);
+        findAllDataWithExpectedCount(3);
     }
 
     @ParameterizedTest

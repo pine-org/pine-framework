@@ -1,16 +1,21 @@
 package com.pineframework.core.rest.api;
 
-import com.pineframework.core.contract.service.entityservice.QueryService;
+import com.pineframework.core.contract.service.QueryService;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.paging.Page;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.Valid;
 import java.io.Serializable;
+
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.ResponseEntity.ok;
 
 /**
  * exposed paging and read only services
@@ -32,11 +37,12 @@ public interface PagingRestfulApi<I extends Serializable, M extends FlatTransien
      * @return list of value objects
      */
     @ApiOperation(value = "${restfulApi.page.value}", notes = "${restfulApi.page.notes}")
-    @PostMapping("find/paging")
-    default ResponseEntity<Page> find(
+    @PostMapping("search/paging")
+    @ResponseStatus(value = OK, code = OK)
+    default ResponseEntity<Page> findPage(
             @ApiParam(name = "Model", value = "${restfulApi.page.param}", required = true)
             @Valid @RequestBody Page paging) {
-        return ResponseEntity.ok(getService().findByPage(paging));
+        return ok(getService().findByPage(paging));
     }
 
 }

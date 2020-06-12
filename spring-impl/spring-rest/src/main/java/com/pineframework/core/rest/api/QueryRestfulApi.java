@@ -1,6 +1,6 @@
 package com.pineframework.core.rest.api;
 
-import com.pineframework.core.contract.service.entityservice.QueryService;
+import com.pineframework.core.contract.service.QueryService;
 import com.pineframework.core.datamodel.filter.Filter;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import io.swagger.annotations.ApiOperation;
@@ -9,9 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.Valid;
 import java.io.Serializable;
+
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.ResponseEntity.ok;
 
 /**
  * exposed paging and read only services
@@ -32,25 +36,27 @@ public interface QueryRestfulApi<I extends Serializable, M extends FlatTransient
      * @return list of value objects
      */
     @ApiOperation(value = "${restfulApi.findAll.value}", notes = "${restfulApi.findAll.notes}")
-    @GetMapping("find/all")
+    @GetMapping("search/all")
+    @ResponseStatus(value = OK, code = OK)
     default ResponseEntity<M[]> findAll() {
         return findAllAction();
     }
 
     default ResponseEntity<M[]> findAllAction() {
-        return ResponseEntity.ok(getService().findAll());
+        return ok(getService().findAll());
     }
 
     @ApiOperation(value = "${restfulApi.find.value}", notes = "${restfulApi.find.notes}")
-    @PostMapping("find/filter")
-    default ResponseEntity<M[]> find(
+    @PostMapping("search/filter")
+    @ResponseStatus(value = OK, code = OK)
+    default ResponseEntity<M[]> findByFilter(
             @ApiParam(name = "Value Object", value = "${restfulApi.save.param}", required = true)
             @Valid @RequestBody Filter[] filters) {
-        return findByFilter(filters);
+        return findByFilterAction(filters);
     }
 
-    default ResponseEntity<M[]> findByFilter(Filter[] filters) {
-        return ResponseEntity.ok(getService().findByFilter(filters));
+    default ResponseEntity<M[]> findByFilterAction(Filter[] filters) {
+        return ok(getService().findByFilter(filters));
     }
 
 }

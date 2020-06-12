@@ -2,7 +2,7 @@ package com.pineframework.core.contract.transformer;
 
 import com.pineframework.core.helper.ObjectRegistry;
 
-public interface MultiTransformer {
+public interface ImmutableMultiTransformer {
 
     /**
      * When there are multi transformer for a specific type, it must be add them to a map.

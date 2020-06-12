@@ -1,4 +1,4 @@
-package com.pineframework.core.tutorial.eshop;
+package com.pineframework.core.tutorial.eshop.context;
 
 import com.pineframework.core.business.helper.DefaultQueueIdGenerator;
 import com.pineframework.core.business.repository.JpaRepositoryImpl;
@@ -10,35 +10,21 @@ import com.pineframework.core.tutorial.eshop.business.repository.GoodsRepository
 import com.pineframework.core.tutorial.eshop.business.service.GoodsEntityService;
 import com.pineframework.core.tutorial.eshop.business.service.GoodsEntityServiceImpl;
 import com.pineframework.core.tutorial.eshop.business.transformer.GoodsTransformer;
-import io.vavr.control.Try;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EntityScan("com.pineframework.core.tutorial.eshop.business.domain")
-@ComponentScan(value = {"com.pineframework.core"})
-@EnableTransactionManagement
-public class ServiceBeanContext {
+public class ServiceContext {
 
     @Autowired
-    private TransactionalBeanFactory transactionalBeanFactory;
-
-    private <T, E> E createTransactionalBean(T service, Class<E> type) {
-        return Try.of(() -> transactionalBeanFactory.createTransactionalBean(service, type)).get();
-    }
+    private TransactionalBeanFactory txBeanFactory;
 
     @Bean(name = "jpaRepository")
     public JpaRepository jpaRepository() {
         return new JpaRepositoryImpl();
-    }
-
-    @Bean(name = "defaultQueueIdGenerator")
-    public CorrelationIdGenerator queueIdGenerator() {
-        return new DefaultQueueIdGenerator();
     }
 
     @Bean(name = "goodsRepository")
@@ -46,14 +32,10 @@ public class ServiceBeanContext {
         return new GoodsRepositoryImpl(jpaRepository);
     }
 
-    @Bean(name = "goodsTransformer")
-    public GoodsTransformer goodsTransformer() {
-        return new GoodsTransformer();
-    }
-
     @Bean(name = "goodsEntityService")
-    public GoodsEntityService goodsEntityService(GoodsRepository repository, GoodsTransformer transformer) {
-        return createTransactionalBean(new GoodsEntityServiceImpl(repository, transformer), GoodsEntityService.class);
+    public GoodsEntityService goodsEntityService(GoodsRepository repository) {
+        return txBeanFactory.create(new GoodsEntityServiceImpl(repository, new GoodsTransformer()),
+                GoodsEntityService.class);
     }
 
 }

@@ -4,6 +4,7 @@ import com.pineframework.core.contract.repository.BatchRepository;
 import com.pineframework.core.contract.repository.CrudRepository;
 import com.pineframework.core.contract.repository.QueryRepository;
 import com.pineframework.core.contract.service.AroundServiceOperation;
+import com.pineframework.core.contract.service.BatchService;
 import com.pineframework.core.contract.transformer.ImmutableFlatTransformer;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;

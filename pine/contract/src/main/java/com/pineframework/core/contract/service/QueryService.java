@@ -1,4 +1,4 @@
-package com.pineframework.core.contract.service.entityservice;
+package com.pineframework.core.contract.service;
 
 import com.pineframework.core.datamodel.filter.Filter;
 import com.pineframework.core.datamodel.paging.Page;

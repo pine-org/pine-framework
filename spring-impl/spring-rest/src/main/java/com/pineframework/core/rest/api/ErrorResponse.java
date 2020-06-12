@@ -1,4 +1,4 @@
-package com.pineframework.core.rest;
+package com.pineframework.core.rest.api;
 
 import com.pineframework.core.business.exception.AbstractException;
 import org.springframework.http.HttpStatus;

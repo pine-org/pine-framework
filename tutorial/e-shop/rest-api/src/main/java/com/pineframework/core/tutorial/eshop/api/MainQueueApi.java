@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(value = "e-shop/v1/api/queue", tags = {"E Shop Queue API"})
+@Api(value = "e-shop/api/v1/queue", tags = {"E Shop Queue API"})
 @RestController
-@RequestMapping("v1/api/queue")
+@RequestMapping("/api/v1/queue")
 public class MainQueueApi extends AbstractQueueRestApi<String, MessageModel, QueueService<String, MessageModel>> {
 
     @Autowired

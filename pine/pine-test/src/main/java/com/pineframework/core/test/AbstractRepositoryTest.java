@@ -51,7 +51,7 @@ public abstract class AbstractRepositoryTest<E extends CrudRepository & QueryRep
     }
 
     @Override
-    public void findAllDataAndExpectedCountIs(int count) {
+    public void findAllDataWithExpectedCount(int count) {
         FlatPersistence[] data = getOperator().findAll();
         assertNotNull(data);
         assertEquals(count, data.length);

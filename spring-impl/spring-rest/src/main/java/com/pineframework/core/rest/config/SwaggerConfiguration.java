@@ -1,9 +1,8 @@
-package com.pineframework.core.rest;
+package com.pineframework.core.rest.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -19,7 +18,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @PropertySource("classpath:info.properties")
 @ConfigurationProperties(prefix = "info")
-@ComponentScan(value = {"com.pineframework.core.rest"})
 public class SwaggerConfiguration {
 
     @Value("${configuration.scan-package}")

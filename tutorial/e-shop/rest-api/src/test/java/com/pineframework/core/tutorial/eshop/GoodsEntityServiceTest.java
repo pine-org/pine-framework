@@ -48,7 +48,7 @@ public class GoodsEntityServiceTest extends AbstractEntityServiceTest<GoodsEntit
     @DisplayName("Find all models and expected size is three.")
     @Order(2)
     public void findAll_FindAllGoodsModel_ReturnGoodsModelArray() {
-        findAllDataAndExpectedCountIs(3);
+        findAllDataWithExpectedCount(3);
     }
 
     @ParameterizedTest

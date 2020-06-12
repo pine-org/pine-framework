@@ -12,7 +12,7 @@ public interface BasicBusinessOperation<T, E> {
 
     void saveDataThenAssertIdIsNotNull(String name);
 
-    void findAllDataAndExpectedCountIs(int count);
+    void findAllDataWithExpectedCount(int count);
 
     void updateCurrentDataWith(String name);
 

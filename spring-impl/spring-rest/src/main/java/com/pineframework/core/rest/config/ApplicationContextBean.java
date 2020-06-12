@@ -1,4 +1,4 @@
-package com.pineframework.core.tutorial.eshop;
+package com.pineframework.core.rest.config;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

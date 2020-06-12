@@ -1,6 +1,7 @@
 package com.pineframework.core.contract.service.entityservice;
 
 import com.pineframework.core.contract.repository.QueryRepository;
+import com.pineframework.core.contract.service.QueryService;
 import com.pineframework.core.contract.transformer.ImmutableFlatTransformer;
 import com.pineframework.core.datamodel.filter.Filter;
 import com.pineframework.core.datamodel.model.FlatTransient;

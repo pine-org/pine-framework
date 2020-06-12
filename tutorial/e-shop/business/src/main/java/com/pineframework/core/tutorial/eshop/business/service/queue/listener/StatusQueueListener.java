@@ -1,11 +1,11 @@
 package com.pineframework.core.tutorial.eshop.business.service.queue.listener;
 
-import com.pineframework.core.business.jms.JmsListenertHolder;
+import com.pineframework.core.business.jms.JmsListener;
 import io.vavr.control.Try;
 
 import javax.jms.MessageListener;
 
-public class StatusQueueListenerHolder implements JmsListenertHolder {
+public class StatusQueueListener implements JmsListener {
 
     @Override
     public String getId() {
@@ -18,7 +18,7 @@ public class StatusQueueListenerHolder implements JmsListenertHolder {
     }
 
     @Override
-    public MessageListener getListener() {
+    public MessageListener getProcess() {
         return message -> System.out.println("Status Queue : " + Try.of(() -> message.getJMSCorrelationID()).get());
     }
 }

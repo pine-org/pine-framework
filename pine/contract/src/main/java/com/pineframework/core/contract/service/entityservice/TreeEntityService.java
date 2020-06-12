@@ -3,6 +3,7 @@ package com.pineframework.core.contract.service.entityservice;
 import com.pineframework.core.contract.repository.TreeRepository;
 import com.pineframework.core.contract.service.AroundServiceOperation;
 import com.pineframework.core.contract.service.BusinessService;
+import com.pineframework.core.contract.service.TreeService;
 import com.pineframework.core.contract.transformer.ImmutableTreeTransformer;
 import com.pineframework.core.datamodel.model.TreeTransient;
 import com.pineframework.core.datamodel.path.PathGenerator;

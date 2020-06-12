@@ -1,4 +1,4 @@
-package com.pineframework.core.rest;
+package com.pineframework.core.rest.helper;
 
 import com.pineframework.core.business.exception.AbstractException;
 import com.pineframework.core.business.exception.CoreException;

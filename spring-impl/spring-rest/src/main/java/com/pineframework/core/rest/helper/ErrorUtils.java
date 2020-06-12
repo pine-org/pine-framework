@@ -1,10 +1,10 @@
-package com.pineframework.core.rest;
+package com.pineframework.core.rest.helper;
 
 import com.pineframework.core.business.exception.ExceptionArray;
 import com.pineframework.core.business.exception.ValidationException;
 import org.springframework.validation.Errors;
 
-public class ExceptionUtils {
+public class ErrorUtils {
 
     public static void checkErrors(Errors errors) {
         if (!errors.hasErrors())

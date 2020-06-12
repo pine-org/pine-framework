@@ -5,6 +5,7 @@ import com.pineframework.core.contract.service.queue.QueueService;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -12,14 +13,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.Serializable;
 import java.util.Optional;
 
-import static com.pineframework.core.rest.ExceptionUtils.checkErrors;
+import static com.pineframework.core.rest.helper.ErrorUtils.checkErrors;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.ResponseEntity.ok;
 
-public abstract class AbstractQueueRestApi<I extends Serializable,
-        M extends FlatTransient<I>,
+public abstract class AbstractQueueRestApi<I extends Serializable, M extends FlatTransient<I>,
         S extends QueueService<I, M>> implements Rest<S> {
 
     protected S service;
@@ -43,6 +47,7 @@ public abstract class AbstractQueueRestApi<I extends Serializable,
      */
     @ApiOperation(value = "${restfulApi.save.value}", notes = "${restfulApi.save.notes}")
     @PostMapping
+    @ResponseStatus(value = CREATED, code = CREATED)
     public ResponseEntity<I> save(
             @ApiParam(name = "Model", value = "${restfulApi.save.param}", required = true)
             @Validated(CreateValidationGroup.class) @RequestBody M model,
@@ -80,7 +85,7 @@ public abstract class AbstractQueueRestApi<I extends Serializable,
      * @return ID
      */
     public ResponseEntity<I> saveAction(M model) {
-        return ResponseEntity.of(Optional.ofNullable(getService().save(model).get().getId()));
+        return ResponseEntity.status(CREATED).body(getService().save(model).get().getId());
     }
 
     /**
@@ -92,6 +97,7 @@ public abstract class AbstractQueueRestApi<I extends Serializable,
      */
     @ApiOperation(value = "${restfulApi.findById.value}", notes = "${restfulApi.findById.notes}")
     @GetMapping("/{id}")
+    @ResponseStatus(value = OK, code = OK)
     public ResponseEntity<M> findById(
             @ApiParam(name = "ID",
                     value = "${restfulApi.findById.param}",
@@ -100,7 +106,7 @@ public abstract class AbstractQueueRestApi<I extends Serializable,
                     example = "0")
             @PathVariable("id") I id) {
 
-        return ResponseEntity.of(getService().findById(id));
+        return ok(getService().findById(id).get());
     }
 
 }

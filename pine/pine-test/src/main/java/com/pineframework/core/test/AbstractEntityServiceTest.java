@@ -50,7 +50,7 @@ public abstract class AbstractEntityServiceTest<E extends CrudEntityService & Qu
     }
 
     @Override
-    public void findAllDataAndExpectedCountIs(int count) {
+    public void findAllDataWithExpectedCount(int count) {
         FlatTransient[] data = getOperator().findAll();
         assertNotNull(data);
         assertEquals(count, data.length);

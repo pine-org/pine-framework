@@ -1,4 +1,4 @@
-package com.pineframework.core.contract.service.entityservice;
+package com.pineframework.core.contract.service;
 
 import java.util.Optional;
 

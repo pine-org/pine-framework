@@ -2,21 +2,30 @@ package com.pineframework.core.rest.api;
 
 import com.pineframework.core.contract.restapi.CreateValidationGroup;
 import com.pineframework.core.contract.restapi.UpdateValidationGroup;
-import com.pineframework.core.contract.service.entityservice.BatchService;
+import com.pineframework.core.contract.service.BatchService;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.Valid;
 import java.io.Serializable;
 
-import static com.pineframework.core.rest.ExceptionUtils.checkErrors;
+import static com.pineframework.core.rest.helper.ErrorUtils.checkErrors;
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.MULTI_STATUS;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 
 /**
@@ -39,7 +48,8 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
      * @return ID
      */
     @ApiOperation(value = "${restfulApi.batchOperations.value}", notes = "${restfulApi.batchOperations.notes}")
-    @PostMapping("/batch/operations")
+    @PutMapping("/batch/operations")
+    @ResponseStatus(value = MULTI_STATUS, code = MULTI_STATUS)
     default ResponseEntity<I[]> batchOperations(
             @ApiParam(name = "Models", value = "${restfulApi.batchOperations.param}", required = true)
             @Validated({CreateValidationGroup.class, UpdateValidationGroup.class}) @RequestBody M[] models,
@@ -79,7 +89,7 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
      * @return ID
      */
     default ResponseEntity<I[]> batchOperationsAction(M[] model, I[] identities) {
-        return ResponseEntity.ok(getService().batchOperations(model, identities));
+        return ResponseEntity.status(MULTI_STATUS).body(getService().batchOperations(model, identities));
     }
 
     /**
@@ -92,6 +102,7 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
      */
     @ApiOperation(value = "${restfulApi.batchSave.value}", notes = "${restfulApi.batchSave.notes}")
     @PostMapping("/batch/save")
+    @ResponseStatus(value = CREATED, code = CREATED)
     default ResponseEntity<I[]> batchSave(
             @ApiParam(name = "Model", value = "${restfulApi.batchSave.param}", required = true)
             @Validated(CreateValidationGroup.class) @RequestBody M[] models,
@@ -129,7 +140,7 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
      * @return ID
      */
     default ResponseEntity<I[]> batchSaveAction(M[] model) {
-        return ResponseEntity.ok(getService().batchSave(model));
+        return ResponseEntity.status(CREATED).body(getService().batchSave(model));
     }
 
     /**
@@ -141,7 +152,8 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
      * @return ID
      */
     @ApiOperation(value = "${restfulApi.batchUpdate.value}", notes = "${restfulApi.batchUpdate.notes}")
-    @PutMapping("/batch/update")
+    @PatchMapping("/batch/update")
+    @ResponseStatus(value = ACCEPTED, code = ACCEPTED)
     default void batchUpdate(
             @ApiParam(name = "Model", value = "${restfulApi.batchUpdate.param}", required = true)
             @Validated(UpdateValidationGroup.class) @RequestBody M[] models,
@@ -188,10 +200,11 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
      * @param identities
      */
     @ApiOperation(value = "${restfulApi.batchDelete.value}", notes = "${restfulApi.batchDelete.notes}")
-    @PutMapping("/batch/delete")
+    @DeleteMapping("/batch/delete/ids")
+    @ResponseStatus(value = NO_CONTENT, code = NO_CONTENT)
     default void batchDelete(
             @ApiParam(name = "identities", value = "${restfulApi.batchDelete.param}", required = true)
-            @RequestBody I[] identities) {
+            @PathVariable("ids") I[] identities) {
 
         batchDeleteAction(identities);
     }

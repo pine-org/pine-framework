@@ -2,23 +2,32 @@ package com.pineframework.core.rest.api;
 
 import com.pineframework.core.contract.restapi.CreateValidationGroup;
 import com.pineframework.core.contract.restapi.UpdateValidationGroup;
-import com.pineframework.core.contract.service.entityservice.CrudService;
+import com.pineframework.core.contract.service.CrudService;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.Serializable;
 
-import static com.pineframework.core.rest.ExceptionUtils.checkErrors;
+import static com.pineframework.core.rest.helper.ErrorUtils.checkErrors;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.ResponseEntity.ok;
 
 
 /**
@@ -42,6 +51,7 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
      */
     @ApiOperation(value = "${restfulApi.save.value}", notes = "${restfulApi.save.notes}")
     @PostMapping
+    @ResponseStatus(value = CREATED, code = CREATED)
     default ResponseEntity<I> save(
             @ApiParam(name = "Model", value = "${restfulApi.save.param}", required = true)
             @Validated(CreateValidationGroup.class) @RequestBody M model,
@@ -79,7 +89,7 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
      * @return ID
      */
     default ResponseEntity<I> saveAction(M model) {
-        return ResponseEntity.of(getService().save(model));
+        return ResponseEntity.status(CREATED).body(getService().save(model).get());
     }
 
     /**
@@ -91,6 +101,7 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
      */
     @ApiOperation(value = "${restfulApi.findById.value}", notes = "${restfulApi.findById.notes}")
     @GetMapping("/{id}")
+    @ResponseStatus(value = OK, code = OK)
     default ResponseEntity<M> findById(
             @ApiParam(name = "ID",
                     value = "${restfulApi.findById.param}",
@@ -99,7 +110,7 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
                     example = "0")
             @PathVariable("id") I id) {
 
-        return ResponseEntity.of(getService().findById(id));
+        return ok(getService().findById(id).get());
     }
 
     /**
@@ -110,7 +121,8 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
      * @param errors
      */
     @ApiOperation(value = "${restfulApi.update.value}", notes = "${restfulApi.update.notes}")
-    @PutMapping
+    @PatchMapping
+    @ResponseStatus(value = ACCEPTED, code = ACCEPTED)
     default void update(
             @ApiParam(name = "Value Object", value = "${restfulApi.update.param}", required = true)
             @Validated(UpdateValidationGroup.class) @RequestBody M model,
@@ -120,6 +132,7 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
 
         beforeUpdate(model);
         updateAction(model);
+        afterUpdate(model);
     }
 
     /**
@@ -156,6 +169,7 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
      */
     @ApiOperation(value = "${restfulApi.delete.value}", notes = "${restfulApi.delete.notes}")
     @DeleteMapping("/{id}")
+    @ResponseStatus(value = NO_CONTENT, code = NO_CONTENT)
     default void delete(
             @ApiParam(name = "ID",
                     value = "${restfulApi.delete.param}",

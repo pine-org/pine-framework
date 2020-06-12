@@ -1,6 +1,6 @@
 package com.pineframework.core.rest.api;
 
-import com.pineframework.core.contract.service.entityservice.TreeService;
+import com.pineframework.core.contract.service.TreeService;
 import com.pineframework.core.datamodel.model.TreeTransient;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
