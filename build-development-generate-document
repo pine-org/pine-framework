@@ -1,10 +1,9 @@
-mvn clean install
-mvn -f ./pine/pom.xml clean install -P Development,Localhost,ActiveMQ,MySQL,English-Check-style
+mvn -f ./core/pom.xml clean install -P Development,Localhost,ActiveMQ,MySQL,English-Check-style
 mvn -f ./spring-impl/pom.xml clean install -P Development,Localhost,ActiveMQ,MySQL,English-Check-style
 mvn -f ./tutorial/pom.xml clean install -P Development,Localhost,ActiveMQ,MySQL,English-Check-style,PropertiesFile
 
-mvn -f ./pine/pine-document/pom.xml com.github.jeluard:plantuml-maven-plugin:generate -P Document
-mvn -f ./pine/pine-document/pom.xml process-resources -P Document
+mvn -f ./core/core-document/pom.xml com.github.jeluard:plantuml-maven-plugin:generate -P Document
+mvn -f ./core/core-document/pom.xml process-resources -P Document
 
 mvn -f ./tutorial/e-shop/document/pom.xml com.github.jeluard:plantuml-maven-plugin:generate -P Document
 mvn -f ./tutorial/e-shop/document/pom.xml process-resources -P Document

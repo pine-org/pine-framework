@@ -1,0 +1,53 @@
+@startuml
+skinparam shadowing false
+
+rectangle "Domain" as domain{
+
+    rectangle "Base Component" as baseComponent {
+
+       together {
+           component "I18N" as i18n
+           component "Document" as pineDocument
+             component "Properties" as properties
+               component "Config Server Address" as configServerAddress
+       }
+
+       together {
+           component "Data Model" as dataModel
+           component "Helper" as helper
+           component "Test" as pineTest
+           component "Contract" as contract
+           component "Business" as pineBusiness
+       }
+
+       contract ..> dataModel
+       contract ..> helper
+       pineBusiness ..> contract
+    }
+
+    rectangle "Domain Component Template" as templateComponent {
+        component "Component" as comp
+
+        together {
+            component "Business" as business
+            component "Model" as model
+            component "Exposer" as exposer
+            component "Document" as document
+            component "Test" as test
+        }
+
+        comp *-- test
+        comp *-- document
+        comp *- exposer
+        comp *- business
+        comp *- model
+
+        business ..> model
+        exposer ..> business
+
+        comp ..> pineBusiness
+        comp ..> pineTest
+    }
+}
+
+@enduml

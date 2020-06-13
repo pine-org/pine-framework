@@ -1,8 +1,8 @@
 @startuml
 skinparam shadowing false
 rectangle "Shop" as shop{
-component "Goods" as goods
-component "Basket" as basket
-component "User" as user
+    component "Goods" as goods
+    component "Basket" as basket
+    component "User" as user
 }
 @enduml

@@ -24,8 +24,8 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.pineframework.core.pine</groupId>
-                <artifactId>pine</artifactId>
+                <groupId>com.pineframework.core</groupId>
+                <artifactId>core</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -35,7 +35,7 @@
     <dependencies>
         <dependency>
             <groupId>com.pineframework.core.business</groupId>
-            <artifactId>pine-business</artifactId>
+            <artifactId>core-business</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -55,7 +55,7 @@
         </dependency>
         <dependency>
             <groupId>com.pineframework.core.test</groupId>
-            <artifactId>pine-test</artifactId>
+            <artifactId>core-test</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>

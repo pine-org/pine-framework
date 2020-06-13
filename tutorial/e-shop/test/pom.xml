@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>com.pineframework.core.test</groupId>
-            <artifactId>pine-test</artifactId>
+            <artifactId>core-test</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>

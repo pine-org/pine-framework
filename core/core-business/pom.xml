@@ -3,19 +3,24 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>pine</artifactId>
-        <groupId>com.pineframework.core.pine</groupId>
+        <artifactId>core</artifactId>
+        <groupId>com.pineframework.core</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.pineframework.core.contract</groupId>
-    <artifactId>contract</artifactId>
-    <version>${contratc.version}</version>
-    <packaging>jar</packaging>
-    <name>Contract</name>
+    <groupId>com.pineframework.core.business</groupId>
+    <artifactId>core-business</artifactId>
+    <version>${core-business.version}</version>
+    <name>Core Business</name>
+    <description>This module include all classes that will used to business tier</description>
 
     <dependencies>
+        <dependency>
+            <groupId>com.pineframework.core.contract</groupId>
+            <artifactId>contract</artifactId>
+            <version>${contratc.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.pineframework.core.datamodel</groupId>
             <artifactId>data-model</artifactId>
@@ -24,8 +29,7 @@
         <dependency>
             <groupId>com.pineframework.core.helper</groupId>
             <artifactId>helper</artifactId>
-            <version>${helper.version}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
 </project>
