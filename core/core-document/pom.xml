@@ -8,12 +8,11 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.pineframework.core.document</groupId>
     <artifactId>core-document</artifactId>
     <version>${core-document.version}</version>
     <packaging>jar</packaging>
-    <name>Document</name>
+    <name>Core Document</name>
     <profiles>
         <profile>
             <id>Document</id>

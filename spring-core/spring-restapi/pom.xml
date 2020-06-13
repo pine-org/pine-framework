@@ -8,10 +8,11 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.pineframework.core.spring</groupId>
     <artifactId>spring-restapi</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Spring Core -> Rest API</name>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

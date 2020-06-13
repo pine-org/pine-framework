@@ -8,17 +8,14 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.pineframework.core.test</groupId>
     <artifactId>core-test</artifactId>
     <version>${core-test.version}</version>
-
-    <name>Test</name>
-
+    <packaging>jar</packaging>
+    <name>Core Test</name>
     <description>
         Test module include unit test dependencies and abstractions that needed to execute unit tests.
     </description>
-
     <dependencies>
         <dependency>
             <groupId>com.pineframework.core.contract</groupId>
@@ -91,5 +88,4 @@
             <version>5.6.0</version>
         </dependency>
     </dependencies>
-
 </project>

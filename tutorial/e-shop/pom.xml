@@ -87,7 +87,6 @@
                 </dependency>
             </dependencies>
         </profile>
-
         <profile>
             <id>Production</id>
             <properties>
@@ -121,7 +120,6 @@
                 <build.profile.id>test</build.profile.id>
             </properties>
         </profile>
-
         <profile>
             <id>Parsi-Check-style</id>
             <build>
@@ -199,7 +197,6 @@
                                     <encoding>UTF-8</encoding>
                                     <consoleOutput>true</consoleOutput>
                                     <failsOnError>true</failsOnError>
-
                                     <failOnViolation>true</failOnViolation>
                                     <includeResources>false</includeResources>
                                     <includeTestResources>false</includeTestResources>

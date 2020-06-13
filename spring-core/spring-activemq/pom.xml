@@ -8,14 +8,11 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.pineframework.core.spring</groupId>
     <artifactId>spring-activemq</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-
-    <name>Active MQ Classic</name>
-
+    <name>Spring Core -> Active MQ Classic</name>
     <description>
         This module is a component that include all configuration and staff in order to
         connect to ActiveMQ Classic and work with messaging architecture.
