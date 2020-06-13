@@ -2,7 +2,7 @@ package com.pineframework.core.tutorial.eshop.api;
 
 import com.pineframework.core.contract.service.queue.QueueService;
 import com.pineframework.core.datamodel.model.message.MessageModel;
-import com.pineframework.core.rest.api.AbstractQueueRestApi;
+import com.pineframework.core.spring.restapi.restcontroller.AbstractQueueRestApi;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

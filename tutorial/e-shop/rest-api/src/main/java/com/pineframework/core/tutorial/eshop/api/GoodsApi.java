@@ -1,6 +1,6 @@
 package com.pineframework.core.tutorial.eshop.api;
 
-import com.pineframework.core.rest.api.AbstractRestApi;
+import com.pineframework.core.spring.restapi.restcontroller.AbstractRestApi;
 import com.pineframework.core.tutorial.eshop.business.service.GoodsEntityService;
 import com.pineframework.core.tutorial.eshop.model.GoodsModel;
 import io.swagger.annotations.Api;

@@ -1,5 +1,5 @@
 mvn -f ./core/pom.xml clean install -P Development,Localhost,ActiveMQ,MySQL,English-Check-style
-mvn -f ./spring-impl/pom.xml clean install -P Development,Localhost,ActiveMQ,MySQL,English-Check-style
+mvn -f ./spring-core/pom.xml clean install -P Development,Localhost,ActiveMQ,MySQL,English-Check-style
 mvn -f ./tutorial/pom.xml clean install -P Development,Localhost,ActiveMQ,MySQL,English-Check-style,PropertiesFile
 
 mvn -f ./core/core-document/pom.xml com.github.jeluard:plantuml-maven-plugin:generate -P Document

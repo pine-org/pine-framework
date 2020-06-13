@@ -15,8 +15,8 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.pineframework.core.springimpl</groupId>
-                <artifactId>spring-impl</artifactId>
+                <groupId>com.pineframework.core.spring</groupId>
+                <artifactId>spring-core</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -30,27 +30,23 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.pineframework.core.jms</groupId>
-            <artifactId>jms</artifactId>
+            <groupId>com.pineframework.core.spring</groupId>
+            <artifactId>spring-messaging</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.pineframework.core.messaging.activemq</groupId>
-            <artifactId>activemq</artifactId>
+            <groupId>com.pineframework.core.spring</groupId>
+            <artifactId>spring-activemq</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.pineframework.core.rest</groupId>
-            <artifactId>spring-rest</artifactId>
+            <groupId>com.pineframework.core.spring</groupId>
+            <artifactId>spring-restapi</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.pineframework.core.transaction</groupId>
-            <artifactId>transaction</artifactId>
+            <groupId>com.pineframework.core.spring</groupId>
+            <artifactId>spring-transaction</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <!--test-->
