@@ -1,0 +1,53 @@
+@startuml
+skinparam shadowing false
+
+rectangle "Pine Framework" as pineFramework {
+
+    rectangle "Core Component" as coreComponent {
+
+        together {
+            component "I18N" as i18n
+            component "Document" as coreDocument
+            component "Properties" as properties
+            component "Config Server Address" as configServerAddress
+        }
+
+        together {
+            component "Data Model" as dataModel
+            component "Helper" as helper
+            component "Test" as coreTest
+            component "Contract" as contract
+            component "Business" as coreBusiness
+        }
+
+        contract ..> dataModel
+        contract ..> helper
+        coreBusiness ..> contract
+        coreTest .right.> contract
+    }
+
+    rectangle "Product Component Template" as productComponent {
+        component "Component" as comp
+
+        together {
+            component "Business" as business
+            component "Model" as model
+            component "Exposer" as exposer
+            component "Document" as document
+            component "Test" as test
+        }
+
+        comp *-- test
+        comp *-- document
+        comp *- exposer
+        comp *- business
+        comp *- model
+
+        business ..> model
+        exposer ..> business
+
+        comp ..> coreBusiness
+        comp ..> coreTest
+    }
+}
+@enduml

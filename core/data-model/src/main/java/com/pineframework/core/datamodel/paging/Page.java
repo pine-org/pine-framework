@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pineframework.core.datamodel.filter.Filter;
 
+import static java.lang.Math.ceil;
+import static java.lang.Math.min;
+
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
@@ -14,15 +17,20 @@ public class Page implements Pageable {
 
     private int limit = 10;
 
-    private int currentPage = 0;
+    private int index = 1;
 
-    private int pageSize = 10;
+    private int size = 10;
 
-    private Long totalCount = 0L;
+    private int length = 0;
+
+    private Long count = 0L;
 
     private Object[] content = new Object[0];
 
     private Filter[] filters = new Filter[0];
+
+    public Page() {
+    }
 
     @JsonIgnore
     public Page(int offset, int limit) {
@@ -66,27 +74,43 @@ public class Page implements Pageable {
         this.filters = filters;
     }
 
-    public int getCurrentPage() {
-        return currentPage;
+    public int getIndex() {
+        return index;
     }
 
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
-    public int getPageSize() {
-        return pageSize;
+    public int getSize() {
+        return size;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+    public void setSize(int size) {
+        this.size = size;
     }
 
-    public Long getTotalCount() {
-        return totalCount;
+    public int getLength() {
+        return length;
     }
 
-    public void setTotalCount(Long totalCount) {
-        this.totalCount = totalCount;
+    public void setLength(int length) {
+        this.length = length;
     }
+
+    public Long getCount() {
+        return count;
+    }
+
+    public void setCount(Long count) {
+        this.count = count;
+    }
+
+    @JsonIgnore
+    public void next() {
+        length = (int) ceil((count.doubleValue() / size));
+        index = min(((offset / limit) + 1), length);
+        offset = min((offset + size), count.intValue());
+    }
+
 }

@@ -23,6 +23,7 @@
         <module>spring-messaging</module>
         <module>config-server</module>
         <module>spring-transaction</module>
+        <module>config-server-address</module>
     </modules>
     <dependencyManagement>
         <dependencies>

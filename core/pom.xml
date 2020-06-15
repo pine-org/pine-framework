@@ -65,7 +65,6 @@
         <module>i18n</module>
         <module>core-document</module>
         <module>properties</module>
-        <module>config-server-address</module>
     </modules>
     <dependencies>
         <!--java ee-->

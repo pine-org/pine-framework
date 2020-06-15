@@ -1,3 +1,3 @@
-mvn -f ./config-server-address/pom.xml clean install -P Test,Localhost,MySQL
-mvn -f ./properties/pom.xml clean install -P Test,Localhost
-mvn clean install -P Test,Localhost,PropertiesFile,ActiveMQ,Database,English-Check-style
+mvn -f ./core/pom.xml clean install -P Test,Localhost,ActiveMQ,MySQL,English-Check-style
+mvn -f ./spring-core/pom.xml clean install -P Test,Localhost,ActiveMQ,MySQL,English-Check-style
+mvn -f ./tutorial/pom.xml clean install -P Test,Localhost,ActiveMQ,MySQL,English-Check-style,PropertiesFile

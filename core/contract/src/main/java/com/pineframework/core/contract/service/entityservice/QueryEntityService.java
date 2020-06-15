@@ -32,13 +32,13 @@ public interface QueryEntityService<I extends Serializable,
     @Override
     default Page findByPage(Page page) {
         Long count = getRepository().count(page.getFilters());
+        page.setCount(count);
+
         if (count == 0)
             return page;
 
-        M[] content = getTransformer().transform(getRepository().find(page));
-
-        page.setTotalCount(count);
-        page.setContent(content);
+        page.setContent(getTransformer().transform(getRepository().find(page)));
+        page.next();
 
         return page;
     }

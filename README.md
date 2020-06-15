@@ -29,47 +29,52 @@ Download [Jenkins](https://jenkins.io/download/) in WAR format then execute comm
 
 ### Install JFrog
 
-### Install Database
-
-### Install Artifactory
-
  - Download [JFrog](https://jfrog.com/open-source/)
  - [Getting Start](https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory)
+
+### Install Database
 
 ### Install ActiveMQ
 
 ## Build
 If you want to deploy products on your machine and every tools installed on your machine
 
-    `mvn clean install -P Development,Localhost,ConfigServer,ActiveMQ,English-Check-style`
-    `mvn clean install -P Development,Localhost,PropertiesFile,ActiveMQ,English-Check-style`
+### Build based on spring and properties files
+- `mvn -f ./core/pom.xml clean install -P ...`
+- `mvn -f ./spring-core/pom.xml clean install -P ...`
+- `mvn -f ./tutorial/pom.xml clean install -P ...,PropertiesFile`
 
-If you want to deploy products on docker that installed on your machine and every tools installed on your machine
-    
+### Build based on spring and config server (Cloud)
+- `mvn -f ./core/pom.xml clean install -P ...`
+- `mvn -f ./spring-core/pom.xml clean install -P ...`
+- `mvn -f ./tutorial/pom.xml clean install -P ...,ConfigServer`
+
 ## Run
 ### Development Environment (deploy on localhost)
 Run all tools on your machine.
 
 Build the project:
- - `mvn -f ./config-server-address/pom.xml clean install -P Development,Localhost`
- - `mvn -f ./properties/pom.xml clean install -P Development,Localhost`
- - `mvn clean install -P Development,Localhost,ConfigServer,ActiveMQ,English-Check-style`
- - `mvn clean install -P Development,Localhost,PropertiesFile,ActiveMQ,English-Check-style`
-
-Run config server on your machine:
- - `java -jar ./config-server/target/config-server-1.0.0-SNAPSHOT.jar`
-
- - [Configuration repository](https://github.com/pine-org/pine-framework/tree/master/configuration-repository)
-
- - [Configuration Service Console](http://127.0.0.1:8888/config-server/profile-name)
+- `mvn -f ./core/pom.xml clean install -P Development,Localhost,...`
+- `mvn -f ./spring-core/pom.xml clean install -P Development,Localhost,...`
+- `mvn -f ./tutorial/pom.xml clean install -P Development,Localhost,...,PropertiesFile`
 
 Run your modules on your machine:
- - `java -jar ./tutorial/activemq-sample/rest-api/target/config-server-1.0.0-SNAPSHOT.jar`
+ - `java -jar ./tutorial/e-shop/rest-api/target/e-shop-*.jar`
 
-### Development Environment (deploy on docker)
-Run configuration service and modules on your machine:
+Build the cloud base project:
+- `mvn -f ./core/pom.xml clean install -P Development,Localhost,...`
+- `mvn -f ./spring-core/pom.xml clean install -P Development,Localhost,...`
+- `mvn -f ./tutorial/pom.xml clean install -P Development,Localhost,...,ConfigServer`
 
- - `docker-compose up --build` 
+Run config server on your machine:
+ - `java -jar ./spring-core/config-server/target/config-server-*.jar`
+
+ - [Configuration repository](https://github.com/pine-org/pine-framework/tree/master/config-repo)
+
+ - [Configuration Service Console](http://127.0.0.1:8888/config-server/general)
+
+Run your modules on your machine:
+ - `java -jar ./tutorial/e-shop/rest-api/target/e-shop-*.jar`
 
 ## Test
  - `mvn test -P Test`

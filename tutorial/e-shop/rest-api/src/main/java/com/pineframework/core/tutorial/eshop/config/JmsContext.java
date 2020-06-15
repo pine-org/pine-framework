@@ -43,7 +43,7 @@ public class JmsContext {
         return txBeanFactory.create(new StatusQueueProxyServiceImpl(queueService), QueueService.class);
     }
 
-    @Profile(value = {"development","uat","production"})
+    @Profile(value = {"development", "uat", "production"})
     @Bean
     @DependsOn("statusQueueService")
     public JmsListener[] jmsListeners() {

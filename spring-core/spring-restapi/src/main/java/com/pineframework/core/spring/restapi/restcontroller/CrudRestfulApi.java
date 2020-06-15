@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.Serializable;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
