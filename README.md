@@ -69,9 +69,9 @@ Build the cloud base project:
 Run config server on your machine:
  - `java -jar ./spring-core/config-server/target/config-server-*.jar`
 
- - [Configuration repository](https://github.com/pine-org/pine-framework/tree/master/config-repo)
+ - [Configuration repository](https://github.com/pine-org/pine-framework/tree/master/config-repo-development)
 
- - [Configuration Service Console](http://127.0.0.1:8888/config-server/common)
+ - [Configuration Service Console](http://127.0.0.1:8888/config-server/common-development)
 
 Run your modules on your machine:
  - `java -jar ./tutorial/e-shop/rest-api/target/e-shop-*.jar`
