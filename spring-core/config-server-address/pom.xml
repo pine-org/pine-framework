@@ -15,15 +15,17 @@
     <name>Config Server Address</name>
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
-        <filters>
-            <filter>src/main/resources/env/application-config-server-${env}.properties</filter>
-        </filters>
+        <!--        <filters>-->
+        <!--            <filter>src/main/resources/env/application-config-server-${env}.properties</filter>-->
+        <!--        </filters>-->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>application-config-server.properties</include>
+                    <include>application-common-${env}.properties</include>
+                    <include>application-config-server-${env}.properties</include>
+                    <include>bannername.txt</include>
                 </includes>
             </resource>
         </resources>

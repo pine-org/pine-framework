@@ -96,7 +96,7 @@
         <profile>
             <id>ConfigServer</id>
             <properties>
-                <config-profile>config-server,internationalization,common-${env}</config-profile>
+                <config-profile>config-server-${env},internationalization,common-${env}</config-profile>
             </properties>
             <dependencies>
                 <dependency>

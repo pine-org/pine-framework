@@ -68,7 +68,5 @@ public abstract class AbstractRestfulWebService<T> {
         return restTemplate.postForEntity(url, createRequestBody(m), String.class);
     }
 
-//    protected abstract String getHost();
-
     protected abstract String getRelativeUri();
 }

@@ -17,10 +17,10 @@ public class JmsListenerRegistrar implements JmsListenerConfigurer {
 
     @Override
     public void configureJmsListeners(JmsListenerEndpointRegistrar registrar) {
-        Stream.of(listeners).map(this::CreateEndpoint).forEach(registrar::registerEndpoint);
+        Stream.of(listeners).map(this::createEndpoint).forEach(registrar::registerEndpoint);
     }
 
-    public SimpleJmsListenerEndpoint CreateEndpoint(JmsListener listener) {
+    public SimpleJmsListenerEndpoint createEndpoint(JmsListener listener) {
         SimpleJmsListenerEndpoint endpoint = new SimpleJmsListenerEndpoint();
         endpoint.setId(listener.getId());
         endpoint.setDestination(listener.getDestination());

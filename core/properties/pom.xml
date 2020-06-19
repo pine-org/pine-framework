@@ -34,6 +34,7 @@
                     <include>application-${database-vendor}.properties</include>
                     <include>application-${mq-vendor}.properties</include>
                     <include>log4j.properties</include>
+                    <include>bannername.txt</include>
                 </includes>
             </resource>
         </resources>
