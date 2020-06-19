@@ -30,6 +30,7 @@
         <config-profile>empty</config-profile>
         <mq-vendor>empty</mq-vendor>
         <database-vendor>empty</database-vendor>
+        <env>empty</env>
 
         <javaee.version>8.0.1</javaee.version>
         <hibernate.version>5.4.14.Final</hibernate.version>
@@ -347,26 +348,20 @@
         <profile>
             <id>ActiveMQ</id>
             <properties>
-                <mq-vendor>activemq</mq-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>ActiveMQTest</id>
-            <properties>
-                <mq-vendor>activemq-test</mq-vendor>
+                <mq-vendor>activemq-${env}</mq-vendor>
             </properties>
         </profile>
         <profile>
             <id>MySQL</id>
             <properties>
-                <database-vendor>mysql</database-vendor>
+                <database-vendor>mysql-${env}</database-vendor>
             </properties>
         </profile>
         <profile>
             <id>Oracle</id>
             <properties>
                 <database-vendor>oracle</database-vendor>
-                <build.profile.id>oracle</build.profile.id>
+                <build.profile.id>oracle-${env}</build.profile.id>
             </properties>
         </profile>
         <profile>
@@ -375,6 +370,13 @@
                 <database-vendor>h2</database-vendor>
                 <build.profile.id>h2</build.profile.id>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <version>1.4.200</version>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 
