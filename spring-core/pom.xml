@@ -24,6 +24,7 @@
         <module>config-server</module>
         <module>spring-transaction</module>
         <module>config-server-address</module>
+        <module>spring-restapi-test</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -38,13 +39,6 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.pineframework.core</groupId>
-                <artifactId>core</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -95,4 +89,37 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>Production</id>
+            <properties>
+                <env>production</env>
+                <build.profile.id>production</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>Development</id>
+            <properties>
+                <env>development</env>
+                <build.profile.id>development</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>UAT</id>
+            <properties>
+                <env>uat</env>
+                <build.profile.id>uat</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>Test</id>
+            <properties>
+                <env>test</env>
+                <build.profile.id>test</build.profile.id>
+            </properties>
+        </profile>
+    </profiles>
 </project>

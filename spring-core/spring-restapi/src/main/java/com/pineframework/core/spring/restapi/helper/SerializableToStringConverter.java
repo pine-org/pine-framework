@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 
 @Component
-public class IdToStringConverter implements Converter<Serializable, String> {
+public class SerializableToStringConverter implements Converter<Serializable, String> {
 
     @Override
     public String convert(Serializable source) {
-        return source.toString();
+        return String.valueOf(source);
     }
 }

@@ -28,11 +28,8 @@
         <useIncrementalCompilation>false</useIncrementalCompilation>
 
         <config-profile>empty</config-profile>
-        <mq-profile>empty</mq-profile>
-        <database>empty</database>
-
-        <activemq-test-profile>activemq-test</activemq-test-profile>
-        <database-test-profile>database-test</database-test-profile>
+        <mq-vendor>empty</mq-vendor>
+        <database-vendor>empty</database-vendor>
 
         <javaee.version>8.0.1</javaee.version>
         <hibernate.version>5.4.14.Final</hibernate.version>
@@ -350,13 +347,19 @@
         <profile>
             <id>ActiveMQ</id>
             <properties>
-                <mq-profile>activemq</mq-profile>
+                <mq-vendor>activemq</mq-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>ActiveMQTest</id>
+            <properties>
+                <mq-vendor>activemq-test</mq-vendor>
             </properties>
         </profile>
         <profile>
             <id>MySQL</id>
             <properties>
-                <database>mysql</database>
+                <database-vendor>mysql</database-vendor>
             </properties>
         </profile>
         <profile>

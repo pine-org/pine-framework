@@ -1,0 +1,3 @@
+mvn -f ./core/pom.xml clean install -P Test,Localhost,ActiveMQTest,H2
+mvn -f ./spring-core/pom.xml clean install -P Test,Localhost,ActiveMQTest,H2
+mvn -f ./tutorial/pom.xml clean install -P Test,Localhost,ActiveMQTest,H2,PropertiesFile

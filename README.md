@@ -71,7 +71,7 @@ Run config server on your machine:
 
  - [Configuration repository](https://github.com/pine-org/pine-framework/tree/master/config-repo)
 
- - [Configuration Service Console](http://127.0.0.1:8888/config-server/general)
+ - [Configuration Service Console](http://127.0.0.1:8888/config-server/common)
 
 Run your modules on your machine:
  - `java -jar ./tutorial/e-shop/rest-api/target/e-shop-*.jar`

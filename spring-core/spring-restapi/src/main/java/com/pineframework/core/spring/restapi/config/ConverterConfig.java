@@ -15,5 +15,4 @@ public class ConverterConfig {
     public LinkDiscoverers discoverers() {
         return new LinkDiscoverers(SimplePluginRegistry.create(asList(new CollectionJsonLinkDiscoverer())));
     }
-
 }

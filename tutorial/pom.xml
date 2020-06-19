@@ -22,8 +22,12 @@
         <jruby.version>9.2.11.1</jruby.version>
 
         <config-profile>empty</config-profile>
-        <mq-profile>empty</mq-profile>
-        <database>empty</database>
+        <mq-vendor>empty</mq-vendor>
+        <database-vendor>empty</database-vendor>
+        <env>development</env>
+
+        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
+        <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
     </properties>
     <modules>
         <module>e-shop</module>

@@ -15,9 +15,16 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.pineframework.core.spring</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -57,14 +64,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.junit.vintage</groupId>
-                    <artifactId>junit-vintage-engine</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.pineframework.core.spring</groupId>
+            <artifactId>spring-restapi-test</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -94,7 +96,7 @@
         <profile>
             <id>ConfigServer</id>
             <properties>
-                <config-profile>config-server,internationalization,general</config-profile>
+                <config-profile>config-server,internationalization,common-${env}}</config-profile>
             </properties>
             <dependencies>
                 <dependency>
