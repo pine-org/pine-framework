@@ -227,12 +227,16 @@
             <id>Test</id>
             <properties>
                 <env>test</env>
-                <activemq-test-profile>activemq-test</activemq-test-profile>
-                <database-test-profile>database-test</database-test-profile>
                 <build.profile.id>test</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+                <database.host>localhost:3306</database.host>
+                <queue.host>localhost:61616</queue.host>
+                <config.server.host>localhost:8888</config.server.host>
+                <product.host>127.0.0.1</product.host>
+                <product.port>0</product.port>
+                <config-profile>internationalization,common-${env}</config-profile>
             </properties>
         </profile>
-
         <profile>
             <id>Parsi-Check-style</id>
             <build>
@@ -342,6 +346,8 @@
                 <database.host>localhost:3306</database.host>
                 <queue.host>localhost:61616</queue.host>
                 <config.server.host>localhost:8888</config.server.host>
+                <product.host>127.0.0.1</product.host>
+                <product.port>9091</product.port>
             </properties>
         </profile>
 

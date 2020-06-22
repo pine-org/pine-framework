@@ -21,7 +21,7 @@ import java.util.Map;
 @SpringBootTest
 @DisplayName("E-Shop Goods Service Tests")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class GoodsEntityServiceTest extends AbstractEntityServiceTest<GoodsEntityService> {
 
     @Autowired

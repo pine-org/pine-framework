@@ -131,7 +131,21 @@
             <properties>
                 <env>test</env>
                 <build.profile.id>test</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+                <database.host>localhost:3306</database.host>
+                <queue.host>localhost:61616</queue.host>
+                <config.server.host>localhost:8888</config.server.host>
+                <product.host>127.0.0.1</product.host>
+                <product.port>0</product.port>
+                <config-profile>internationalization,common-${env}</config-profile>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.pineframework.core.properties</groupId>
+                    <artifactId>properties</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
             <id>Parsi-Check-style</id>
@@ -240,6 +254,8 @@
                 <database.host>localhost:3306</database.host>
                 <queue.host>localhost:61616</queue.host>
                 <config.server.host>localhost:8888</config.server.host>
+                <product.host>127.0.0.1</product.host>
+                <product.port>9091</product.port>
             </properties>
         </profile>
         <profile>

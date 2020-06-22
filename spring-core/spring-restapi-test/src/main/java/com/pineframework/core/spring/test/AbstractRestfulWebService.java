@@ -1,41 +1,32 @@
 package com.pineframework.core.spring.test;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
-@ActiveProfiles("test")
 public abstract class AbstractRestfulWebService<T> {
 
     @Autowired
     protected TestRestTemplate restTemplate;
 
-    @LocalServerPort
-    protected int port;
-
     @Value("${server.address}")
     protected String host;
 
+    @LocalServerPort
+    protected int port;
+
     @Value("${server.servlet.context-path}")
-    protected String context;
+    protected String app;
 
     protected HttpHeaders headers;
 
@@ -44,12 +35,6 @@ public abstract class AbstractRestfulWebService<T> {
     public AbstractRestfulWebService() {
         this.headers = createJsonHttpHeaders();
         this.initData(this.data);
-    }
-
-    public abstract void initData(Map<String, T> models);
-
-    public final T getData(String name) {
-        return this.data.get(name);
     }
 
     protected HttpHeaders createJsonHttpHeaders() {
@@ -64,9 +49,18 @@ public abstract class AbstractRestfulWebService<T> {
     }
 
     protected ResponseEntity<String> post(T m) {
-        String url = "http://" + host + ":" + port + "/" + context + getRelativeUri();
-        return restTemplate.postForEntity(url, createRequestBody(m), String.class);
+        return restTemplate.postForEntity(makeUri(), createRequestBody(m), String.class);
     }
+
+    protected final String makeUri() {
+        return "http://" + host + ":" + port + app + getRelativeUri();
+    }
+
+    public final T getData(String name) {
+        return this.data.get(name);
+    }
+
+    public abstract void initData(Map<String, T> models);
 
     protected abstract String getRelativeUri();
 }

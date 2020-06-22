@@ -19,11 +19,11 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <build>
-        <filters>
-            <filter>src/main/resources/env/log/log4j-${env}.properties</filter>
-            <!--            <filter>src/main/resources/env/mq/application-${mq-vendor}-${env}.properties</filter>-->
-            <!--            <filter>src/main/resources/env/database/application-${database-vendor}-${env}.properties</filter>-->
-        </filters>
+        <!--        <filters>-->
+        <!--            <filter>src/main/resources/env/log/log4j-${env}.properties</filter>-->
+        <!--            <filter>src/main/resources/env/mq/application-${mq-vendor}-${env}.properties</filter>-->
+        <!--            <filter>src/main/resources/env/database/application-${database-vendor}-${env}.properties</filter>-->
+        <!--        </filters>-->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -34,7 +34,7 @@
                     <include>application-${database-vendor}.properties</include>
                     <include>application-${mq-vendor}.properties</include>
                     <include>log4j.properties</include>
-                    <include>bannername.txt</include>
+                    <include>banner.txt</include>
                 </includes>
             </resource>
         </resources>

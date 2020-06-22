@@ -25,7 +25,7 @@ import java.util.Map;
 @Transactional
 @Commit
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class GoodsRepositoryTest extends AbstractRepositoryTest<GoodsRepository> {
 
     @Autowired

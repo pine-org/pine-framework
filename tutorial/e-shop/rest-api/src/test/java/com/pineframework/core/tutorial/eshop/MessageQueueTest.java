@@ -6,11 +6,14 @@ import com.pineframework.core.datamodel.model.message.MqStatus;
 import com.pineframework.core.test.AbstractTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.Optional;
 
@@ -18,6 +21,8 @@ import static com.pineframework.core.tutorial.eshop.business.helper.StatusHelper
 
 @DisplayName("E-Shop Message Queue Tests")
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 public class MessageQueueTest extends AbstractTest {
 
     @Autowired
