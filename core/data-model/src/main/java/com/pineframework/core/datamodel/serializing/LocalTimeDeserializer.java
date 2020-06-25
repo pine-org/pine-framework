@@ -1,4 +1,4 @@
-package com.pineframework.core.helper.serializing;
+package com.pineframework.core.datamodel.serializing;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

@@ -10,11 +10,12 @@ import io.vavr.control.Try;
 import java.io.Serializable;
 
 public interface BusinessService<I extends Serializable,
-        M extends FlatTransient<I>,
         E extends FlatPersistence<I>,
-        R extends Repository<I, E>,
+        M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>,
-        T extends ImmutableFlatTransformer<I, M, E, B>> extends Loggable {
+        T extends ImmutableFlatTransformer<I, M, E, B>,
+        R extends Repository<I, E>> extends Loggable {
+
     Class<M> getTransientType();
 
     Class<E> getPersistenceType();

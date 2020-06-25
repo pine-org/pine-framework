@@ -18,5 +18,5 @@ public interface PathGenerator<I extends Serializable, E extends TreePersistence
      * @param entity
      * @param parentPath
      */
-    void setPath(E entity, String parentPath);
+    void updatePath(E entity, String parentPath);
 }

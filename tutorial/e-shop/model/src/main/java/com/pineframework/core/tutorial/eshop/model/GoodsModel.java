@@ -43,9 +43,9 @@ public final class GoodsModel extends FlatTransient<Long> {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder extends FlatTransient.Builder<Long, GoodsModel, GoodsModel.Builder> {
 
-        private String name;
+        private final String name;
 
-        private String code;
+        private final String code;
 
         private BigDecimal price;
 
@@ -56,16 +56,16 @@ public final class GoodsModel extends FlatTransient<Long> {
             this.code = code;
         }
 
-        public Builder price(BigDecimal price) {
-            this.price = price;
-            return this;
-        }
-
         @JsonIgnore
         @Override
         public GoodsModel.Builder from(GoodsModel model) {
             super.from(model);
             this.price = model.getPrice();
+            return this;
+        }
+
+        public Builder price(BigDecimal price) {
+            this.price = price;
             return this;
         }
 

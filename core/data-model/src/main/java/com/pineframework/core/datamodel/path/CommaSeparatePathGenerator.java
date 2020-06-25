@@ -27,7 +27,7 @@ public class CommaSeparatePathGenerator<I extends Serializable, E extends TreePe
      * @param parentPath
      */
     @Override
-    public void setPath(E entity, String parentPath) {
+    public void updatePath(E entity, String parentPath) {
         if (nonNull(parentPath))
             entity.setPath(format("%s,%s", parentPath, entity.getParent().getId()));
         else

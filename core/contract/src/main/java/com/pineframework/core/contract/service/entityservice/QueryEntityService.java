@@ -17,12 +17,12 @@ import java.util.Optional;
  */
 
 public interface QueryEntityService<I extends Serializable,
-        M extends FlatTransient<I>,
         E extends FlatPersistence<I>,
-        R extends QueryRepository<I, E>,
+        M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>,
-        T extends ImmutableFlatTransformer<I, M, E, B>>
-        extends EntityService<I, M, E, R, B, T>, QueryService<I, M> {
+        T extends ImmutableFlatTransformer<I, M, E, B>,
+        R extends QueryRepository<I, E>>
+        extends EntityService<I, E, M, B, T, R>, QueryService<I, M> {
 
     @Override
     default M[] findAll() {

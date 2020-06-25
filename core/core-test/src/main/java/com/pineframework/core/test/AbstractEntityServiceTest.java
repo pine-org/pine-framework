@@ -1,30 +1,28 @@
 package com.pineframework.core.test;
 
-import com.pineframework.core.contract.service.entityservice.BatchEntityService;
+import com.pineframework.core.contract.service.QueryService;
 import com.pineframework.core.contract.service.entityservice.CrudEntityService;
-import com.pineframework.core.contract.service.entityservice.QueryEntityService;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.io.Serializable;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import static java.lang.String.format;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public abstract class AbstractEntityServiceTest<E extends CrudEntityService & QueryEntityService & BatchEntityService>
-        extends AbstractTest implements BasicBusinessOperation<FlatTransient, E> {
+public abstract class AbstractEntityServiceTest<I extends Serializable, T extends FlatTransient,
+        E extends CrudEntityService & QueryService> extends AbstractTest<T> implements BasicBusinessOperation<I, T, E> {
 
     protected final E operator;
 
-    protected Map<String, FlatTransient> records = new HashMap<>();
-
-    public AbstractEntityServiceTest(E service) {
+    public AbstractEntityServiceTest(E service, Map<String, T> storage) {
+        super(storage);
         this.operator = service;
-        initData(records);
     }
 
     @BeforeEach
@@ -38,43 +36,47 @@ public abstract class AbstractEntityServiceTest<E extends CrudEntityService & Qu
     }
 
     @Override
-    public final FlatTransient getData(String name) {
-        return records.get(name);
+    public I save(T data) {
+        Optional<I> id = getOperator().save(data);
+        assertTrue(id.isPresent());
+
+        logInfo(format("save model[%s] successful", getDataKey(data)));
+        return id.get();
     }
 
     @Override
-    public void saveDataThenAssertIdIsNotNull(String name) {
-        Optional<Long> id = getOperator().save(getData(name));
-        assertNotNull(id.get());
-        logInfo(format("save %s is successful -> %d", name, id.get()));
+    public T findById(I id) {
+        Optional<T> model = getOperator().findById(id);
+        assertTrue(model.isPresent());
+        logInfo(format("find model[%s] by id[%s] successful", getDataKey(id), id));
+        return model.get();
     }
 
     @Override
-    public void findAllDataWithExpectedCount(int count) {
-        FlatTransient[] data = getOperator().findAll();
-        assertNotNull(data);
-        assertEquals(count, data.length);
-        logInfo(Arrays.toString(data));
+    public T update(T data) {
+        getOperator().update(data);
+        logInfo(format("update model[%s] successful", getDataKey((I) data.getId())));
+        return (T) getOperator().findById(data.getId()).get();
     }
 
     @Override
-    public void updateCurrentDataWith(String name) {
+    public void deleteById(I id) {
+        getOperator().delete(id);
+
+        Optional model = getOperator().findById(id);
+        assertFalse(model.isPresent());
+        logInfo(format("delete model[%s] by id[%s] successful", getDataKey(id), id));
     }
 
-    @Override
-    public void deleteDataThenDecreaseCount(String name) {
-        long countBeforeDelete = getOperator().count();
-        getOperator().delete(findData(name).get().getId());
-        long countAfterDelete = getOperator().count();
-
-        assertEquals(1, (countBeforeDelete - countAfterDelete));
-        logInfo(format("delete %s is successful", name));
+    public String getDataKey(I id) {
+        return storage.entrySet().stream()
+                .filter(entry -> Objects.equals(entry.getValue().getId(), id))
+                .findFirst().get().getKey();
     }
 
-    public Optional<FlatTransient> findData(String name) {
-        Optional<FlatTransient> data = getOperator().findByModel(getData(name));
-        assertNotNull(data.get());
-        assertNotNull(data.get().getId());
-        return data;
+    public String getDataKey(T data) {
+        return storage.entrySet().stream()
+                .filter(entry -> Objects.equals(entry.getValue(), data))
+                .findFirst().get().getKey();
     }
 }

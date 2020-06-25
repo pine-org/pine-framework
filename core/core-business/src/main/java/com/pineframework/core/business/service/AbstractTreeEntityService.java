@@ -13,14 +13,14 @@ import com.pineframework.core.datamodel.persistence.TreePersistence;
 import java.io.Serializable;
 
 public abstract class AbstractTreeEntityService<I extends Serializable,
-        M extends TreeTransient<I, M>,
         E extends TreePersistence<I, E>,
-        R extends CrudRepository<I, E> & QueryRepository<I, E> & BatchRepository<I, E> & TreeRepository<I, E>,
+        M extends TreeTransient<I, M>,
         B extends TreeTransient.Builder<I, M, B>,
-        T extends ImmutableTreeTransformer<I, M, E, B>>
-        extends AbstractFlatEntityService<I, M, E, R, B, T> implements TreeEntityService<I, M, E, R, B, T> {
+        T extends ImmutableTreeTransformer<I, M, E, B>,
+        R extends CrudRepository<I, E> & QueryRepository<I, E> & BatchRepository<I, E> & TreeRepository<I, E>>
+        extends AbstractFlatEntityService<I, E, M, B, T, R> implements TreeEntityService<I, E, M, B, T, R> {
 
-    private PathGenerator<I, E> pathGenerator;
+    private final PathGenerator<I, E> pathGenerator;
 
     public AbstractTreeEntityService(R repository, T transformer, PathGenerator<I, E> pathGenerator) {
         super(repository, transformer);

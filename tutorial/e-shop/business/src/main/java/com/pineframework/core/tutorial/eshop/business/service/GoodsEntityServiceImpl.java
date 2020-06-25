@@ -7,7 +7,7 @@ import com.pineframework.core.tutorial.eshop.business.transformer.GoodsTransform
 import com.pineframework.core.tutorial.eshop.model.GoodsModel;
 
 public class GoodsEntityServiceImpl extends
-        AbstractFlatEntityService<Long, GoodsModel, GoodsEntity, GoodsRepository, GoodsModel.Builder, GoodsTransformer>
+        AbstractFlatEntityService<Long, GoodsEntity, GoodsModel, GoodsModel.Builder, GoodsTransformer, GoodsRepository>
         implements GoodsEntityService {
 
     public GoodsEntityServiceImpl(GoodsRepository repository, GoodsTransformer transformer) {

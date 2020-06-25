@@ -9,4 +9,8 @@ public interface Repository<I extends Serializable, E extends FlatPersistence<I>
     Class<E> getType();
 
     JpaRepository getImpl();
+
+    default void flush() {
+        getImpl().getStorageSession().flush();
+    }
 }

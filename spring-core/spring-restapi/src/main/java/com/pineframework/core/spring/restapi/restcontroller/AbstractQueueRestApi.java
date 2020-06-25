@@ -1,8 +1,8 @@
 package com.pineframework.core.spring.restapi.restcontroller;
 
-import com.pineframework.core.contract.restapi.CreateValidationGroup;
 import com.pineframework.core.contract.service.queue.QueueService;
 import com.pineframework.core.datamodel.model.FlatTransient;
+import com.pineframework.core.datamodel.validation.CreateValidationGroup;
 import com.pineframework.core.spring.restapi.helper.ErrorUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

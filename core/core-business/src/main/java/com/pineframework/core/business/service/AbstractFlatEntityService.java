@@ -9,20 +9,20 @@ import com.pineframework.core.contract.service.entityservice.QueryEntityService;
 import com.pineframework.core.contract.transformer.ImmutableFlatTransformer;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
-import com.pineframework.core.helper.GenericUtils;
 import org.slf4j.Logger;
 
 import java.io.Serializable;
 
+import static com.pineframework.core.helper.GenericUtils.extract;
+
 public abstract class AbstractFlatEntityService<I extends Serializable,
-        M extends FlatTransient<I>,
         E extends FlatPersistence<I>,
-        R extends CrudRepository<I, E> & QueryRepository<I, E> & BatchRepository<I, E>,
+        M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>,
-        T extends ImmutableFlatTransformer<I, M, E, B>>
-        implements CrudEntityService<I, M, E, R, B, T>,
-        QueryEntityService<I, M, E, R, B, T>,
-        BatchEntityService<I, M, E, R, B, T> {
+        T extends ImmutableFlatTransformer<I, M, E, B>,
+        R extends CrudRepository<I, E> & QueryRepository<I, E> & BatchRepository<I, E>>
+        implements CrudEntityService<I, E, M, B, T, R>, QueryEntityService<I, E, M, B, T, R>,
+        BatchEntityService<I, E, M, B, T, R> {
 
     protected final Logger logger = defaultLogger();
 
@@ -37,8 +37,8 @@ public abstract class AbstractFlatEntityService<I extends Serializable,
     public AbstractFlatEntityService(R repository, T transformer) {
         this.repository = repository;
         this.transformer = transformer;
-        modelType = (Class<M>) GenericUtils.extract(this.getClass(), 0);
-        entityType = (Class<E>) GenericUtils.extract(this.getClass(), 1);
+        modelType = (Class<M>) extract(this.getClass(), 0);
+        entityType = (Class<E>) extract(this.getClass(), 1);
     }
 
     @Override

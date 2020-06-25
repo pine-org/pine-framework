@@ -21,40 +21,40 @@ import static io.vavr.Patterns.$Some;
 import static java.util.Objects.nonNull;
 
 public interface TreeEntityService<I extends Serializable,
-        M extends TreeTransient<I, M>,
         E extends TreePersistence<I, E>,
-        R extends TreeRepository<I, E>,
+        M extends TreeTransient<I, M>,
         B extends TreeTransient.Builder<I, M, B>,
-        T extends ImmutableTreeTransformer<I, M, E, B>>
-        extends BusinessService<I, M, E, R, B, T>, AroundServiceOperation<I, M, E>, TreeService<I, M> {
+        T extends ImmutableTreeTransformer<I, M, E, B>,
+        R extends TreeRepository<I, E>>
+        extends BusinessService<I, E, M, B, T, R>, AroundServiceOperation<I, E, M>, TreeService<I, M> {
 
     PathGenerator<I, E> getPathGenerator();
 
-    default void afterUpdate(E e, M m) {
-        setPath(e);
-        setChildrenPath(e);
-    }
-
-    default void setChildrenPath(E e) {
-        e.getChildren().forEach(item -> {
-            setPath(item);
-            setChildrenPath(item);
-        });
+    @Override
+    default void beforeSave(E e, M m) {
+        updatePath(e);
     }
 
     @Override
-    default void beforeSave(E e, M m) {
-        setPath(e);
+    default void afterUpdate(E e, M m, M oldData) {
+        updatePath(e);
+        updateChildrenPath(e);
     }
 
-    default void setPath(E e) {
+    default void updatePath(E e) {
         if (nonNull(e.getParent())) {
             E parent = getRepository().findTree(e.getParent().getId()).get();
             Match(Option.of(parent)).of(
                     Case($None(), run(() -> e.setPath("0"))),
-                    Case($Some($()), run(() -> getPathGenerator().setPath(e, parent.getPath())))
-            );
+                    Case($Some($()), run(() -> getPathGenerator().updatePath(e, parent.getPath()))));
         }
+    }
+
+    default void updateChildrenPath(E e) {
+        e.getChildren().forEach(item -> {
+            updatePath(item);
+            updateChildrenPath(item);
+        });
     }
 
     @Override

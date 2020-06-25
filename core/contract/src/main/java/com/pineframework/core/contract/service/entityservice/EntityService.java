@@ -9,10 +9,11 @@ import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import java.io.Serializable;
 
 public interface EntityService<I extends Serializable,
-        M extends FlatTransient<I>,
         E extends FlatPersistence<I>,
-        R extends Repository<I, E>,
+        M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>,
-        T extends ImmutableFlatTransformer<I, M, E, B>> extends BusinessService<I, M, E, R, B, T> {
+        T extends ImmutableFlatTransformer<I, M, E, B>,
+        R extends Repository<I, E>
+        > extends BusinessService<I, E, M, B, T, R> {
 
 }

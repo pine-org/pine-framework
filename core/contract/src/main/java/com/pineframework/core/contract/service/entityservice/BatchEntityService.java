@@ -21,12 +21,12 @@ import static com.pineframework.core.helper.CollectionUtils.subtract;
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 public interface BatchEntityService<I extends Serializable,
-        M extends FlatTransient<I>,
         E extends FlatPersistence<I>,
-        R extends CrudRepository<I, E> & QueryRepository<I, E> & BatchRepository<I, E>,
+        M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>,
-        T extends ImmutableFlatTransformer<I, M, E, B>>
-        extends EntityService<I, M, E, R, B, T>, AroundServiceOperation<I, M, E>, BatchService<I, M> {
+        T extends ImmutableFlatTransformer<I, M, E, B>,
+        R extends CrudRepository<I, E> & QueryRepository<I, E> & BatchRepository<I, E>>
+        extends EntityService<I, E, M, B, T, R>, AroundServiceOperation<I, E, M>, BatchService<I, M> {
 
     default void beforeBatchSave(E[] entities, M[] models) {
         for (int i = 0; i < entities.length; i++)

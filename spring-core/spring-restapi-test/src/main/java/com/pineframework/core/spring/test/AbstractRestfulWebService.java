@@ -1,20 +1,22 @@
 package com.pineframework.core.spring.test;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pineframework.core.helper.GenericUtils;
+import com.pineframework.core.test.AbstractTest;
+import io.vavr.control.Try;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import static java.util.Arrays.asList;
+import static com.pineframework.core.spring.test.TestRestUtils.createJsonBody;
 
-public abstract class AbstractRestfulWebService<T> {
+public abstract class AbstractRestfulWebService<I, T> extends AbstractTest<T> {
+
+    protected final Class<T> modelType;
 
     @Autowired
     protected TestRestTemplate restTemplate;
@@ -28,39 +30,23 @@ public abstract class AbstractRestfulWebService<T> {
     @Value("${server.servlet.context-path}")
     protected String app;
 
-    protected HttpHeaders headers;
+    protected ObjectMapper objectMapper = new ObjectMapper();
 
-    protected Map<String, T> data = new HashMap();
-
-    public AbstractRestfulWebService() {
-        this.headers = createJsonHttpHeaders();
-        this.initData(this.data);
+    public AbstractRestfulWebService(Map<String, T> storage) {
+        super(storage);
+        modelType = (Class<T>) GenericUtils.extract(getClass(), 1);
     }
 
-    protected HttpHeaders createJsonHttpHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(asList(MediaType.APPLICATION_JSON));
-        return headers;
+    protected ResponseEntity<String> post(T m, String relativeUri) {
+        return restTemplate.postForEntity(makeUri(relativeUri), createJsonBody(m), String.class);
     }
 
-    protected HttpEntity<String> createRequestBody(T model) {
-        return new HttpEntity<>(model.toString(), headers);
+    protected T getById(I id, String relativeUri) {
+        ResponseEntity<String> response = restTemplate.getForEntity(makeUri(relativeUri) + "/{id}", String.class, id);
+        return Try.of(() -> objectMapper.readValue(response.getBody(), modelType)).get();
     }
 
-    protected ResponseEntity<String> post(T m) {
-        return restTemplate.postForEntity(makeUri(), createRequestBody(m), String.class);
+    protected String makeUri(String relativeUri) {
+        return "http://" + host + ":" + port + app + relativeUri;
     }
-
-    protected final String makeUri() {
-        return "http://" + host + ":" + port + app + getRelativeUri();
-    }
-
-    public final T getData(String name) {
-        return this.data.get(name);
-    }
-
-    public abstract void initData(Map<String, T> models);
-
-    protected abstract String getRelativeUri();
 }

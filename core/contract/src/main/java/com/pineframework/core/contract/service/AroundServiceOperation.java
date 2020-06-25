@@ -5,8 +5,9 @@ import com.pineframework.core.datamodel.persistence.FlatPersistence;
 
 import java.io.Serializable;
 
-public interface AroundServiceOperation<I extends Serializable, M extends FlatTransient<I>,
-        E extends FlatPersistence<I>> {
+public interface AroundServiceOperation<I extends Serializable,
+        E extends FlatPersistence<I>,
+        M extends FlatTransient<I>> {
 
     default void beforeSave(E e, M m) {
     }

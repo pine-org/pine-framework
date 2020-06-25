@@ -1,30 +1,29 @@
 package com.pineframework.core.test;
 
-import com.pineframework.core.contract.repository.BatchRepository;
 import com.pineframework.core.contract.repository.CrudRepository;
 import com.pineframework.core.contract.repository.QueryRepository;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import org.junit.jupiter.api.BeforeEach;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import javax.ws.rs.NotSupportedException;
+import java.io.Serializable;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 import static java.lang.String.format;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public abstract class AbstractRepositoryTest<E extends CrudRepository & QueryRepository & BatchRepository>
-        extends AbstractTest implements BasicBusinessOperation<FlatPersistence, E> {
+public abstract class AbstractRepositoryTest<I extends Serializable, T extends FlatPersistence,
+        E extends CrudRepository & QueryRepository> extends AbstractTest<T> implements BasicBusinessOperation<I, T, E> {
 
     protected final E operator;
 
-    protected Map<String, FlatPersistence> records = new HashMap<>();
-
-    public AbstractRepositoryTest(E service) {
-        this.operator = service;
-        initData(records);
+    public AbstractRepositoryTest(E repository, Map<String, T> storage) {
+        super(storage);
+        this.operator = repository;
     }
 
     @BeforeEach
@@ -38,46 +37,37 @@ public abstract class AbstractRepositoryTest<E extends CrudRepository & QueryRep
     }
 
     @Override
-    public final FlatPersistence getData(String name) {
-        return records.get(name);
+    public I save(T data) {
+        getOperator().save(data);
+        assertNotNull(data.getId());
+        logInfo(format("save entity[%s] successful", getDataKey((I) data.getId())));
+        return (I) data.getId();
     }
 
     @Override
-    public void saveDataThenAssertIdIsNotNull(String name) {
-        FlatPersistence entity = getData(name);
-        getOperator().save(entity);
-        assertNotNull(entity.getId());
-        logInfo(format("save %s is successful -> %d", name, entity.getId()));
+    public T findById(I id) {
+        Optional<T> entity = getOperator().findById(id);
+        assertTrue(entity.isPresent());
+        logInfo(format("find entity[%s] by id[%s] successful", getDataKey(id), id));
+        return entity.get();
     }
 
     @Override
-    public void findAllDataWithExpectedCount(int count) {
-        FlatPersistence[] data = getOperator().findAll();
-        assertNotNull(data);
-        assertEquals(count, data.length);
-        logInfo(Arrays.toString(data));
+    public T update(T data) {
+        throw new NotSupportedException();
     }
 
     @Override
-    public void updateCurrentDataWith(String name) {
-
+    public void deleteById(I id) {
+        getOperator().delete(id);
+        Optional entity = getOperator().findById(id);
+        assertFalse(entity.isPresent());
+        logInfo(format("delete entity[%s] by id[%s] successful", getDataKey(id), id));
     }
 
-    @Override
-    public void deleteDataThenDecreaseCount(String name) {
-        long countBeforeDelete = getOperator().count();
-        getOperator().delete(findData(name).get().getId());
-        long countAfterDelete = getOperator().count();
-
-        assertEquals(1, (countBeforeDelete - countAfterDelete));
-        logInfo(format("delete %s is successful", name));
-
-    }
-
-    private Optional<FlatPersistence> findData(String name) {
-        Optional<FlatPersistence> data = getOperator().findOne(getData(name).toFilter());
-        assertNotNull(data.get());
-        assertNotNull(data.get().getId());
-        return data;
+    public String getDataKey(I id) {
+        return storage.entrySet().stream()
+                .filter(entry -> Objects.equals(entry.getValue().getId(), id))
+                .findFirst().get().getKey();
     }
 }

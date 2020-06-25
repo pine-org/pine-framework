@@ -151,13 +151,13 @@ public abstract class FlatPersistence<I extends Serializable> implements Persist
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof FlatPersistence)) return false;
         FlatPersistence<?> that = (FlatPersistence<?>) o;
-        return Objects.equals(getId(), that.getId());
+        return Objects.equals(id, that.id) && Objects.equals(version, that.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(id, version);
     }
 }

@@ -1,12 +1,20 @@
 package com.pineframework.core.datamodel.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pineframework.core.datamodel.persistence.FlatPersistence;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.pineframework.core.datamodel.serializing.LocalDateTimeDeserializer;
+import com.pineframework.core.datamodel.serializing.LocalDateTimeSerializer;
+import com.pineframework.core.datamodel.validation.UpdateValidationGroup;
 import io.vavr.control.Try;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -36,6 +44,8 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
     @JsonIgnore
     protected final ObjectMapper objectMapper = new ObjectMapper();
 
+    protected final Map<String, Object> metadata;
+
     protected FlatTransient(FlatTransient.Builder builder) {
         this.id = (I) builder.id;
         this.insertDate = builder.insertDate;
@@ -45,6 +55,7 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
         this.modifyUserId = builder.modifyUserId;
         this.modifyUnitId = builder.modifyUnitId;
         this.version = builder.version;
+        this.metadata = builder.metadata;
     }
 
     /**
@@ -103,17 +114,21 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
         return version;
     }
 
+    public Object getMetadata(String name) {
+        return metadata.get(name);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FlatPersistence<?> that = (FlatPersistence<?>) o;
-        return Objects.equals(getId(), that.getId());
+        if (!(o instanceof FlatTransient)) return false;
+        FlatTransient<?> that = (FlatTransient<?>) o;
+        return Objects.equals(id, that.id) && Objects.equals(metadata, that.metadata);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getVersion());
+        return Objects.hash(id, metadata);
     }
 
     @Override
@@ -125,8 +140,12 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
             M extends FlatTransient<I>,
             B extends FlatTransient.Builder<I, M, B>> {
 
+        @NotNull(message = "error.validation.notNull", groups = UpdateValidationGroup.class)
         protected I id;
 
+        @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+        @JsonSerialize(using = LocalDateTimeSerializer.class)
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
         protected LocalDateTime insertDate;
 
         protected Long insertUserId;
@@ -139,7 +158,10 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
 
         protected Long modifyUnitId;
 
+        @NotNull(message = "error.validation.notNull", groups = UpdateValidationGroup.class)
         protected Integer version;
+
+        protected Map<String, Object> metadata = new HashMap<>();
 
         protected Builder() {
         }
@@ -181,6 +203,11 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
 
         public B version(Integer version) {
             this.version = version;
+            return (B) this;
+        }
+
+        public B addMetadata(String name, Object val) {
+            metadata.put(name, val);
             return (B) this;
         }
 

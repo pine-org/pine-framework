@@ -1,20 +1,14 @@
 package com.pineframework.core.test;
 
-import java.util.Map;
-
-public interface BasicBusinessOperation<T, E> {
+public interface BasicBusinessOperation<I, T, E> {
 
     E getOperator();
 
-    void initData(Map<String, T> models);
+    I save(T data);
 
-    T getData(String name);
+    T findById(I id);
 
-    void saveDataThenAssertIdIsNotNull(String name);
+    T update(T data);
 
-    void findAllDataWithExpectedCount(int count);
-
-    void updateCurrentDataWith(String name);
-
-    void deleteDataThenDecreaseCount(String name);
+    void deleteById(I id);
 }

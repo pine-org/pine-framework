@@ -9,7 +9,7 @@ import com.pineframework.core.tutorial.eshop.business.transformer.GoodsTransform
 import com.pineframework.core.tutorial.eshop.model.GoodsModel;
 
 public interface GoodsEntityService extends
-        CrudEntityService<Long, GoodsModel, GoodsEntity, GoodsRepository, GoodsModel.Builder, GoodsTransformer>,
-        QueryEntityService<Long, GoodsModel, GoodsEntity, GoodsRepository, GoodsModel.Builder, GoodsTransformer>,
-        BatchEntityService<Long, GoodsModel, GoodsEntity, GoodsRepository, GoodsModel.Builder, GoodsTransformer> {
+        CrudEntityService<Long, GoodsEntity, GoodsModel, GoodsModel.Builder, GoodsTransformer, GoodsRepository>,
+        QueryEntityService<Long, GoodsEntity, GoodsModel, GoodsModel.Builder, GoodsTransformer, GoodsRepository>,
+        BatchEntityService<Long, GoodsEntity, GoodsModel, GoodsModel.Builder, GoodsTransformer, GoodsRepository> {
 }

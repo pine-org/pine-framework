@@ -1,23 +1,23 @@
-package com.pineframework.core.helper.serializing;
+package com.pineframework.core.datamodel.serializing;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class LocalDateTimeSerializer extends StdSerializer<LocalDateTime> {
+public class LocalTimeSerializer extends StdSerializer<LocalTime> {
 
-    public LocalDateTimeSerializer() {
-        super(LocalDateTime.class);
+    public LocalTimeSerializer() {
+        super(LocalTime.class);
     }
 
     @Override
-    public void serialize(LocalDateTime value,
+    public void serialize(LocalTime value,
                           JsonGenerator generator,
                           SerializerProvider provider) throws IOException {
-        generator.writeString(value.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        generator.writeString(value.format(DateTimeFormatter.ISO_LOCAL_TIME));
     }
 }
