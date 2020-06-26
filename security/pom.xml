@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.pineframework.core</groupId>
-    <artifactId>core</artifactId>
+    <groupId>com.pineframework.core.security</groupId>
+    <artifactId>security</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <modules>
+        <module>security-document</module>
+    </modules>
     <packaging>pom</packaging>
-    <description>
-        Pine Framework is microservices framework based on Java language.
-        This framework is implemented for microservices products.
-    </description>
+    <name>Security</name>
     <developers>
         <developer>
             <name>Saman Alishirishahrbabak</name>
@@ -33,139 +33,13 @@
         <env>empty</env>
 
         <javaee.version>8.0.1</javaee.version>
-        <hibernate.version>5.4.14.Final</hibernate.version>
         <asciidoctor.maven.plugin.version>2.0.0-RC.1</asciidoctor.maven.plugin.version>
         <asciidoctorj.diagram.version>2.0.2</asciidoctorj.diagram.version>
         <asciidoctorj.pdf.version>1.5.3</asciidoctorj.pdf.version>
         <asciidoctorj.version>2.3.0</asciidoctorj.version>
         <jruby.version>9.2.11.1</jruby.version>
 
-        <core-document.version>1.0.0-SNAPSHOT</core-document.version>
-        <properties.version>1.0.0-SNAPSHOT</properties.version>
-        <config-server-address.version>1.0.0-SNAPSHOT</config-server-address.version>
-        <data-model.version>1.0.0-SNAPSHOT</data-model.version>
-        <helper.version>1.0.0-SNAPSHOT</helper.version>
-        <contratc.version>1.0.0-SNAPSHOT</contratc.version>
-        <core-test.version>1.0.0-SNAPSHOT</core-test.version>
-        <i18n.version>1.0.0-SNAPSHOT</i18n.version>
-        <dependencies.version>1.0.0-SNAPSHOT</dependencies.version>
-        <spring-boot-init.version>1.0.0-SNAPSHOT</spring-boot-init.version>
-        <config-server.version>1.0.0-SNAPSHOT</config-server.version>
-        <activemq.version>1.0.0-SNAPSHOT</activemq.version>
-        <core-business.version>1.0.0-SNAPSHOT</core-business.version>
     </properties>
-    <modules>
-        <module>helper</module>
-        <module>data-model</module>
-        <module>contract</module>
-        <module>core-test</module>
-        <module>core-business</module>
-        <module>i18n</module>
-        <module>core-document</module>
-        <module>properties</module>
-    </modules>
-    <dependencies>
-        <!--java ee-->
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <version>${javaee.version}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.jms</groupId>
-            <artifactId>jakarta.jms-api</artifactId>
-            <version>2.0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet.jsp</groupId>
-            <artifactId>jsp-api</artifactId>
-            <version>2.2</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.reactivestreams</groupId>
-            <artifactId>reactive-streams</artifactId>
-            <version>1.0.2</version>
-        </dependency>
-        <!--ORM-->
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>12.2.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.19</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-envers</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-ehcache</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-c3p0</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-testing</artifactId>
-            <version>${hibernate.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- utility -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.9</version>
-        </dependency>
-        <dependency>
-            <groupId>io.vavr</groupId>
-            <artifactId>vavr</artifactId>
-            <version>0.10.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm.icu</groupId>
-            <artifactId>icu4j</artifactId>
-            <version>64.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.10.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-annotations</artifactId>
-            <version>2.10.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.10.2</version>
-        </dependency>
-    </dependencies>
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
