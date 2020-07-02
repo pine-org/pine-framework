@@ -1,6 +1,6 @@
 package com.pineframework.core.business.repository;
 
-import com.pineframework.core.contract.repository.JpaRepository;
+import com.pineframework.core.contract.repository.Repository;
 import com.pineframework.core.datamodel.paging.Pageable;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import com.pineframework.core.datamodel.select.Select;
@@ -27,14 +27,19 @@ import static java.util.Optional.ofNullable;
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 
-public class JpaRepositoryImpl implements JpaRepository {
+public class JpaRepositoryImpl implements Repository {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public EntityManager getStorageSession() {
-        return entityManager;
+    public void flush() {
+        entityManager.flush();
+    }
+
+    @Override
+    public void clear() {
+        entityManager.clear();
     }
 
     @Override
@@ -46,24 +51,24 @@ public class JpaRepositoryImpl implements JpaRepository {
     public <I extends Serializable, E extends FlatPersistence<I>> void save(Class<E> c, E... entities) {
         for (int i = 0; i < entities.length; i++) {
             if (i > 0 && i % getBatchSize() == 0)
-                getStorageSession().flush();
-            getStorageSession().persist(entities[i]);
+                entityManager.flush();
+            entityManager.persist(entities[i]);
         }
     }
 
     @Override
     public <I extends Serializable, E extends FlatPersistence<I>> void delete(Class<E> c, I... identities) {
-        CriteriaBuilder cb = getStorageSession().getCriteriaBuilder();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaDelete<E> cq = cb.createCriteriaDelete(c);
         Root<E> root = cq.from(c);
         cq.where(root.get("id").in(identities));
 
-        getStorageSession().createQuery(cq).executeUpdate();
+        entityManager.createQuery(cq).executeUpdate();
     }
 
     @Override
     public <I extends Serializable, E extends FlatPersistence<I>> Optional<E> findOne(Class<E> c, I id) {
-        return ofNullable(getStorageSession().find(c, id));
+        return ofNullable(entityManager.find(c, id));
     }
 
     @Override
@@ -92,12 +97,12 @@ public class JpaRepositoryImpl implements JpaRepository {
     }
 
     public <I extends Serializable, E extends FlatPersistence<I>, M> TypedQuery<M> execute(Select<E, M> select) {
-        CriteriaBuilder cb = getStorageSession().getCriteriaBuilder();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<M> cq = cb.createQuery(select.getModelType());
         Root<E> root = cq.from(select.getEntityType());
         cq.select(select.getSelection().apply(root, cb));
         select.getWhereClause().accept(cq, filter -> filter.toPredicate(root, cq, cb));
-        TypedQuery<M> query = getStorageSession().createQuery(cq);
+        TypedQuery<M> query = entityManager.createQuery(cq);
         query.setHint("org.hibernate.cacheable", true);
         return query;
     }

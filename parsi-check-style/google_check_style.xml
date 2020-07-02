@@ -237,11 +237,6 @@
             <message key="overload.methods.declaration"
                      value="متد های overload شده نباید جدا از هم تعریف شوند متد دیگر در خط ''{0}'' تعریف شده است"/>
         </module>
-        <module name="VariableDeclarationUsageDistance">
-            <!--<message key="variable.declaration.usage.distance" value=""/>-->
-            <message key="variable.declaration.usage.distance.extend"
-                     value="فاصله بین تعریف متغیر ''{0}'' تا اولین استفاده از آن ''{1}'' است اما ''{2}'' مجاز است"/>
-        </module>
         <module name="MethodParamPad"/>
         <module name="NoWhitespaceBefore">
             <property name="tokens" value="COMMA, SEMI, POST_INC, POST_DEC, DOT, ELLIPSIS, METHOD_REF"/>

@@ -2,8 +2,8 @@ package com.pineframework.core.business.repository;
 
 import com.pineframework.core.contract.repository.BatchRepository;
 import com.pineframework.core.contract.repository.CrudRepository;
-import com.pineframework.core.contract.repository.JpaRepository;
 import com.pineframework.core.contract.repository.QueryRepository;
+import com.pineframework.core.contract.repository.Repository;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import com.pineframework.core.helper.GenericUtils;
 
@@ -14,15 +14,15 @@ public abstract class AbstractFlatRepository<I extends Serializable, E extends F
 
     private final Class<E> entityType;
 
-    private final JpaRepository repository;
+    private final Repository repository;
 
-    public AbstractFlatRepository(JpaRepository repository) {
+    public AbstractFlatRepository(Repository repository) {
         this.repository = repository;
         entityType = (Class<E>) GenericUtils.extract(this.getClass(), 1);
     }
 
     @Override
-    public JpaRepository getImpl() {
+    public Repository getImpl() {
         return repository;
     }
 

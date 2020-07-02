@@ -19,7 +19,7 @@ import java.util.Optional;
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 
-public interface QueryRepository<I extends Serializable, E extends FlatPersistence<I>> extends Repository<I, E> {
+public interface QueryRepository<I extends Serializable, E extends FlatPersistence<I>> extends FlatRepository<I, E> {
 
     default E[] findAll() {
         return getImpl().find(new SelectAll<E>(getType()));

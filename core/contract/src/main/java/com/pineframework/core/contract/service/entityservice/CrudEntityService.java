@@ -4,6 +4,7 @@ import com.pineframework.core.contract.repository.CrudRepository;
 import com.pineframework.core.contract.service.AroundServiceOperation;
 import com.pineframework.core.contract.service.CrudService;
 import com.pineframework.core.contract.transformer.ImmutableFlatTransformer;
+import com.pineframework.core.datamodel.exception.NotFoundDataException;
 import com.pineframework.core.datamodel.exception.NotSameVersionException;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
+import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 
 /**
@@ -39,9 +41,13 @@ public interface CrudEntityService<I extends Serializable,
 
     @Override
     default Optional<M> findById(I id) {
-        E entity = getRepository().findById(id).orElseGet(() -> createEmptyPersistenceObject());
-        M m = getTransformer().transform(entity);
-        return ofNullable(m);
+        Optional<E> entity = getRepository().findById(id);
+
+        if (!entity.isPresent())
+            return empty();
+
+        M model = getTransformer().transform(entity.get());
+        return ofNullable(model);
     }
 
     @Override
@@ -51,17 +57,22 @@ public interface CrudEntityService<I extends Serializable,
         if (!Objects.equals(m.getVersion(), entity.getVersion()))
             throw new NotSameVersionException();
 
-        M oldData = getTransformer().transform(entity);
+        M theLast = getTransformer().transform(entity);
 
         beforeUpdate(entity, m);
         getTransformer().transform(m, entity);
-        afterUpdate(entity, m, oldData);
+        getRepository().flush();
+        afterUpdate(entity, theLast);
     }
 
     @Override
     default void delete(I id) {
-        E entity = getRepository().findById(id).orElseGet(() -> createEmptyPersistenceObject());
-        M m = getTransformer().transform(entity);
+        Optional<E> entity = getRepository().findById(id);
+
+        if (!entity.isPresent())
+            throw new NotFoundDataException(getTransientType().getClass().getSimpleName());
+
+        M m = getTransformer().transform(entity.get());
 
         beforeDelete(m);
         getRepository().delete(id);

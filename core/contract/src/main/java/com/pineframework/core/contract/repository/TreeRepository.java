@@ -13,7 +13,7 @@ import java.util.Optional;
  *
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-public interface TreeRepository<I extends Serializable, E extends TreePersistence<I, E>> extends Repository<I, E> {
+public interface TreeRepository<I extends Serializable, E extends TreePersistence<I, E>> extends FlatRepository<I, E> {
 
     default E[] findChildren(I id) {
         return getImpl().find(new SelectChildren<E>(getType(), id));

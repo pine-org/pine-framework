@@ -18,7 +18,7 @@ public interface AroundServiceOperation<I extends Serializable,
     default void beforeUpdate(E e, M m) {
     }
 
-    default void afterUpdate(E e, M m, M oldData) {
+    default void afterUpdate(E e, M theLast) {
     }
 
     default void beforeDelete(M m) {

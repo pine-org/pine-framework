@@ -36,7 +36,7 @@ public interface TreeEntityService<I extends Serializable,
     }
 
     @Override
-    default void afterUpdate(E e, M m, M oldData) {
+    default void afterUpdate(E e, M theLast) {
         updatePath(e);
         updateChildrenPath(e);
     }

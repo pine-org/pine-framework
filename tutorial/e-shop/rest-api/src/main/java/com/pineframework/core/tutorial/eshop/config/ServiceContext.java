@@ -2,7 +2,7 @@ package com.pineframework.core.tutorial.eshop.config;
 
 import com.pineframework.core.business.repository.JpaRepositoryImpl;
 import com.pineframework.core.contract.config.TransactionalBeanFactory;
-import com.pineframework.core.contract.repository.JpaRepository;
+import com.pineframework.core.contract.repository.Repository;
 import com.pineframework.core.tutorial.eshop.business.repository.GoodsRepository;
 import com.pineframework.core.tutorial.eshop.business.repository.GoodsRepositoryImpl;
 import com.pineframework.core.tutorial.eshop.business.service.GoodsEntityService;
@@ -19,13 +19,13 @@ public class ServiceContext {
     private TransactionalBeanFactory txBeanFactory;
 
     @Bean(name = "jpaRepository")
-    public JpaRepository jpaRepository() {
+    public Repository jpaRepository() {
         return new JpaRepositoryImpl();
     }
 
     @Bean(name = "goodsRepository")
-    public GoodsRepository goodsRepository(JpaRepository jpaRepository) {
-        return new GoodsRepositoryImpl(jpaRepository);
+    public GoodsRepository goodsRepository(Repository repository) {
+        return new GoodsRepositoryImpl(repository);
     }
 
     @Bean(name = "goodsEntityService")

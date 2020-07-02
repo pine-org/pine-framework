@@ -24,7 +24,7 @@ import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.http.ResponseEntity.of;
 
 
 /**
@@ -107,7 +107,7 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
                     example = "0")
             @PathVariable("id") I id) {
 
-        return ok(getService().findById(id).get());
+        return of(getService().findById(id));
     }
 
     /**

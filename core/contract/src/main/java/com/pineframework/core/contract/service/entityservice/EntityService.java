@@ -1,6 +1,6 @@
 package com.pineframework.core.contract.service.entityservice;
 
-import com.pineframework.core.contract.repository.Repository;
+import com.pineframework.core.contract.repository.FlatRepository;
 import com.pineframework.core.contract.service.BusinessService;
 import com.pineframework.core.contract.transformer.ImmutableFlatTransformer;
 import com.pineframework.core.datamodel.model.FlatTransient;
@@ -13,7 +13,7 @@ public interface EntityService<I extends Serializable,
         M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>,
         T extends ImmutableFlatTransformer<I, M, E, B>,
-        R extends Repository<I, E>
+        R extends FlatRepository<I, E>
         > extends BusinessService<I, E, M, B, T, R> {
 
 }

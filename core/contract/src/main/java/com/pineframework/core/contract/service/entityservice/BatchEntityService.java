@@ -43,9 +43,9 @@ public interface BatchEntityService<I extends Serializable,
             beforeUpdate(entities[i], models[i]);
     }
 
-    default void afterBatchUpdate(E[] entities, M[] models, M[] oldData) {
+    default void afterBatchUpdate(E[] entities, M[] theLast) {
         for (int i = 0; i < entities.length; i++)
-            afterUpdate(entities[i], models[i], oldData[i]);
+            afterUpdate(entities[i], theLast[i]);
     }
 
     default void beforeBatchDelete(M[] models) {
@@ -78,10 +78,10 @@ public interface BatchEntityService<I extends Serializable,
     @Override
     default void batchUpdate(M[] models) {
         E[] entities = getRepository().find((I[]) mapTo(models, m -> m.getId(), Long.class));
-        M[] oldData = getTransformer().transform(entities);
+        M[] theLast = getTransformer().transform(entities);
         beforeBatchUpdate(entities, models);
         batch(models, m -> getTransformer().transform(m, getRepository().findById(m.getId()).get()));
-        afterBatchUpdate(entities, models, oldData);
+        afterBatchUpdate(entities, theLast);
     }
 
     @Override
@@ -111,8 +111,8 @@ public interface BatchEntityService<I extends Serializable,
     default void batch(M[] models, Consumer<M> operation) {
         for (int i = 0; i < models.length; i++) {
             if (i > 0 && i % getRepository().getImpl().getBatchSize() == 0) {
-                getRepository().getImpl().getStorageSession().flush();
-                getRepository().getImpl().getStorageSession().clear();
+                getRepository().flush();
+                getRepository().clear();
             }
             operation.accept(models[i]);
         }
