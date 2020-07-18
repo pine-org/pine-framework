@@ -6,3 +6,6 @@ mvn -f ./spring-core/pom.xml idea:module
 
 mvn -f ./tutorial/pom.xml idea:clean
 mvn -f ./tutorial/pom.xml idea:module
+
+mvn -f ./tutorial/e-shop/rest-api/pom.xml idea:clean
+mvn -f ./tutorial/e-shop/rest-api/pom.xml idea:module

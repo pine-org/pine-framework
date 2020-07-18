@@ -37,6 +37,7 @@
         <module>spring-transaction</module>
         <module>config-server-address</module>
         <module>spring-restapi-test</module>
+        <module>properties</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -139,13 +140,6 @@
                 <product.port>0</product.port>
                 <config-profile>internationalization,common-${env}</config-profile>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.pineframework.core.properties</groupId>
-                    <artifactId>properties</artifactId>
-                    <version>1.0.0-SNAPSHOT</version>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>Parsi-Check-style</id>
@@ -262,6 +256,17 @@
             <id>ActiveMQ</id>
             <properties>
                 <mq-vendor>activemq-${env}</mq-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>Hibernate</id>
+            <properties>
+                <orm>
+                    spring.jpa.hibernate.naming-strategy=org.hibernate.cfg.ImprovedNamingStrategy
+                    spring.jpa.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+                    spring.jpa.hibernate.ddl-auto=update
+                    spring.jpa.hibernate.generate_statistics=true
+                </orm>
             </properties>
         </profile>
         <profile>

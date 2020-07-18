@@ -47,19 +47,19 @@ public class JmsContext {
     @Bean
     @DependsOn("statusQueueService")
     public JmsListener[] jmsListeners() {
-        JmsListener[] holders = new JmsListener[2];
-        holders[0] = new MainQueueListener(getBean("statusQueueService", QueueService.class));
-        holders[1] = new StatusQueueListener();
+        JmsListener[] listeners = new JmsListener[2];
+        listeners[0] = new MainQueueListener(getBean("statusQueueService", QueueService.class));
+        listeners[1] = new StatusQueueListener();
 
-        return holders;
+        return listeners;
     }
 
     @Profile("test")
     @Bean
     @DependsOn("statusQueueService")
     public JmsListener[] jmsListenersTest() {
-        JmsListener[] holders = new JmsListener[1];
-        holders[0] = new MainQueueListener(getBean("statusQueueService", QueueService.class));
-        return holders;
+        JmsListener[] listeners = new JmsListener[1];
+        listeners[0] = new MainQueueListener(getBean("statusQueueService", QueueService.class));
+        return listeners;
     }
 }

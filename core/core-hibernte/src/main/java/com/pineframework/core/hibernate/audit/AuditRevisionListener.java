@@ -1,6 +1,5 @@
-package com.pineframework.core.business.domain.listener;
+package com.pineframework.core.hibernate.audit;
 
-import com.pineframework.core.business.domain.audit.AuditRevisionEntity;
 import org.hibernate.envers.RevisionListener;
 
 /**
@@ -15,8 +14,7 @@ public class AuditRevisionListener implements RevisionListener {
      */
     @Override
     public void newRevision(Object revisionEntity) {
-        AuditRevisionEntity.class
-                .cast(revisionEntity)
+        ((AuditRevisionEntity) revisionEntity)
                 .setUsername("currentuser");
     }
 

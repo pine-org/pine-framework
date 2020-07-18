@@ -2,10 +2,6 @@ package com.pineframework.core.tutorial.eshop.business.domain;
 
 import com.pineframework.core.business.domain.AbstractAuditingEntity;
 import com.pineframework.core.datamodel.filter.Filter;
-import com.pineframework.core.datamodel.persistence.FlatPersistence;
-import org.hibernate.envers.AuditOverride;
-import org.hibernate.envers.AuditOverrides;
-import org.hibernate.envers.Audited;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -20,8 +16,6 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "GOODS")
-@Audited
-@AuditOverrides(value = {@AuditOverride(forClass = FlatPersistence.class)})
 public class GoodsEntity extends AbstractAuditingEntity<Long> {
 
     @Column(name = "NAME", nullable = false, length = 100, unique = true)
@@ -35,7 +29,7 @@ public class GoodsEntity extends AbstractAuditingEntity<Long> {
 
     @Id
     @Column(name = "ID", unique = true, nullable = false)
-    @SequenceGenerator(name = "GOODS", sequenceName = "GOODS_SEQ", allocationSize = ALLOCATION_SIZE)
+    @SequenceGenerator(name = "GOODS_GEN", sequenceName = "GOODS_SEQ", allocationSize = ALLOCATION_SIZE)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "GOODS_GEN")
     @Access(AccessType.PROPERTY)
     @Override

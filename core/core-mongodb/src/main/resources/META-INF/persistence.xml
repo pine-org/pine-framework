@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://java.sun.com/xml/ns/persistence"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+    <persistence-unit name="jpa-ogm-mongo-pine" transaction-type="JTA">
+        <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
+        <class>com.pineframework.core.mongodb.CategoryEntity</class>
+        <properties>
+            <property name="hibernate.ogm.datastore.provider" value="mongodb"/>
+            <property name="hibernate.ogm.datastore.grid_dialect"
+                      value="org.hibernate.ogm.datastore.mongodb.MongoDBDialect"/>
+            <property name="hibernate.ogm.datastore.database" value="pine"/>
+            <property name="hibernate.ogm.mongodb.host" value="localhost"/>
+            <property name="hibernate.ogm.datastore.port" value="27017"/>
+            <property name="hibernate.ogm.datastore.create_database" value="true"/>
+            <property name="hibernate.transaction.jta.platform"
+                      value="org.hibernate.service.jta.platform.internal.JBossStandAloneJtaPlatform"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>

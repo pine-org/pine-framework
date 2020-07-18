@@ -3,12 +3,12 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>core</artifactId>
-        <groupId>com.pineframework.core</groupId>
+        <artifactId>spring-core</artifactId>
+        <groupId>com.pineframework.core.spring</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.pineframework.core.properties</groupId>
+    <groupId>com.pineframework.core.spring.properties</groupId>
     <artifactId>properties</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>

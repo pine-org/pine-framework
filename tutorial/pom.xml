@@ -72,7 +72,7 @@
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>com.pineframework.core.properties</groupId>
+                    <groupId>com.pineframework.core.spring.properties</groupId>
                     <artifactId>properties</artifactId>
                     <version>1.0.0-SNAPSHOT</version>
                 </dependency>
@@ -117,7 +117,7 @@
             </properties>
             <dependencies>
                 <dependency>
-                    <groupId>com.pineframework.core.properties</groupId>
+                    <groupId>com.pineframework.core.spring.properties</groupId>
                     <artifactId>properties</artifactId>
                     <version>1.0.0-SNAPSHOT</version>
                 </dependency>
@@ -238,6 +238,12 @@
             <id>ActiveMQ</id>
             <properties>
                 <mq-vendor>activemq-${env}</mq-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>MongoDB</id>
+            <properties>
+                <database-vendor>mongodb</database-vendor>
             </properties>
         </profile>
         <profile>

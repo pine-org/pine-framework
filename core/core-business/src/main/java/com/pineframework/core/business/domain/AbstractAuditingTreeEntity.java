@@ -1,6 +1,5 @@
 package com.pineframework.core.business.domain;
 
-import com.pineframework.core.business.domain.listener.AuditingEntityListener;
 import com.pineframework.core.datamodel.persistence.TreePersistence;
 
 import javax.persistence.Access;

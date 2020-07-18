@@ -5,7 +5,6 @@ import com.pineframework.core.business.exception.ExceptionArray;
 import com.pineframework.core.business.exception.NotFoundEquivalentEnum;
 import com.pineframework.core.business.exception.NotSameVersionException;
 import com.pineframework.core.helper.LogUtils;
-import org.hibernate.JDBCException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -66,17 +65,6 @@ public final class ExceptionProvider extends AbstractExceptionProvider {
     @ExceptionHandler(ExceptionArray.class)
     public ResponseEntity<ErrorResponse[]> exceptionCollection(ExceptionArray e) {
         return response(error(e.getExceptions()));
-    }
-
-    /**
-     * when throw SQL grammar e
-     *
-     * @param e
-     * @return
-     */
-    @ExceptionHandler(JDBCException.class)
-    public ResponseEntity<ErrorResponse[]> jdbcException(JDBCException e) {
-        return response(error(new CoreException(e.getMessage(), e.getErrorCode())));
     }
 
 }

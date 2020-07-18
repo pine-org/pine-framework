@@ -26,7 +26,7 @@
             <property name="id" value="checkstyle:suppresswarnings"/>
         </module>
         <module name="MethodLength">
-            <property name="max" value="12"/>
+            <property name="max" value="30"/>
             <property name="countEmpty" value="false"/>
             <message key="maxLen.method"
                      value="The length of a method cannot be more than 12 line, but your method has {0} lines"/>

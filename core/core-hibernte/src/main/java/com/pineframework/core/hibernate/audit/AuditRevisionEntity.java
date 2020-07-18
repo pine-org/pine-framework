@@ -1,6 +1,5 @@
-package com.pineframework.core.business.domain.audit;
+package com.pineframework.core.hibernate.audit;
 
-import com.pineframework.core.business.domain.listener.AuditRevisionListener;
 import org.hibernate.envers.DefaultRevisionEntity;
 import org.hibernate.envers.RevisionEntity;
 

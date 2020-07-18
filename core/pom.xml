@@ -33,7 +33,6 @@
         <env>empty</env>
 
         <javaee.version>8.0.1</javaee.version>
-        <hibernate.version>5.4.14.Final</hibernate.version>
         <asciidoctor.maven.plugin.version>2.0.0-RC.1</asciidoctor.maven.plugin.version>
         <asciidoctorj.diagram.version>2.0.2</asciidoctorj.diagram.version>
         <asciidoctorj.pdf.version>1.5.3</asciidoctorj.pdf.version>
@@ -49,7 +48,6 @@
         <core-test.version>1.0.0-SNAPSHOT</core-test.version>
         <i18n.version>1.0.0-SNAPSHOT</i18n.version>
         <dependencies.version>1.0.0-SNAPSHOT</dependencies.version>
-        <spring-boot-init.version>1.0.0-SNAPSHOT</spring-boot-init.version>
         <config-server.version>1.0.0-SNAPSHOT</config-server.version>
         <activemq.version>1.0.0-SNAPSHOT</activemq.version>
         <core-business.version>1.0.0-SNAPSHOT</core-business.version>
@@ -62,7 +60,8 @@
         <module>core-business</module>
         <module>i18n</module>
         <module>core-document</module>
-        <module>properties</module>
+        <module>core-hibernte</module>
+        <module>core-mongodb</module>
     </modules>
     <dependencies>
         <!--java ee-->
@@ -103,37 +102,6 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.19</version>
         </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-envers</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-ehcache</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-c3p0</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-testing</artifactId>
-            <version>${hibernate.version}</version>
-            <scope>test</scope>
-        </dependency>
         <!-- utility -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -164,6 +132,11 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.10.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
         </dependency>
     </dependencies>
     <build>
@@ -350,7 +323,6 @@
                 <product.port>9091</product.port>
             </properties>
         </profile>
-
         <profile>
             <id>ActiveMQ</id>
             <properties>
