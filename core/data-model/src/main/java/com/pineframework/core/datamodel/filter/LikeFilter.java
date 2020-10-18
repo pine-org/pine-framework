@@ -5,7 +5,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-public abstract class LikeFilter extends AbstractFilter {
+public class LikeFilter<E> extends AbstractFilter<E> {
 
     private String pattern;
 

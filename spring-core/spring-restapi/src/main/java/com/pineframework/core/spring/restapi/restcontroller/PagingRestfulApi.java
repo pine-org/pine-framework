@@ -3,16 +3,19 @@ package com.pineframework.core.spring.restapi.restcontroller;
 import com.pineframework.core.contract.service.QueryService;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.paging.Page;
+import com.pineframework.core.datamodel.paging.PageMetadataView;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import javax.validation.Valid;
 import java.io.Serializable;
 
+import static com.pineframework.core.helper.JsonUtils.asString;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -32,16 +35,27 @@ public interface PagingRestfulApi<I extends Serializable, M extends FlatTransien
      * expose find data with pagination service on http
      * never override
      *
-     * @param paging
+     * @param page
      * @return list of value objects
      */
     @ApiOperation(value = "${restfulApi.page.value}", notes = "${restfulApi.page.notes}")
-    @PostMapping("search/page")
+    @GetMapping("search/page/{page}")
     @ResponseStatus(value = OK, code = OK)
-    default ResponseEntity<Page> findPage(
-            @ApiParam(name = "Model", value = "${restfulApi.page.param}", required = true)
-            @Valid @RequestBody Page paging) {
-        return ok(getService().findByPage(paging));
+    default ResponseEntity<EntityModel<Page>> findPage(
+            @ApiParam(name = "Page", value = "${restfulApi.page.param}", required = true)
+            @PathVariable(value = "page") Page page) {
+
+        Page currentPage = page;
+        return ok(new EntityModel<>(getService().findByPage(page),
+                linkTo(getClass()).slash("search")
+                        .slash("page")
+                        .slash(asString(currentPage, PageMetadataView.class))
+                        .withSelfRel(),
+                linkTo(getClass()).slash("search")
+                        .slash("page")
+                        .slash(asString(page, PageMetadataView.class))
+                        .withRel("next")
+        ));
     }
 
 }

@@ -54,7 +54,10 @@ public class GoodsEntityServiceTest extends AbstractEntityServiceTest<Long, Good
         Long id = save(model);
         assertNotNull(id);
         assertThat(id).isIn(1L, 2L, 3L);
-        updateStorage(name, new GoodsModel.Builder(model.getName(), model.getCode()).from(model).id(id).build());
+        updateStorage(name, new GoodsModel.Builder(model.getName(), model.getCode())
+                .from(model)
+                .id(id)
+                .build());
     }
 
     @ParameterizedTest

@@ -11,6 +11,7 @@ This framework is implementing for microservices products.
  - Jenkins
  - JFrog
  - Database (MySQL)
+ - Active MQ
 
 ### Install Git
 
@@ -35,6 +36,7 @@ Download [Jenkins](https://jenkins.io/download/) in WAR format then execute comm
 ### Install Database
 
 ### Install ActiveMQ
+    apache-activemq/bin/activemq start
 
 ## Build
 If you want to deploy products on your machine and every tools installed on your machine

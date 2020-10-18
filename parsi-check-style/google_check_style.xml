@@ -14,7 +14,7 @@
     </module>
     <module name="FileTabCharacter">
         <property name="eachLine" value="true"/>
-        <message key="containsTab" value="این خط {0} نمیتواند دارای کاراکتر Tab باشد"/>
+        <message key="containsTab" value="این خط نمیتواند دارای کاراکتر Tab باشد"/>
     </module>
     <module name="FileLength">
         <property name="max" value="500"/>

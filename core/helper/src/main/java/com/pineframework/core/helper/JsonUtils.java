@@ -99,4 +99,12 @@ public final class JsonUtils {
             return false;
         }
     }
+
+    public static String asString(Object o) {
+        return Try.of(() -> OBJECT_MAPPER.writeValueAsString(o)).get();
+    }
+
+    public static String asString(Object o, Class view) {
+        return Try.of(() -> OBJECT_MAPPER.writerWithView(view).writeValueAsString(o)).get();
+    }
 }

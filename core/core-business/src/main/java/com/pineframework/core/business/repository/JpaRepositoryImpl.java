@@ -4,7 +4,7 @@ import com.pineframework.core.contract.repository.Repository;
 import com.pineframework.core.datamodel.paging.Pageable;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import com.pineframework.core.datamodel.select.Select;
-import com.pineframework.core.datamodel.select.SelectAll;
+import com.pineframework.core.datamodel.select.SelectByFilter;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -89,7 +89,7 @@ public class JpaRepositoryImpl implements Repository {
     }
 
     public <I extends Serializable, E extends FlatPersistence<I>> E[] execute(Class<E> c, Pageable page) {
-        TypedQuery<E> query = execute(new SelectAll<E>(c));
+        TypedQuery<E> query = execute(new SelectByFilter<E>(c, page.getFilters()));
         query.setFirstResult(page.getOffset());
         query.setMaxResults(page.getLimit());
         List<E> list = query.getResultList();

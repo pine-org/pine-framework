@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.pineframework.core.mongodb.HibernateOgmUtil.closeApplication;
+import static com.pineframework.core.mongodb.HibernateOgmUtils.closeApplication;
 import static java.lang.String.format;
 import static org.junit.Assert.assertNotNull;
 

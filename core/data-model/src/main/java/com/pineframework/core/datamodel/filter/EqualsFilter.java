@@ -5,7 +5,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-public abstract class EqualsFilter<E> extends AbstractFilter {
+public class EqualsFilter<E> extends AbstractFilter<E> {
 
     private Object value;
 

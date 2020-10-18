@@ -6,7 +6,7 @@ import javax.transaction.TransactionManager;
 
 import static javax.persistence.Persistence.createEntityManagerFactory;
 
-public class HibernateOgmUtil {
+public class HibernateOgmUtils {
 
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY;
 

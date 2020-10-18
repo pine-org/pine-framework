@@ -2,6 +2,7 @@ package com.pineframework.core.datamodel.paging;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.pineframework.core.datamodel.filter.Filter;
 
 import static java.lang.Math.ceil;
@@ -13,8 +14,10 @@ import static java.lang.Math.min;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Page implements Pageable {
 
+    @JsonView(PageMetadataView.class)
     private int offset = 0;
 
+    @JsonView(PageMetadataView.class)
     private int limit = 10;
 
     private int index = 1;

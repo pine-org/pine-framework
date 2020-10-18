@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import javax.transaction.TransactionManager;
 
-import static com.pineframework.core.mongodb.HibernateOgmUtil.createEntityManager;
-import static com.pineframework.core.mongodb.HibernateOgmUtil.getJtaImpl;
+import static com.pineframework.core.mongodb.HibernateOgmUtils.createEntityManager;
+import static com.pineframework.core.mongodb.HibernateOgmUtils.getJtaImpl;
 import static java.util.Objects.nonNull;
 
 public class CategoryOgmRepository {

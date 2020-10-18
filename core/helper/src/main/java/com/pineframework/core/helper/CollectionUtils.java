@@ -191,7 +191,7 @@ public final class CollectionUtils {
      *
      * @param c1  the first collection
      * @param c2  the second collection
-     * @param f   the comparision condition
+     * @param f   the comparison condition
      * @param <E> the type of object that held by the first collection
      * @param <T> the type of object that held by the second collection
      * @return new collection that, it is subset of {@code c1}
@@ -230,7 +230,7 @@ public final class CollectionUtils {
      *
      * @param c1  the first collection
      * @param c2  the second collection
-     * @param f   comparision condition
+     * @param f   comparison condition
      * @param <E> the type of object that held by the first collection
      * @param <T> the type of object that held by the second collection
      * @return new collection include common items between {@code c1} and {@code c2}
