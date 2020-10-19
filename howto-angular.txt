@@ -1,0 +1,4 @@
+npm install -g npm
+npm install -g @angular/cli
+ng --version
+ng new shop-ui
