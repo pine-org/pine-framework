@@ -2,6 +2,7 @@ package com.pineframework.core.helper;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.vavr.control.Try;
 import org.slf4j.Logger;
@@ -29,6 +30,10 @@ public final class JsonUtils {
     public static final Logger LOGGER = LogUtils.getLogger(JsonUtils.class);
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+    static {
+        OBJECT_MAPPER.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+    }
 
     private JsonUtils() {
     }

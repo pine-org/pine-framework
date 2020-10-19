@@ -2,6 +2,8 @@ package com.pineframework.core.datamodel.filter;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.pineframework.core.datamodel.paging.PageMetadataView;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -25,6 +27,7 @@ import javax.persistence.criteria.Root;
         @JsonSubTypes.Type(value = EqualsFilter.class, name = "equals")
 })
 @FunctionalInterface
+@JsonView(PageMetadataView.class)
 public interface Filter<E> {
 
     /**

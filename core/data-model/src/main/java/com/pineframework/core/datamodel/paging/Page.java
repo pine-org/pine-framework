@@ -22,14 +22,13 @@ public class Page implements Pageable {
 
     private int index = 1;
 
-    private int size = 10;
-
     private int length = 0;
 
     private Long count = 0L;
 
     private Object[] content = new Object[0];
 
+    @JsonView(PageMetadataView.class)
     private Filter[] filters = new Filter[0];
 
     public Page() {
@@ -85,14 +84,6 @@ public class Page implements Pageable {
         this.index = index;
     }
 
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
     public int getLength() {
         return length;
     }
@@ -111,9 +102,9 @@ public class Page implements Pageable {
 
     @JsonIgnore
     public void next() {
-        length = (int) ceil((count.doubleValue() / size));
+        length = (int) ceil((count.doubleValue() / limit));
         index = min(((offset / limit) + 1), length);
-        offset = min((offset + size), count.intValue());
+        offset = min((offset + limit), count.intValue());
     }
 
 }
