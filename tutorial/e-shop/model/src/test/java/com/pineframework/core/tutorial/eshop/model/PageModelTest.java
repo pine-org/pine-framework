@@ -29,10 +29,9 @@ class PageModelTest extends AbstractTest {
         Page page = new Page();
         String jsonString = mapper.writerWithView(PageMetadataView.class).writeValueAsString(page);
         Assertions.assertTrue(jsonString.contains("offset"));
-        Assertions.assertTrue(jsonString.contains("limit"));
+        Assertions.assertTrue(jsonString.contains("size"));
         Assertions.assertFalse(jsonString.contains("index"));
-        Assertions.assertFalse(jsonString.contains("size"));
-        Assertions.assertFalse(jsonString.contains("length"));
+        Assertions.assertFalse(jsonString.contains("indices"));
         Assertions.assertFalse(jsonString.contains("count"));
         Assertions.assertFalse(jsonString.contains("content"));
         Assertions.assertFalse(jsonString.contains("filters"));

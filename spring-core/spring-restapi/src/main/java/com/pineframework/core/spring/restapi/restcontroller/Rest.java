@@ -2,6 +2,7 @@ package com.pineframework.core.spring.restapi.restcontroller;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import static org.springframework.http.HttpMethod.DELETE;
@@ -18,6 +19,7 @@ import static org.springframework.http.ResponseEntity.ok;
  * @param <S> business service
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
+@CrossOrigin
 public interface Rest<S> {
     S getService();
 

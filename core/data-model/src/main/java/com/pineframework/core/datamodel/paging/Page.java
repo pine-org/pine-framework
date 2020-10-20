@@ -5,25 +5,25 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.pineframework.core.datamodel.filter.Filter;
 
-import static java.lang.Math.ceil;
-import static java.lang.Math.min;
-
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Page implements Pageable {
 
-    @JsonView(PageMetadataView.class)
+    @JsonIgnore
     private int offset = 0;
 
     @JsonView(PageMetadataView.class)
-    private int limit = 10;
+    private int size = 10;
 
-    private int index = 1;
+    @JsonView(PageMetadataView.class)
+    private int index = 0;
 
-    private int length = 0;
+    @JsonView(PageMetadataView.class)
+    private int[] indices = new int[0];
 
+    @JsonIgnore
     private Long count = 0L;
 
     private Object[] content = new Object[0];
@@ -35,9 +35,9 @@ public class Page implements Pageable {
     }
 
     @JsonIgnore
-    public Page(int offset, int limit) {
+    public Page(int offset, int size) {
         this.offset = offset;
-        this.limit = limit;
+        this.size = size;
     }
 
     @Override
@@ -50,12 +50,12 @@ public class Page implements Pageable {
     }
 
     @Override
-    public int getLimit() {
-        return limit;
+    public int getSize() {
+        return size;
     }
 
-    public void setLimit(int limit) {
-        this.limit = limit;
+    public void setSize(int size) {
+        this.size = size;
     }
 
     @Override
@@ -84,12 +84,12 @@ public class Page implements Pageable {
         this.index = index;
     }
 
-    public int getLength() {
-        return length;
+    public int[] getIndices() {
+        return indices;
     }
 
-    public void setLength(int length) {
-        this.length = length;
+    public void setIndices(int[] indices) {
+        this.indices = indices;
     }
 
     public Long getCount() {
@@ -98,13 +98,6 @@ public class Page implements Pageable {
 
     public void setCount(Long count) {
         this.count = count;
-    }
-
-    @JsonIgnore
-    public void next() {
-        length = (int) ceil((count.doubleValue() / limit));
-        index = min(((offset / limit) + 1), length);
-        offset = min((offset + limit), count.intValue());
     }
 
 }

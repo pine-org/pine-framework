@@ -1,4 +1,7 @@
 npm install -g npm
 npm install -g @angular/cli
 ng --version
-ng new shop-ui
+ng new e-shop-ui
+npm install
+ng add @angular/material
+npm start

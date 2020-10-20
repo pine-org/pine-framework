@@ -5,7 +5,7 @@ import com.pineframework.core.datamodel.filter.Filter;
 public interface Pageable {
     int getOffset();
 
-    int getLimit();
+    int getSize();
 
     Object[] getContent();
 

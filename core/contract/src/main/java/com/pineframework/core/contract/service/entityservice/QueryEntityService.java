@@ -11,6 +11,9 @@ import com.pineframework.core.helper.CollectionUtils;
 
 import java.io.Serializable;
 import java.util.Optional;
+import java.util.stream.IntStream;
+
+import static java.lang.Math.ceil;
 
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
@@ -37,9 +40,13 @@ public interface QueryEntityService<I extends Serializable,
         if (count == 0)
             return page;
 
-        page.setContent(getTransformer().transform(getRepository().find(page)));
-        page.next();
+        int totalPage = (int) ceil((count.doubleValue() / page.getSize()));
+        page.setIndices(IntStream.rangeClosed(0, totalPage - 1).toArray());
 
+        int offset = (page.getIndex()) * page.getSize();
+        page.setOffset(offset);
+
+        page.setContent(getTransformer().transform(getRepository().find(page)));
         return page;
     }
 

@@ -1,0 +1,96 @@
+<div class="mx-5 my-5">
+  <div class="d-flex flex-column">
+    <div class=" row my-3 justify-content-start"><h3><strong>{{title}}</strong></h3></div>
+    <div class="row my-1 d-flex align-items-baseline">
+      <div class="col">
+        <div class="row d-flex justify-content-start">
+          <div>
+            <app-add-button></app-add-button>
+          </div>
+          <div class="mx-1"></div>
+          <div>
+            <app-delete-button [click]="deleteAll" [identities]="deleted"></app-delete-button>
+          </div>
+        </div>
+      </div>
+      <div class="col d-flex justify-content-end px-0">
+        <div *ngIf="!dropdownBunch.hidden" class="btn-group">
+          <button aria-expanded="false" aria-haspopup="true" class="btn rounded-0 btn-dark dropdown-toggle"
+                  data-toggle="dropdown" type="button">
+            {{dropdownBunch.text.hidden ? dataBunches[0] : dropdownBunch.text.content}}
+          </button>
+          <div class="dropdown-menu">
+            <a (click)="changeBunchOfData(bunch)" *ngFor='let bunch of dataBunches' class="dropdown-item">
+              {{bunch}}
+            </a>
+          </div>
+        </div>
+        <div *ngIf="!dropdownColumnSelection.hidden" class="btn-group">
+          <button aria-expanded="false" aria-haspopup="true"
+                  class="btn rounded-0 btn-dark dropdown-toggle" data-toggle="dropdown" type="button">
+            <i
+              class="fa fa-angle-double-down"></i>{{dropdownColumnSelection.space}}{{dropdownColumnSelection.text.content}}
+          </button>
+          <div class="dropdown-menu">
+            <a *ngFor='let column of columns' class="dropdown-item">
+              <input (change)="selectColumn(column, $event)" checked class="mx-1" type="checkbox"
+                     value="{{column}}"/> {{column.text.content}}
+            </a>
+          </div>
+        </div>
+        <app-refresh-menu-button [click]="currentPage"></app-refresh-menu-button>
+
+      </div>
+    </div>
+    <div class="row my-1">
+      <table class="table table-hover table-bordered table-sm">
+        <thead class="thead-light">
+        <th [hidden]="columnCheckbox.hidden">
+          {{columnCheckbox.text.content}}
+          <input (click)="toggleCheckedAll()" *ngIf="columnCheckbox.text.hidden" checked="{{checkedAllRows}}"
+                 type="checkbox"/>
+        </th>
+        <th *ngFor="let column of columns" [hidden]="column.hidden" class='table-header'>{{column.text.content}}</th>
+        <th [hidden]="columnOperation.hidden">{{columnOperation.text.content}}</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of page.content">
+          <td [hidden]="columnCheckbox.hidden"><input (change)="updateDeleted($event)" checked="{{checkedAllRows}}"
+                                                      type="checkbox" value="{{item.id}}"/>
+          </td>
+          <td [hidden]="columns[0].hidden">{{item.id}}</td>
+          <td [hidden]="columns[1].hidden">{{item.name}}</td>
+          <td [hidden]="columns[2].hidden">{{item.description}}</td>
+          <td [hidden]="columns[3].hidden">{{item.price}}</td>
+          <td [hidden]="columnOperation.hidden">
+            <div class="row px-2 justify-content-end">
+              <div>
+                <app-edit-button></app-edit-button>
+              </div>
+              <div class="mx-1"></div>
+              <div>
+                <app-read-button></app-read-button>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-auto">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <app-previous-button [click]="previousPage"></app-previous-button>
+        </li>
+        <li *ngFor='let num of page.indices' [ngClass]="isActive(num)" class="page-item">
+          <div *ngIf="num + 1 >= 1 && num + 1 <= 5">
+            <app-index-button [click]="getPage" [number]="num + 1"></app-index-button>
+          </div>
+        </li>
+        <li class="page-item">
+          <app-next-button [click]="nextPage"></app-next-button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

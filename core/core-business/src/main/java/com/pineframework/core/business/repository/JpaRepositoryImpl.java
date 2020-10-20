@@ -91,7 +91,7 @@ public class JpaRepositoryImpl implements Repository {
     public <I extends Serializable, E extends FlatPersistence<I>> E[] execute(Class<E> c, Pageable page) {
         TypedQuery<E> query = execute(new SelectByFilter<E>(c, page.getFilters()));
         query.setFirstResult(page.getOffset());
-        query.setMaxResults(page.getLimit());
+        query.setMaxResults(page.getSize());
         List<E> list = query.getResultList();
         return ofNullable(list.toArray((E[]) Array.newInstance(c, list.size())));
     }
