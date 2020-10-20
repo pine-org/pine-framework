@@ -28,8 +28,8 @@
         <div *ngIf="!dropdownColumnSelection.hidden" class="btn-group">
           <button aria-expanded="false" aria-haspopup="true"
                   class="btn rounded-0 btn-dark dropdown-toggle" data-toggle="dropdown" type="button">
-            <i
-              class="fa fa-angle-double-down"></i>{{dropdownColumnSelection.space}}{{dropdownColumnSelection.text.content}}
+            <i class="fa fa-angle-double-down"></i>
+            {{dropdownColumnSelection.space}}{{dropdownColumnSelection.text.content}}
           </button>
           <div class="dropdown-menu">
             <a *ngFor='let column of columns' class="dropdown-item">
@@ -78,15 +78,27 @@
       </table>
     </div>
     <div class="col-auto">
-      <ul class="pagination justify-content-center">
+      <ul class="pagination justify-content-center align-items-baseline">
         <li class="page-item">
           <app-previous-button [click]="previousPage"></app-previous-button>
         </li>
+        <div *ngIf="minVisibleIndex > 0" class="mx-2">
+          <button (click)="previousIndices()" class="btn rounded-0 border-0"
+                  type="button">
+            <i class="fa fa-angle-double-left"></i>
+          </button>
+        </div>
         <li *ngFor='let num of page.indices' [ngClass]="isActive(num)" class="page-item">
-          <div *ngIf="num + 1 >= 1 && num + 1 <= 5">
-            <app-index-button [click]="getPage" [number]="num + 1"></app-index-button>
+          <div *ngIf="num >= minVisibleIndex && num < minVisibleIndex + lengthOfVisibleIndex">
+            <app-index-button [click]="getPage" [number]="num"></app-index-button>
           </div>
         </li>
+        <div *ngIf="minVisibleIndex + lengthOfVisibleIndex < page.indices.length" class="mx-2">
+          <button (click)="nextIndices()" class="btn rounded-0 border-0"
+                  type="button">
+            <i class="fa fa-angle-double-right"></i>
+          </button>
+        </div>
         <li class="page-item">
           <app-next-button [click]="nextPage"></app-next-button>
         </li>

@@ -199,7 +199,7 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
      * @param identities
      */
     @ApiOperation(value = "${restfulApi.batchDelete.value}", notes = "${restfulApi.batchDelete.notes}")
-    @DeleteMapping("/batch/delete/ids")
+    @DeleteMapping("/batch/delete/{ids}")
     @ResponseStatus(value = NO_CONTENT, code = NO_CONTENT)
     default void batchDelete(
             @ApiParam(name = "identities", value = "${restfulApi.batchDelete.param}", required = true)

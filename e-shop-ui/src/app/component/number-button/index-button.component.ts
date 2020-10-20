@@ -23,7 +23,7 @@ export class IndexButtonComponent implements OnInit {
   @Input()
   set number(value: number) {
     this._number = value;
-    this.properties = Properties.builder((this._number).toString()).icon(Icon.iconOf('')).build();
+    this.properties = Properties.builder((this._number + 1).toString()).icon(Icon.iconOf('')).build();
   }
 
   ngOnInit() {

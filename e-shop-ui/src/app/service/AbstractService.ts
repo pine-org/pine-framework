@@ -22,8 +22,8 @@ export abstract class AbstractService<T> implements Service<T> {
 
   protected _httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/hal+json',
-      'Authorization': 'Basic ' + btoa('admin:password')
+      'Content-Type': 'application/hal+json'
+      // 'Authorization': 'Basic ' + btoa('admin:password')
     }),
   };
 
@@ -37,7 +37,7 @@ export abstract class AbstractService<T> implements Service<T> {
     metadata.index = page.index;
     metadata.size = page.size;
     metadata.filters = page.filters;
-    return this.httpClient.get<Page>(this.getUri(encodeURIComponent(JSON.stringify(metadata))), this._httpOptions);
+    return this.httpClient.get<Page>(this.getUri("/search/page/" + encodeURIComponent(JSON.stringify(metadata))), this._httpOptions);
   }
 
   create(obj): Observable<T> {
@@ -56,7 +56,7 @@ export abstract class AbstractService<T> implements Service<T> {
     this.httpClient.delete(this.getUri('/' + id), this._httpOptions);
   }
 
-  deleteAll(...identities: any[]): any {
-    this.httpClient.delete(this.getUri('/delete-all/' + identities.join(",")), this._httpOptions);
+  deleteAll(...identities: any[]): Observable<any> {
+    return this.httpClient.delete(this.getUri('/batch/delete/' + identities.join(",")), this._httpOptions);
   }
 }

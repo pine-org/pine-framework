@@ -13,7 +13,7 @@ export class GoodsService extends AbstractService<Goods> {
   }
 
   getUri(v = null) {
-    return v == null ? "http://localhost:9091/e-shop/api/v1/goods/search/page/" :
-      "http://localhost:9091/e-shop/api/v1/goods/search/page/" + v;
+    return v == null ? "http://localhost:9091/e-shop/api/v1/goods" :
+      "http://localhost:9091/e-shop/api/v1/goods" + v;
   }
 }

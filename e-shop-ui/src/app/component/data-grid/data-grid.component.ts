@@ -30,13 +30,15 @@ export class DataGridComponent implements OnInit {
   checkedAllRows: string = null;
   columnCheckbox: Properties = Properties.builder('#').hiddenText().build();
 
+  minVisibleIndex = 0;
+  @Input() lengthOfVisibleIndex = 5;
+
   ngOnInit() {
     this.getPage(this.page.index);
   }
 
   getData(page: Page) {
     this.service.list(page).subscribe((response: Page) => {
-      console.log(response);
       this.page = response;
     })
   }
@@ -46,7 +48,13 @@ export class DataGridComponent implements OnInit {
   }
 
   deleteAll = (...identities: any[]) => {
-    this.service.deleteAll(identities)
+    this.service.deleteAll(identities).subscribe(() => {
+      if (this.page.content.length == 1) {
+        this.previousPage();
+      } else {
+        this.currentPage();
+      }
+    });
   }
 
   updateDeleted(event) {
@@ -100,12 +108,34 @@ export class DataGridComponent implements OnInit {
   }
 
   nextPage = () => {
-    if (this.page.index < this.page.indices.length - 1)
+    if (this.page.index < this.page.indices.length - 1) {
+      if (this.page.index == this.minVisibleIndex + this.lengthOfVisibleIndex - 1) {
+        this.minVisibleIndex += this.lengthOfVisibleIndex
+      }
       this.getPage(this.page.index + 1);
+    }
   }
 
   previousPage = () => {
-    if (this.page.index > 0)
+    if (this.page.index > 0) {
+      if (this.page.index <= this.minVisibleIndex) {
+        this.minVisibleIndex -= this.lengthOfVisibleIndex
+      }
       this.getPage(this.page.index - 1);
+    }
+  }
+
+  nextIndices() {
+    if (this.minVisibleIndex < this.page.indices.length) {
+      this.minVisibleIndex += this.lengthOfVisibleIndex
+      this.getPage(this.minVisibleIndex);
+    }
+  }
+
+  previousIndices() {
+    if (this.minVisibleIndex > 0) {
+      this.minVisibleIndex -= this.lengthOfVisibleIndex
+      this.getPage(this.minVisibleIndex + this.lengthOfVisibleIndex - 1);
+    }
   }
 }
