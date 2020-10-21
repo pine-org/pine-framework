@@ -28,7 +28,7 @@ export class DataGridComponent implements OnInit {
   columnOperation: Properties = Properties.builder('Operation').build();
 
   checkedAllRows: string = null;
-  columnCheckbox: Properties = Properties.builder('#').hiddenText().build();
+  columnCheckbox: Properties = Properties.builder('#').hiddenTitle().build();
 
   minVisibleIndex = 0;
   @Input() lengthOfVisibleIndex = 5;
@@ -78,10 +78,10 @@ export class DataGridComponent implements OnInit {
     if (value == 'Default') {
       this.dataBunches.splice(0, 1);
       this.defaultDataBunch = this.dataBunches[0];
-      this.dropdownBunch.text.content = 'Bunch';
+      this.dropdownBunch.title.content = 'Bunch';
     } else {
       this.defaultDataBunch = value;
-      this.dropdownBunch.text.content = value;
+      this.dropdownBunch.title.content = value;
     }
 
     this.getPage(0);
@@ -89,7 +89,7 @@ export class DataGridComponent implements OnInit {
 
   selectColumn(column: Properties, event) {
     this.columns
-      .filter(value => value.text.content == column.text.content)
+      .filter(value => value.title.content == column.title.content)
       .forEach(value => value.hidden = !event.target.checked);
   }
 

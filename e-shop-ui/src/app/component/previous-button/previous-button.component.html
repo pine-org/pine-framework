@@ -1,5 +1,5 @@
 <button (click)="click()" *ngIf="!properties.hidden" class="btn rounded-0 border" type="button">
-    <i *ngIf="!properties.icon.hidden" class="{{properties.icon.name}}"></i>
-    {{properties.space}}
-    {{properties.text.content}}
+  <i *ngIf="!properties.icon.hidden" class="{{properties.icon.name}}"></i>
+  {{properties.separator}}
+  {{properties.title.content}}
 </button>

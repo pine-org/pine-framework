@@ -4,9 +4,9 @@ import {GoodsService} from './goods.service';
 import {Goods} from "./Goods";
 import {HttpClientModule} from "@angular/common/http";
 import {Service} from "../service/AbstractService";
-import {GoodsList} from "./GoodsList";
+import {Page} from "../service/Page";
 
-describe('GoodsService', () => {
+describe('Goods Service Tests', () => {
   let service: Service<Goods>;
 
   beforeEach(() => {
@@ -17,40 +17,21 @@ describe('GoodsService', () => {
     service = TestBed.get(GoodsService);
   });
 
-  const countries = [
-    'USA',
-    'Germany',
-    'Iran'
-  ];
-
-  const products = [
-    'Ball',
-    'Sunglasses',
-    'Pen',
-    'Pot',
-    'Bicycle',
-    'Laptop',
-    'Bag',
-    'Rug',
-    'Glass',
-  ];
-
-  function getItem(a: any[]) {
-    return a[Math.floor(Math.random() * a.length)];
-  }
-
   it('GIVEN an object WHEN it is sent over the POST method THEN it should be save in database', async(() => {
     const data = {
-      'name': getItem(products),
-      'description': 'Made in ' + getItem(countries),
-      'price': 1 + Math.floor(Math.random() * 100)
+      'name': 'Laptop',
+      'code': '001',
+      'description': 'Made in the USA',
+      'price': 1450
     };
 
     service.create(data).subscribe((response: Goods) => {
       expect(response).not.toBeNaN();
-      expect(response._links.self.href).not.toBeNull();
+      expect(response._links.href).not.toBeNull();
       expect(response.name).not.toBeNull();
       expect(response.name).toEqual(data.name);
+      expect(response.code).not.toBeNull();
+      expect(response.code).toEqual(data.code);
       expect(response.description).not.toBeNull();
       expect(response.description).toEqual(data.description);
       expect(response.price).not.toBeNull();
@@ -61,10 +42,10 @@ describe('GoodsService', () => {
   }));
 
   it('WHEN a request is sent over the GET verb THEN it should returns the first page of data', async(() => {
-    service.list({page: '0', size: '10'}).subscribe((response: GoodsList) => {
+    service.list(new Page()).subscribe((response: Page) => {
       expect(response).not.toBeNaN();
-      expect(response._embedded.data).not.toBeNaN();
-      expect(response._embedded.data.length).toBeGreaterThanOrEqual(0);
+      expect(response.content).not.toBeNaN();
+      expect(response.content.length).toBeGreaterThanOrEqual(0);
     });
   }));
 

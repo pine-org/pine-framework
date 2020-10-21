@@ -22,10 +22,11 @@ export class HomeComponent implements OnInit {
 
   getColumns(): Properties[] {
     return [
-      Properties.builder('ID').build(),
-      Properties.builder('Name').build(),
-      Properties.builder('Description').build(),
-      Properties.builder('Price').build()
+      Properties.builder('ID').field("id").build(),
+      Properties.builder('Name').field("name").build(),
+      Properties.builder('Code').field("code").build(),
+      Properties.builder('Price').field("price").build(),
+      Properties.builder('Description').field("description").build(),
     ];
   }
 

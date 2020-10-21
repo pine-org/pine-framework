@@ -8,8 +8,14 @@ import com.pineframework.core.tutorial.eshop.model.GoodsModel.Builder;
 public class GoodsTransformer extends AbstractImmutableFlatTransformer<Long, GoodsModel, GoodsEntity, Builder> {
 
     @Override
+    public Builder getModelBuilder(GoodsEntity e) {
+        return new Builder(e.getName(), e.getCode());
+    }
+
+    @Override
     protected void transformEntityToModel(GoodsEntity input, Builder outputBuilder, int deep, String... field) {
         outputBuilder.price(input.getPrice());
+        outputBuilder.description(input.getDescription());
     }
 
     @Override
@@ -17,10 +23,6 @@ public class GoodsTransformer extends AbstractImmutableFlatTransformer<Long, Goo
         output.setName(input.getName());
         output.setCode(input.getCode());
         output.setPrice(input.getPrice());
-    }
-
-    @Override
-    public Builder getModelBuilder(GoodsEntity e) {
-        return new Builder(e.getName(), e.getCode());
+        output.setDescription(input.getDescription());
     }
 }

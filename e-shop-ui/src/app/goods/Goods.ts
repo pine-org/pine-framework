@@ -3,8 +3,9 @@ import {Links} from "../service/Links";
 export class Goods {
   id: number;
   name: string;
-  description: string;
+  code: string;
   price: number;
+  description: string;
   createBy: string;
   createDate: string;
   ownerUnit: string;

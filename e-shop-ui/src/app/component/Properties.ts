@@ -88,15 +88,17 @@ export class TextBuilder {
 
 export class Properties {
 
-  text: Text = Text.of('');
+  title: Text = Text.of('');
+  field: Text = Text.of('');
   hidden: boolean = false;
-  space: string = ' '
+  separator: string = ' '
   icon: Icon = Icon.iconOf('');
 
   constructor(builder: PropertiesBuilder) {
-    this.text = builder._text;
+    this.title = builder._title;
+    this.field = builder._field
     this.hidden = builder._hidden;
-    this.space = builder._space;
+    this.separator = builder._separator;
     this.icon = builder._icon;
   }
 
@@ -108,16 +110,18 @@ export class Properties {
 
 export class PropertiesBuilder {
 
-  _text: Text = Text.of('');
+  _title: Text = Text.of('');
+
+  _field: Text = Text.of('');
 
   _hidden: boolean = false;
 
-  _space: string = ' '
+  _separator: string = ' '
 
   _icon: Icon = Icon.iconOf('');
 
   constructor(value: string) {
-    this._text = Text.of(value);
+    this._title = Text.of(value);
   }
 
   hidden(): PropertiesBuilder {
@@ -125,13 +129,18 @@ export class PropertiesBuilder {
     return this;
   }
 
-  hiddenText(): PropertiesBuilder {
-    this._text.hidden = true;
+  hiddenTitle(): PropertiesBuilder {
+    this._title.hidden = true;
     return this;
   }
 
-  space(value: string): PropertiesBuilder {
-    this._space = value;
+  field(value: string): PropertiesBuilder {
+    this._field = Text.of(value);
+    return this;
+  }
+
+  separator(value: string): PropertiesBuilder {
+    this._separator = value;
     return this;
   }
 

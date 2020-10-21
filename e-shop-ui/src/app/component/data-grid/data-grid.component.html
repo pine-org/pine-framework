@@ -17,7 +17,7 @@
         <div *ngIf="!dropdownBunch.hidden" class="btn-group">
           <button aria-expanded="false" aria-haspopup="true" class="btn rounded-0 btn-dark dropdown-toggle"
                   data-toggle="dropdown" type="button">
-            {{dropdownBunch.text.hidden ? dataBunches[0] : dropdownBunch.text.content}}
+            {{dropdownBunch.title.hidden ? dataBunches[0] : dropdownBunch.title.content}}
           </button>
           <div class="dropdown-menu">
             <a (click)="changeBunchOfData(bunch)" *ngFor='let bunch of dataBunches' class="dropdown-item">
@@ -29,39 +29,35 @@
           <button aria-expanded="false" aria-haspopup="true"
                   class="btn rounded-0 btn-dark dropdown-toggle" data-toggle="dropdown" type="button">
             <i class="fa fa-angle-double-down"></i>
-            {{dropdownColumnSelection.space}}{{dropdownColumnSelection.text.content}}
+            {{dropdownColumnSelection.separator}}{{dropdownColumnSelection.title.content}}
           </button>
           <div class="dropdown-menu">
             <a *ngFor='let column of columns' class="dropdown-item">
-              <input (change)="selectColumn(column, $event)" checked class="mx-1" type="checkbox"
-                     value="{{column}}"/> {{column.text.content}}
+              <input (change)="selectColumn(column, $event)" checked class="mx-1" type="checkbox" value="{{column}}"/>
+              {{column.title.content}}
             </a>
           </div>
         </div>
         <app-refresh-menu-button [click]="currentPage"></app-refresh-menu-button>
-
       </div>
     </div>
     <div class="row my-1">
       <table class="table table-hover table-bordered table-sm">
         <thead class="thead-light">
         <th [hidden]="columnCheckbox.hidden">
-          {{columnCheckbox.text.content}}
-          <input (click)="toggleCheckedAll()" *ngIf="columnCheckbox.text.hidden" checked="{{checkedAllRows}}"
+          {{columnCheckbox.title.content}}
+          <input (click)="toggleCheckedAll()" *ngIf="columnCheckbox.title.hidden" checked="{{checkedAllRows}}"
                  type="checkbox"/>
         </th>
-        <th *ngFor="let column of columns" [hidden]="column.hidden" class='table-header'>{{column.text.content}}</th>
-        <th [hidden]="columnOperation.hidden">{{columnOperation.text.content}}</th>
+        <th *ngFor="let column of columns" [hidden]="column.hidden" class='table-header'>{{column.title.content}}</th>
+        <th [hidden]="columnOperation.hidden">{{columnOperation.title.content}}</th>
         </thead>
         <tbody>
         <tr *ngFor="let item of page.content">
-          <td [hidden]="columnCheckbox.hidden"><input (change)="updateDeleted($event)" checked="{{checkedAllRows}}"
-                                                      type="checkbox" value="{{item.id}}"/>
+          <td [hidden]="columnCheckbox.hidden">
+            <input (change)="updateDeleted($event)" checked="{{checkedAllRows}}" type="checkbox" value="{{item.id}}"/>
           </td>
-          <td [hidden]="columns[0].hidden">{{item.id}}</td>
-          <td [hidden]="columns[1].hidden">{{item.name}}</td>
-          <td [hidden]="columns[2].hidden">{{item.description}}</td>
-          <td [hidden]="columns[3].hidden">{{item.price}}</td>
+          <td *ngFor="let column of columns" [hidden]="column.hidden">{{item[column.field.content]}}</td>
           <td [hidden]="columnOperation.hidden">
             <div class="row px-2 justify-content-end">
               <div>
@@ -83,8 +79,7 @@
           <app-previous-button [click]="previousPage"></app-previous-button>
         </li>
         <div *ngIf="minVisibleIndex > 0" class="mx-2">
-          <button (click)="previousIndices()" class="btn rounded-0 border-0"
-                  type="button">
+          <button (click)="previousIndices()" class="btn rounded-0 border-0" type="button">
             <i class="fa fa-angle-double-left"></i>
           </button>
         </div>
@@ -94,8 +89,7 @@
           </div>
         </li>
         <div *ngIf="minVisibleIndex + lengthOfVisibleIndex < page.indices.length" class="mx-2">
-          <button (click)="nextIndices()" class="btn rounded-0 border-0"
-                  type="button">
+          <button (click)="nextIndices()" class="btn rounded-0 border-0" type="button">
             <i class="fa fa-angle-double-right"></i>
           </button>
         </div>

@@ -20,11 +20,14 @@ public final class GoodsModel extends FlatTransient<Long> {
 
     private final BigDecimal price;
 
+    private final String description;
+
     public GoodsModel(GoodsModel.Builder builder) {
         super(builder);
         this.name = builder.name;
         this.code = builder.code;
         this.price = builder.price;
+        this.description = builder.description;
     }
 
     public String getName() {
@@ -39,6 +42,10 @@ public final class GoodsModel extends FlatTransient<Long> {
         return price;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     @JsonPOJOBuilder(withPrefix = "")
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder extends FlatTransient.Builder<Long, GoodsModel, GoodsModel.Builder> {
@@ -48,6 +55,8 @@ public final class GoodsModel extends FlatTransient<Long> {
         private final String code;
 
         private BigDecimal price;
+
+        private String description;
 
         @JsonCreator
         public Builder(@JsonProperty("name") String name, @JsonProperty("code") String code) {
@@ -66,6 +75,11 @@ public final class GoodsModel extends FlatTransient<Long> {
 
         public Builder price(BigDecimal price) {
             this.price = price;
+            return this;
+        }
+
+        public Builder description(String description) {
+            this.description = description;
             return this;
         }
 

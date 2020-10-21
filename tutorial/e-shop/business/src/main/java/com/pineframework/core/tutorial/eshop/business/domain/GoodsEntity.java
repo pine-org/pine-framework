@@ -18,14 +18,17 @@ import java.math.BigDecimal;
 @Table(name = "GOODS")
 public class GoodsEntity extends AbstractAuditingEntity<Long> {
 
-    @Column(name = "NAME", nullable = false, length = 100, unique = true)
+    @Column(name = "NAME", nullable = false, length = 50, unique = true)
     private String name;
 
-    @Column(name = "CODE", nullable = false, length = 100, unique = true)
+    @Column(name = "CODE", nullable = false, length = 50, unique = true)
     private String code;
 
-    @Column(name = "CODE", nullable = true, precision = 12, scale = 2)
+    @Column(name = "PRICE", nullable = true, precision = 12, scale = 2)
     private BigDecimal price;
+
+    @Column(name = "DESCRIPTINO", nullable = true, length = 150, unique = true)
+    private String description;
 
     @Id
     @Column(name = "ID", unique = true, nullable = false)
@@ -64,6 +67,14 @@ public class GoodsEntity extends AbstractAuditingEntity<Long> {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
