@@ -16,6 +16,7 @@ public class GoodsTransformer extends AbstractImmutableFlatTransformer<Long, Goo
     protected void transformEntityToModel(GoodsEntity input, Builder outputBuilder, int deep, String... field) {
         outputBuilder.price(input.getPrice());
         outputBuilder.description(input.getDescription());
+        outputBuilder.photo(input.getPhoto());
     }
 
     @Override

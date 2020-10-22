@@ -7,20 +7,29 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.pineframework.core.datamodel.model.FlatTransient;
+import com.pineframework.core.datamodel.validation.CreateValidationGroup;
+import com.pineframework.core.datamodel.validation.UpdateValidationGroup;
 
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
 @JsonDeserialize(builder = GoodsModel.Builder.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class GoodsModel extends FlatTransient<Long> {
 
+    @NotBlank(message = "error.validation.notBlank",
+            groups = {CreateValidationGroup.class, UpdateValidationGroup.class})
     private final String name;
 
+    @NotBlank(message = "error.validation.notBlank",
+            groups = {CreateValidationGroup.class, UpdateValidationGroup.class})
     private final String code;
 
     private final BigDecimal price;
 
     private final String description;
+
+    private final byte[] photo;
 
     public GoodsModel(GoodsModel.Builder builder) {
         super(builder);
@@ -28,6 +37,7 @@ public final class GoodsModel extends FlatTransient<Long> {
         this.code = builder.code;
         this.price = builder.price;
         this.description = builder.description;
+        this.photo = builder.photo;
     }
 
     public String getName() {
@@ -46,6 +56,10 @@ public final class GoodsModel extends FlatTransient<Long> {
         return description;
     }
 
+    public byte[] getPhoto() {
+        return photo;
+    }
+
     @JsonPOJOBuilder(withPrefix = "")
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder extends FlatTransient.Builder<Long, GoodsModel, GoodsModel.Builder> {
@@ -53,6 +67,8 @@ public final class GoodsModel extends FlatTransient<Long> {
         private final String name;
 
         private final String code;
+
+        public byte[] photo;
 
         private BigDecimal price;
 
@@ -80,6 +96,11 @@ public final class GoodsModel extends FlatTransient<Long> {
 
         public Builder description(String description) {
             this.description = description;
+            return this;
+        }
+
+        public Builder photo(byte[] photo) {
+            this.photo = photo;
             return this;
         }
 

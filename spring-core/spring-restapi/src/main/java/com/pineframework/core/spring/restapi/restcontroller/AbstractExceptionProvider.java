@@ -30,7 +30,7 @@ public abstract class AbstractExceptionProvider {
      */
     public ErrorResponse[] error(AbstractException... exceptions) {
         return Arrays.stream(exceptions)
-                .peek(i18nHelper::toLocale)
+                .map(i18nHelper::toLocale)
                 .map(ErrorResponse::from)
                 .toArray(ErrorResponse[]::new);
     }

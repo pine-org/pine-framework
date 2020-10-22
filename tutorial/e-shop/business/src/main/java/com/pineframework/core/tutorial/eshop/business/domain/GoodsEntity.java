@@ -30,6 +30,9 @@ public class GoodsEntity extends AbstractAuditingEntity<Long> {
     @Column(name = "DESCRIPTINO", nullable = true, length = 150, unique = true)
     private String description;
 
+    @Column(name = "PHOTO", nullable = true)
+    private byte[] photo;
+
     @Id
     @Column(name = "ID", unique = true, nullable = false)
     @SequenceGenerator(name = "GOODS_GEN", sequenceName = "GOODS_SEQ", allocationSize = ALLOCATION_SIZE)
@@ -75,6 +78,14 @@ public class GoodsEntity extends AbstractAuditingEntity<Long> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public byte[] getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
     }
 
     @Override

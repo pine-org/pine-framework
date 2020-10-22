@@ -45,15 +45,14 @@ public interface PagingRestfulApi<I extends Serializable, M extends FlatTransien
             @ApiParam(name = "Page", value = "${restfulApi.page.param}", required = true)
             @PathVariable(value = "page") Page page) {
 
-        String currentPageMetadata = asString(page, PageMetadataView.class);
         return ok(new EntityModel<>(getService().findByPage(page),
                 linkTo(getClass()).slash("search")
                         .slash("page")
-                        .slash(currentPageMetadata)
+                        .slash(asString(page, PageMetadataView.class))
                         .withSelfRel(),
                 linkTo(getClass()).slash("search")
                         .slash("page")
-                        .slash(asString(page, PageMetadataView.class))
+                        .slash(asString(page.next(), PageMetadataView.class))
                         .withRel("next")
         ));
     }

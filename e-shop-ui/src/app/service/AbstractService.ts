@@ -7,15 +7,15 @@ export interface Service<T> {
 
   list(page: Page): Observable<Page>;
 
-  create(obj): Observable<T>;
+  create(obj): Observable<any>;
 
   read(id): Observable<T>;
 
-  update(id, obj): Observable<T>;
+  update(id, obj): Observable<any>;
 
-  delete(id): any;
+  delete(id): Observable<any>;
 
-  deleteAll(...identities: any[]): any;
+  deleteAll(...identities: any[]): Observable<void>;
 }
 
 export abstract class AbstractService<T> implements Service<T> {
@@ -23,11 +23,10 @@ export abstract class AbstractService<T> implements Service<T> {
   protected _httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/hal+json'
-      // 'Authorization': 'Basic ' + btoa('admin:password')
     }),
   };
 
-  constructor(protected httpClient: HttpClient) {
+  protected constructor(protected httpClient: HttpClient) {
   }
 
   abstract getUri(v): string;
@@ -40,7 +39,7 @@ export abstract class AbstractService<T> implements Service<T> {
     return this.httpClient.get<Page>(this.getUri("/search/page/" + encodeURIComponent(JSON.stringify(metadata))), this._httpOptions);
   }
 
-  create(obj): Observable<T> {
+  create(obj): Observable<any> {
     return this.httpClient.post<T>(this.getUri(null), obj, this._httpOptions);
   }
 
@@ -48,12 +47,12 @@ export abstract class AbstractService<T> implements Service<T> {
     return this.httpClient.get<T>(this.getUri('/' + id), this._httpOptions);
   }
 
-  update(id, obj): Observable<T> {
+  update(id, obj): Observable<any> {
     return this.httpClient.put<T>(this.getUri('/' + id), obj, this._httpOptions);
   }
 
-  delete(id) {
-    this.httpClient.delete(this.getUri('/' + id), this._httpOptions);
+  delete(id): Observable<any> {
+    return this.httpClient.delete(this.getUri('/' + id), this._httpOptions);
   }
 
   deleteAll(...identities: any[]): Observable<any> {

@@ -49,7 +49,7 @@ export class DataGridComponent implements OnInit {
 
   deleteAll = (...identities: any[]) => {
     this.service.deleteAll(identities).subscribe(() => {
-      if (this.page.content.length == 1) {
+      if (this.page.content.length == 1 || this.deleted.length == this.page.content.length) {
         this.previousPage();
       } else {
         this.currentPage();
