@@ -19,6 +19,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
@@ -103,6 +104,20 @@ public final class CollectionUtils {
      * Return {@code true} if provided reference has at least one element otherwise
      * return {@code false}.
      *
+     * @param a      an a reference to be check for emptiness
+     * @param <T>    the type of the reference
+     * @param length expected the element number
+     * @return {@code true} if provided reference has at least one element otherwise
+     * return {@code false}
+     */
+    public static <T> BooleanOptional isThereAnyElement(T[] a, int length) {
+        return BooleanOptional.of(a != null && a.length == length);
+    }
+
+    /**
+     * Return {@code true} if provided reference has at least one element otherwise
+     * return {@code false}.
+     *
      * @param c   an c reference to be check for emptiness
      * @param <T> the type of the reference
      * @return {@code true} if provided reference has at least one element otherwise
@@ -125,6 +140,23 @@ public final class CollectionUtils {
         isThereAnyElement(a)
                 .ifFalse(() -> {
                     throw new IllegalArgumentException("a must have at least one element");
+                });
+    }
+
+    /**
+     * Checks that the specified object reference is not {@code null} and not empty. This
+     * method is designed primarily for doing parameter validation in methods
+     * and constructors.
+     *
+     * @param a      the a reference to check for emptiness
+     * @param <T>    the type of the reference
+     * @param length expected the element number
+     * @throws IllegalArgumentException if {@code a} is {@code null} or is empty
+     */
+    public static <T> void requiredElement(T[] a, int length) {
+        isThereAnyElement(a, length)
+                .ifFalse(() -> {
+                    throw new IllegalArgumentException(format("{@code a} must have exactly %d element", length));
                 });
     }
 

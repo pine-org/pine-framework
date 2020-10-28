@@ -7,6 +7,13 @@ import com.pineframework.core.datamodel.model.FlatTransient;
 
 import java.io.Serializable;
 
+/**
+ * It provides all CRUD, paging and batch operation in one class.
+ *
+ * @param <I> ID
+ * @param <M> model
+ * @param <S> business service
+ */
 public abstract class AbstractRestApi<I extends Serializable,
         M extends FlatTransient<I>,
         S extends CrudService<I, M> & QueryService<I, M> & BatchService<I, M>>

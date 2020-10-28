@@ -6,11 +6,11 @@ import com.pineframework.core.helper.ObjectRegistry;
 
 public interface TaskService extends BusinessService {
 
-    void initRepositoryRegistry();
+    void initRegistry();
 
-    ObjectRegistry getRepositoryRegistry();
+    ObjectRegistry getRegistry();
 
     default <T extends Repository> T getRepository(String name) {
-        return (T) getRepositoryRegistry().lookup(name);
+        return (T) getRegistry().lookup(name);
     }
 }

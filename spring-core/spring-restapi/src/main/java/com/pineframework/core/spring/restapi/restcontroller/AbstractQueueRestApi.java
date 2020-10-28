@@ -1,11 +1,15 @@
 package com.pineframework.core.spring.restapi.restcontroller;
 
+import com.pineframework.core.business.exception.ValidationException;
 import com.pineframework.core.contract.service.queue.QueueService;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.validation.CreateValidationGroup;
 import com.pineframework.core.spring.restapi.helper.ErrorUtils;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -17,10 +21,23 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.Serializable;
 
+import static io.vavr.API.Function;
+import static io.vavr.API.Option;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.ResponseEntity.ok;
 
+/**
+ * It provides two endpoints to interact with a queue.
+ * Push a message to the queue also get the message if there is no listener to consume the message.
+ * the endpoints never should be overridden
+ *
+ * @param <I> correlation ID
+ * @param <M> message model
+ * @param <S> queue business service
+ * @author Saman Alishirishahrbabak
+ */
 public abstract class AbstractQueueRestApi<I extends Serializable, M extends FlatTransient<I>,
         S extends QueueService<I, M>> implements Rest<S> {
 
@@ -36,75 +53,92 @@ public abstract class AbstractQueueRestApi<I extends Serializable, M extends Fla
     }
 
     /**
-     * expose save service on http
-     * never override
+     * expose push message service on http over the POST verb.
+     * {@code push} never should be overridden.
      *
-     * @param model
-     * @param errors
-     * @return ID
+     * @param model  message model
+     * @param errors validation errors
+     * @return correlation ID
+     * @throws {@link ValidationException} if {@code models} has invalid data
      */
-    @ApiOperation(value = "${restfulApi.save.value}", notes = "${restfulApi.save.notes}")
+    @Operation(summary = "${restfulApi.push.summary}",
+            description = "${restfulApi.push.description}",
+            method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "207", description = "${restfulApi.push.response.201}"),
+            @ApiResponse(responseCode = "422", description = "${restfulApi.push.response.422}")})
     @PostMapping
     @ResponseStatus(value = CREATED, code = CREATED)
-    public ResponseEntity<I> save(
-            @ApiParam(name = "Model", value = "${restfulApi.save.param}", required = true)
-            @Validated(CreateValidationGroup.class) @RequestBody M model,
-            @ApiParam(name = "errors", hidden = true) Errors errors) {
+    public ResponseEntity<EntityModel<I>> push(
+            @Parameter(name = "Model", description = "${restfulApi.push.param}", required = true)
+            @Validated(CreateValidationGroup.class)
+            @RequestBody M model,
+            @Parameter(name = "errors", hidden = true) Errors errors) {
 
         ErrorUtils.checkErrors(errors);
 
-        beforeSave(model);
-        ResponseEntity<I> response = saveAction(model);
-        afterSave(model);
-        return response;
+        return Option(Function(this::pushBody).compose(this::beforePush).andThen(this::afterPush).apply(model))
+                .map(m -> new EntityModel<>(m.getId(), linkTo(getClass(), m.getId()).slash(m.getId()).withSelfRel()))
+                .map(m -> ResponseEntity.status(CREATED).body(m))
+                .get();
     }
 
     /**
-     * execute before save operation
+     * execute before push operation.
+     * overridable.
      *
      * @param model
+     * @return model
      */
-    public void beforeSave(M model) {
+    protected M beforePush(M model) {
+        return model;
     }
 
     /**
-     * execute after save operation
+     * push operation logic.
+     * overridable.
      *
      * @param model
+     * @return model
      */
-    public void afterSave(M model) {
+    protected M pushBody(M model) {
+        return Option(getService().push(model))
+                .map(optional -> (M) optional.map(id -> model.replace(model).id(id).build()).get())
+                .get();
     }
 
     /**
-     * save operation
-     * overridable
+     * execute after push operation.
+     * overridable.
      *
      * @param model
-     * @return ID
+     * @return model
      */
-    public ResponseEntity<I> saveAction(M model) {
-        return ResponseEntity.status(CREATED).body(getService().save(model).get().getId());
+    protected M afterPush(M model) {
+        return model;
     }
 
     /**
-     * expose find by id service on http
-     * never override
+     * expose push message service on http over the POST verb.
+     * {@code findByCorrelationId} never should be overridden.
      *
-     * @param id
-     * @return value object
+     * @param id correlation ID
+     * @return message model
      */
-    @ApiOperation(value = "${restfulApi.findById.value}", notes = "${restfulApi.findById.notes}")
+    @Operation(summary = "${restfulApi.findByCorrelationId.summary}",
+            description = "${restfulApi.findByCorrelationId.description}",
+            method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "${restfulApi.findByCorrelationId.response.200}")})
     @GetMapping("/{id}")
     @ResponseStatus(value = OK, code = OK)
-    public ResponseEntity<M> findById(
-            @ApiParam(name = "ID",
-                    value = "${restfulApi.findById.param}",
-                    required = true,
-                    defaultValue = "0",
-                    example = "0")
+    public ResponseEntity<EntityModel<M>> findByCorrelationId(
+            @Parameter(name = "ID", description = "${restfulApi.findByCorrelationId.param}", required = true)
             @PathVariable("id") I id) {
 
-        return ok(getService().findById(id).get());
+        return ok(Option(getService().findByCorrelationId(id))
+                .map(m -> new EntityModel<>(m.get(), linkTo(getClass(), m.get()).slash(m.get()).withSelfRel()))
+                .get());
     }
 
 }

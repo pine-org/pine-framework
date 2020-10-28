@@ -1,12 +1,17 @@
 package com.pineframework.core.spring.restapi.restcontroller;
 
+import com.pineframework.core.business.exception.ValidationException;
 import com.pineframework.core.contract.service.BatchService;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.validation.CreateValidationGroup;
 import com.pineframework.core.datamodel.validation.UpdateValidationGroup;
-import com.pineframework.core.spring.restapi.helper.ErrorUtils;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.vavr.collection.Iterator;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
@@ -20,18 +25,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.stream.Stream;
 
-import static org.springframework.http.HttpStatus.ACCEPTED;
+import static com.pineframework.core.spring.restapi.helper.ErrorUtils.checkErrors;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.MULTI_STATUS;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 
 /**
- * exposed CRUD services
+ * expose batch restful web services
+ * the endpoints never should be overridden
  *
  * @param <I> id
- * @param <M> value object
+ * @param <M> transient model
  * @param <S> business service
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
@@ -39,134 +47,177 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
         extends Rest<S> {
 
     /**
-     * expose batch save, update and delete service on http
-     * never override
+     * expose batch save, update and delete restful web service on the HTTP at the one operation.
+     * {@code batchOperations} never should be overridden.
      *
-     * @param models
-     * @param errors
-     * @return ID
+     * @param models     new data also the data should be update
+     * @param identities identities of data that fetched already
+     * @param errors     validation errors
+     * @return arrays of ID
+     * @throws {@link ValidationException} if {@code models} has invalid data
      */
-    @ApiOperation(value = "${restfulApi.batchOperations.value}", notes = "${restfulApi.batchOperations.notes}")
+    @Operation(summary = "${restfulApi.batchOperations.summary}",
+            description = "${restfulApi.batchOperations.description}",
+            method = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "207", description = "${restfulApi.batchOperations.response.207}"),
+            @ApiResponse(responseCode = "422", description = "${restfulApi.batchOperations.response.422}")})
     @PutMapping("/batch/operations")
     @ResponseStatus(value = MULTI_STATUS, code = MULTI_STATUS)
-    default ResponseEntity<I[]> batchOperations(
-            @ApiParam(name = "Models", value = "${restfulApi.batchOperations.param}", required = true)
-            @Validated({CreateValidationGroup.class, UpdateValidationGroup.class}) @RequestBody M[] models,
-            @Valid @RequestBody I[] identities,
-            @ApiParam(name = "errors", hidden = true) Errors errors) {
+    default ResponseEntity<CollectionModel<I>> batchOperations(
+            @Parameter(name = "Models", description = "${restfulApi.batchOperations.param.1st}", required = true)
+            @Validated({CreateValidationGroup.class, UpdateValidationGroup.class})
+            @RequestBody M[] models,
+            @Parameter(name = "Identities", description = "${restfulApi.batchOperations.param.2nd}", required = true)
+            @Valid
+            @RequestBody I[] identities,
+            @Parameter(name = "errors", hidden = true) Errors errors) {
 
-        ErrorUtils.checkErrors(errors);
+        checkErrors(errors);
 
         beforeBatchOperations(models);
-        ResponseEntity<I[]> response = batchOperationsAction(models, identities);
+        I[] ids = batchOperationsBody(models, identities);
         afterBatchOperations(models);
-        return response;
+
+        Link[] links = Stream.of(ids)
+                .map(id -> linkTo(getClass(), id).slash(id).withSelfRel())
+                .toArray(Link[]::new);
+
+        return ResponseEntity.status(CREATED).body(new CollectionModel(Iterator.of(ids), Iterator.of(links)));
     }
 
     /**
-     * execute before save operation
+     * execute before batch operation.
+     * overridable.
      *
-     * @param model
+     * @param models
      */
-    default void beforeBatchOperations(M[] model) {
+    default void beforeBatchOperations(M[] models) {
     }
 
     /**
-     * execute before save operation
-     *
-     * @param model
-     */
-    default void afterBatchOperations(M[] model) {
-    }
-
-    /**
-     * batch operation
-     * overridable
+     * execute batch operation logic.
+     * overridable.
      *
      * @param model
      * @param identities
-     * @return ID
+     * @return array of ID
      */
-    default ResponseEntity<I[]> batchOperationsAction(M[] model, I[] identities) {
-        return ResponseEntity.status(MULTI_STATUS).body(getService().batchOperations(model, identities));
+    default I[] batchOperationsBody(M[] model, I[] identities) {
+        return getService().batchOperations(model, identities);
     }
 
     /**
-     * expose batch save service on http
-     * never override
+     * execute after batch operation.
+     * overridable.
      *
      * @param models
-     * @param errors
-     * @return ID
      */
-    @ApiOperation(value = "${restfulApi.batchSave.value}", notes = "${restfulApi.batchSave.notes}")
+    default void afterBatchOperations(M[] models) {
+    }
+
+    /**
+     * expose batch save restful web service on the HTTP.
+     * {@code batchSave} never should be overridden.
+     *
+     * @param models
+     * @param errors validation errors
+     * @return arrays of ID
+     * @throws {@link ValidationException} if {@code models} has invalid data
+     */
+    @Operation(summary = "${restfulApi.batchSave.summary}",
+            description = "${restfulApi.batchSave.description}",
+            method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "${restfulApi.batchSave.response.201}"),
+            @ApiResponse(responseCode = "422", description = "${restfulApi.batchSave.response.422}")})
     @PostMapping("/batch/save")
     @ResponseStatus(value = CREATED, code = CREATED)
-    default ResponseEntity<I[]> batchSave(
-            @ApiParam(name = "Model", value = "${restfulApi.batchSave.param}", required = true)
-            @Validated(CreateValidationGroup.class) @RequestBody M[] models,
-            @ApiParam(name = "errors", hidden = true) Errors errors) {
+    default ResponseEntity<CollectionModel<I>> batchSave(
+            @Parameter(name = "Model", description = "${restfulApi.batchSave.param}", required = true)
+            @Validated(CreateValidationGroup.class)
+            @RequestBody M[] models,
+            @Parameter(name = "errors", hidden = true) Errors errors) {
 
-        ErrorUtils.checkErrors(errors);
+        checkErrors(errors);
 
         beforeBatchSave(models);
-        ResponseEntity<I[]> response = batchSaveAction(models);
+        I[] ids = batchSaveBody(models);
         afterBatchSave(models);
-        return response;
+
+        Link[] links = Stream.of(ids)
+                .map(id -> linkTo(getClass(), id).slash(id).withSelfRel())
+                .toArray(Link[]::new);
+
+        return ResponseEntity.status(CREATED).body(new CollectionModel(Iterator.of(ids), Iterator.of(links)));
+
     }
 
     /**
-     * execute before batch save operation
-     *
-     * @param model
-     */
-    default void beforeBatchSave(M[] model) {
-    }
-
-    /**
-     * execute before batch save operation
-     *
-     * @param model
-     */
-    default void afterBatchSave(M[] model) {
-    }
-
-    /**
-     * batch save operation
-     * overridable
-     *
-     * @param model
-     * @return ID
-     */
-    default ResponseEntity<I[]> batchSaveAction(M[] model) {
-        return ResponseEntity.status(CREATED).body(getService().batchSave(model));
-    }
-
-    /**
-     * expose batch update service on http
-     * never override
+     * execute before batch save operation.
+     * overridable.
      *
      * @param models
-     * @param errors
-     * @return ID
      */
-    @ApiOperation(value = "${restfulApi.batchUpdate.value}", notes = "${restfulApi.batchUpdate.notes}")
-    @PatchMapping("/batch/update")
-    @ResponseStatus(value = ACCEPTED, code = ACCEPTED)
-    default void batchUpdate(
-            @ApiParam(name = "Model", value = "${restfulApi.batchUpdate.param}", required = true)
-            @Validated(UpdateValidationGroup.class) @RequestBody M[] models,
-            @ApiParam(name = "errors", hidden = true) Errors errors) {
-
-        ErrorUtils.checkErrors(errors);
-
-        beforeBatchUpdate(models);
-        batchUpdateAction(models);
-        afterBatchUpdate(models);
+    default void beforeBatchSave(M[] models) {
     }
 
     /**
-     * execute before batch update operation
+     * batch save operation.
+     * overridable.
+     *
+     * @param model
+     * @return array of ID
+     */
+    default I[] batchSaveBody(M[] model) {
+        return getService().batchSave(model);
+    }
+
+    /**
+     * execute after batch save operation.
+     * overridable.
+     *
+     * @param models
+     */
+    default void afterBatchSave(M[] models) {
+    }
+
+    /**
+     * expose batch save restful web service on the HTTP.
+     * {@code batchSave} never should be overridden.
+     *
+     * @param models
+     * @param errors validation errors
+     * @return arrays of ID
+     * @throws {@link ValidationException} if {@code models} has invalid data
+     */
+    @Operation(summary = "${restfulApi.batchUpdate.summary}",
+            description = "${restfulApi.batchUpdate.description}",
+            method = "PATCH")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "${restfulApi.batchUpdate.response.204}"),
+            @ApiResponse(responseCode = "422", description = "${restfulApi.batchUpdate.response.422}")})
+
+    @PatchMapping("/batch/update")
+    @ResponseStatus(value = NO_CONTENT, code = NO_CONTENT)
+    default ResponseEntity batchUpdate(
+            @Parameter(name = "Model", description = "${restfulApi.batchUpdate.param}", required = true)
+            @Validated(UpdateValidationGroup.class)
+            @RequestBody M[] models,
+            @Parameter(name = "errors", hidden = true) Errors errors) {
+
+        checkErrors(errors);
+
+        beforeBatchUpdate(models);
+        batchUpdateBody(models);
+        afterBatchUpdate(models);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * execute before batch update operation.
+     * overridable.
      *
      * @param model
      */
@@ -174,7 +225,18 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
     }
 
     /**
-     * execute before batch update operation
+     * batch update operation.
+     * overridable.
+     *
+     * @param model
+     */
+    default void batchUpdateBody(M[] model) {
+        getService().batchUpdate(model);
+    }
+
+    /**
+     * execute before batch update operation.
+     * overridable.
      *
      * @param model
      */
@@ -182,39 +244,35 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
     }
 
     /**
-     * batch update operation
-     * overridable
-     *
-     * @param model
-     * @return ID
-     */
-    default void batchUpdateAction(M[] model) {
-        getService().batchUpdate(model);
-    }
-
-    /**
-     * expose batch delete service on http
-     * never override
+     * expose batch delete restful web service on the HTTP.
+     * {@code batchDelete} never should be overridden.
      *
      * @param identities
+     * @return
+     * @throws {@link ValidationException} if {@code models} has invalid data
      */
-    @ApiOperation(value = "${restfulApi.batchDelete.value}", notes = "${restfulApi.batchDelete.notes}")
-    @DeleteMapping("/batch/delete/{ids}")
+    @Operation(summary = "${restfulApi.batchDelete.summary}",
+            description = "${restfulApi.batchDelete.description}",
+            method = "DELETE")
+    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "${restfulApi.batchDelete.response.204}")})
+    @DeleteMapping("/batch/delete/{identities}")
     @ResponseStatus(value = NO_CONTENT, code = NO_CONTENT)
-    default void batchDelete(
-            @ApiParam(name = "identities", value = "${restfulApi.batchDelete.param}", required = true)
-            @PathVariable("ids") I[] identities) {
+    default ResponseEntity batchDelete(
+            @Parameter(name = "identities", description = "${restfulApi.batchDelete.param}", required = true)
+            @PathVariable("identities") I[] identities) {
 
-        batchDeleteAction(identities);
+        batchDeleteBody(identities);
+
+        return ResponseEntity.noContent().build();
     }
 
     /**
-     * batch delete operation
-     * is overridable
+     * batch delete operation.
+     * overridable.
      *
      * @param identities
      */
-    default void batchDeleteAction(I[] identities) {
+    default void batchDeleteBody(I[] identities) {
         getService().batchDelete(identities);
     }
 

@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static java.lang.Math.ceil;
+import static java.util.Optional.ofNullable;
 
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
@@ -33,11 +34,11 @@ public interface QueryEntityService<I extends Serializable,
     }
 
     @Override
-    default Page findByPage(Page page) {
+    default Optional<Page> findByPage(Page page) {
         Long count = getRepository().count(page.getFilters());
 
         if (count == 0)
-            return page;
+            return ofNullable(page);
 
         int totalPage = (int) ceil((count.doubleValue() / page.getSize()));
         page.setIndices(IntStream.rangeClosed(0, totalPage - 1).toArray());
@@ -46,7 +47,7 @@ public interface QueryEntityService<I extends Serializable,
         page.setOffset(offset);
 
         page.setContent(getTransformer().transform(getRepository().find(page)));
-        return page;
+        return ofNullable(page);
     }
 
     @Override
@@ -62,6 +63,6 @@ public interface QueryEntityService<I extends Serializable,
     @Override
     default Optional<M> findByModel(M m) {
         E e = getRepository().findOne(getTransformer().transform(m).toFilter()).get();
-        return Optional.ofNullable(getTransformer().transform(e));
+        return ofNullable(getTransformer().transform(e));
     }
 }

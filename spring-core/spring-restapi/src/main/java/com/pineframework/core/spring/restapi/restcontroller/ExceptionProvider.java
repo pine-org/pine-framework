@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
- * This class is exception provider that only return json response
- * and is final class
+ * This class is exception provider that only return the errors as a json response
+ * and it is a final class
  *
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
@@ -24,10 +24,10 @@ public final class ExceptionProvider extends AbstractExceptionProvider {
     private final Logger logger = LogUtils.getLogger(ExceptionProvider.class);
 
     /**
-     * when execute threw core e
+     * when threw the core exception
      *
-     * @param e
-     * @return
+     * @param e exception
+     * @return the error {@code ErrorResponse}
      */
     @ExceptionHandler(CoreException.class)
     public ResponseEntity<ErrorResponse[]> coreException(CoreException e) {
@@ -35,10 +35,10 @@ public final class ExceptionProvider extends AbstractExceptionProvider {
     }
 
     /**
-     * when version of input date is not same as version of persisted date
+     * when version of input date is not same as the version of persisted date
      *
-     * @param e
-     * @return
+     * @param e exception
+     * @return the error {@code ErrorResponse}
      */
     @ExceptionHandler(NotSameVersionException.class)
     public ResponseEntity<ErrorResponse[]> notSameVersion(NotSameVersionException e) {
@@ -46,10 +46,10 @@ public final class ExceptionProvider extends AbstractExceptionProvider {
     }
 
     /**
-     * When throw NotFoundEquivalentEnum
+     * when throw NotFoundEquivalentEnum
      *
-     * @param e
-     * @return
+     * @param e exception
+     * @return the error {@code ErrorResponse}
      */
     @ExceptionHandler(NotFoundEquivalentEnum.class)
     public ResponseEntity<ErrorResponse[]> notFoundEquivalentEnum(NotFoundEquivalentEnum e) {
@@ -59,8 +59,8 @@ public final class ExceptionProvider extends AbstractExceptionProvider {
     /**
      * when execute validation on value objects
      *
-     * @param e
-     * @return
+     * @param e exception
+     * @return the error {@code ErrorResponse}
      */
     @ExceptionHandler(ExceptionArray.class)
     public ResponseEntity<ErrorResponse[]> exceptionCollection(ExceptionArray e) {

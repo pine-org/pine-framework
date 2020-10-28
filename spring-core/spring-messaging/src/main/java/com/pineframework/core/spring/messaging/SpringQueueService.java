@@ -18,21 +18,20 @@ import static java.util.Optional.ofNullable;
 
 public class SpringQueueService implements QueueService<String, MessageModel> {
 
-    private JmsTemplate jmsTemplate;
+    private final JmsTemplate jmsTemplate;
 
-    private Queue queue;
+    private final Queue queue;
 
-    private CorrelationIdGenerator idGenerator = new DefaultQueueIdGenerator();
+    private final CorrelationIdGenerator idGenerator = new DefaultQueueIdGenerator();
 
-    private MessageModel.Builder modelBuilder = new MessageModel.Builder();
+    private final MessageModel.Builder modelBuilder = new MessageModel.Builder();
 
     public SpringQueueService(Queue queue, JmsTemplate jmsTemplate) {
         this.queue = queue;
         this.jmsTemplate = jmsTemplate;
     }
 
-    @Override
-    public Optional<MessageModel> save(MessageModel m) {
+    public Optional<MessageModel> push(MessageModel m) {
         final MessageModel model = isNull(m.getId()) ? modelBuilder.from(m).id(idGenerator.next()).build() : m;
         jmsTemplate.send(queue, createMessage(model));
         return ofNullable(model);
@@ -47,8 +46,7 @@ public class SpringQueueService implements QueueService<String, MessageModel> {
         };
     }
 
-    @Override
-    public Optional<MessageModel> findById(String id) {
+    public Optional<MessageModel> findByCorrelationId(String id) {
         TextMessage textMessage = (TextMessage) jmsTemplate.receiveSelected(queue, correlationIdClause(id));
         String text = Try.of(() -> textMessage.getText()).get();
         return ofNullable(modelBuilder.fromJson(String.valueOf(text)).build());

@@ -58,6 +58,8 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
         this.metadata = builder.metadata;
     }
 
+    public abstract <T extends FlatTransient<I>> Builder replace(T m);
+
     /**
      * @return id
      */

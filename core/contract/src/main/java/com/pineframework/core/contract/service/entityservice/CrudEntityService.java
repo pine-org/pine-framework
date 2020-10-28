@@ -46,23 +46,22 @@ public interface CrudEntityService<I extends Serializable,
         if (!entity.isPresent())
             return empty();
 
-        M model = getTransformer().transform(entity.get());
-        return ofNullable(model);
+        return ofNullable(getTransformer().transform(entity.get()));
     }
 
     @Override
     default void update(M m) {
-        E entity = getRepository().findById(m.getId()).orElseGet(() -> createEmptyPersistenceObject());
+        getRepository().findById(m.getId()).ifPresent(e -> {
+            if (!Objects.equals(m.getVersion(), e.getVersion()))
+                throw new NotSameVersionException();
 
-        if (!Objects.equals(m.getVersion(), entity.getVersion()))
-            throw new NotSameVersionException();
+            M theLast = getTransformer().transform(e);
 
-        M theLast = getTransformer().transform(entity);
-
-        beforeUpdate(entity, m);
-        getTransformer().transform(m, entity);
-        getRepository().flush();
-        afterUpdate(entity, theLast);
+            beforeUpdate(e, m);
+            getTransformer().transform(m, e);
+            getRepository().flush();
+            afterUpdate(e, theLast);
+        });
     }
 
     @Override

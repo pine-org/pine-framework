@@ -4,9 +4,12 @@ import com.pineframework.core.contract.service.QueryService;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.paging.Page;
 import com.pineframework.core.datamodel.paging.PageMetadataView;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,13 +20,13 @@ import java.io.Serializable;
 import static com.pineframework.core.helper.JsonUtils.asString;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.ResponseEntity.ok;
 
 /**
- * exposed paging and read only services
+ * expose paging and read only restful web services
+ * the endpoints never should be overridden
  *
  * @param <I> id
- * @param <M> value object
+ * @param <M> transient model
  * @param <S> business service
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
@@ -32,29 +35,40 @@ public interface PagingRestfulApi<I extends Serializable, M extends FlatTransien
         extends Rest<S> {
 
     /**
-     * expose find data with pagination service on http
-     * never override
+     * expose find data with pagination restful web service on http
+     * {@code findPage} never should be overridden
      *
      * @param page
-     * @return list of value objects
+     * @return list of models as a page
      */
-    @ApiOperation(value = "${restfulApi.page.value}", notes = "${restfulApi.page.notes}")
+    @Operation(summary = "${restfulApi.page.summary}",
+            description = "${restfulApi.page.description}",
+            method = "GET")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "${restfulApi.page.response.200}")})
     @GetMapping("search/page/{page}")
     @ResponseStatus(value = OK, code = OK)
     default ResponseEntity<EntityModel<Page>> findPage(
-            @ApiParam(name = "Page", value = "${restfulApi.page.param}", required = true)
+            @Parameter(name = "Page", description = "${restfulApi.page.param}", required = true)
             @PathVariable(value = "page") Page page) {
+        return getService().findByPage(page)
+                .map(m -> new EntityModel<>(m, generatePageLinks(m)))
+                .map(ResponseEntity::ok)
+                .get();
+    }
 
-        return ok(new EntityModel<>(getService().findByPage(page),
+    default Link[] generatePageLinks(Page value) {
+        return new Link[]{
                 linkTo(getClass()).slash("search")
                         .slash("page")
-                        .slash(asString(page, PageMetadataView.class))
+                        .slash(asString(value, PageMetadataView.class))
                         .withSelfRel(),
                 linkTo(getClass()).slash("search")
                         .slash("page")
-                        .slash(asString(page.next(), PageMetadataView.class))
-                        .withRel("next")
-        ));
+                        .slash(asString(value.next(), PageMetadataView.class))
+                        .withRel("next"),
+                linkTo(getClass()).slash("search")
+                        .slash("page")
+                        .slash(asString(value.previous(), PageMetadataView.class))
+                        .withRel("previous")};
     }
-
 }

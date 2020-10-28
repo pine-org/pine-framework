@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface QueueService<I extends Serializable, M extends FlatTransient<I>> {
 
-    Optional<M> save(M m);
+    Optional<M> push(M m);
 
-    Optional<M> findById(I id);
+    Optional<M> findByCorrelationId(I id);
 }

@@ -23,10 +23,10 @@ public abstract class AbstractExceptionProvider {
     protected I18nHelper i18nHelper;
 
     /**
-     * Create error response list from children of AbstractExceptions
+     * convert {@code AbstractExceptions} derived classes to {@code ErrorResponse} in order to present to the client
      *
      * @param exceptions
-     * @return list of error
+     * @return error array
      */
     public ErrorResponse[] error(AbstractException... exceptions) {
         return Arrays.stream(exceptions)
@@ -35,6 +35,12 @@ public abstract class AbstractExceptionProvider {
                 .toArray(ErrorResponse[]::new);
     }
 
+    /**
+     * create a JSON response from the errors to expose over the HTTP
+     *
+     * @param errors
+     * @return unit of the errors
+     */
     public ResponseEntity<ErrorResponse[]> response(ErrorResponse... errors) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errors);
     }

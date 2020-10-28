@@ -15,7 +15,7 @@ public abstract class AbstractProxyQueueService implements QueueService<String, 
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    private QueueService<String, MessageModel> service;
+    private final QueueService<String, MessageModel> service;
 
     public AbstractProxyQueueService(QueueService<String, MessageModel> service) {
         this.service = service;
@@ -27,16 +27,16 @@ public abstract class AbstractProxyQueueService implements QueueService<String, 
     }
 
     @Override
-    public Optional<MessageModel> save(MessageModel m) {
+    public Optional<MessageModel> push(MessageModel m) {
         beforeSave(m);
-        Optional<MessageModel> model = service.save(m);
+        Optional<MessageModel> model = service.push(m);
         afterSave(m);
         return model;
     }
 
     @Override
-    public Optional<MessageModel> findById(String id) {
-        return service.findById(id);
+    public Optional<MessageModel> findByCorrelationId(String id) {
+        return service.findByCorrelationId(id);
     }
 
     protected void afterSave(MessageModel m) {

@@ -11,6 +11,7 @@ import com.pineframework.core.datamodel.persistence.TreePersistence;
 import io.vavr.control.Option;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -73,9 +74,9 @@ public interface TreeEntityService<I extends Serializable,
     }
 
     @Override
-    default M findTree(I id) {
+    default Optional<M> findTree(I id) {
         E e = getRepository().findTree(id).orElseGet(() -> createEmptyPersistenceObject());
-        return getTransformer().hierarchyTransform(e);
+        return Optional.ofNullable(getTransformer().hierarchyTransform(e));
     }
 
 }

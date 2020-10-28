@@ -1,11 +1,14 @@
 package com.pineframework.core.spring.restapi.restcontroller;
 
+import com.pineframework.core.business.exception.ValidationException;
 import com.pineframework.core.contract.service.CrudService;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.validation.CreateValidationGroup;
 import com.pineframework.core.datamodel.validation.UpdateValidationGroup;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -19,20 +22,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 import static com.pineframework.core.spring.restapi.helper.ErrorUtils.checkErrors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.ResponseEntity.ok;
 
 
 /**
- * exposed CRUD services
+ * expose CRUD restful web services
+ * the endpoints never should be overridden
  *
  * @param <I> id
- * @param <M> value object
+ * @param <M> transient model
  * @param <S> business service
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
@@ -40,32 +44,42 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
         extends Rest<S> {
 
     /**
-     * expose save service on http
-     * never override
+     * expose save restfull web service on http
+     * {@code save} never should be overridden
      *
      * @param model
      * @param errors
      * @return ID
+     * @throws {@link ValidationException} if {@code model} has invalid data
      */
-    @ApiOperation(value = "${restfulApi.save.value}", notes = "${restfulApi.save.notes}")
+    @Operation(summary = "${restfulApi.save.summary}",
+            description = "${restfulApi.save.description}",
+            method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "${restfulApi.save.response.201}"),
+            @ApiResponse(responseCode = "422", description = "${restfulApi.save.response.422}")})
     @PostMapping
     @ResponseStatus(value = CREATED, code = CREATED)
     default ResponseEntity<EntityModel<I>> save(
-            @ApiParam(name = "Model", value = "${restfulApi.save.param}", required = true)
-            @Validated(CreateValidationGroup.class) @RequestBody M model,
-            @ApiParam(name = "errors", hidden = true) Errors errors) {
+            @Parameter(name = "Model", description = "${restfulApi.save.param}", required = true)
+            @Validated(CreateValidationGroup.class)
+            @RequestBody M model,
+            @Parameter(name = "errors", hidden = true) Errors errors) {
 
         checkErrors(errors);
-
         beforeSave(model);
-        I id = saveAction(model);
+        Optional<I> result = saveBody(model);
         afterSave(model);
-        return ResponseEntity.status(CREATED)
-                .body(new EntityModel<>(id, linkTo(getClass(), id).slash(id).withSelfRel()));
+
+        return result
+                .map(id -> new EntityModel<>(id, linkTo(getClass()).slash(id).withSelfRel()))
+                .map(m -> ResponseEntity.status(CREATED).body(m))
+                .get();
     }
 
     /**
-     * execute before save operation
+     * execute before save operation.
+     * overridable.
      *
      * @param model
      */
@@ -73,7 +87,19 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
     }
 
     /**
+     * save operation.
+     * overridable.
+     *
+     * @param model
+     * @return ID
+     */
+    default Optional<I> saveBody(M model) {
+        return getService().save(model);
+    }
+
+    /**
      * execute after save operation
+     * overridable.
      *
      * @param model
      */
@@ -81,62 +107,61 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
     }
 
     /**
-     * save operation
-     * overridable
-     *
-     * @param model
-     * @return ID
-     */
-    default I saveAction(M model) {
-        return getService().save(model).get();
-    }
-
-    /**
-     * expose find by id service on http
-     * never override
+     * expose find by id restfull web service on http
+     * {@code findById} never should be overridden
      *
      * @param id
-     * @return value object
+     * @return JSON model
      */
-    @ApiOperation(value = "${restfulApi.findById.value}", notes = "${restfulApi.findById.notes}")
+    @Operation(summary = "${restfulApi.findById.summary}",
+            description = "${restfulApi.findById.description}",
+            method = "GET")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "${restfulApi.findById.response.200}")})
     @GetMapping("/{id}")
     @ResponseStatus(value = OK, code = OK)
     default ResponseEntity<EntityModel<M>> findById(
-            @ApiParam(name = "ID",
-                    value = "${restfulApi.findById.param}",
-                    required = true,
-                    defaultValue = "0",
-                    example = "0")
+            @Parameter(name = "ID", description = "${restfulApi.findById.param}", required = true)
             @PathVariable("id") I id) {
 
-        return ok(new EntityModel<>(getService().findById(id).get(), linkTo(getClass(), id).slash(id).withSelfRel()));
+        return getService().findById(id)
+                .map(m -> new EntityModel<>(m, linkTo(getClass()).slash(m.getId()).withSelfRel()))
+                .map(ResponseEntity::ok)
+                .get();
     }
 
     /**
-     * expose update service on http
-     * never override
+     * expose update restfull web service on http
+     * {@code update} never should be overridden
      *
      * @param model
      * @param errors
+     * @throws {@link ValidationException} if {@code model} has invalid data
      */
-    @ApiOperation(value = "${restfulApi.update.value}", notes = "${restfulApi.update.notes}")
+    @Operation(summary = "${restfulApi.update.summary}",
+            description = "${restfulApi.update.description}",
+            method = "PATCH")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "${restfulApi.update.response.204}"),
+            @ApiResponse(responseCode = "422", description = "${restfulApi.update.response.422}")})
     @PatchMapping
     @ResponseStatus(value = NO_CONTENT, code = NO_CONTENT)
     default ResponseEntity update(
-            @ApiParam(name = "Value Object", value = "${restfulApi.update.param}", required = true)
-            @Validated(UpdateValidationGroup.class) @RequestBody M model,
-            @ApiParam(name = "errors", hidden = true) Errors errors) {
+            @Parameter(name = "Model", description = "${restfulApi.update.param}", required = true)
+            @Validated(UpdateValidationGroup.class)
+            @RequestBody M model,
+            @Parameter(name = "errors", hidden = true) Errors errors) {
 
         checkErrors(errors);
 
         beforeUpdate(model);
-        updateAction(model);
+        updateBody(model);
         afterUpdate(model);
         return ResponseEntity.noContent().build();
     }
 
     /**
-     * execute before update action
+     * execute before update operation.
+     * overridable.
      *
      * @param model
      */
@@ -144,7 +169,18 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
     }
 
     /**
-     * execute before update action
+     * update operation.
+     * overridable.
+     *
+     * @param model
+     */
+    default void updateBody(M model) {
+        getService().update(model);
+    }
+
+    /**
+     * execute before update operation.
+     * overridable
      *
      * @param model
      */
@@ -152,44 +188,32 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
     }
 
     /**
-     * update operation
-     * is overridable
-     *
-     * @param model
-     */
-    default void updateAction(M model) {
-        getService().update(model);
-    }
-
-    /**
-     * expose delete service on http
-     * never override
+     * expose delete restfull web service on http
+     * {@code delete} never should be overridden
      *
      * @param id
      */
-    @ApiOperation(value = "${restfulApi.delete.value}", notes = "${restfulApi.delete.notes}")
+    @Operation(summary = "${restfulApi.delete.summary}",
+            description = "${restfulApi.delete.description}",
+            method = "DELETE")
+    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "${restfulApi.delete.response.204}")})
     @DeleteMapping("/{id}")
     @ResponseStatus(value = NO_CONTENT, code = NO_CONTENT)
     default ResponseEntity delete(
-            @ApiParam(name = "ID",
-                    value = "${restfulApi.delete.param}",
-                    required = true,
-                    defaultValue = "0",
-                    example = "0")
+            @Parameter(name = "ID", description = "${restfulApi.delete.param}", required = true)
             @PathVariable("id") I id) {
 
-        deleteAction(id);
+        deleteBody(id);
         return ResponseEntity.noContent().build();
     }
 
     /**
      * delete operation
-     * is overridable
+     * overridable
      *
      * @param id
      */
-    default void deleteAction(I id) {
+    default void deleteBody(I id) {
         getService().delete(id);
     }
-
 }

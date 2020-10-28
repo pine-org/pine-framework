@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface QueryService<I, M> {
     M[] findAll();
 
-    Page findByPage(Page page);
+    Optional<Page> findByPage(Page page);
 
     long count(Filter... filters);
 

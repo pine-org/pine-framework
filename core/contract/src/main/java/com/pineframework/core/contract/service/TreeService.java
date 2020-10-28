@@ -1,5 +1,7 @@
 package com.pineframework.core.contract.service;
 
+import java.util.Optional;
+
 public interface TreeService<I, M> {
 
     M[] findChildren(I id);
@@ -8,5 +10,5 @@ public interface TreeService<I, M> {
 
     M[] findSubTreeAsList(I id);
 
-    M findTree(I id);
+    Optional<M> findTree(I id);
 }

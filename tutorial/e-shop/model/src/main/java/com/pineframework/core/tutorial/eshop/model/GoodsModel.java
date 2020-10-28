@@ -40,6 +40,11 @@ public final class GoodsModel extends FlatTransient<Long> {
         this.photo = builder.photo;
     }
 
+    public <T extends FlatTransient<Long>> FlatTransient.Builder replace(T m) {
+        GoodsModel model = (GoodsModel) m;
+        return new GoodsModel.Builder(model.getName(), model.getCode()).from(model);
+    }
+
     public String getName() {
         return name;
     }

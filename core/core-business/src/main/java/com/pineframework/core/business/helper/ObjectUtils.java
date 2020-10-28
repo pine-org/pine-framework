@@ -8,6 +8,6 @@ public class ObjectUtils {
 
     public static void requiredNonNull(Object o, String name) {
         if (isNull(o))
-            throw new RequiredException("o", name);
+            throw new RequiredException(name);
     }
 }

@@ -37,8 +37,8 @@ public class MessageQueueTest extends AbstractTest {
     @ParameterizedTest
     @ValueSource(strings = {"Hello", "Great", "Bye"})
     public void save_SendMessagesToMainQueue_GetAcceptedStatusFromStatusQueue(String text) {
-        Optional<MessageModel> message = mainQueue.save(new MessageModel.Builder().content(text).build());
-        Optional<MessageModel> status = statusQueue.findById(message.get().getId());
+        Optional<MessageModel> message = mainQueue.push(new MessageModel.Builder().content(text).build());
+        Optional<MessageModel> status = statusQueue.findByCorrelationId(message.get().getId());
         logInfo(message.get());
         Assertions.assertEquals(MqStatus.ACCEPTED, toEnum(status.get()));
     }

@@ -2,21 +2,31 @@ package com.pineframework.core.spring.restapi.restcontroller;
 
 import com.pineframework.core.contract.service.TreeService;
 import com.pineframework.core.datamodel.model.TreeTransient;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.vavr.collection.Iterator;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.Serializable;
+import java.util.stream.Stream;
 
 import static com.pineframework.core.business.helper.ObjectUtils.requiredNonNull;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.http.ResponseEntity.ok;
 
 /**
- * exposed tree services
+ * expose tree restful web services
+ * the endpoints never should be overridden
  *
  * @param <I> id
- * @param <M> value object
+ * @param <M> transient model
  * @param <S> business service
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
@@ -25,82 +35,112 @@ public interface TreeRestfulApi<I extends Serializable, M extends TreeTransient<
         extends Rest<S> {
 
     /**
-     * get node and children of the node in different level as a tree structure on http
+     * expose find tree by id restfull web service on http
+     * {@code findById} never should be overridden
      *
      * @param id
-     * @return list of value object
+     * @return Json model with tree structure
      */
-    @ApiOperation(value = "${restfulApi.findTree.value}", notes = "${restfulApi.findTree.notes}")
+    @Operation(summary = "${restfulApi.findTree.summary}",
+            description = "${restfulApi.findTree.description}",
+            method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "${restfulApi.findTree.response.200}")})
     @GetMapping("find/tree/{id}")
-    default ResponseEntity<M> findTree(
-            @ApiParam(name = "ID",
-                    value = "${restfulApi.findTree.param}",
-                    required = true, defaultValue = "0",
-                    example = "0")
+    default ResponseEntity<EntityModel<M>> findTree(
+            @Parameter(name = "ID", description = "${restfulApi.findTree.param}", required = true)
             @PathVariable("id") I id) {
 
         requiredNonNull(id, "id");
-        return ResponseEntity.ok(getService().findTree(id));
+
+        return getService().findTree(id)
+                .map(m -> new EntityModel<>(m, linkTo(getClass()).slash(m.getId()).withSelfRel()))
+                .map(ResponseEntity::ok)
+                .get();
     }
 
     /**
-     * get children of the node in one level as a list on http
+     * expose find children by id restfull web service on http
+     * {@code findById} never should be overridden
      *
      * @param id
-     * @return list of value object
+     * @return an array of Json model
      */
-    @ApiOperation(value = "${restfulApi.findChildren.value}", notes = "${restfulApi.findChildren.notes}")
-    @GetMapping(value = {"find/children/{id}", "find/children"})
-    default ResponseEntity<M[]> findChildren(
-            @ApiParam(name = "ID",
-                    value = "${restfulApi.findChildren.param}",
-                    required = false,
-                    defaultValue = "0",
-                    example = "0")
+    @Operation(summary = "${restfulApi.findChildren.summary}",
+            description = "${restfulApi.findChildren.description}",
+            method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "${restfulApi.findChildren.response.200}")})
+    @GetMapping(value = {"find/tree/children/{id}", "find/tree/children"})
+    default ResponseEntity<CollectionModel<M>> findChildren(
+            @Parameter(name = "ID", description = "${restfulApi.findChildren.param}", required = false)
             @PathVariable(value = "id", required = false) I id) {
 
         requiredNonNull(id, "id");
-        return ResponseEntity.ok(getService().findChildren(id));
+
+        M[] children = getService().findChildren(id);
+
+        Link[] links = Stream.of(children)
+                .map(item -> linkTo(getClass()).slash(item.getId()).withSelfRel())
+                .toArray(Link[]::new);
+
+        return ok(new CollectionModel<>(Iterator.of(children), Iterator.of(links)));
     }
 
     /**
-     * get node and children of the node in different level as a list on http
+     * expose find tree as a restfull web service on http
+     * {@code findById} never should be overridden
      *
      * @param id
-     * @return list of value object
+     * @return an array of Json model
      */
-    @ApiOperation(value = "${restfulApi.findListTree.value}", notes = "${restfulApi.findListTree.notes}")
+    @Operation(summary = "${restfulApi.findTreeAsList.summary}",
+            description = "${restfulApi.findTreeAsList.description}",
+            method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "${restfulApi.findTreeAsList.response.200}")})
     @GetMapping("find/tree-list/{id}")
-    default ResponseEntity<M[]> findTreeAsList(
-            @ApiParam(name = "ID",
-                    value = "${restfulApi.findListTree.param}",
-                    required = true,
-                    defaultValue = "0",
-                    example = "0")
+    default ResponseEntity<CollectionModel<M>> findTreeAsList(
+            @Parameter(name = "ID", description = "${restfulApi.findTreeAsList.param}", required = true)
             @PathVariable("id") I id) {
 
         requiredNonNull(id, "id");
-        return ResponseEntity.ok(getService().findTreeAsList(id));
+
+        M[] nodes = getService().findTreeAsList(id);
+
+        Link[] links = Stream.of(nodes)
+                .map(item -> linkTo(getClass()).slash(item.getId()).withSelfRel())
+                .toArray(Link[]::new);
+
+        return ok(new CollectionModel<>(Iterator.of(nodes), Iterator.of(links)));
     }
 
     /**
-     * get children of the node in different level as a list on http
+     * expose find sub tree as a restfull web service on http
+     * {@code findById} never should be overridden
      *
      * @param id
-     * @return list of value object
+     * @return an array of Json model
      */
-    @ApiOperation(value = "${restfulApi.findListSubTree.value}", notes = "${restfulApi.findListSubTree.notes}")
+    @Operation(summary = "${restfulApi.findSubTreeAsList.summary}",
+            description = "${restfulApi.findSubTreeAsList.description}",
+            method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "${restfulApi.findSubTreeAsList.response.200}")})
     @GetMapping("find/sub-tree-list/{id}")
-    default ResponseEntity<M[]> findSubTreeAsList(
-            @ApiParam(name = "ID",
-                    value = "${restfulApi.findListSubTree.param}",
-                    required = true,
-                    defaultValue = "0",
-                    example = "0")
+    default ResponseEntity<CollectionModel<M>> findSubTreeAsList(
+            @Parameter(name = "ID", description = "${restfulApi.findSubTreeAsList.param}", required = true)
             @PathVariable("id") I id) {
 
         requiredNonNull(id, "id");
-        return ResponseEntity.ok(getService().findSubTreeAsList(id));
+
+        M[] children = getService().findSubTreeAsList(id);
+
+        Link[] links = Stream.of(children)
+                .map(item -> linkTo(getClass()).slash(item.getId()).withSelfRel())
+                .toArray(Link[]::new);
+
+        return ok(new CollectionModel<>(Iterator.of(children), Iterator.of(links)));
     }
 
 }
