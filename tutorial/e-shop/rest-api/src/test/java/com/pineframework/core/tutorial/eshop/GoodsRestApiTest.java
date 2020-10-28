@@ -1,5 +1,6 @@
 package com.pineframework.core.tutorial.eshop;
 
+import com.pineframework.core.helper.JsonUtils;
 import com.pineframework.core.spring.test.AbstractRestfulWebService;
 import com.pineframework.core.tutorial.eshop.model.GoodsModel;
 import org.junit.jupiter.api.DisplayName;
@@ -55,7 +56,7 @@ public class GoodsRestApiTest extends AbstractRestfulWebService<Long, GoodsModel
         assertNotNull(response);
         assertNotNull(response.getBody());
 
-        Long id = Long.valueOf(response.getBody());
+        Long id = Long.valueOf(JsonUtils.readPrimitiveObject(response.getBody(), "content", Long.class));
         assertNotNull(id);
         GoodsModel savedModel = new GoodsModel.Builder(model.getName(), model.getCode()).from(model).id(id).build();
         updateStorage(name, savedModel);

@@ -36,7 +36,7 @@ public class MessageQueueTest extends AbstractTest {
     @DisplayName("Send message to main queue and get accepted status from status queue")
     @ParameterizedTest
     @ValueSource(strings = {"Hello", "Great", "Bye"})
-    public void save_SendMessagesToMainQueue_GetAcceptedStatusFromStatusQueue(String text) {
+    public void push_SendMessagesToMainQueue_GetAcceptedStatusFromStatusQueue(String text) {
         Optional<MessageModel> message = mainQueue.push(new MessageModel.Builder().content(text).build());
         Optional<MessageModel> status = statusQueue.findByCorrelationId(message.get().getId());
         logInfo(message.get());
