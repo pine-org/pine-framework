@@ -2,7 +2,7 @@ package com.pineframework.core.datamodel.exception;
 
 
 /**
- * When value object is invalid throw this exception
+ * When the data is required, then throw {@code RequiredException}.
  *
  * @author Saman Alishiri, samanalishiri@gmail.com
  */

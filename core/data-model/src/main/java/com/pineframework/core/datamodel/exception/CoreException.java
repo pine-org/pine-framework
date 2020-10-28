@@ -2,7 +2,7 @@ package com.pineframework.core.datamodel.exception;
 
 
 /**
- * When value object is invalid throw this exception
+ * All exception convert to {@code CoreException} then send response to the client.
  *
  * @author Saman Alishiri, samanalishiri@gmail.com
  */

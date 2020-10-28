@@ -1,8 +1,7 @@
 package com.pineframework.core.datamodel.exception;
 
 /**
- * All of exceptions must extend AbstractException.
- * All of exceptions are runtime exception and will handle with centralized exception handling mechanism.
+ * When throw a bunch of exception at the same point, also at the same time.
  *
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
