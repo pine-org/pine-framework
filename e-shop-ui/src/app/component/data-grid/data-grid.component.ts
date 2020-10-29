@@ -16,22 +16,106 @@ export class DataGridComponent implements OnInit {
 
   @Input() service: Service<any>;
 
+  @Input() visibleIndicesLimit = 5;
+
+  @Input() addButtonVisible: boolean = true;
+  @Input() refreshButtonVisible: boolean = true;
+  @Input() readButtonVisible: boolean = true;
+  @Input() editButtonVisible: boolean = true;
+  @Input() deleteButtonVisible: boolean = true;
+  deletedItems: number[] = [];
+  @Input() bunches: string[] = ['5', '10', '15', '20'];
+  defaultBunch: string = this.bunches[0];
+  checkedAllTuples: string = null;
+  visibleIndicesOffset = 0;
+
+  private _deleteAllButtonVisible: boolean = false;
+
+  get deleteAllButtonVisible(): boolean {
+    return this._deleteAllButtonVisible;
+  }
+
+  @Input()
+  set deleteAllButtonVisible(value: boolean) {
+    this._deleteAllButtonVisible = value;
+    this.deleteButtonVisible = !value;
+  }
+
+  private _bunchDropdownVisible: boolean = true;
+
+  get bunchDropdownVisible(): boolean {
+    return this._bunchDropdownVisible;
+  }
+
+  @Input()
+  set bunchDropdownVisible(value: boolean) {
+    this._bunchDropdownVisible = value;
+    this.bunchDropdown = Properties.builder('Bunch')
+      .hidden(!this._bunchDropdownVisible)
+      .build();
+  }
+
+  bunchDropdown: Properties = Properties.builder('Bunch')
+    .hidden(!this._bunchDropdownVisible)
+    .build();
+
+  private _columnSelectionDropdownVisible: boolean = true;
+
+  get columnSelectionDropdownVisible(): boolean {
+    return this._columnSelectionDropdownVisible;
+  }
+
+  @Input()
+  set columnSelectionDropdownVisible(value: boolean) {
+    this._columnSelectionDropdownVisible = value;
+    this.columnSelectionDropdown = Properties.builder('Columns')
+      .hidden(!this._columnSelectionDropdownVisible)
+      .icon(Icon.iconOf('fa fa-angle-double-down'))
+      .build();
+  }
+
   page: Page = new Page();
-  deleted: number[] = [];
 
-  dataBunches: string[] = ['5', '10', '15', '20'];
-  defaultDataBunch: string = this.dataBunches[0];
-  dropdownBunch: Properties = Properties.builder('Bunch').build();
+  columnSelectionDropdown: Properties = Properties.builder('Columns')
+    .hidden(!this._columnSelectionDropdownVisible)
+    .icon(Icon.iconOf('fa fa-angle-double-down'))
+    .build();
 
-  dropdownColumnSelection: Properties = Properties.builder('Columns').icon(Icon.iconOf('fa fa-angle-double-down')).build();
+  private _firstColumnVisibility: boolean = true;
 
-  columnOperation: Properties = Properties.builder('Operation').build();
+  get firstColumnVisibility(): boolean {
+    return this._firstColumnVisibility;
+  }
 
-  checkedAllRows: string = null;
-  columnCheckbox: Properties = Properties.builder('#').hiddenTitle().build();
+  @Input()
+  set firstColumnVisibility(value: boolean) {
+    this._firstColumnVisibility = value;
+    this.firstColumn = Properties.builder('#')
+      .hidden(!this._firstColumnVisibility)
+      .build();
+  }
 
-  minVisibleIndex = 0;
-  @Input() lengthOfVisibleIndex = 5;
+  firstColumn: Properties = Properties.builder('#')
+    .hidden(!this._firstColumnVisibility)
+    .build();
+
+  private _operationColumnVisible: boolean = true;
+
+  get operationColumnVisible(): boolean {
+    return this._operationColumnVisible;
+  }
+
+  @Input()
+  set operationColumnVisible(value: boolean) {
+    this._operationColumnVisible = value;
+    this.operationColumn = Properties.builder('Operation')
+      .hidden(!this._operationColumnVisible)
+      .build();
+  }
+
+  operationColumn: Properties = Properties.builder('Operation')
+    .hidden(!this._operationColumnVisible)
+    .build();
 
   ngOnInit() {
     this.getPage(this.page.index);
@@ -44,50 +128,54 @@ export class DataGridComponent implements OnInit {
   }
 
   delete = (id) => {
-    this.service.delete(id)
+    this.service.delete(id).subscribe(() => {
+      if (this.page.content.length == 1)
+        this.previousPage();
+      else
+        this.currentPage();
+    });
   }
 
   deleteAll = (...identities: any[]) => {
     this.service.deleteAll(identities).subscribe(() => {
-      if (this.page.content.length == 1 || this.deleted.length == this.page.content.length) {
+      if (this.page.content.length == 1 || this.deletedItems.length == this.page.content.length)
         this.previousPage();
-      } else {
+      else
         this.currentPage();
-      }
     });
   }
 
-  updateDeleted(event) {
+  deletedItemsChange(event) {
     if (event.target.checked) {
-      this.deleted.push(event.target.value);
+      this.deletedItems.push(event.target.value);
     } else {
-      const index = this.deleted.findIndex(value => value == event.target.value);
-      this.deleted.splice(index, 1);
+      const index = this.deletedItems.findIndex(value => value == event.target.value);
+      this.deletedItems.splice(index, 1);
     }
   }
 
-  toggleCheckedAll() {
-    this.checkedAllRows = this.checkedAllRows == null ? "checked" : null;
+  toggleCheckedAllTuples() {
+    this.checkedAllTuples = this.checkedAllTuples == null ? "checked" : null;
   }
 
-  changeBunchOfData(value: any) {
-    if (!this.dataBunches.includes('Default', 0)) {
-      this.dataBunches.unshift('Default')
+  bunchChange(value: any) {
+    if (!this.bunches.includes('Default', 0)) {
+      this.bunches.unshift('Default')
     }
 
     if (value == 'Default') {
-      this.dataBunches.splice(0, 1);
-      this.defaultDataBunch = this.dataBunches[0];
-      this.dropdownBunch.title.content = 'Bunch';
+      this.bunches.splice(0, 1);
+      this.defaultBunch = this.bunches[0];
+      this.bunchDropdown.title.content = 'Bunch';
     } else {
-      this.defaultDataBunch = value;
-      this.dropdownBunch.title.content = value;
+      this.defaultBunch = value;
+      this.bunchDropdown.title.content = value;
     }
 
     this.getPage(0);
   }
 
-  selectColumn(column: Properties, event) {
+  columnSelectionChange(column: Properties, event) {
     this.columns
       .filter(value => value.title.content == column.title.content)
       .forEach(value => value.hidden = !event.target.checked);
@@ -99,7 +187,7 @@ export class DataGridComponent implements OnInit {
 
   getPage = (index: number) => {
     this.page.index = index;
-    this.page.size = parseInt(this.defaultDataBunch);
+    this.page.size = parseInt(this.defaultBunch);
     this.getData(this.page);
   }
 
@@ -109,8 +197,8 @@ export class DataGridComponent implements OnInit {
 
   nextPage = () => {
     if (this.page.index < this.page.indices.length - 1) {
-      if (this.page.index == this.minVisibleIndex + this.lengthOfVisibleIndex - 1) {
-        this.minVisibleIndex += this.lengthOfVisibleIndex
+      if (this.page.index == this.visibleIndicesOffset + this.visibleIndicesLimit - 1) {
+        this.visibleIndicesOffset += this.visibleIndicesLimit
       }
       this.getPage(this.page.index + 1);
     }
@@ -118,24 +206,25 @@ export class DataGridComponent implements OnInit {
 
   previousPage = () => {
     if (this.page.index > 0) {
-      if (this.page.index <= this.minVisibleIndex) {
-        this.minVisibleIndex -= this.lengthOfVisibleIndex
+      if (this.page.index <= this.visibleIndicesOffset) {
+        this.visibleIndicesOffset -= this.visibleIndicesLimit
       }
       this.getPage(this.page.index - 1);
     }
   }
 
-  nextIndices() {
-    if (this.minVisibleIndex < this.page.indices.length) {
-      this.minVisibleIndex += this.lengthOfVisibleIndex
-      this.getPage(this.minVisibleIndex);
+  nextIndex() {
+    if (this.visibleIndicesOffset < this.page.indices.length) {
+      this.visibleIndicesOffset += this.visibleIndicesLimit
+      this.getPage(this.visibleIndicesOffset);
     }
   }
 
-  previousIndices() {
-    if (this.minVisibleIndex > 0) {
-      this.minVisibleIndex -= this.lengthOfVisibleIndex
-      this.getPage(this.minVisibleIndex + this.lengthOfVisibleIndex - 1);
+  previousIndex() {
+    if (this.visibleIndicesOffset > 0) {
+      this.visibleIndicesOffset -= this.visibleIndicesLimit
+      this.getPage(this.visibleIndicesOffset + this.visibleIndicesLimit - 1);
     }
   }
+
 }

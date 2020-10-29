@@ -4,108 +4,165 @@
     <div class="row my-1 d-flex align-items-baseline">
       <div class="col">
         <div class="row d-flex justify-content-start">
-          <div>
+          <!-- add button---------------------------------------------------------------------------------->
+          <div *ngIf="addButtonVisible">
             <app-add-button></app-add-button>
           </div>
+          <!-- add button---------------------------------------------------------------------------------->
           <div class="mx-1"></div>
-          <div>
-            <app-delete-button [click]="deleteAll" [identities]="deleted"></app-delete-button>
+          <!-- delete all button-->
+          <div *ngIf="deleteAllButtonVisible && !deleteButtonVisible">
+            <app-delete-button [click]="deleteAll" [identities]="deletedItems"></app-delete-button>
           </div>
+          <!-- delete all button-->
         </div>
       </div>
       <div class="col d-flex justify-content-end px-0">
-        <div *ngIf="!dropdownBunch.hidden" class="btn-group">
-          <button aria-expanded="false" aria-haspopup="true" class="btn rounded-0 btn-dark dropdown-toggle"
-                  data-toggle="dropdown" type="button">
-            {{dropdownBunch.title.hidden ? dataBunches[0] : dropdownBunch.title.content}}
+        <!--bunch dropdown---------------------------------------------------------------------------------->
+        <div *ngIf="!bunchDropdown.hidden" class="btn-group">
+          <button aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn rounded-0 btn-dark dropdown-toggle"
+                  data-toggle="dropdown"
+                  type="button">
+            {{bunchDropdown.title.hidden ? bunches[0] : bunchDropdown.title.content}}
           </button>
           <div class="dropdown-menu">
-            <a (click)="changeBunchOfData(bunch)" *ngFor='let bunch of dataBunches' class="dropdown-item">
+            <a (click)="bunchChange(bunch)"
+               *ngFor='let bunch of bunches'
+               class="dropdown-item">
               {{bunch}}
             </a>
           </div>
         </div>
-        <div *ngIf="!dropdownColumnSelection.hidden" class="btn-group">
-          <button aria-expanded="false" aria-haspopup="true"
-                  class="btn rounded-0 btn-dark dropdown-toggle" data-toggle="dropdown" type="button">
+        <!--bunch dropdown---------------------------------------------------------------------------------->
+        <!--columns dropdown---------------------------------------------------------------------------------->
+        <div *ngIf="!columnSelectionDropdown.hidden" class="btn-group">
+          <button aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn rounded-0 btn-dark dropdown-toggle"
+                  data-toggle="dropdown"
+                  type="button">
             <i class="fa fa-angle-double-down"></i>
-            {{dropdownColumnSelection.separator}}{{dropdownColumnSelection.title.content}}
+            {{columnSelectionDropdown.separator}}{{columnSelectionDropdown.title.content}}
           </button>
           <div class="dropdown-menu">
             <a *ngFor='let column of columns' class="dropdown-item">
-              <input (change)="selectColumn(column, $event)" checked
-                     class="mx-1"
-                     type="checkbox"
+              <input (change)="columnSelectionChange(column, $event)"
                      value="{{column}}"
-              />
+                     checked
+                     class="mx-1"
+                     type="checkbox"/>
               {{column.title.content}}
             </a>
           </div>
         </div>
-        <app-refresh-menu-button [click]="currentPage"></app-refresh-menu-button>
+        <!--columns dropdown---------------------------------------------------------------------------------->
+        <!--refresh button---------------------------------------------------------------------------------->
+        <app-refresh-menu-button *ngIf="refreshButtonVisible" [click]="currentPage"></app-refresh-menu-button>
+        <!--refresh button---------------------------------------------------------------------------------->
       </div>
     </div>
     <div class="row my-1">
+      <!--data table---------------------------------------------------------------------------------->
       <table class="table table-hover table-bordered table-sm">
+        <!--table header---------------------------------------------------------------------------------->
         <thead class="thead-light">
-        <th [hidden]="columnCheckbox.hidden">
-          {{columnCheckbox.title.content}}
-          <input (click)="toggleCheckedAll()"
-                 *ngIf="columnCheckbox.title.hidden"
-                 checked="{{checkedAllRows}}"
+        <th [hidden]="firstColumn.hidden">
+          {{firstColumn.title.content}}
+          <input (click)="toggleCheckedAllTuples()"
+                 *ngIf="firstColumn.title.hidden"
+                 checked="{{checkedAllTuples}}"
                  type="checkbox"/>
         </th>
-        <th *ngFor="let column of columns"
-            [hidden]="column.hidden"
-            class='table-header'>{{column.title.content}}
+        <th *ngFor="let column of columns" [hidden]="column.hidden" class='table-header'>
+          {{column.title.content}}
         </th>
-        <th [hidden]="columnOperation.hidden">{{columnOperation.title.content}}</th>
+        <th [hidden]="operationColumn.hidden || (!readButtonVisible && !editButtonVisible && !deleteButtonVisible)">
+          {{operationColumn.title.content}}
+        </th>
         </thead>
+        <!--table header---------------------------------------------------------------------------------->
+        <!--table body---------------------------------------------------------------------------------->
         <tbody>
         <tr *ngFor="let item of page.content">
-          <td [hidden]="columnCheckbox.hidden">
-            <input (change)="updateDeleted($event)" checked="{{checkedAllRows}}" type="checkbox" value="{{item.id}}"/>
+          <!--table first column---------------------------------------------------------------------------------->
+          <td [hidden]="firstColumn.hidden">
+            <input (change)="deletedItemsChange($event)"
+                   *ngIf="deleteAllButtonVisible"
+                   checked="{{checkedAllTuples}}"
+                   type="checkbox"
+                   value="{{item.id}}"/>
           </td>
-          <td *ngFor="let column of columns" [hidden]="column.hidden">{{item[column.field.content]}}</td>
-          <td [hidden]="columnOperation.hidden">
+          <!--table first column---------------------------------------------------------------------------------->
+          <!--table logic column---------------------------------------------------------------------------------->
+          <td *ngFor="let column of columns"
+              [hidden]="column.hidden">
+            {{item[column.field.content]}}
+          </td>
+          <!--table logic column---------------------------------------------------------------------------------->
+          <!--table operation column---------------------------------------------------------------------------------->
+          <td [hidden]="operationColumn.hidden">
+            <!--table operation column---------------------------------------------------------------------------------->
             <div class="row px-2 justify-content-end">
+              <!--read button---------------------------------------------------------------------------------->
               <div>
-                <app-edit-button></app-edit-button>
+                <app-read-button *ngIf="readButtonVisible"></app-read-button>
               </div>
+              <!--read button---------------------------------------------------------------------------------->
               <div class="mx-1"></div>
+              <!--edit button---------------------------------------------------------------------------------->
               <div>
-                <app-read-button></app-read-button>
+                <app-edit-button *ngIf="editButtonVisible"></app-edit-button>
               </div>
+              <!--edit button---------------------------------------------------------------------------------->
+              <div class="mx-1"></div>
+              <!-- delete button-->
+              <div>
+                <app-delete-button *ngIf="deleteButtonVisible && !deleteAllButtonVisible" [click]="delete"
+                                   [identities]="item.id"></app-delete-button>
+              </div>
+              <!-- delete button-->
             </div>
           </td>
         </tr>
         </tbody>
+        <!--table body---------------------------------------------------------------------------------->
       </table>
+      <!--data table---------------------------------------------------------------------------------->
     </div>
     <div class="col-auto">
+      <!--table indices---------------------------------------------------------------------------------->
       <ul class="pagination justify-content-center align-items-baseline">
+        <!--previous button---------------------------------------------------------------------------------->
         <li class="page-item">
           <app-previous-button [click]="previousPage"></app-previous-button>
         </li>
-        <div *ngIf="minVisibleIndex > 0" class="mx-2">
-          <button (click)="previousIndices()" class="btn rounded-0 border-0" type="button">
+        <!--previous button---------------------------------------------------------------------------------->
+        <div *ngIf="visibleIndicesOffset > 0" class="mx-2">
+          <button (click)="previousIndex()" class="btn rounded-0 border-0" type="button">
             <i class="fa fa-angle-double-left"></i>
           </button>
         </div>
+        <!--indices---------------------------------------------------------------------------------->
         <li *ngFor='let num of page.indices' [ngClass]="isActive(num)" class="page-item">
-          <div *ngIf="num >= minVisibleIndex && num < minVisibleIndex + lengthOfVisibleIndex">
+          <div *ngIf="num >= visibleIndicesOffset && num < visibleIndicesOffset + visibleIndicesLimit">
             <app-index-button [click]="getPage" [number]="num"></app-index-button>
           </div>
         </li>
-        <div *ngIf="minVisibleIndex + lengthOfVisibleIndex < page.indices.length" class="mx-2">
-          <button (click)="nextIndices()" class="btn rounded-0 border-0" type="button">
+        <!--indices---------------------------------------------------------------------------------->
+        <div *ngIf="visibleIndicesOffset + visibleIndicesLimit < page.indices.length" class="mx-2">
+          <button (click)="nextIndex()" class="btn rounded-0 border-0" type="button">
             <i class="fa fa-angle-double-right"></i>
           </button>
         </div>
+        <!--next button---------------------------------------------------------------------------------->
         <li class="page-item">
           <app-next-button [click]="nextPage"></app-next-button>
         </li>
+        <!--next button---------------------------------------------------------------------------------->
       </ul>
+      <!--table indices---------------------------------------------------------------------------------->
     </div>
   </div>
 </div>

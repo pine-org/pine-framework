@@ -1,4 +1,6 @@
 <app-data-grid [columns]="columns"
-               [lengthOfVisibleIndex]="4"
                [service]="getService()"
-               [title]="getTitle()"></app-data-grid>
+               [deleteButtonVisible]="false"
+               [title]="getTitle()"
+               [visibleIndicesLimit]="4"
+></app-data-grid>

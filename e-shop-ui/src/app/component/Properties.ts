@@ -124,8 +124,8 @@ export class PropertiesBuilder {
     this._title = Text.of(value);
   }
 
-  hidden(): PropertiesBuilder {
-    this._hidden = true;
+  hidden(value: boolean = true): PropertiesBuilder {
+    this._hidden = value;
     return this;
   }
 
