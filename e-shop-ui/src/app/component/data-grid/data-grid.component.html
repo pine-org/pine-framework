@@ -33,7 +33,11 @@
           </button>
           <div class="dropdown-menu">
             <a *ngFor='let column of columns' class="dropdown-item">
-              <input (change)="selectColumn(column, $event)" checked class="mx-1" type="checkbox" value="{{column}}"/>
+              <input (change)="selectColumn(column, $event)" checked
+                     class="mx-1"
+                     type="checkbox"
+                     value="{{column}}"
+              />
               {{column.title.content}}
             </a>
           </div>
@@ -46,10 +50,15 @@
         <thead class="thead-light">
         <th [hidden]="columnCheckbox.hidden">
           {{columnCheckbox.title.content}}
-          <input (click)="toggleCheckedAll()" *ngIf="columnCheckbox.title.hidden" checked="{{checkedAllRows}}"
+          <input (click)="toggleCheckedAll()"
+                 *ngIf="columnCheckbox.title.hidden"
+                 checked="{{checkedAllRows}}"
                  type="checkbox"/>
         </th>
-        <th *ngFor="let column of columns" [hidden]="column.hidden" class='table-header'>{{column.title.content}}</th>
+        <th *ngFor="let column of columns"
+            [hidden]="column.hidden"
+            class='table-header'>{{column.title.content}}
+        </th>
         <th [hidden]="columnOperation.hidden">{{columnOperation.title.content}}</th>
         </thead>
         <tbody>
