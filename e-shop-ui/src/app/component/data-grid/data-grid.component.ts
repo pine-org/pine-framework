@@ -19,14 +19,25 @@ export class DataGridComponent implements OnInit {
   @Input() visibleIndicesLimit = 5;
 
   @Input() addButtonVisible: boolean = true;
+
   @Input() refreshButtonVisible: boolean = true;
+
   @Input() readButtonVisible: boolean = true;
+
   @Input() editButtonVisible: boolean = true;
+
   @Input() deleteButtonVisible: boolean = true;
-  deletedItems: number[] = [];
+
+  @Input() pageIndices: boolean = true;
+
   @Input() bunches: string[] = ['5', '10', '15', '20'];
+
   defaultBunch: string = this.bunches[0];
+
   checkedAllTuples: string = null;
+
+  @Input() selectAllCheckbox: boolean = false;
+
   visibleIndicesOffset = 0;
 
   private _deleteAllButtonVisible: boolean = false;
@@ -116,6 +127,8 @@ export class DataGridComponent implements OnInit {
   operationColumn: Properties = Properties.builder('Operation')
     .hidden(!this._operationColumnVisible)
     .build();
+
+  deletedItems: number[] = [];
 
   ngOnInit() {
     this.getPage(this.page.index);

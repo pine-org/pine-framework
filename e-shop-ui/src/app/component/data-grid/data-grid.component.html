@@ -12,7 +12,7 @@
           <div class="mx-1"></div>
           <!-- delete all button-->
           <div *ngIf="deleteAllButtonVisible && !deleteButtonVisible">
-            <app-delete-button [click]="deleteAll" [identities]="deletedItems"></app-delete-button>
+            <app-delete-button [bunch]="true" [click]="deleteAll" [identities]="deletedItems"></app-delete-button>
           </div>
           <!-- delete all button-->
         </div>
@@ -69,11 +69,12 @@
         <!--table header---------------------------------------------------------------------------------->
         <thead class="thead-light">
         <th [hidden]="firstColumn.hidden">
-          {{firstColumn.title.content}}
+          {{selectAllCheckbox ? '' : firstColumn.title.content}}
           <input (click)="toggleCheckedAllTuples()"
-                 *ngIf="firstColumn.title.hidden"
+                 *ngIf="selectAllCheckbox"
+                 type="checkbox"
                  checked="{{checkedAllTuples}}"
-                 type="checkbox"/>
+          />
         </th>
         <th *ngFor="let column of columns" [hidden]="column.hidden" class='table-header'>
           {{column.title.content}}
@@ -85,9 +86,10 @@
         <!--table header---------------------------------------------------------------------------------->
         <!--table body---------------------------------------------------------------------------------->
         <tbody>
-        <tr *ngFor="let item of page.content">
+        <tr *ngFor="let item of page.content; index as i">
           <!--table first column---------------------------------------------------------------------------------->
           <td [hidden]="firstColumn.hidden">
+            {{!deleteAllButtonVisible ? i + 1 : ''}}
             <input (change)="deletedItemsChange($event)"
                    *ngIf="deleteAllButtonVisible"
                    checked="{{checkedAllTuples}}"
@@ -102,7 +104,7 @@
           </td>
           <!--table logic column---------------------------------------------------------------------------------->
           <!--table operation column---------------------------------------------------------------------------------->
-          <td [hidden]="operationColumn.hidden">
+          <td [hidden]="operationColumn.hidden || (!readButtonVisible && !editButtonVisible && !deleteButtonVisible)">
             <!--table operation column---------------------------------------------------------------------------------->
             <div class="row px-2 justify-content-end">
               <!--read button---------------------------------------------------------------------------------->
@@ -131,7 +133,7 @@
       </table>
       <!--data table---------------------------------------------------------------------------------->
     </div>
-    <div class="col-auto">
+    <div *ngIf="pageIndices" class="col-auto">
       <!--table indices---------------------------------------------------------------------------------->
       <ul class="pagination justify-content-center align-items-baseline">
         <!--previous button---------------------------------------------------------------------------------->

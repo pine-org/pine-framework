@@ -14,6 +14,18 @@ export class DeleteButtonComponent implements OnInit {
 
   @Input() click: (...identity: any[]) => void
 
+  private _bunch: boolean = false;
+
+  get bunch(): boolean {
+    return this._bunch;
+  }
+
+  @Input()
+  set bunch(value: boolean) {
+    this._bunch = value;
+    this.properties = Properties.builder('Delete Bunch').icon(Icon.iconOf('fa fa-trash')).build();
+  }
+
   constructor() {
   }
 

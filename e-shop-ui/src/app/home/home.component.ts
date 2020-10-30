@@ -28,6 +28,8 @@ export class HomeComponent implements OnInit {
     Properties.builder('Description').field("description").build(),
   ];
 
+  bunches: string[] = ['2'];
+
   getService(): Service<any> {
     return this.service;
   }

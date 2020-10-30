@@ -40,7 +40,7 @@ export class IconBuilder {
 
 export class Text {
 
-  hidden: boolean = false
+  public hidden: boolean = false
 
   constructor(builder: TextBuilder) {
     this._content = builder.content;
