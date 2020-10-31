@@ -5,26 +5,30 @@ import com.pineframework.core.datamodel.filter.Filter;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 public class SelectByDifferentReturnType<E, M> implements Select<E, M> {
 
-    private Class<E> entity;
+    private final Class<E> entity;
 
-    private Class<M> returnType;
+    private final Class<M> returnType;
 
-    private String[] columns;
+    private final String[] columns;
 
-    public SelectByDifferentReturnType(Class<E> entity, Class<M> returnType, String... columns) {
+    private final Filter<E>[] filters;
+
+    public SelectByDifferentReturnType(Class<E> entity, Class<M> returnType, Filter<E>[] filters, String... columns) {
         this.entity = entity;
         this.returnType = returnType;
+        this.filters = Objects.isNull(filters) ? new Filter[0] : filters;
         this.columns = columns;
     }
 
     @Override
-    public Filter<E>[] getFilter() {
-        return new Filter[0];
+    public Filter<E>[] getFilters() {
+        return filters;
     }
 
     @Override

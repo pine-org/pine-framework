@@ -3,28 +3,29 @@ package com.pineframework.core.contract.log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static java.lang.String.format;
-
 /**
+ * In order to add log ability to a class.
+ *
  * @author Saman Alishirishahrbabak
  */
+@SuppressWarnings("unused")
 public interface Loggable {
-
-    default void logInfo(Object model) {
-        getLogger().info(format("LOG [INFO]: %s", model));
-    }
-
-    default void logDebug(Object model) {
-        getLogger().debug(format("LOG [DEBUG]: %s", model));
-    }
-
-    default void logError(Object model) {
-        getLogger().error(format("LOG [ERROR]: %s", model));
-    }
 
     Logger getLogger();
 
     default Logger defaultLogger() {
         return LoggerFactory.getLogger(getClass());
+    }
+
+    default void info(Object model) {
+        getLogger().info("LOG [INFO]: {}", model);
+    }
+
+    default void debug(Object model) {
+        getLogger().debug("LOG [DEBUG]: {}", model);
+    }
+
+    default void error(Object model) {
+        getLogger().error("LOG [ERROR]: {}", model);
     }
 }

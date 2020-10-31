@@ -11,9 +11,9 @@ import static java.lang.String.format;
 
 public class SelectTreeAsList<E> implements Select<E, E> {
 
-    private Class<E> type;
+    private final Class<E> type;
 
-    private String path;
+    private final String path;
 
     public SelectTreeAsList(Class<E> type, String path) {
         this.type = type;
@@ -21,7 +21,7 @@ public class SelectTreeAsList<E> implements Select<E, E> {
     }
 
     @Override
-    public Filter<E>[] getFilter() {
+    public Filter<E>[] getFilters() {
         Filter<E> filter = (root, query, cb) -> cb.like(root.get("path"), format("%s%s", path, "%"));
         return new Filter[]{filter};
     }

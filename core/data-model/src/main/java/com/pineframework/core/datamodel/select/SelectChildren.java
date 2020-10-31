@@ -12,9 +12,9 @@ import static java.util.Objects.isNull;
 
 public class SelectChildren<E> implements Select<E, E> {
 
-    private Class<E> type;
+    private final Class<E> type;
 
-    private Serializable id;
+    private final Serializable id;
 
     public SelectChildren(Class<E> type, Serializable id) {
         this.type = type;
@@ -22,7 +22,7 @@ public class SelectChildren<E> implements Select<E, E> {
     }
 
     @Override
-    public Filter<E>[] getFilter() {
+    public Filter<E>[] getFilters() {
         Filter<E> filterNullParent = (root, query, cb) -> cb.isNull(root.get("parent"));
         Filter<E> filterByParent = (root, query, cb) -> cb.equal(root.get("parent"), id);
         Filter<E> filter = isNull(id) ? filterNullParent : filterByParent;

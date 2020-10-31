@@ -1,7 +1,7 @@
 package com.pineframework.core.test;
 
-import com.pineframework.core.contract.repository.CrudRepository;
-import com.pineframework.core.contract.repository.QueryRepository;
+import com.pineframework.core.contract.repository.flat.CrudRepository;
+import com.pineframework.core.contract.repository.flat.QueryRepository;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import org.junit.jupiter.api.BeforeEach;
 

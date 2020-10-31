@@ -9,18 +9,18 @@ import java.util.function.BiFunction;
 
 public class SelectByFilter<E> implements Select<E, E> {
 
-    private Class<E> type;
+    private final Class<E> type;
 
-    private Filter<E>[] filter;
+    private final Filter<E>[] filters;
 
-    public SelectByFilter(Class<E> type, Filter<E>... filter) {
+    public SelectByFilter(Class<E> type, Filter<E>... filters) {
         this.type = type;
-        this.filter = filter;
+        this.filters = filters;
     }
 
     @Override
-    public Filter<E>[] getFilter() {
-        return filter;
+    public Filter<E>[] getFilters() {
+        return filters;
     }
 
     @Override

@@ -1,9 +1,9 @@
 package com.pineframework.core.business.service;
 
-import com.pineframework.core.contract.repository.BatchRepository;
-import com.pineframework.core.contract.repository.CrudRepository;
-import com.pineframework.core.contract.repository.QueryRepository;
 import com.pineframework.core.contract.repository.TreeRepository;
+import com.pineframework.core.contract.repository.flat.BatchRepository;
+import com.pineframework.core.contract.repository.flat.CrudRepository;
+import com.pineframework.core.contract.repository.flat.QueryRepository;
 import com.pineframework.core.contract.service.entityservice.TreeEntityService;
 import com.pineframework.core.contract.transformer.ImmutableTreeTransformer;
 import com.pineframework.core.datamodel.model.TreeTransient;

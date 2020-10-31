@@ -9,14 +9,14 @@ import java.util.function.BiFunction;
 
 public class SelectAll<E> implements Select<E, E> {
 
-    private Class<E> type;
+    private final Class<E> type;
 
     public SelectAll(Class<E> type) {
         this.type = type;
     }
 
     @Override
-    public Filter<E>[] getFilter() {
+    public Filter<E>[] getFilters() {
         return new Filter[0];
     }
 

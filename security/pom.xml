@@ -28,7 +28,7 @@
         <useIncrementalCompilation>false</useIncrementalCompilation>
 
         <config-profile>empty</config-profile>
-        <mq-vendor>empty</mq-vendor>
+        <message-queue-vendor>empty</message-queue-vendor>
         <database-vendor>empty</database-vendor>
         <env>empty</env>
 
@@ -242,7 +242,7 @@
         <profile>
             <id>ActiveMQ</id>
             <properties>
-                <mq-vendor>activemq-${env}</mq-vendor>
+                <message-queue-vendor>activemq-${env}</message-queue-vendor>
             </properties>
         </profile>
         <profile>

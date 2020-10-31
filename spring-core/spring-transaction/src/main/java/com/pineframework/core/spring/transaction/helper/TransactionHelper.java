@@ -9,18 +9,23 @@ import org.springframework.transaction.jta.JtaTransactionManager;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * It should be used, when use {@code @Bean} annotation to create a bean.
+ *
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 @Component
 public class TransactionHelper implements TransactionalBeanFactory {
 
     @Autowired
     private JtaTransactionManager transactionManager;
 
-    public <T, E> E create(T service, Class<E> type) {
+    public <T, E> E create(T bean, Class<E> type) {
         TransactionProxyFactoryBean proxy = new TransactionProxyFactoryBean();
         // Inject transaction manager here
         proxy.setTransactionManager(transactionManager);
         // Define wich object instance is to be proxied (your bean)
-        proxy.setTarget(service);
+        proxy.setTarget(bean);
         // Programmatically setup transaction attributes
         Properties transactionAttributes = new Properties();
         transactionAttributes.put("*", "PROPAGATION_REQUIRED");

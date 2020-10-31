@@ -1,8 +1,8 @@
 package com.pineframework.core.business.service;
 
-import com.pineframework.core.contract.repository.BatchRepository;
-import com.pineframework.core.contract.repository.CrudRepository;
-import com.pineframework.core.contract.repository.QueryRepository;
+import com.pineframework.core.contract.repository.flat.BatchRepository;
+import com.pineframework.core.contract.repository.flat.CrudRepository;
+import com.pineframework.core.contract.repository.flat.QueryRepository;
 import com.pineframework.core.contract.service.entityservice.BatchEntityService;
 import com.pineframework.core.contract.service.entityservice.CrudEntityService;
 import com.pineframework.core.contract.service.entityservice.QueryEntityService;

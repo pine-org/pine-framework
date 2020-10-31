@@ -21,7 +21,7 @@
     <build>
         <!--        <filters>-->
         <!--            <filter>src/main/resources/env/log/log4j-${env}.properties</filter>-->
-        <!--            <filter>src/main/resources/env/mq/application-${mq-vendor}-${env}.properties</filter>-->
+        <!--            <filter>src/main/resources/env/mq/application-${message-queue-vendor}-${env}.properties</filter>-->
         <!--            <filter>src/main/resources/env/database/application-${database-vendor}-${env}.properties</filter>-->
         <!--        </filters>-->
         <resources>
@@ -32,7 +32,7 @@
                     <include>application-internationalization.properties</include>
                     <include>application-common-${env}.properties</include>
                     <include>application-${database-vendor}.properties</include>
-                    <include>application-${mq-vendor}.properties</include>
+                    <include>application-${message-queue-vendor}.properties</include>
                     <include>log4j.properties</include>
                     <include>banner.txt</include>
                 </includes>

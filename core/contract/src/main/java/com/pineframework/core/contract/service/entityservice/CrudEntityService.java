@@ -1,6 +1,6 @@
 package com.pineframework.core.contract.service.entityservice;
 
-import com.pineframework.core.contract.repository.CrudRepository;
+import com.pineframework.core.contract.repository.flat.CrudRepository;
 import com.pineframework.core.contract.service.AroundServiceOperation;
 import com.pineframework.core.contract.service.CrudService;
 import com.pineframework.core.contract.transformer.ImmutableFlatTransformer;

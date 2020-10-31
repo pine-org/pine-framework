@@ -9,15 +9,16 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>
-        Pine Framework is microservices framework based on Java language.
-        This framework is implemented for microservices products.
+        The core module is an abstract and utility module. It provides more abstraction and contracts also helpers and
+        utils for end modules to get integrity, clean architecture and extendibility.
     </description>
     <developers>
         <developer>
             <name>Saman Alishirishahrbabak</name>
             <email>samanalishiri@gmail.com</email>
             <roles>
-                <role>developer</role>
+                <role>Architecture</role>
+                <role>Developer</role>
             </roles>
         </developer>
     </developers>
@@ -25,32 +26,27 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <useIncrementalCompilation>false</useIncrementalCompilation>
 
-        <config-profile>empty</config-profile>
-        <mq-vendor>empty</mq-vendor>
-        <database-vendor>empty</database-vendor>
         <env>empty</env>
+        <config-profile>empty</config-profile>
+        <message-queue-vendor>empty</message-queue-vendor>
+        <database-vendor>empty</database-vendor>
 
         <javaee.version>8.0.1</javaee.version>
+
         <asciidoctor.maven.plugin.version>2.0.0-RC.1</asciidoctor.maven.plugin.version>
         <asciidoctorj.diagram.version>2.0.2</asciidoctorj.diagram.version>
         <asciidoctorj.pdf.version>1.5.3</asciidoctorj.pdf.version>
         <asciidoctorj.version>2.3.0</asciidoctorj.version>
         <jruby.version>9.2.11.1</jruby.version>
 
-        <core-document.version>1.0.0-SNAPSHOT</core-document.version>
-        <properties.version>1.0.0-SNAPSHOT</properties.version>
-        <config-server-address.version>1.0.0-SNAPSHOT</config-server-address.version>
+        <contratc.version>1.0.0-SNAPSHOT</contratc.version>
+        <core-business.version>1.0.0-SNAPSHOT</core-business.version>
         <data-model.version>1.0.0-SNAPSHOT</data-model.version>
         <helper.version>1.0.0-SNAPSHOT</helper.version>
-        <contratc.version>1.0.0-SNAPSHOT</contratc.version>
         <core-test.version>1.0.0-SNAPSHOT</core-test.version>
         <i18n.version>1.0.0-SNAPSHOT</i18n.version>
-        <dependencies.version>1.0.0-SNAPSHOT</dependencies.version>
-        <config-server.version>1.0.0-SNAPSHOT</config-server.version>
-        <activemq.version>1.0.0-SNAPSHOT</activemq.version>
-        <core-business.version>1.0.0-SNAPSHOT</core-business.version>
+        <core-document.version>1.0.0-SNAPSHOT</core-document.version>
     </properties>
     <modules>
         <module>helper</module>
@@ -60,7 +56,7 @@
         <module>core-business</module>
         <module>i18n</module>
         <module>core-document</module>
-        <module>core-hibernte</module>
+        <module>core-hibernate</module>
         <module>core-mongodb</module>
     </modules>
     <dependencies>
@@ -91,7 +87,7 @@
             <artifactId>reactive-streams</artifactId>
             <version>1.0.2</version>
         </dependency>
-        <!--ORM-->
+        <!--Database-->
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc8</artifactId>
@@ -102,7 +98,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.19</version>
         </dependency>
-        <!-- utility -->
+        <!--utility -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -118,6 +114,7 @@
             <artifactId>icu4j</artifactId>
             <version>64.2</version>
         </dependency>
+        <!--JSON-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -133,6 +130,7 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.10.2</version>
         </dependency>
+        <!--log-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -216,12 +214,6 @@
                 <env>test</env>
                 <build.profile.id>test</build.profile.id>
                 <maven.test.skip>true</maven.test.skip>
-                <database.host>localhost:3306</database.host>
-                <queue.host>localhost:61616</queue.host>
-                <config.server.host>localhost:8888</config.server.host>
-                <product.host>127.0.0.1</product.host>
-                <product.port>0</product.port>
-                <config-profile>internationalization,common-${env}</config-profile>
             </properties>
         </profile>
         <profile>
@@ -317,58 +309,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-
-        <profile>
-            <id>AccessDockerToHost</id>
-            <properties>
-                <database.host>host.docker.internal</database.host>
-                <queue.host>host.docker.internal</queue.host>
-                <config.server.host>host.docker.internal</config.server.host>
-            </properties>
-        </profile>
-        <profile>
-            <id>Localhost</id>
-            <properties>
-                <database.host>localhost:3306</database.host>
-                <queue.host>localhost:61616</queue.host>
-                <config.server.host>localhost:8888</config.server.host>
-                <product.host>127.0.0.1</product.host>
-                <product.port>9091</product.port>
-            </properties>
-        </profile>
-        <profile>
-            <id>ActiveMQ</id>
-            <properties>
-                <mq-vendor>activemq-${env}</mq-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>MySQL</id>
-            <properties>
-                <database-vendor>mysql-${env}</database-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>Oracle</id>
-            <properties>
-                <database-vendor>oracle</database-vendor>
-                <build.profile.id>oracle-${env}</build.profile.id>
-            </properties>
-        </profile>
-        <profile>
-            <id>H2</id>
-            <properties>
-                <database-vendor>h2</database-vendor>
-                <build.profile.id>h2</build.profile.id>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>1.4.200</version>
-                </dependency>
-            </dependencies>
         </profile>
     </profiles>
 </project>

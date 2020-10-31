@@ -1,15 +1,14 @@
 package com.pineframework.core.contract.enumeration;
 
 /**
- * when a enum wants to convert to database column and vice versa, use this interface.
+ * It should be used when an enum is converted to database column and vice versa.
  *
- * @param <T> type
+ * @param <T> database column type
+ * @author Saman Alishiri, samanalishiri@gmail.com
  */
 public interface Convertible<T> {
     /**
-     * value accessor
-     *
-     * @return type
+     * @return database value
      */
     T getValue();
 }

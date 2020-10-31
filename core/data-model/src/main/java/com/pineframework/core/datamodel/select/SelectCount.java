@@ -9,18 +9,18 @@ import java.util.function.BiFunction;
 
 public class SelectCount<E> implements Select<E, Long> {
 
-    private Class<E> type;
+    private final Class<E> type;
 
-    private Filter<E>[] filter;
+    private final Filter<E>[] filters;
 
-    public SelectCount(Class<E> type, Filter<E>... filter) {
+    public SelectCount(Class<E> type, Filter<E>... filters) {
         this.type = type;
-        this.filter = filter;
+        this.filters = filters;
     }
 
     @Override
-    public Filter<E>[] getFilter() {
-        return filter;
+    public Filter<E>[] getFilters() {
+        return filters;
     }
 
     @Override
