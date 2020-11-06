@@ -30,3 +30,5 @@ target/
 /.scannerwork
 # IDE project file
 *.iml
+
+.DS_Store
