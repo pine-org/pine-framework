@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public interface ImmutableFlatTransformer<I extends Serializable,
-        M extends FlatTransient<I>,
         E extends FlatPersistence<I>,
+        M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>> {
 
     E createEntity();
@@ -25,7 +25,7 @@ public interface ImmutableFlatTransformer<I extends Serializable,
 
     E transform(M m, String... field);
 
-    E transform(M m, E e, String... field);
+    void transform(M m, E e, String... field);
 
     M[] transform(E[] entities, int deep, String... field);
 

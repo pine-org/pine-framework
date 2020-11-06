@@ -5,7 +5,7 @@ import com.pineframework.core.tutorial.eshop.business.domain.GoodsEntity;
 import com.pineframework.core.tutorial.eshop.model.GoodsModel;
 import com.pineframework.core.tutorial.eshop.model.GoodsModel.Builder;
 
-public class GoodsTransformer extends AbstractImmutableFlatTransformer<Long, GoodsModel, GoodsEntity, Builder> {
+public class GoodsTransformer extends AbstractImmutableFlatTransformer<Long, GoodsEntity, GoodsModel, Builder> {
 
     @Override
     public Builder getModelBuilder(GoodsEntity e) {

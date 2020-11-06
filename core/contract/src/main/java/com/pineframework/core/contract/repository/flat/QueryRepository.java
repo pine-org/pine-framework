@@ -17,10 +17,11 @@ import java.util.Optional;
 /**
  * Data access layer to support Searching operation on flat data structure.
  *
+ * @param <I> identity
+ * @param <E> persistable type
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-
-@SuppressWarnings(value = {"unchecked", "Convert2Diamond", "unused"})
+@SuppressWarnings(value = {"unchecked", "Convert2Diamond"})
 public interface QueryRepository<I extends Serializable, E extends FlatPersistence<I>>
         extends FlatRepository<I, E> {
 

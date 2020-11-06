@@ -20,10 +20,10 @@ import static java.util.Objects.isNull;
  * @author Saman Alishiri
  */
 public abstract class AbstractImmutableFlatTransformer<I extends Serializable,
-        M extends FlatTransient<I>,
         E extends FlatPersistence<I>,
+        M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>>
-        implements ImmutableFlatTransformer<I, M, E, B>, ImmutableAdditionalTransformer<I, M, E, B> {
+        implements ImmutableFlatTransformer<I, E, M, B>, ImmutableAdditionalTransformer<I, E, M, B> {
 
     public static final int END_DEEP = -1;
 
@@ -32,11 +32,11 @@ public abstract class AbstractImmutableFlatTransformer<I extends Serializable,
     public static final int EXIT = 0;
 
     protected Class<? extends FlatTransient> getModelType() {
-        return (Class<M>) GenericUtils.extract(this.getClass(), 1);
+        return (Class<M>) GenericUtils.extract(this.getClass(), 2);
     }
 
     protected Class<? extends FlatPersistence> getEntityType() {
-        return (Class<E>) GenericUtils.extract(this.getClass(), 2);
+        return (Class<E>) GenericUtils.extract(this.getClass(), 1);
     }
 
     @Override
@@ -112,8 +112,8 @@ public abstract class AbstractImmutableFlatTransformer<I extends Serializable,
     }
 
     @Override
-    public E transform(M m, E e, String... field) {
-        return transform(m, e, FIRST_DEEP, field);
+    public void transform(M m, E e, String... field) {
+        transform(m, e, FIRST_DEEP, field);
     }
 
     @Override

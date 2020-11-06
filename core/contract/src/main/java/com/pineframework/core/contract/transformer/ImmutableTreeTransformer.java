@@ -5,7 +5,6 @@ import com.pineframework.core.datamodel.persistence.TreePersistence;
 
 import java.io.Serializable;
 
-
 /**
  * Use for a table and value object designed in tree structure
  *
@@ -13,10 +12,10 @@ import java.io.Serializable;
  */
 public interface ImmutableTreeTransformer<
         I extends Serializable,
-        M extends TreeTransient<I, M>,
         E extends TreePersistence<I, E>,
+        M extends TreeTransient<I, M>,
         B extends TreeTransient.Builder<I, M, B>>
-        extends ImmutableFlatTransformer<I, M, E, B> {
+        extends ImmutableFlatTransformer<I, E, M, B> {
 
     M hierarchyTransform(E e, int level, int deep, String... fields);
 

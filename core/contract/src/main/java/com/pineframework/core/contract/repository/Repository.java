@@ -22,6 +22,11 @@ public interface Repository {
      */
     void clear();
 
+    /**
+     * Size of a bunch of operations to execute at one step. Then it should be execute flush and clear operation.
+     *
+     * @return integer
+     */
     int getBatchSize();
 
     /**

@@ -1,16 +1,22 @@
 package com.pineframework.core.contract.service.taskservice;
 
 import com.pineframework.core.contract.repository.Repository;
-import com.pineframework.core.contract.service.BusinessService;
-import com.pineframework.core.helper.ObjectRegistry;
+import com.pineframework.core.contract.service.MultiType;
 
-public interface TaskService extends BusinessService {
+/**
+ * Business logic layer provide operations in order to manipulate at least two different transient type.
+ *
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
+public interface TaskService extends MultiType {
 
-    void initRegistry();
-
-    ObjectRegistry getRegistry();
-
+    /**
+     * @param name register name
+     * @param <T>  repository type
+     * @return repository
+     */
+    @SuppressWarnings("unchecked")
     default <T extends Repository> T getRepository(String name) {
-        return (T) getRegistry().lookup(name);
+        return (T) getTypes().lookup(name);
     }
 }

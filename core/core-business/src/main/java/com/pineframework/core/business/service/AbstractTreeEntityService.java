@@ -16,7 +16,7 @@ public abstract class AbstractTreeEntityService<I extends Serializable,
         E extends TreePersistence<I, E>,
         M extends TreeTransient<I, M>,
         B extends TreeTransient.Builder<I, M, B>,
-        T extends ImmutableTreeTransformer<I, M, E, B>,
+        T extends ImmutableTreeTransformer<I, E, M, B>,
         R extends CrudRepository<I, E> & QueryRepository<I, E> & BatchRepository<I, E> & TreeRepository<I, E>>
         extends AbstractFlatEntityService<I, E, M, B, T, R> implements TreeEntityService<I, E, M, B, T, R> {
 

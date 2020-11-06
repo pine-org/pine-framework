@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Data access layer to support Flat, table, two dimensional data structure.
  *
- * @param <I> identity of object
+ * @param <I> identity
  * @param <E> persistable type
  * @author Saman Alishiri, samanalishiri@gmail.com
  */

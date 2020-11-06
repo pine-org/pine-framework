@@ -8,8 +8,6 @@ rectangle "Pine Framework" as pineFramework {
         together {
             component "I18N" as i18n
             component "Document" as coreDocument
-            component "Properties" as properties
-            component "Config Server Address" as configServerAddress
         }
 
         together {

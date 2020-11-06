@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
  *
  * @author Saman Alishirishahrbabak
  */
-@SuppressWarnings("unused")
 public interface Loggable {
 
     Logger getLogger();

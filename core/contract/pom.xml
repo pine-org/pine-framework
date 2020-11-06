@@ -14,7 +14,18 @@
     <version>${contratc.version}</version>
     <packaging>jar</packaging>
     <name>Contract</name>
-
+    <description>
+        It only include interfaces.
+    </description>
+    <developers>
+        <developer>
+            <name>Saman Alishirishahrbabak</name>
+            <email>samanalishiri@gmail.com</email>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
     <dependencies>
         <dependency>
             <groupId>com.pineframework.core.datamodel</groupId>
@@ -27,5 +38,4 @@
             <version>${helper.version}</version>
         </dependency>
     </dependencies>
-
 </project>

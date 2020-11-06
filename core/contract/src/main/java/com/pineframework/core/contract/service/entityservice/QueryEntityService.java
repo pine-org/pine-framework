@@ -14,17 +14,23 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static java.lang.Math.ceil;
-import static java.util.Optional.ofNullable;
 
 /**
+ * Business logic layer to support read only operation flat data structure.
+ *
+ * @param <I> identity
+ * @param <E> persistable type
+ * @param <M> transient type
+ * @param <B> transient builder
+ * @param <T> transformer
+ * @param <R> repository
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-
 public interface QueryEntityService<I extends Serializable,
         E extends FlatPersistence<I>,
         M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>,
-        T extends ImmutableFlatTransformer<I, M, E, B>,
+        T extends ImmutableFlatTransformer<I, E, M, B>,
         R extends QueryRepository<I, E>>
         extends EntityService<I, E, M, B, T, R>, QueryService<I, M> {
 
@@ -33,12 +39,13 @@ public interface QueryEntityService<I extends Serializable,
         return CollectionUtils.ofNullable(getTransformer().transform(getRepository().findAll()));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     default Optional<Page> findByPage(Page page) {
         Long count = getRepository().count(page.getFilters());
 
         if (count == 0)
-            return ofNullable(page);
+            return Optional.of(page);
 
         int totalPage = (int) ceil((count.doubleValue() / page.getSize()));
         page.setIndices(IntStream.rangeClosed(0, totalPage - 1).toArray());
@@ -47,14 +54,16 @@ public interface QueryEntityService<I extends Serializable,
         page.setOffset(offset);
 
         page.setContent(getTransformer().transform(getRepository().find(page)));
-        return ofNullable(page);
+        return Optional.of(page);
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     default long count(Filter... filters) {
         return getRepository().count(filters);
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     default M[] findByFilter(Filter... filters) {
         return getTransformer().transform((E[]) getRepository().find(filters));
@@ -62,7 +71,7 @@ public interface QueryEntityService<I extends Serializable,
 
     @Override
     default Optional<M> findByModel(M m) {
-        E e = getRepository().findOne(getTransformer().transform(m).toFilter()).get();
-        return ofNullable(getTransformer().transform(e));
+        return getRepository().findOne(getTransformer().transform(m).toFilter())
+                .map(e -> getTransformer().transform(e));
     }
 }

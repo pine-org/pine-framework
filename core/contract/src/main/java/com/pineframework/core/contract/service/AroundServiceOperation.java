@@ -5,6 +5,15 @@ import com.pineframework.core.datamodel.persistence.FlatPersistence;
 
 import java.io.Serializable;
 
+/**
+ * Provide functions to execute after and before the CRUD functions of business logic service.
+ *
+ * @param <I> identity
+ * @param <E> persistable type
+ * @param <M> transient type
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
+
 public interface AroundServiceOperation<I extends Serializable,
         E extends FlatPersistence<I>,
         M extends FlatTransient<I>> {

@@ -10,6 +10,7 @@ import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 import static com.pineframework.core.datamodel.utils.ObjectsUtils.areEquivalence;
@@ -18,13 +19,21 @@ import static com.pineframework.core.helper.CollectionUtils.mapTo;
 import static com.pineframework.core.helper.CollectionUtils.subtract;
 
 /**
+ * Business logic layer to support batch operation on flat data structure.
+ *
+ * @param <I> identity
+ * @param <E> persistable type
+ * @param <M> transient type
+ * @param <B> transient object builder
+ * @param <T> transformer
+ * @param <R> data access object (DAO/Repository)
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 public interface BatchEntityService<I extends Serializable,
         E extends FlatPersistence<I>,
         M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>,
-        T extends ImmutableFlatTransformer<I, M, E, B>,
+        T extends ImmutableFlatTransformer<I, E, M, B>,
         R extends CrudRepository<I, E> & QueryRepository<I, E> & BatchRepository<I, E>>
         extends EntityService<I, E, M, B, T, R>, AroundServiceOperation<I, E, M>, BatchService<I, M> {
 
@@ -49,13 +58,13 @@ public interface BatchEntityService<I extends Serializable,
     }
 
     default void beforeBatchDelete(M[] models) {
-        for (int i = 0; i < models.length; i++)
-            beforeDelete(models[i]);
+        Arrays.stream(models)
+                .forEach(this::beforeDelete);
     }
 
     default void afterBatchDelete(M[] models) {
-        for (int i = 0; i < models.length; i++)
-            afterDelete(models[i]);
+        Arrays.stream(models)
+                .forEach(this::afterDelete);
     }
 
     default void beforeBatchOperations(E[] entities, M[] models) {
@@ -64,6 +73,7 @@ public interface BatchEntityService<I extends Serializable,
     default void afterBatchOperations(E[] entities, M[] models) {
     }
 
+    @SuppressWarnings("Convert2MethodRef")
     @Override
     default I[] batchSave(M[] models) {
         E[] entities = getTransformer().transform(models);
@@ -75,12 +85,13 @@ public interface BatchEntityService<I extends Serializable,
         return mapTo(entities, e -> e.getId(), Long.class);
     }
 
+    @SuppressWarnings("Convert2MethodRef")
     @Override
     default void batchUpdate(M[] models) {
         E[] entities = getRepository().find((I[]) mapTo(models, m -> m.getId(), Long.class));
         M[] theLast = getTransformer().transform(entities);
         beforeBatchUpdate(entities, models);
-        batch(models, m -> getTransformer().transform(m, getRepository().findById(m.getId()).get()));
+        batch(models, m -> getRepository().findById(m.getId()).ifPresent(e -> getTransformer().transform(m, e)));
         afterBatchUpdate(entities, theLast);
     }
 
@@ -93,6 +104,7 @@ public interface BatchEntityService<I extends Serializable,
         afterBatchDelete(models);
     }
 
+    @SuppressWarnings("Convert2MethodRef")
     @Override
     default I[] batchOperations(M[] models, I[] identities) {
         E[] entities = getRepository().find(identities);
@@ -109,8 +121,9 @@ public interface BatchEntityService<I extends Serializable,
 
     @Override
     default void batch(M[] models, Consumer<M> operation) {
+        int batchSize = getRepository().getImpl().getBatchSize();
         for (int i = 0; i < models.length; i++) {
-            if (i > 0 && i % getRepository().getImpl().getBatchSize() == 0) {
+            if (i > 0 && i % batchSize == 0) {
                 getRepository().flush();
                 getRepository().clear();
             }

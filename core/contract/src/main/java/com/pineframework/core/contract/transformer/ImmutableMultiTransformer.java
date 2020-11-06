@@ -1,21 +1,14 @@
 package com.pineframework.core.contract.transformer;
 
-import com.pineframework.core.helper.ObjectRegistry;
+import com.pineframework.core.contract.service.MultiType;
 
-public interface ImmutableMultiTransformer {
+/**
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
+public interface ImmutableMultiTransformer extends MultiType {
 
-    /**
-     * When there are multi transformer for a specific type, it must be add them to a map.
-     *
-     * @return collections of transformer as a map
-     */
-    void initTransformerRegistry();
-
-    ObjectRegistry getTransformerRegistry();
-
-    <T extends ImmutableFlatTransformer> T getTransformer();
-
+    @SuppressWarnings({"rawtypes", "unchecked"})
     default <T extends ImmutableFlatTransformer> T getTransformer(String name) {
-        return (T) getTransformerRegistry().lookup(name);
+        return (T) getTypes().lookup(name);
     }
 }

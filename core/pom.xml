@@ -213,7 +213,6 @@
             <properties>
                 <env>test</env>
                 <build.profile.id>test</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
         <profile>

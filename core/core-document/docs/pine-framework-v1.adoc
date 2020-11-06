@@ -10,7 +10,7 @@ The framework comprised three main part as follows:
 
 ====
 .Pine Framework components
-image::/images/pine-components.png[200,300,align="center"]
+image::/images/PineComponents.png[200,300,align="center"]
 ====
 
 == 1. Core Component
@@ -28,14 +28,19 @@ Core components are as follows:
 * Core Business
 * Core Test
 * I18n
-* Properties
 * Core Document
 
 ====
 .Core components
-image::/images/core-components.png[align="center"]
+image::/images/CoreComponents.png[align="center"]
 ====
 
+The Core component can support four environments, and they are as follows:
+
+* Development
+* Test
+* UAT
+* Production
 
 
 

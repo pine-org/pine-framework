@@ -15,10 +15,10 @@ import static java.util.Objects.nonNull;
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 public abstract class AbstractImmutableTreeTransformer<I extends Serializable,
-        M extends TreeTransient<I, M>,
         E extends TreePersistence<I, E>,
+        M extends TreeTransient<I, M>,
         B extends TreeTransient.Builder<I, M, B>>
-        extends AbstractImmutableFlatTransformer<I, M, E, B> implements ImmutableTreeTransformer<I, M, E, B> {
+        extends AbstractImmutableFlatTransformer<I, E, M, B> implements ImmutableTreeTransformer<I, E, M, B> {
 
     @Override
     public abstract B getModelBuilder(E e);
@@ -53,7 +53,7 @@ public abstract class AbstractImmutableTreeTransformer<I extends Serializable,
         if (nonNull(e.getParent()))
             parent = transform(e.getParent(), deep--, fields);
         if (deep == EXIT)
-            parent = (M) getModelBuilder(e).id(e.getId()).version(e.getVersion()).build();
+            parent = getModelBuilder(e).id(e.getId()).version(e.getVersion()).build();
 
         builder.parent(parent);
     }
@@ -63,7 +63,7 @@ public abstract class AbstractImmutableTreeTransformer<I extends Serializable,
         if (isNull(e) || (level == EXIT))
             return null;
 
-        return (M) getModelBuilder(e)
+        return getModelBuilder(e)
                 .children(mapTo(e.getChildren(), entity -> hierarchyTransform(entity, level - 1, deep, fields)))
                 .from(transform(e, deep, fields))
                 .build();

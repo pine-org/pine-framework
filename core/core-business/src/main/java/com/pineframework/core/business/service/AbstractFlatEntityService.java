@@ -19,7 +19,7 @@ public abstract class AbstractFlatEntityService<I extends Serializable,
         E extends FlatPersistence<I>,
         M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>,
-        T extends ImmutableFlatTransformer<I, M, E, B>,
+        T extends ImmutableFlatTransformer<I, E, M, B>,
         R extends CrudRepository<I, E> & QueryRepository<I, E> & BatchRepository<I, E>>
         implements CrudEntityService<I, E, M, B, T, R>, QueryEntityService<I, E, M, B, T, R>,
         BatchEntityService<I, E, M, B, T, R> {

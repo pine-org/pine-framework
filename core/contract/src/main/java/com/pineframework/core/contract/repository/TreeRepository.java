@@ -13,6 +13,8 @@ import static com.pineframework.core.helper.CollectionUtils.createArray;
 /**
  * Data access layer to support tree data structure.
  *
+ * @param <I> identity
+ * @param <E> persistable type
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 public interface TreeRepository<I extends Serializable, E extends TreePersistence<I, E>> extends FlatRepository<I, E> {

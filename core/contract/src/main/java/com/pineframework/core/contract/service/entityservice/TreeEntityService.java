@@ -21,11 +21,22 @@ import static io.vavr.Patterns.$None;
 import static io.vavr.Patterns.$Some;
 import static java.util.Objects.nonNull;
 
+/**
+ * Business logic layer to support operation on tree data structure.
+ *
+ * @param <I> identity
+ * @param <E> persistable type
+ * @param <M> transient type
+ * @param <B> transient builder
+ * @param <T> transformer
+ * @param <R> repository
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 public interface TreeEntityService<I extends Serializable,
         E extends TreePersistence<I, E>,
         M extends TreeTransient<I, M>,
         B extends TreeTransient.Builder<I, M, B>,
-        T extends ImmutableTreeTransformer<I, M, E, B>,
+        T extends ImmutableTreeTransformer<I, E, M, B>,
         R extends TreeRepository<I, E>>
         extends BusinessService<I, E, M, B, T, R>, AroundServiceOperation<I, E, M>, TreeService<I, M> {
 
@@ -39,22 +50,23 @@ public interface TreeEntityService<I extends Serializable,
     @Override
     default void afterUpdate(E e, M theLast) {
         updatePath(e);
-        updateChildrenPath(e);
+        updatePathHierarchy(e);
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     default void updatePath(E e) {
         if (nonNull(e.getParent())) {
-            E parent = getRepository().findTree(e.getParent().getId()).get();
-            Match(Option.of(parent)).of(
-                    Case($None(), run(() -> e.setPath("0"))),
-                    Case($Some($()), run(() -> getPathGenerator().updatePath(e, parent.getPath()))));
+            E root = getRepository().findTree(e.getParent().getId()).get();
+            Match(Option.of(root)).of(
+                    Case($None(), o -> run(() -> e.setPath("0"))),
+                    Case($Some($()), o -> run(() -> getPathGenerator().updatePath(e, root.getPath()))));
         }
     }
 
-    default void updateChildrenPath(E e) {
+    default void updatePathHierarchy(E e) {
         e.getChildren().forEach(item -> {
             updatePath(item);
-            updateChildrenPath(item);
+            updatePathHierarchy(item);
         });
     }
 
@@ -75,7 +87,7 @@ public interface TreeEntityService<I extends Serializable,
 
     @Override
     default Optional<M> findTree(I id) {
-        E e = getRepository().findTree(id).orElseGet(() -> createEmptyPersistenceObject());
+        E e = getRepository().findTree(id).orElseGet(this::createEmptyPersistenceObject);
         return Optional.ofNullable(getTransformer().hierarchyTransform(e));
     }
 
