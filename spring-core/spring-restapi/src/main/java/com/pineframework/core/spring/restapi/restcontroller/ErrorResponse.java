@@ -1,6 +1,6 @@
 package com.pineframework.core.spring.restapi.restcontroller;
 
-import com.pineframework.core.business.exception.AbstractException;
+import com.pineframework.core.datamodel.exception.AbstractException;
 import org.springframework.http.HttpStatus;
 
 public class ErrorResponse {

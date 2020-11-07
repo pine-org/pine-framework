@@ -9,7 +9,7 @@ package com.pineframework.core.datamodel.exception;
 public final class NotFoundEquivalentEnum extends AbstractException {
 
     public NotFoundEquivalentEnum(Object... args) {
-        super("error.business.enum.notFind", 2, args);
+        super("error.business.enum.notFound", 2, args);
     }
 
 }

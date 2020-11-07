@@ -53,8 +53,8 @@ public abstract class AbstractEntityServiceTest<I extends Serializable, T extend
     }
 
     @Override
-    public T update(T data) {
-        getOperator().update(data);
+    public T update(I id, T data) {
+        getOperator().update(id, data);
         logInfo(format("update model[%s] successful", getDataKey((I) data.getId())));
         return (T) getOperator().findById(data.getId()).get();
     }

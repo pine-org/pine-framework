@@ -24,13 +24,27 @@ class GoodsModelTest extends AbstractTest {
     @Test
     @DisplayName("deserialize the string of data to Table model")
     void deserializeStringToModel() throws JsonProcessingException {
-        String json = "{\"name\":\"Table\",\"code\":\"001\",\"price\":\"3.25\"}";
+        String json = "{\n" +
+                "    \"id\": 1,\n" +
+                "    \"insertDate\": \"2020-11-07T16:13:41.918\",\n" +
+                "    \"insertUserId\": 1,\n" +
+                "    \"insertUnitId\": 1,\n" +
+                "    \"modifyDate\": \"2020-11-07T16:15:12.015\",\n" +
+                "    \"modifyUserId\": 1,\n" +
+                "    \"modifyUnitId\": 1,\n" +
+                "    \"version\": 1,\n" +
+                "    \"name\": \"Table\",\n" +
+                "    \"code\": \"001\",\n" +
+                "    \"price\": 85.85,\n" +
+                "    \"description\": null,\n" +
+                "    \"photo\": null\n" +
+                "}";
         GoodsModel model = mapper.readValue(json, GoodsModel.class);
 
         Assert.assertNotNull(model);
         Assert.assertEquals("Table", model.getName());
         Assert.assertEquals("001", model.getCode());
-        Assert.assertEquals(BigDecimal.valueOf(325L, 2), model.getPrice());
+        Assert.assertEquals(BigDecimal.valueOf(8585L, 2), model.getPrice());
         logInfo(model);
     }
 }

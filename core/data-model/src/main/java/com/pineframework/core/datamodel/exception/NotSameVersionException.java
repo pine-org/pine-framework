@@ -10,7 +10,7 @@ package com.pineframework.core.datamodel.exception;
 public final class NotSameVersionException extends AbstractException {
 
     public NotSameVersionException(Object... args) {
-        super("error.business.data.version", 1, args);
+        super("error.business.data.version", 3, args);
     }
 
 }

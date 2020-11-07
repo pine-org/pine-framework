@@ -1,7 +1,7 @@
 package com.pineframework.core.spring.restapi.restcontroller;
 
-import com.pineframework.core.business.exception.ValidationException;
 import com.pineframework.core.contract.service.CrudService;
+import com.pineframework.core.datamodel.exception.ValidationException;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.validation.CreateValidationGroup;
 import com.pineframework.core.datamodel.validation.UpdateValidationGroup;
@@ -29,7 +29,6 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.HttpStatus.OK;
-
 
 /**
  * expose CRUD restful web services
@@ -140,9 +139,11 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "${restfulApi.update.response.204}"),
             @ApiResponse(responseCode = "422", description = "${restfulApi.update.response.422}")})
-    @PutMapping
+    @PutMapping("/{id}")
     @ResponseStatus(value = NO_CONTENT, code = NO_CONTENT)
     default ResponseEntity update(
+            @Parameter(name = "ID", description = "${restfulApi.findById.param}", required = true)
+            @PathVariable("id") I id,
             @Parameter(name = "Model", description = "${restfulApi.update.param}", required = true)
             @Validated(UpdateValidationGroup.class)
             @RequestBody M model,
@@ -150,9 +151,9 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
 
         checkErrors(errors);
 
-        beforeUpdate(model);
-        updateBody(model);
-        afterUpdate(model);
+        beforeUpdate(id, model);
+        updateBody(id, model);
+        afterUpdate(id, model);
         return ResponseEntity.noContent().build();
     }
 
@@ -160,28 +161,31 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
      * execute before update operation.
      * overridable.
      *
+     * @param id
      * @param model
      */
-    default void beforeUpdate(M model) {
+    default void beforeUpdate(I id, M model) {
     }
 
     /**
      * update operation.
      * overridable.
      *
+     * @param id
      * @param model
      */
-    default void updateBody(M model) {
-        getService().update(model);
+    default void updateBody(I id, M model) {
+        getService().update(id, model);
     }
 
     /**
      * execute before update operation.
      * overridable
      *
+     * @param id
      * @param model
      */
-    default void afterUpdate(M model) {
+    default void afterUpdate(I id, M model) {
     }
 
     /**

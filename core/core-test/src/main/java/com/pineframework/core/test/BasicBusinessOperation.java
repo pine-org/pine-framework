@@ -8,7 +8,7 @@ public interface BasicBusinessOperation<I, T, E> {
 
     T findById(I id);
 
-    T update(T data);
+    T update(I id, T data);
 
     void deleteById(I id);
 }

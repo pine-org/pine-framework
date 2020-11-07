@@ -53,26 +53,28 @@ public interface CrudEntityService<I extends Serializable,
 
     @Override
     default Optional<M> findById(I id) {
-        return getRepository().findById(id)
-                .map(e -> getTransformer().transform(e));
+        Optional<E> entity = getRepository().findById(id);
+        if (entity.isPresent())
+            return entity.map(e -> getTransformer().transform(e));
+
+        throw new NotFoundDataException(id);
     }
 
     @Override
-    default void update(M m) {
-        getRepository().findById(m.getId()).ifPresent(e -> {
-            Match(m.getVersion()).of(
-                    Case($(e.getVersion()), o -> run(() -> {
-                        M theLast = getTransformer().transform(e);
-                        beforeUpdate(e, m);
-                        getTransformer().transform(m, e);
-                        getRepository().flush();
-                        afterUpdate(e, theLast);
-                    })),
-                    Case($(), o -> {
-                        throw new NotSameVersionException();
-                    })
-            );
-        });
+    default void update(I id, M m) {
+        getRepository().findById(m.getId()).ifPresent(e ->
+                Match(m.getVersion()).of(
+                        Case($(e.getVersion()), o -> run(() -> {
+                            M theLast = getTransformer().transform(e);
+                            beforeUpdate(e, m);
+                            getTransformer().transform(m, e);
+                            getRepository().flush();
+                            afterUpdate(e, theLast);
+                        })),
+                        Case($(), o -> {
+                            throw new NotSameVersionException();
+                        })
+                ));
     }
 
     @SuppressWarnings("unchecked")

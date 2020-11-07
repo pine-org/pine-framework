@@ -32,7 +32,7 @@ public interface CrudService<I, M> {
      *
      * @param m transient object
      */
-    void update(M m);
+    void update(I id, M m);
 
     /**
      * Delete one by identity.

@@ -1,9 +1,10 @@
 package com.pineframework.core.spring.restapi.restcontroller;
 
-import com.pineframework.core.business.exception.CoreException;
-import com.pineframework.core.business.exception.ExceptionArray;
-import com.pineframework.core.business.exception.NotFoundEquivalentEnum;
-import com.pineframework.core.business.exception.NotSameVersionException;
+import com.pineframework.core.datamodel.exception.CoreException;
+import com.pineframework.core.datamodel.exception.ExceptionArray;
+import com.pineframework.core.datamodel.exception.NotFoundDataException;
+import com.pineframework.core.datamodel.exception.NotFoundEquivalentEnum;
+import com.pineframework.core.datamodel.exception.NotSameVersionException;
 import com.pineframework.core.helper.LogUtils;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,6 +54,17 @@ public final class ExceptionProvider extends AbstractExceptionProvider {
      */
     @ExceptionHandler(NotFoundEquivalentEnum.class)
     public ResponseEntity<ErrorResponse[]> notFoundEquivalentEnum(NotFoundEquivalentEnum e) {
+        return response(error(e));
+    }
+
+    /**
+     * when throw NotFoundEquivalentEnum
+     *
+     * @param e exception
+     * @return the error {@code ErrorResponse}
+     */
+    @ExceptionHandler(NotFoundDataException.class)
+    public ResponseEntity<ErrorResponse[]> notFoundData(NotFoundDataException e) {
         return response(error(e));
     }
 

@@ -1,6 +1,6 @@
 package com.pineframework.core.business.helper;
 
-import com.pineframework.core.business.exception.RequiredException;
+import com.pineframework.core.datamodel.exception.RequiredException;
 
 import static java.util.Objects.isNull;
 

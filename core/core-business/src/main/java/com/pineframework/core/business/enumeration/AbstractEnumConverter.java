@@ -1,7 +1,7 @@
 package com.pineframework.core.business.enumeration;
 
-import com.pineframework.core.business.exception.NotFoundEquivalentEnum;
 import com.pineframework.core.contract.enumeration.Convertible;
+import com.pineframework.core.datamodel.exception.NotFoundEquivalentEnum;
 import com.pineframework.core.helper.GenericUtils;
 
 import javax.persistence.AttributeConverter;
@@ -19,7 +19,7 @@ import java.util.Objects;
 
 public abstract class AbstractEnumConverter<T, E extends Enum<E> & Convertible<T>> implements AttributeConverter<E, T> {
 
-    private Class<E> enumClassType;
+    private final Class<E> enumClassType;
 
     public AbstractEnumConverter() {
         enumClassType = (Class<E>) GenericUtils.extract(this.getClass(), 1);

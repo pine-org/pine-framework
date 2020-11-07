@@ -1,7 +1,7 @@
 package com.pineframework.core.spring.restapi.helper;
 
-import com.pineframework.core.business.exception.AbstractException;
-import com.pineframework.core.business.exception.CoreException;
+import com.pineframework.core.datamodel.exception.AbstractException;
+import com.pineframework.core.datamodel.exception.CoreException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
@@ -28,8 +28,8 @@ public final class I18nHelper {
     /**
      * Get equivalent of message in default locale
      *
-     * @param code
-     * @param args
+     * @param code exception code
+     * @param args exception args
      * @return string
      */
     public String getMessage(String code, Object... args) {

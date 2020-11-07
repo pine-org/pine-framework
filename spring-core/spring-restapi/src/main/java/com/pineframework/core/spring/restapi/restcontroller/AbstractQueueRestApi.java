@@ -1,7 +1,7 @@
 package com.pineframework.core.spring.restapi.restcontroller;
 
-import com.pineframework.core.business.exception.ValidationException;
 import com.pineframework.core.contract.service.queue.QueueService;
+import com.pineframework.core.datamodel.exception.ValidationException;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.validation.CreateValidationGroup;
 import com.pineframework.core.spring.restapi.helper.ErrorUtils;

@@ -1,6 +1,6 @@
 package com.pineframework.core.spring.restapi.restcontroller;
 
-import com.pineframework.core.business.exception.AbstractException;
+import com.pineframework.core.datamodel.exception.AbstractException;
 import com.pineframework.core.spring.restapi.helper.I18nHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public abstract class AbstractExceptionProvider {
     /**
      * convert {@code AbstractExceptions} derived classes to {@code ErrorResponse} in order to present to the client
      *
-     * @param exceptions
+     * @param exceptions exception(s)
      * @return error array
      */
     public ErrorResponse[] error(AbstractException... exceptions) {
@@ -38,7 +38,7 @@ public abstract class AbstractExceptionProvider {
     /**
      * create a JSON response from the errors to expose over the HTTP
      *
-     * @param errors
+     * @param errors error(s)
      * @return unit of the errors
      */
     public ResponseEntity<ErrorResponse[]> response(ErrorResponse... errors) {

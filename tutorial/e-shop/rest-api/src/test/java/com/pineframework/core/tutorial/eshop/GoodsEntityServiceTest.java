@@ -92,7 +92,7 @@ public class GoodsEntityServiceTest extends AbstractEntityServiceTest<Long, Good
         GoodsModel updateTestModel = new GoodsModel.Builder(testModel.getName() + "_updated", testModel.getCode())
                 .from(testModel).build();
 
-        GoodsModel model = update(updateTestModel);
+        GoodsModel model = update(id, updateTestModel);
         assertNotNull(model);
         assertEquals(testModel.getName() + "_updated", model.getName());
         assertTrue(model.getVersion() == version + 1);

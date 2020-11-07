@@ -70,6 +70,9 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
     /**
      * @return insert date
      */
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     public LocalDateTime getInsertDate() {
         return insertDate;
     }
@@ -91,6 +94,9 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
     /**
      * @return date
      */
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     public LocalDateTime getModifyDate() {
         return modifyDate;
     }
@@ -154,6 +160,9 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
 
         protected Long insertUnitId;
 
+        @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+        @JsonSerialize(using = LocalDateTimeSerializer.class)
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
         protected LocalDateTime modifyDate;
 
         protected Long modifyUserId;

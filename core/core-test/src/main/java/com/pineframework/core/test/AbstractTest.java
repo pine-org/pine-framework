@@ -38,6 +38,10 @@ public abstract class AbstractTest<T> {
         return storage.get(name);
     }
 
+    protected final T deleteFromStorage(String name) {
+        return storage.remove(name);
+    }
+
     protected void logInfo(Object o) {
         logger.info(format("LOG [INFO]: %s", o));
     }

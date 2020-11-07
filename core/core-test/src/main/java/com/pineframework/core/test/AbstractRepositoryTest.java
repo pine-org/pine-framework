@@ -53,7 +53,7 @@ public abstract class AbstractRepositoryTest<I extends Serializable, T extends F
     }
 
     @Override
-    public T update(T data) {
+    public T update(I id, T data) {
         throw new NotSupportedException();
     }
 

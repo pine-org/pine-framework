@@ -1,7 +1,7 @@
 package com.pineframework.core.spring.restapi.helper;
 
-import com.pineframework.core.business.exception.ExceptionArray;
-import com.pineframework.core.business.exception.ValidationException;
+import com.pineframework.core.datamodel.exception.ExceptionArray;
+import com.pineframework.core.datamodel.exception.ValidationException;
 import org.springframework.validation.Errors;
 
 public class ErrorUtils {
