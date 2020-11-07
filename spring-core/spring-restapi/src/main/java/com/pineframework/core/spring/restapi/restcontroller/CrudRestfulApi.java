@@ -15,9 +15,9 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -60,7 +60,7 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
             @ApiResponse(responseCode = "422", description = "${restfulApi.save.response.422}")})
     @PostMapping
     @ResponseStatus(value = CREATED, code = CREATED)
-    default ResponseEntity<EntityModel<I>> save(
+    default ResponseEntity save(
             @Parameter(name = "Model", description = "${restfulApi.save.param}", required = true)
             @Validated(CreateValidationGroup.class)
             @RequestBody M model,
@@ -71,10 +71,7 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
         Optional<I> result = saveBody(model);
         afterSave(model);
 
-        return result
-                .map(id -> new EntityModel<>(id, linkTo(getClass()).slash(id).withSelfRel()))
-                .map(m -> ResponseEntity.status(CREATED).body(m))
-                .get();
+        return result.map(id -> ResponseEntity.created(linkTo(getClass()).slash(id).toUri()).build()).get();
     }
 
     /**
@@ -139,11 +136,11 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
      */
     @Operation(summary = "${restfulApi.update.summary}",
             description = "${restfulApi.update.description}",
-            method = "PATCH")
+            method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "${restfulApi.update.response.204}"),
             @ApiResponse(responseCode = "422", description = "${restfulApi.update.response.422}")})
-    @PatchMapping
+    @PutMapping
     @ResponseStatus(value = NO_CONTENT, code = NO_CONTENT)
     default ResponseEntity update(
             @Parameter(name = "Model", description = "${restfulApi.update.param}", required = true)

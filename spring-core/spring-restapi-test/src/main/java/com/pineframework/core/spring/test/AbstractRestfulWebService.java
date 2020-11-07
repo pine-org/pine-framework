@@ -8,11 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.net.URI;
 import java.util.Map;
 
 import static com.pineframework.core.spring.test.TestRestUtils.createJsonBody;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public abstract class AbstractRestfulWebService<I, T> extends AbstractTest<T> {
 
@@ -37,12 +42,19 @@ public abstract class AbstractRestfulWebService<I, T> extends AbstractTest<T> {
         modelType = (Class<T>) GenericUtils.extract(getClass(), 1);
     }
 
-    protected ResponseEntity<String> post(T m, String relativeUri) {
-        return restTemplate.postForEntity(makeUri(relativeUri), createJsonBody(m), String.class);
+    protected URI post(T m, String relativeUri) {
+        ResponseEntity<String> response = restTemplate.postForEntity(makeUri(relativeUri), createJsonBody(m), String.class);
+        assertNotNull(response);
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(response.getHeaders().getLocation());
+        assertNull(response.getBody());
+        return response.getHeaders().getLocation();
     }
 
     protected T getById(I id, String relativeUri) {
         ResponseEntity<String> response = restTemplate.getForEntity(makeUri(relativeUri) + "/{id}", String.class, id);
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         return Try.of(() -> objectMapper.readValue(response.getBody(), modelType)).get();
     }
 

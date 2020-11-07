@@ -1,6 +1,5 @@
 package com.pineframework.core.tutorial.eshop;
 
-import com.pineframework.core.helper.JsonUtils;
 import com.pineframework.core.spring.test.AbstractRestfulWebService;
 import com.pineframework.core.tutorial.eshop.model.GoodsModel;
 import org.junit.jupiter.api.DisplayName;
@@ -10,16 +9,18 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.math.BigDecimal;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.lang.String.format;
+import static org.apache.commons.lang3.StringUtils.isNumeric;
+import static org.apache.commons.lang3.StringUtils.substringAfterLast;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -30,7 +31,7 @@ public class GoodsRestApiTest extends AbstractRestfulWebService<Long, GoodsModel
 
     public static final String API_V1_GOODS = "/api/v1/goods";
 
-    public static final Map<String, GoodsModel> STORAGE = new HashMap();
+    public static final Map<String, GoodsModel> STORAGE = new HashMap<>();
 
     public GoodsRestApiTest() {
         super(STORAGE);
@@ -47,28 +48,28 @@ public class GoodsRestApiTest extends AbstractRestfulWebService<Long, GoodsModel
     }
 
     @ParameterizedTest
-    @DisplayName("Save goods {table, desk, chair} via Restful web service (POST)")
+    @DisplayName("GIVEN a Goods as a JSON model WHEN post the model THEN response empty and header has location")
     @ValueSource(strings = {"table", "desk", "chair"})
     @Order(1)
-    void save_SendGoodsDataAsJsonObjectAndSaveInDatabase_ReturnId(String name) {
+    void post_GivenGoodsJsonModel_WhenPostTheModel_ThenResponseIsEmptyAndHeaderHasLocation(String name) {
         GoodsModel model = getFromStorage(name);
-        ResponseEntity<String> response = post(model, API_V1_GOODS);
-        assertNotNull(response);
-        assertNotNull(response.getBody());
+        URI location = post(model, API_V1_GOODS);
+        String identity = substringAfterLast(location.getPath(), "/");
+        assertNotNull(identity);
+        assertTrue(isNumeric(identity));
 
-        Long id = Long.valueOf(JsonUtils.readPrimitiveObject(response.getBody(), "content", Long.class));
-        assertNotNull(id);
-        GoodsModel savedModel = new GoodsModel.Builder(model.getName(), model.getCode()).from(model).id(id).build();
-        updateStorage(name, savedModel);
-
-        logInfo(format("%s : %s", name, response.getBody()));
+        GoodsModel goods = new GoodsModel.Builder(model.getName(), model.getCode())
+                .from(model)
+                .id(Long.valueOf(identity))
+                .build();
+        updateStorage(name, goods);
     }
 
     @ParameterizedTest
-    @DisplayName("Get goods {table, desk, chair} via Restful web service (GET)")
+    @DisplayName("GIVEN identity WHEN get the object THEN response is a Goods")
     @ValueSource(strings = {"table", "desk", "chair"})
     @Order(2)
-    void findById_SendGoodsIdAsPathVariable_ReturnTheGoods(String name) {
+    void findById_GIVENIdentityWHENGetTheObjectTHENResponseIsGoods(String name) {
         GoodsModel testModel = getFromStorage(name);
         Long id = testModel.getId();
         assertNotNull(id);
