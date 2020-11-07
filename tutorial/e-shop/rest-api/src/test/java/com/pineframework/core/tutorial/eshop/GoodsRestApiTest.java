@@ -75,7 +75,6 @@ public class GoodsRestApiTest extends AbstractRestfulWebService<Long, GoodsModel
         assertNotNull(id);
 
         GoodsModel model = getById(id, API_V1_GOODS);
-
         assertEquals(testModel.getId(), model.getId());
         assertEquals(testModel.getName(), model.getName());
         assertEquals(testModel.getCode(), model.getCode());
