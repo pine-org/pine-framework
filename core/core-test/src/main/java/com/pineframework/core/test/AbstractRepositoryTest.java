@@ -2,6 +2,7 @@ package com.pineframework.core.test;
 
 import com.pineframework.core.contract.repository.flat.CrudRepository;
 import com.pineframework.core.contract.repository.flat.QueryRepository;
+import com.pineframework.core.datamodel.exception.NotFoundDataException;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -16,6 +17,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * @param <I> identity
+ * @param <E> persistable type
+ * @param <T> transformer
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
+@SuppressWarnings(value = {"unchecked", "rawtypes"})
 public abstract class AbstractRepositoryTest<I extends Serializable, T extends FlatPersistence,
         E extends CrudRepository & QueryRepository> extends AbstractTest<T> implements BasicBusinessOperation<I, T, E> {
 
@@ -68,6 +76,9 @@ public abstract class AbstractRepositoryTest<I extends Serializable, T extends F
     public String getDataKey(I id) {
         return storage.entrySet().stream()
                 .filter(entry -> Objects.equals(entry.getValue().getId(), id))
-                .findFirst().get().getKey();
+                .findFirst().orElseThrow(() -> {
+                    throw new NotFoundDataException();
+                })
+                .getKey();
     }
 }

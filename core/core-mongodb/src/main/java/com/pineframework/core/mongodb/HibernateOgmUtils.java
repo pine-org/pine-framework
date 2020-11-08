@@ -5,7 +5,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.transaction.TransactionManager;
 
 import static javax.persistence.Persistence.createEntityManagerFactory;
-
+/**
+ * Create entity manage factory.
+ *
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 public class HibernateOgmUtils {
 
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY;

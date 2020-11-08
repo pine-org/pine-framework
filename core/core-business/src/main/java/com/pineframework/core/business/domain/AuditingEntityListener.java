@@ -7,16 +7,17 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
 /**
- * insert and update audit info
+ * Initial audit info during insert and update operation.
  *
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
+@SuppressWarnings("rawtypes")
 public class AuditingEntityListener {
 
     /**
      * before insert records
      *
-     * @param target
+     * @param target persistable object
      */
     @PrePersist
     public void touchForCreate(Object target) {
@@ -29,7 +30,7 @@ public class AuditingEntityListener {
     /**
      * before update records
      *
-     * @param target
+     * @param target persistable object
      */
     @PreUpdate
     public void touchForUpdate(Object target) {

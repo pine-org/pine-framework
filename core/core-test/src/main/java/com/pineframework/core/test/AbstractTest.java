@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.lang.String.format;
-
+/**
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 public abstract class AbstractTest<T> {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());

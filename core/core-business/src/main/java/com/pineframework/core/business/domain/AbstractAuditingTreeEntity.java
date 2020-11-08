@@ -18,17 +18,18 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * all tree structure must use {@code AbstractTreePersistence}
+ * All tree structure must use {@code AbstractTreePersistence}
  *
  * @param <I> id
  * @param <E> entity
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
+@SuppressWarnings("rawtypes")
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @Access(AccessType.FIELD)
-public abstract class AbstractAuditingTreeEntity
-        <I extends Serializable, E extends TreePersistence> extends TreePersistence<I, E> {
+public abstract class AbstractAuditingTreeEntity<I extends Serializable, E extends TreePersistence>
+        extends TreePersistence<I, E> {
 
     @JoinColumn(name = "PARENT_ID", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY)

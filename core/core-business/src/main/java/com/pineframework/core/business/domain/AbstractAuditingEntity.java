@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * all flat structure must be extended {@code AbstractPersistence}
+ * All flat structure must be extended {@code AbstractPersistence}
  *
  * @param <I> id
  * @author Saman Alishiri, samanalishiri@gmail.com

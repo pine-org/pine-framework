@@ -1,5 +1,13 @@
 package com.pineframework.core.test;
 
+/**
+ * Provide CRUD contraction.
+ *
+ * @param <I> identity
+ * @param <E> persistable type
+ * @param <T> transformer
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 public interface BasicBusinessOperation<I, T, E> {
 
     E getOperator();

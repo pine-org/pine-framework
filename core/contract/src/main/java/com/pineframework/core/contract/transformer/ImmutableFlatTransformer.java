@@ -6,6 +6,15 @@ import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Transformer for transient object to persistable object and vice versa.
+ *
+ * @param <I> identity
+ * @param <E> persistable type
+ * @param <M> transient type
+ * @param <B> transient object builder
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 public interface ImmutableFlatTransformer<I extends Serializable,
         E extends FlatPersistence<I>,
         M extends FlatTransient<I>,

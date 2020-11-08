@@ -8,9 +8,9 @@ import org.hibernate.envers.RevisionListener;
 public class AuditRevisionListener implements RevisionListener {
 
     /**
-     * set username before insert history log to audit tables
+     * Set username before insert history log to audit tables
      *
-     * @param revisionEntity
+     * @param revisionEntity revision log
      */
     @Override
     public void newRevision(Object revisionEntity) {

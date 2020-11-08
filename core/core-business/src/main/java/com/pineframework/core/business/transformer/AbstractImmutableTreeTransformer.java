@@ -12,6 +12,10 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 /**
+ * @param <I> identity
+ * @param <E> persistable type
+ * @param <M> transient type
+ * @param <B> transient object builder
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 public abstract class AbstractImmutableTreeTransformer<I extends Serializable,

@@ -12,6 +12,15 @@ import com.pineframework.core.datamodel.persistence.TreePersistence;
 
 import java.io.Serializable;
 
+/**
+ * @param <I> identity
+ * @param <E> persistable type
+ * @param <M> transient type
+ * @param <B> transient object builder
+ * @param <T> transformer
+ * @param <R> data access object (DAO/Repository)
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 public abstract class AbstractTreeEntityService<I extends Serializable,
         E extends TreePersistence<I, E>,
         M extends TreeTransient<I, M>,

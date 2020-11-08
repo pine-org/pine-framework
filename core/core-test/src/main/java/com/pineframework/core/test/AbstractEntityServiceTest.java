@@ -2,6 +2,7 @@ package com.pineframework.core.test;
 
 import com.pineframework.core.contract.service.QueryService;
 import com.pineframework.core.contract.service.entityservice.CrudEntityService;
+import com.pineframework.core.datamodel.exception.NotFoundDataException;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -15,6 +16,13 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * @param <I> identity
+ * @param <E> persistable type
+ * @param <T> transformer
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
+@SuppressWarnings(value = {"unchecked", "rawtypes"})
 public abstract class AbstractEntityServiceTest<I extends Serializable, T extends FlatTransient,
         E extends CrudEntityService & QueryService> extends AbstractTest<T> implements BasicBusinessOperation<I, T, E> {
 
@@ -56,7 +64,10 @@ public abstract class AbstractEntityServiceTest<I extends Serializable, T extend
     public T update(I id, T data) {
         getOperator().update(id, data);
         logInfo(format("update model[%s] successful", getDataKey((I) data.getId())));
-        return (T) getOperator().findById(data.getId()).get();
+        Optional object = getOperator().findById(data.getId());
+        if (!object.isPresent())
+            throw new NotFoundDataException();
+        return (T) object.get();
     }
 
     @Override
@@ -71,12 +82,18 @@ public abstract class AbstractEntityServiceTest<I extends Serializable, T extend
     public String getDataKey(I id) {
         return storage.entrySet().stream()
                 .filter(entry -> Objects.equals(entry.getValue().getId(), id))
-                .findFirst().get().getKey();
+                .findFirst().orElseThrow(() -> {
+                    throw new NotFoundDataException();
+                })
+                .getKey();
     }
 
     public String getDataKey(T data) {
         return storage.entrySet().stream()
                 .filter(entry -> Objects.equals(entry.getValue(), data))
-                .findFirst().get().getKey();
+                .findFirst().orElseThrow(() -> {
+                    throw new NotFoundDataException();
+                })
+                .getKey();
     }
 }

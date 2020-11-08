@@ -10,7 +10,9 @@ import javax.transaction.TransactionManager;
 import static com.pineframework.core.mongodb.HibernateOgmUtils.createEntityManager;
 import static com.pineframework.core.mongodb.HibernateOgmUtils.getJtaImpl;
 import static java.util.Objects.nonNull;
-
+/**
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 public class CategoryOgmRepository {
 
     public static final CategoryOgmRepository INSTANCE = new CategoryOgmRepository();
@@ -33,7 +35,7 @@ public class CategoryOgmRepository {
 
         } catch (Exception e) {
             logger.error(e.getMessage());
-            Try.run(() -> tx.rollback());
+            Try.run(tx::rollback);
 
         } finally {
             if (nonNull(em))

@@ -5,9 +5,14 @@ import com.pineframework.core.datamodel.persistence.TreePersistence;
 
 import java.io.Serializable;
 
+
 /**
- * Use for a table and value object designed in tree structure
+ * Provide transformer operation for hierarchy structure.
  *
+ * @param <I> identity
+ * @param <E> persistable type
+ * @param <M> transient type
+ * @param <B> transient object builder
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 public interface ImmutableTreeTransformer<

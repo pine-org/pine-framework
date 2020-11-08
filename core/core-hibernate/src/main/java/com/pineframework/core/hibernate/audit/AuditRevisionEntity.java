@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
+ * Audit revision table use to store all revision logs.
+ *
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 @Entity

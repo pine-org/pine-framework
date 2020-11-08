@@ -16,8 +16,13 @@ import static com.pineframework.core.helper.CollectionUtils.isEmpty;
 import static com.pineframework.core.helper.CollectionUtils.mapTo;
 import static java.util.Objects.isNull;
 
+
 /**
- * @author Saman Alishiri
+ * @param <I> identity
+ * @param <E> persistable type
+ * @param <M> transient type
+ * @param <B> transient object builder
+ * @author Saman Alishiri, samanalishiri@gmail.com
  */
 public abstract class AbstractImmutableFlatTransformer<I extends Serializable,
         E extends FlatPersistence<I>,

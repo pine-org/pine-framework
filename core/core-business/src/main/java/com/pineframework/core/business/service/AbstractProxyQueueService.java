@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Optional;
 
 /**
- * @author Saman Alishirishahrbabak
+ * @author Saman Alishiri, samanalishiri@gmail.com
  */
 public abstract class AbstractProxyQueueService implements QueueService<String, MessageModel>, Loggable {
 

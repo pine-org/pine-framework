@@ -9,6 +9,13 @@ import com.pineframework.core.helper.GenericUtils;
 
 import java.io.Serializable;
 
+/**
+ * Include CRUD, search and batch operations in one class.
+ *
+ * @param <I> identity
+ * @param <E> persistable type
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 public abstract class AbstractFlatRepository<I extends Serializable, E extends FlatPersistence<I>>
         implements CrudRepository<I, E>, QueryRepository<I, E>, BatchRepository<I, E> {
 
@@ -16,6 +23,7 @@ public abstract class AbstractFlatRepository<I extends Serializable, E extends F
 
     private final Repository repository;
 
+    @SuppressWarnings("unchecked")
     public AbstractFlatRepository(Repository repository) {
         this.repository = repository;
         entityType = (Class<E>) GenericUtils.extract(this.getClass(), 1);

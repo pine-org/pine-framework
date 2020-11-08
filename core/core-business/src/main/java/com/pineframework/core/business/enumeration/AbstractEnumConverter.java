@@ -11,7 +11,7 @@ import java.util.Objects;
 import static java.util.Objects.isNull;
 
 /**
- * all enum that use as field of entity muse use {@code AbstractEnumConverter}
+ * All enum that use as field of persistable class muse use {@code AbstractEnumConverter}
  * for their converters to convert enum to database column and vice versa.
  *
  * @param <T> database column type
@@ -47,10 +47,8 @@ public abstract class AbstractEnumConverter<T, E extends Enum<E> & Convertible<T
      */
     @Override
     public E convertToEntityAttribute(T dbData) {
-
         if (isNull(dbData))
             return null;
-
         return EnumSet.allOf(enumClassType).stream()
                 .filter(e -> Objects.equals(e.getValue(), dbData))
                 .findFirst()

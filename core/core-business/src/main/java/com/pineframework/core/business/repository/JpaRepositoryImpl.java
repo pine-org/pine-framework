@@ -22,7 +22,7 @@ import static com.pineframework.core.helper.CollectionUtils.ofNullable;
 import static java.util.Optional.ofNullable;
 
 /**
- * Independent implementation of repository based on JPA for simple flat table
+ * Independent implementation of repository based on JPA.
  *
  * @author Saman Alishiri, samanalishiri@gmail.com
  */

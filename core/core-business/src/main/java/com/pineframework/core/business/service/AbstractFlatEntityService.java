@@ -15,6 +15,17 @@ import java.io.Serializable;
 
 import static com.pineframework.core.helper.GenericUtils.extract;
 
+/**
+ * Include CRUD, search and batch operations in one class.
+ *
+ * @param <I> identity
+ * @param <E> persistable type
+ * @param <M> transient type
+ * @param <B> transient object builder
+ * @param <T> transformer
+ * @param <R> data access object (DAO/Repository)
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 public abstract class AbstractFlatEntityService<I extends Serializable,
         E extends FlatPersistence<I>,
         M extends FlatTransient<I>,
