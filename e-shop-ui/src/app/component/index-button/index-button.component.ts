@@ -12,6 +12,8 @@ export class IndexButtonComponent implements OnInit {
 
   @Input() color: string = '';
 
+  @Input() border: string = 'border';
+
   @Input() click: (idx: any) => void;
 
   private _index: number = 0;

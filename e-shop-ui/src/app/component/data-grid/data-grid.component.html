@@ -93,8 +93,8 @@
         <tbody>
         <tr *ngFor="let item of page.content; index as i">
           <!--table first column---------------------------------------------------------------------------------->
-          <td [hidden]="firstColumn.hidden">
-            {{!deleteAllButtonVisible ? i + 1 : ''}}
+          <td [hidden]="firstColumn.hidden" class="fit">
+            <app-index-button *ngIf="!deleteAllButtonVisible" [index]="i + 1" border=""></app-index-button>
             <input (change)="deletedItemsChange($event)"
                    *ngIf="deleteAllButtonVisible"
                    checked="{{checkedAllTuples}}"
@@ -104,7 +104,8 @@
           <!--table first column---------------------------------------------------------------------------------->
           <!--table logic column---------------------------------------------------------------------------------->
           <td *ngFor="let column of columns"
-              [hidden]="column.hidden">
+              [hidden]="column.hidden"
+              class="align-middle">
             {{item[column.field.content]}}
           </td>
           <!--table logic column---------------------------------------------------------------------------------->
