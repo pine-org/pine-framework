@@ -48,7 +48,7 @@ public abstract class AbstractEntityServiceTest<I extends Serializable, T extend
         Optional<I> id = getOperator().save(data);
         assertTrue(id.isPresent());
 
-        logInfo(format("save model[%s] successful", getDataKey(data)));
+        logInfo(format("save model[%s] successful", getTestDataName(data)));
         return id.get();
     }
 
@@ -56,14 +56,14 @@ public abstract class AbstractEntityServiceTest<I extends Serializable, T extend
     public T findById(I id) {
         Optional<T> model = getOperator().findById(id);
         assertTrue(model.isPresent());
-        logInfo(format("find model[%s] by id[%s] successful", getDataKey(id), id));
+        logInfo(format("find model[%s] by id[%s] successful", getTestDataName(id), id));
         return model.get();
     }
 
     @Override
     public T update(I id, T data) {
         getOperator().update(id, data);
-        logInfo(format("update model[%s] successful", getDataKey((I) data.getId())));
+        logInfo(format("update model[%s] successful", getTestDataName((I) data.getId())));
         Optional object = getOperator().findById(data.getId());
         if (!object.isPresent())
             throw new NotFoundDataException();
@@ -76,24 +76,22 @@ public abstract class AbstractEntityServiceTest<I extends Serializable, T extend
 
         Optional model = getOperator().findById(id);
         assertFalse(model.isPresent());
-        logInfo(format("delete model[%s] by id[%s] successful", getDataKey(id), id));
+        logInfo(format("delete model[%s] by id[%s] successful", getTestDataName(id), id));
     }
 
-    public String getDataKey(I id) {
-        return storage.entrySet().stream()
-                .filter(entry -> Objects.equals(entry.getValue().getId(), id))
-                .findFirst().orElseThrow(() -> {
-                    throw new NotFoundDataException();
-                })
-                .getKey();
+    public String getTestDataName(I id) {
+        Optional<Map.Entry<String, T>> entry = storage.entrySet().stream()
+                .filter(e -> Objects.equals(e.getValue().getId(), id))
+                .findFirst();
+
+        return entry.isPresent() ? entry.get().getKey() : "";
     }
 
-    public String getDataKey(T data) {
-        return storage.entrySet().stream()
-                .filter(entry -> Objects.equals(entry.getValue(), data))
-                .findFirst().orElseThrow(() -> {
-                    throw new NotFoundDataException();
-                })
-                .getKey();
+    public String getTestDataName(T data) {
+        Optional<Map.Entry<String, T>> entry = storage.entrySet().stream()
+                .filter(e -> Objects.equals(e.getValue(), data))
+                .findFirst();
+
+        return entry.isPresent() ? entry.get().getKey() : "";
     }
 }

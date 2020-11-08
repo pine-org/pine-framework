@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Icon, Properties} from "../Properties";
+import {Icon, Properties, Text} from "../Properties";
 
 @Component({
   selector: 'app-delete-button',
@@ -8,7 +8,13 @@ import {Icon, Properties} from "../Properties";
 })
 export class DeleteButtonComponent implements OnInit {
 
-  @Input() properties: Properties = Properties.builder('Delete').icon(Icon.iconOf('fa fa-trash')).build();
+  private hiddenText: boolean = false;
+
+  private hiddenIcon: boolean = false;
+
+  @Input() properties: Properties = Properties.builder(Text.builder('Delete').hidden(this.hiddenText).build())
+    .icon(Icon.builder('fa fa-trash').hidden(this.hiddenIcon).build())
+    .build();
 
   @Input() identities: any[] = [];
 
@@ -23,7 +29,9 @@ export class DeleteButtonComponent implements OnInit {
   @Input()
   set bunch(value: boolean) {
     this._bunch = value;
-    this.properties = Properties.builder('Delete Bunch').icon(Icon.iconOf('fa fa-trash')).build();
+    this.properties = Properties.builder(Text.builder('Delete Bunch').hidden(this.hiddenText).build())
+      .icon(Icon.builder('fa fa-trash').hidden(this.hiddenIcon).build())
+      .build();
   }
 
   constructor() {

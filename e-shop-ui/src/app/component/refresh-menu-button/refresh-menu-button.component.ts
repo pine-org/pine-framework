@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Icon, Properties} from "../Properties";
+import {Icon, Properties, Text} from "../Properties";
 
 @Component({
   selector: 'app-refresh-menu-button',
@@ -8,7 +8,13 @@ import {Icon, Properties} from "../Properties";
 })
 export class RefreshMenuButtonComponent implements OnInit {
 
-  @Input() properties: Properties = Properties.builder('Refresh').icon(Icon.iconOf('fa fa-recycle')).build();
+  private hiddenText: boolean = false;
+
+  private hiddenIcon: boolean = false;
+
+  @Input() properties: Properties = Properties.builder(Text.builder('Refresh').hidden(this.hiddenText).build())
+    .icon(Icon.builder('fa fa-recycle').hidden(this.hiddenIcon).build())
+    .build();
 
   @Input() click: () => void;
 

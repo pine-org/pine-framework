@@ -10,6 +10,7 @@ import javax.transaction.TransactionManager;
 import static com.pineframework.core.mongodb.HibernateOgmUtils.createEntityManager;
 import static com.pineframework.core.mongodb.HibernateOgmUtils.getJtaImpl;
 import static java.util.Objects.nonNull;
+
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
  */

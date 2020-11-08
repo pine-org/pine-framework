@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Icon, Properties} from "../Properties";
+import {Icon, Properties, Text} from "../Properties";
 
 @Component({
   selector: 'app-edit-button',
@@ -8,7 +8,13 @@ import {Icon, Properties} from "../Properties";
 })
 export class EditButtonComponent implements OnInit {
 
-  @Input() properties: Properties = Properties.builder('Edit').icon(Icon.iconOf('fa fa-edit')).build();
+  private hiddenText: boolean = false;
+
+  private hiddenIcon: boolean = false;
+
+  @Input() properties: Properties = Properties.builder(Text.builder('Edit').hidden(this.hiddenText).build())
+    .icon(Icon.builder('fa fa-edit').hidden(this.hiddenIcon).build())
+    .build();
 
   constructor() {
   }

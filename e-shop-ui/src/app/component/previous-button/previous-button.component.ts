@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Icon, Properties} from "../Properties";
+import {Icon, Properties, Text} from "../Properties";
 
 @Component({
   selector: 'app-previous-button',
@@ -7,8 +7,13 @@ import {Icon, Properties} from "../Properties";
   styleUrls: ['./previous-button.component.css']
 })
 export class PreviousButtonComponent implements OnInit {
+  private hiddenText: boolean = false;
 
-  @Input() properties: Properties = Properties.builder('Previous').icon(Icon.iconOf("fa fa-angle-double-left")).build();
+  private hiddenIcon: boolean = false;
+
+  @Input() properties: Properties = Properties.builder(Text.builder('Previous').hidden(this.hiddenText).build())
+    .icon(Icon.builder('fa fa-angle-double-left').hidden(this.hiddenIcon).build())
+    .build();
 
   @Input() click: () => void;
 

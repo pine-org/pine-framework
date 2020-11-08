@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Icon, Properties} from "../Properties";
+import {Icon, Properties, Text} from "../Properties";
 
 
 @Component({
@@ -9,7 +9,13 @@ import {Icon, Properties} from "../Properties";
 })
 export class SaveButtonComponent implements OnInit {
 
-  @Input() properties: Properties = Properties.builder('Save').icon(Icon.iconOf('fa fa-save')).build();
+  private hiddenText: boolean = false;
+
+  private hiddenIcon: boolean = false;
+
+  @Input() properties: Properties = Properties.builder(Text.builder('Save').hidden(this.hiddenText).build())
+    .icon(Icon.builder('fa fa-save').hidden(this.hiddenIcon).build())
+    .build();
 
   constructor() {
   }

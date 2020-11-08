@@ -28,8 +28,8 @@ export class IconBuilder {
     this._name = name;
   }
 
-  hidden(): IconBuilder {
-    this._hidden = true;
+  hidden(value: boolean = false): IconBuilder {
+    this._hidden = value;
     return this;
   }
 
@@ -40,14 +40,14 @@ export class IconBuilder {
 
 export class Text {
 
+  private _content: string = '';
+
   public hidden: boolean = false
 
   constructor(builder: TextBuilder) {
     this._content = builder.content;
     this.hidden = builder._hidden;
   }
-
-  private _content: string = '';
 
   get content(): string {
     return this.hidden ? '' : this._content;
@@ -76,8 +76,8 @@ export class TextBuilder {
     this.content = name;
   }
 
-  hidden(): TextBuilder {
-    this._hidden = true;
+  hidden(value: boolean = false): TextBuilder {
+    this._hidden = value;
     return this;
   }
 
@@ -102,7 +102,7 @@ export class Properties {
     this.icon = builder._icon;
   }
 
-  public static builder(text: string): PropertiesBuilder {
+  public static builder(text: Text): PropertiesBuilder {
     return new PropertiesBuilder(text);
   }
 
@@ -120,17 +120,12 @@ export class PropertiesBuilder {
 
   _icon: Icon = Icon.iconOf('');
 
-  constructor(value: string) {
-    this._title = Text.of(value);
+  constructor(text: Text) {
+    this._title = text;
   }
 
   hidden(value: boolean = true): PropertiesBuilder {
     this._hidden = value;
-    return this;
-  }
-
-  hiddenTitle(): PropertiesBuilder {
-    this._title.hidden = true;
     return this;
   }
 

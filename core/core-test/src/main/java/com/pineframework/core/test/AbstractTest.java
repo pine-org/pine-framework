@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static java.lang.String.format;
+
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
  */

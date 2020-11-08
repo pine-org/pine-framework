@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Icon, Properties} from "../Properties";
+import {Icon, Properties, Text} from "../Properties";
 
 @Component({
   selector: 'app-read-button',
@@ -8,7 +8,13 @@ import {Icon, Properties} from "../Properties";
 })
 export class ReadButtonComponent implements OnInit {
 
-  @Input() properties: Properties = Properties.builder('Read').icon(Icon.iconOf('fa fa-eye')).build();
+  private hiddenText: boolean = false;
+
+  private hiddenIcon: boolean = false;
+
+  @Input() properties: Properties = Properties.builder(Text.builder('Read').hidden(this.hiddenText).build())
+    .icon(Icon.builder('fa fa-eye').hidden(this.hiddenIcon).build())
+    .build();
 
   constructor() {
   }

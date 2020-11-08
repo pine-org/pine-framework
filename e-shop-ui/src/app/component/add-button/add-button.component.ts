@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Icon, Properties} from "../Properties";
+import {Icon, Properties, Text} from "../Properties";
 
 @Component({
   selector: 'app-add-button',
@@ -7,8 +7,13 @@ import {Icon, Properties} from "../Properties";
   styleUrls: ['./add-button.component.css']
 })
 export class AddButtonComponent implements OnInit {
+  private hiddenText: boolean = false;
 
-  @Input() properties: Properties = Properties.builder('Add').icon(Icon.iconOf('fa fa-plus-square')).build();
+  private hiddenIcon: boolean = false;
+
+  @Input() properties: Properties = Properties.builder(Text.builder('Add').hidden(this.hiddenText).build())
+    .icon(Icon.builder('fa fa-square').hidden(this.hiddenIcon).build())
+    .build();
 
   constructor() {
   }

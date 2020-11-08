@@ -2,7 +2,6 @@ package com.pineframework.core.test;
 
 import com.pineframework.core.contract.repository.flat.CrudRepository;
 import com.pineframework.core.contract.repository.flat.QueryRepository;
-import com.pineframework.core.datamodel.exception.NotFoundDataException;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -48,7 +47,7 @@ public abstract class AbstractRepositoryTest<I extends Serializable, T extends F
     public I save(T data) {
         getOperator().save(data);
         assertNotNull(data.getId());
-        logInfo(format("save entity[%s] successful", getDataKey((I) data.getId())));
+        logInfo(format("save entity[%s] successful", getTestObjectName((I) data.getId())));
         return (I) data.getId();
     }
 
@@ -56,7 +55,7 @@ public abstract class AbstractRepositoryTest<I extends Serializable, T extends F
     public T findById(I id) {
         Optional<T> entity = getOperator().findById(id);
         assertTrue(entity.isPresent());
-        logInfo(format("find entity[%s] by id[%s] successful", getDataKey(id), id));
+        logInfo(format("find entity[%s] by id[%s] successful", getTestObjectName(id), id));
         return entity.get();
     }
 
@@ -70,15 +69,14 @@ public abstract class AbstractRepositoryTest<I extends Serializable, T extends F
         getOperator().delete(id);
         Optional entity = getOperator().findById(id);
         assertFalse(entity.isPresent());
-        logInfo(format("delete entity[%s] by id[%s] successful", getDataKey(id), id));
+        logInfo(format("delete entity[%s] by id[%s] successful", getTestObjectName(id), id));
     }
 
-    public String getDataKey(I id) {
-        return storage.entrySet().stream()
-                .filter(entry -> Objects.equals(entry.getValue().getId(), id))
-                .findFirst().orElseThrow(() -> {
-                    throw new NotFoundDataException();
-                })
-                .getKey();
+    public String getTestObjectName(I id) {
+        Optional<Map.Entry<String, T>> entry = storage.entrySet().stream()
+                .filter(e -> Objects.equals(e.getValue().getId(), id))
+                .findFirst();
+
+        return entry.isPresent() ? entry.get().getKey() : "";
     }
 }

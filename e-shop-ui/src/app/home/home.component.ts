@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {GoodsService} from "../goods/goods.service";
-import {Properties} from "../component/Properties";
+import {Properties, Text} from "../component/Properties";
 import {Service} from "../service/AbstractService";
 
 @Component({
@@ -21,11 +21,11 @@ export class HomeComponent implements OnInit {
   }
 
   columns = [
-    Properties.builder('ID').field("id").build(),
-    Properties.builder('Name').field("name").build(),
-    Properties.builder('Code').field("code").build(),
-    Properties.builder('Price').field("price").build(),
-    Properties.builder('Description').field("description").build(),
+    Properties.builder(Text.builder('ID').build()).field("id").build(),
+    Properties.builder(Text.builder('Name').build()).field("name").build(),
+    Properties.builder(Text.builder('Code').build()).field("code").build(),
+    Properties.builder(Text.builder('Price').build()).field("price").build(),
+    Properties.builder(Text.builder('Description').build()).field("description").build(),
   ];
 
   bunches: string[] = ['2'];

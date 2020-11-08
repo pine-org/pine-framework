@@ -1,6 +1,6 @@
 import {Service} from "../../service/AbstractService";
 import {Component, Input, OnInit} from "@angular/core";
-import {Icon, Properties} from "../Properties";
+import {Icon, Properties, Text} from "../Properties";
 import {Page} from "../../service/Page";
 
 @Component({
@@ -58,16 +58,18 @@ export class DataGridComponent implements OnInit {
     return this._bunchDropdownVisible;
   }
 
-  @Input()
-  set bunchDropdownVisible(value: boolean) {
-    this._bunchDropdownVisible = value;
-    this.bunchDropdown = Properties.builder('Bunch')
-      .hidden(!this._bunchDropdownVisible)
-      .build();
-  }
-
-  bunchDropdown: Properties = Properties.builder('Bunch')
+  bunchDropdown: Properties = Properties.builder(Text.builder("Bunch").build())
     .hidden(!this._bunchDropdownVisible)
+    .build();
+  columnSelectionDropdown: Properties = Properties.builder(Text.builder('Columns').build())
+    .hidden(!this._columnSelectionDropdownVisible)
+    .icon(Icon.iconOf('fa fa-angle-double-down'))
+    .build();
+  firstColumn: Properties = Properties.builder(Text.builder('#').build())
+    .hidden(!this._firstColumnVisibility)
+    .build();
+  operationColumn: Properties = Properties.builder(Text.builder('operation').build())
+    .hidden(!this._operationColumnVisible)
     .build();
 
   private _columnSelectionDropdownVisible: boolean = true;
@@ -76,21 +78,10 @@ export class DataGridComponent implements OnInit {
     return this._columnSelectionDropdownVisible;
   }
 
-  @Input()
-  set columnSelectionDropdownVisible(value: boolean) {
-    this._columnSelectionDropdownVisible = value;
-    this.columnSelectionDropdown = Properties.builder('Columns')
-      .hidden(!this._columnSelectionDropdownVisible)
-      .icon(Icon.iconOf('fa fa-angle-double-down'))
-      .build();
-  }
+  private hiddenText: boolean = false;
 
   page: Page = new Page();
-
-  columnSelectionDropdown: Properties = Properties.builder('Columns')
-    .hidden(!this._columnSelectionDropdownVisible)
-    .icon(Icon.iconOf('fa fa-angle-double-down'))
-    .build();
+  private hiddenIcon: boolean = false;
 
   private _firstColumnVisibility: boolean = true;
 
@@ -99,16 +90,21 @@ export class DataGridComponent implements OnInit {
   }
 
   @Input()
-  set firstColumnVisibility(value: boolean) {
-    this._firstColumnVisibility = value;
-    this.firstColumn = Properties.builder('#')
-      .hidden(!this._firstColumnVisibility)
+  set bunchDropdownVisible(value: boolean) {
+    this._bunchDropdownVisible = value;
+    this.bunchDropdown = Properties.builder(Text.builder("Bunch").build())
+      .hidden(!this._bunchDropdownVisible)
       .build();
   }
 
-  firstColumn: Properties = Properties.builder('#')
-    .hidden(!this._firstColumnVisibility)
-    .build();
+  @Input()
+  set columnSelectionDropdownVisible(value: boolean) {
+    this._columnSelectionDropdownVisible = value;
+    this.columnSelectionDropdown = Properties.builder(Text.builder('Columns').build())
+      .hidden(!this._columnSelectionDropdownVisible)
+      .icon(Icon.iconOf('fa fa-angle-double-down'))
+      .build();
+  }
 
   private _operationColumnVisible: boolean = true;
 
@@ -117,16 +113,20 @@ export class DataGridComponent implements OnInit {
   }
 
   @Input()
-  set operationColumnVisible(value: boolean) {
-    this._operationColumnVisible = value;
-    this.operationColumn = Properties.builder('Operation')
-      .hidden(!this._operationColumnVisible)
+  set firstColumnVisibility(value: boolean) {
+    this._firstColumnVisibility = value;
+    this.firstColumn = Properties.builder(Text.builder('#').build())
+      .hidden(!this._firstColumnVisibility)
       .build();
   }
 
-  operationColumn: Properties = Properties.builder('Operation')
-    .hidden(!this._operationColumnVisible)
-    .build();
+  @Input()
+  set operationColumnVisible(value: boolean) {
+    this._operationColumnVisible = value;
+    this.operationColumn = Properties.builder(Text.builder('operation').build())
+      .hidden(!this._operationColumnVisible)
+      .build();
+  }
 
   deletedItems: number[] = [];
 

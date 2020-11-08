@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Icon, Properties} from "../Properties";
+import {Icon, Properties, Text} from "../Properties";
 
 @Component({
   selector: 'app-index-button',
@@ -8,7 +8,14 @@ import {Icon, Properties} from "../Properties";
 })
 export class IndexButtonComponent implements OnInit {
 
-  @Input() properties: Properties = Properties.builder('Number').icon(Icon.iconOf('')).build();
+  private hiddenText: boolean = false;
+
+  private hiddenIcon: boolean = true;
+
+  @Input() properties: Properties = Properties.builder(Text.builder('Number').hidden(this.hiddenText).build())
+    .icon(Icon.builder('').hidden(this.hiddenIcon).build())
+    .build();
+
   @Input() click: (args: any) => void;
 
   constructor() {
@@ -23,7 +30,9 @@ export class IndexButtonComponent implements OnInit {
   @Input()
   set number(value: number) {
     this._number = value;
-    this.properties = Properties.builder((this._number + 1).toString()).icon(Icon.iconOf('')).build();
+    this.properties = Properties.builder(Text.builder((this._number + 1).toString()).hidden(this.hiddenText).build())
+      .icon(Icon.builder('').hidden(this.hiddenIcon).build())
+      .build();
   }
 
   ngOnInit() {

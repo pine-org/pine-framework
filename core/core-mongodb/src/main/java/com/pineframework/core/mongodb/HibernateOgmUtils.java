@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.transaction.TransactionManager;
 
 import static javax.persistence.Persistence.createEntityManagerFactory;
+
 /**
  * Create entity manage factory.
  *
