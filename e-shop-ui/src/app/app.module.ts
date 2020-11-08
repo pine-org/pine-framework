@@ -23,8 +23,9 @@ import {RefreshButtonComponent} from './component/refresh-button/refresh-button.
 import {RefreshMenuButtonComponent} from './component/refresh-menu-button/refresh-menu-button.component';
 import {NextButtonComponent} from './component/next-button/next-button.component';
 import {PreviousButtonComponent} from './component/previous-button/previous-button.component';
-import {IndexButtonComponent} from './component/number-button/index-button.component';
+import {IndexButtonComponent} from './component/index-button/index-button.component';
 import {DataGridComponent} from './component/data-grid/data-grid.component';
+import {DeleteBunchButtonComponent} from './component/delete-bunch-button/delete-bunch-button.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {DataGridComponent} from './component/data-grid/data-grid.component';
     NextButtonComponent,
     PreviousButtonComponent,
     IndexButtonComponent,
-    DataGridComponent
+    DataGridComponent,
+    DeleteBunchButtonComponent
   ],
   imports: [
     BrowserModule,
