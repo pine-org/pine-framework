@@ -8,8 +8,10 @@ package com.pineframework.core.datamodel.exception;
  */
 public final class NotFoundDataException extends AbstractException {
 
+    public static final int CODE = 2;
+
     public NotFoundDataException(Object... args) {
-        super("error.business.data.notFound", 1, args);
+        super("error.business.data.notFound", CODE, args);
     }
 
 }

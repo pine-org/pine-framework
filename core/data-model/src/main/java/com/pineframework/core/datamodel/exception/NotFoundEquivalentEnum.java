@@ -8,8 +8,10 @@ package com.pineframework.core.datamodel.exception;
  */
 public final class NotFoundEquivalentEnum extends AbstractException {
 
+    public static final int CODE = 3;
+
     public NotFoundEquivalentEnum(Object... args) {
-        super("error.business.enum.notFound", 2, args);
+        super("error.business.enum.notFound", CODE, args);
     }
 
 }

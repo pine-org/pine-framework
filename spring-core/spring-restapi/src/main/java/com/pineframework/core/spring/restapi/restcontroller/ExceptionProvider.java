@@ -1,8 +1,9 @@
 package com.pineframework.core.spring.restapi.restcontroller;
 
+import com.pineframework.core.datamodel.exception.AbstractException;
 import com.pineframework.core.datamodel.exception.CoreException;
 import com.pineframework.core.datamodel.exception.ExceptionArray;
-import com.pineframework.core.datamodel.exception.NotFoundDataException;
+import com.pineframework.core.datamodel.exception.NotFoundDataByIdException;
 import com.pineframework.core.datamodel.exception.NotFoundEquivalentEnum;
 import com.pineframework.core.datamodel.exception.NotSameVersionException;
 import com.pineframework.core.helper.LogUtils;
@@ -25,48 +26,21 @@ public final class ExceptionProvider extends AbstractExceptionProvider {
     private final Logger logger = LogUtils.getLogger(ExceptionProvider.class);
 
     /**
-     * when threw the core exception
+     * When throw a business exception.
      *
      * @param e exception
      * @return the error {@code ErrorResponse}
      */
-    @ExceptionHandler(CoreException.class)
-    public ResponseEntity<ErrorResponse[]> coreException(CoreException e) {
+    @ExceptionHandler(value = {
+            CoreException.class,
+            NotSameVersionException.class,
+            NotFoundEquivalentEnum.class,
+            NotFoundDataByIdException.class
+    })
+    public ResponseEntity<ErrorResponse[]> notSameVersion(AbstractException e) {
         return response(error(e));
     }
 
-    /**
-     * when version of input date is not same as the version of persisted date
-     *
-     * @param e exception
-     * @return the error {@code ErrorResponse}
-     */
-    @ExceptionHandler(NotSameVersionException.class)
-    public ResponseEntity<ErrorResponse[]> notSameVersion(NotSameVersionException e) {
-        return response(error(e));
-    }
-
-    /**
-     * when throw NotFoundEquivalentEnum
-     *
-     * @param e exception
-     * @return the error {@code ErrorResponse}
-     */
-    @ExceptionHandler(NotFoundEquivalentEnum.class)
-    public ResponseEntity<ErrorResponse[]> notFoundEquivalentEnum(NotFoundEquivalentEnum e) {
-        return response(error(e));
-    }
-
-    /**
-     * when throw NotFoundEquivalentEnum
-     *
-     * @param e exception
-     * @return the error {@code ErrorResponse}
-     */
-    @ExceptionHandler(NotFoundDataException.class)
-    public ResponseEntity<ErrorResponse[]> notFoundData(NotFoundDataException e) {
-        return response(error(e));
-    }
 
     /**
      * when execute validation on value objects

@@ -5,10 +5,11 @@ import com.pineframework.core.spring.restapi.helper.I18nHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
+
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 /**
  * All of centralize exception providers should use this abstract class
@@ -42,6 +43,6 @@ public abstract class AbstractExceptionProvider {
      * @return unit of the errors
      */
     public ResponseEntity<ErrorResponse[]> response(ErrorResponse... errors) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errors);
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(errors);
     }
 }

@@ -1,5 +1,7 @@
 package com.pineframework.core.tutorial.eshop;
 
+import com.pineframework.core.datamodel.exception.NotFoundDataByIdException;
+import com.pineframework.core.spring.restapi.restcontroller.ErrorResponse;
 import com.pineframework.core.spring.test.AbstractRestfulWebService;
 import com.pineframework.core.tutorial.eshop.model.GoodsModel;
 import io.vavr.control.Try;
@@ -51,10 +53,10 @@ public class GoodsRestApiTest extends AbstractRestfulWebService<Long, GoodsModel
     }
 
     @ParameterizedTest
-    @DisplayName("GIVEN a Goods as a JSON model WHEN post the model THEN response is empty and header has location")
+    @DisplayName("GIVEN Goods WHEN post request THEN status is created")
     @ValueSource(strings = {"table", "desk", "chair"})
     @Order(1)
-    void save_GivenGoodsAsJsonModel_WhenPostTheModel_ThenResponseIsEmptyAndHeaderHasLocation(String name) {
+    void save_GivenGoods_WhenPostRequest_ThenStatusIsCreate(String name) {
         GoodsModel testModel = getFromStorage(name);
         ResponseEntity<String> response = post(testModel, API_V1_GOODS);
         assertNotNull(response);
@@ -73,10 +75,10 @@ public class GoodsRestApiTest extends AbstractRestfulWebService<Long, GoodsModel
     }
 
     @ParameterizedTest
-    @DisplayName("GIVEN identity WHEN fetch the object THEN response body include a Goods")
+    @DisplayName("GIVEN identity WHEN get request THEN status is OK")
     @ValueSource(strings = {"table", "desk", "chair"})
     @Order(2)
-    void findById_GivenIdentity_WhenFetchTheObject_ThenResponseBodyIncludeGoods(String name) {
+    void findById_GivenIdentity_WhenGetRequest_ThenStatusIsOk(String name) {
         GoodsModel testModel = getFromStorage(name);
         Long id = testModel.getId();
         assertNotNull(id);
@@ -97,10 +99,10 @@ public class GoodsRestApiTest extends AbstractRestfulWebService<Long, GoodsModel
     }
 
     @ParameterizedTest
-    @DisplayName("GIVEN a Goods as a JSON model WHEN put the model THEN response body is empty and status is no content")
-    @ValueSource(strings = {"table"})
+    @DisplayName("GIVEN Goods WHEN put request THEN status is no content")
+    @ValueSource(strings = {"table", "desk", "chair"})
     @Order(3)
-    void update_GivenGoodsAsJsonModel_WhenPutTheModel_ThenResponseIsEmptyAndStatusIsNoContent(String name) {
+    void update_GivenGoods_WhenPutRequest_ThenStatusIsNoContent(String name) {
         GoodsModel testModel = getFromStorage(name);
         Long id = testModel.getId();
 
@@ -125,18 +127,26 @@ public class GoodsRestApiTest extends AbstractRestfulWebService<Long, GoodsModel
     }
 
     @ParameterizedTest
-    @DisplayName("GIVEN an identity WHEN send a delete request THEN response body is empty and status is no content")
+    @DisplayName("GIVEN identity WHEN delete request THEN status is no content")
     @ValueSource(strings = {"table", "desk", "chair"})
     @Order(3)
-    void delete_GivenIdentity_WhenSendDeleteRequest_ThenResponseIsEmptyAndStatusIsNoContent(String name) {
+    void delete_GivenIdentity_WhenDeleteRequest_ThenStatusIsNoContent(String name) {
         GoodsModel testModel = getFromStorage(name);
         Long id = testModel.getId();
 
-        ResponseEntity<String> response = delete(id, API_V1_GOODS);
-        assertNotNull(response);
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        ResponseEntity<String> deleteResponse = delete(id, API_V1_GOODS);
+        assertNotNull(deleteResponse);
+        assertEquals(HttpStatus.NO_CONTENT, deleteResponse.getStatusCode());
 
-        ResponseEntity<String> response2 = read(id, API_V1_GOODS);
+        ResponseEntity<String> readResponse = read(id, API_V1_GOODS);
+        assertNotNull(readResponse);
+        assertNotNull(readResponse.getBody());
+
+        ErrorResponse[] errors = Try.of(() -> objectMapper.readValue(readResponse.getBody(), ErrorResponse[].class))
+                .get();
+        assertNotNull(errors);
+        assertEquals(NotFoundDataByIdException.CODE, errors[0].getCode());
+        assertEquals(String.format("There is no any data for GoodsModel with identity %s", id), errors[0].getMessage());
 
         deleteFromStorage(name);
     }

@@ -4,7 +4,7 @@ import com.pineframework.core.contract.repository.flat.CrudRepository;
 import com.pineframework.core.contract.service.AroundServiceOperation;
 import com.pineframework.core.contract.service.CrudService;
 import com.pineframework.core.contract.transformer.ImmutableFlatTransformer;
-import com.pineframework.core.datamodel.exception.NotFoundDataException;
+import com.pineframework.core.datamodel.exception.NotFoundDataByIdException;
 import com.pineframework.core.datamodel.exception.NotSameVersionException;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
@@ -53,11 +53,10 @@ public interface CrudEntityService<I extends Serializable,
 
     @Override
     default Optional<M> findById(I id) {
-        Optional<E> entity = getRepository().findById(id);
-        if (entity.isPresent())
-            return entity.map(e -> getTransformer().transform(e));
+        E entity = getRepository().findById(id)
+                .orElseThrow(() -> new NotFoundDataByIdException(getTransientType().getSimpleName(), id));
 
-        throw new NotFoundDataException(id);
+        return ofNullable(getTransformer().transform(entity));
     }
 
     @Override
@@ -80,15 +79,13 @@ public interface CrudEntityService<I extends Serializable,
     @SuppressWarnings("unchecked")
     @Override
     default void delete(I id) {
-        Optional<E> entity = getRepository().findById(id);
+        E entity = getRepository().findById(id)
+                .orElseThrow(() -> new NotFoundDataByIdException(getTransientType().getSimpleName(), id));
 
-        if (!entity.isPresent())
-            throw new NotFoundDataException(getTransientType().getSimpleName());
+        M model = getTransformer().transform(entity);
 
-        M m = getTransformer().transform(entity.get());
-
-        beforeDelete(m);
+        beforeDelete(model);
         getRepository().delete(id);
-        afterDelete(m);
+        afterDelete(model);
     }
 }

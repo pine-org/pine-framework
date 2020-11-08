@@ -8,8 +8,10 @@ package com.pineframework.core.datamodel.exception;
  */
 public final class RequiredException extends AbstractException {
 
-    public RequiredException(String... args) {
-        super("error.validation.notNull", 4, args);
+    public static final int CODE = 5;
+
+    public RequiredException(Object... args) {
+        super("error.validation.notNull", CODE, args);
     }
 
 }

@@ -43,34 +43,30 @@ public abstract class AbstractRestfulWebService<I, T> extends AbstractTest<T> {
     }
 
     protected ResponseEntity<String> post(T m, String relativeUri) {
-        ResponseEntity<String> response = restTemplate.postForEntity(makeUri(relativeUri),
+        return restTemplate.postForEntity(makeUri(relativeUri),
                 createJsonBody(m),
                 String.class);
-        return response;
     }
 
     protected ResponseEntity<String> read(I id, String relativeUri) {
-        ResponseEntity<String> response = restTemplate.getForEntity(makeUri(relativeUri) + "/{id}",
+        return restTemplate.getForEntity(makeUri(relativeUri) + "/{id}",
                 String.class, id);
-        return response;
     }
 
     protected ResponseEntity<String> put(I id, T m, String relativeUri) {
-        ResponseEntity<String> response = restTemplate.exchange(makeUri(relativeUri) + "/{id}",
+        return restTemplate.exchange(makeUri(relativeUri) + "/{id}",
                 HttpMethod.PUT,
                 createJsonBody(m),
                 String.class,
                 id);
-        return response;
     }
 
     protected ResponseEntity<String> delete(I id, String relativeUri) {
-        ResponseEntity<String> response = restTemplate.exchange(makeUri(relativeUri) + "/{id}",
+        return restTemplate.exchange(makeUri(relativeUri) + "/{id}",
                 HttpMethod.DELETE,
                 null,
                 String.class,
                 id);
-        return response;
     }
 
     protected T getById(I id, String relativeUri) {

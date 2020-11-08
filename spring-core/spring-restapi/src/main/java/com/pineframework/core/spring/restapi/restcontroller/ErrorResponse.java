@@ -1,5 +1,7 @@
 package com.pineframework.core.spring.restapi.restcontroller;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pineframework.core.datamodel.exception.AbstractException;
 import org.springframework.http.HttpStatus;
 
@@ -11,7 +13,10 @@ public class ErrorResponse {
 
     private final HttpStatus httpStatus;
 
-    public ErrorResponse(String message, int code, HttpStatus httpStatus) {
+    @JsonCreator
+    public ErrorResponse(@JsonProperty("message") String message,
+                         @JsonProperty("code") int code,
+                         @JsonProperty("httpStatus") HttpStatus httpStatus) {
         this.message = message;
         this.code = code;
         this.httpStatus = httpStatus;
