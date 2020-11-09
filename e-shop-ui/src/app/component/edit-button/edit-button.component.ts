@@ -10,5 +10,6 @@ export class EditButtonComponent extends AbstractButton {
 
   constructor() {
     super('Edit', 'fa fa-edit');
+    this.color = 'btn-primary';
   }
 }

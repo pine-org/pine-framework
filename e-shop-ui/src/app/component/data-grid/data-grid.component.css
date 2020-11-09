@@ -3,3 +3,13 @@
   white-space: nowrap;
   width: 1%;
 }
+
+.table td.fit-logic,
+.table th.fit-logic {
+  white-space: nowrap;
+  width: 500px;
+}
+
+table th {
+  font-weight: bolder;
+}

@@ -8,11 +8,13 @@ import {Properties, Text} from "../Properties";
 })
 export class IndexButtonComponent implements OnInit {
 
-  @Input() properties;
+  @Input() properties: Properties;
 
   @Input() color: string = '';
 
   @Input() border: string = 'border';
+
+  @Input() shape: string = 'rounded-0';
 
   @Input() click: (idx: any) => void;
 

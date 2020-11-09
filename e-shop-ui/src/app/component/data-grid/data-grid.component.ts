@@ -26,6 +26,18 @@ export class DataGridComponent implements OnInit {
 
   defaultBunch: string = this.bunches[0];
 
+  @Input() rowHeight: string = '3';
+
+  @Input() headerHeight: string = '3';
+
+  @Input() tableWidth: string = '100';
+
+  @Input() buttonShape: string = '';
+
+  @Input() paginationButtonShape: string = 'rounded-0';
+
+  @Input() paginationButtonBorder: string = 'border';
+
   @Input() hiddenText: boolean = false;
 
   @Input() hiddenIcon: boolean = false;
@@ -38,7 +50,9 @@ export class DataGridComponent implements OnInit {
 
   @Input() addButtonVisible: boolean = true;
 
-  @Input() refreshButtonVisible: boolean = true;
+  @Input() refreshMenuButtonVisible: boolean = true;
+
+  @Input() refreshButtonVisible: boolean = false;
 
   @Input() readButtonVisible: boolean = true;
 
@@ -47,9 +61,32 @@ export class DataGridComponent implements OnInit {
   @Input() deleteButtonVisible: boolean = true;
 
   @Input() pageIndices: boolean = true;
-
-  // ######################################################################################
+// ######################################################################################
   private _deleteAllButtonVisible: boolean = false;
+
+// ######################################################################################
+  private _readOnly: boolean = false;
+
+  get readOnly(): boolean {
+    return this._readOnly;
+  }
+
+// ######################################################################################
+
+  @Input()
+  set readOnly(value: boolean) {
+    this._readOnly = value;
+    this.refreshButtonVisible = !value;
+    this.addButtonVisible = !value;
+    this.deleteAllButtonVisible = !value;
+    this.readButtonVisible = !value;
+    this.editButtonVisible = !value;
+    this.deleteButtonVisible = !value;
+    this.refreshMenuButtonVisible = !value;
+    this.columnSelectionDropdownVisible = !value;
+    this.bunchDropdownVisible = !value;
+    this.selectAllCheckboxVisible = !value;
+  }
 
   get deleteAllButtonVisible(): boolean {
     return this._deleteAllButtonVisible;
@@ -165,7 +202,7 @@ export class DataGridComponent implements OnInit {
     });
   }
 
-  deleteAll = (...identities: any[]) => {
+  deleteAll = (identities: any[]) => {
     this.service.deleteAll(identities).subscribe(() => {
       if (this.page.content.length == 1 || this.deletedItems.length == this.page.content.length)
         this.previousPage();
@@ -184,7 +221,13 @@ export class DataGridComponent implements OnInit {
   }
 
   toggleCheckedAllTuples() {
-    this.checkedAllTuples = this.checkedAllTuples == null ? "checked" : null;
+    if (this.checkedAllTuples == null) {
+      this.checkedAllTuples = "checked";
+      this.deletedItems = this.page.content.map(value => value.id);
+    } else {
+      this.checkedAllTuples = null;
+      this.deletedItems.splice(0, this.page.content.length);
+    }
   }
 
   bunchChange(value: any) {
@@ -215,16 +258,19 @@ export class DataGridComponent implements OnInit {
   }
 
   getPage = (index: number) => {
+    this.checkedAllTuples = null;
     this.page.index = index;
     this.page.size = parseInt(this.defaultBunch);
     this.getData(this.page);
   }
 
   currentPage = () => {
+    this.checkedAllTuples = null;
     this.getData(this.page);
   }
 
   nextPage = () => {
+    this.checkedAllTuples = null;
     if (this.page.index < this.page.indices.length - 1) {
       if (this.page.index == this.indicesOffset + this.indicesLimit - 1) {
         this.indicesOffset += this.indicesLimit
@@ -242,14 +288,14 @@ export class DataGridComponent implements OnInit {
     }
   }
 
-  nextIndex() {
+  nextIndex = () => {
     if (this.indicesOffset < this.page.indices.length) {
       this.indicesOffset += this.indicesLimit
       this.getPage(this.indicesOffset);
     }
   }
 
-  previousIndex() {
+  previousIndex = () => {
     if (this.indicesOffset > 0) {
       this.indicesOffset -= this.indicesLimit
       this.getPage(this.indicesOffset + this.indicesLimit - 1);

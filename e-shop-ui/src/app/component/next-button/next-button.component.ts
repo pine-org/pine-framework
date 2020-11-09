@@ -10,5 +10,7 @@ export class NextButtonComponent extends AbstractButton {
 
   constructor() {
     super('Next', 'fa fa-angle-double-right');
+    this.color = '';
+    this.shape = 'rounded-0';
   }
 }

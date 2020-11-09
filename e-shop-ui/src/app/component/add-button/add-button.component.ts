@@ -10,5 +10,6 @@ export class AddButtonComponent extends AbstractButton {
 
   constructor() {
     super('Add', 'fa fa-plus-square');
+    this.color = 'btn-primary';
   }
 }

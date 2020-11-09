@@ -10,5 +10,6 @@ export class ReadButtonComponent extends AbstractButton {
 
   constructor() {
     super('Read', 'fa fa-eye');
+    this.color = 'btn-info';
   }
 }

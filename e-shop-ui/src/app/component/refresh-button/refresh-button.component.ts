@@ -10,5 +10,6 @@ export class RefreshButtonComponent extends AbstractButton {
 
   constructor() {
     super('Refresh', 'fa fa-recycle');
+    this.color = 'btn-primary';
   }
 }

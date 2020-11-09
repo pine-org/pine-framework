@@ -10,5 +10,6 @@ export class UpdateButtonComponent extends AbstractButton {
 
   constructor() {
     super('Update', 'fa fa-save');
+    this.color = 'btn-primary';
   }
 }

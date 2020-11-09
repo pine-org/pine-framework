@@ -12,6 +12,7 @@ export class DeleteBunchButtonComponent extends AbstractButton {
 
   constructor() {
     super('Delete Bunch', 'fa fa-trash');
+    this.color = 'btn-danger';
   }
 
 }

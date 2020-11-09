@@ -1,4 +1,6 @@
-<button (click)="click()" *ngIf="!properties.hidden" class="btn btn-dark rounded-0" type="button">
+<button (click)="click()" *ngIf="!properties.hidden"
+        class="btn {{shape}} {{border}} {{color}}"
+        type="button">
   <i *ngIf="!properties.icon.hidden"
      class="{{properties.icon.name}}"></i>{{properties.separator}}{{properties.title.content}}
 </button>

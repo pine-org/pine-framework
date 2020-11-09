@@ -7,9 +7,17 @@ export abstract class AbstractButton implements OnInit {
   text: string = '';
 
   iconName: string = '';
+
+  @Input() color: string = '';
+  @Input() border: string = 'border';
+  @Input() shape: string = '';
+  private _hiddenText: boolean = false;
+  private _hiddenIcon: boolean = false;
+
   @Input() properties: Properties = Properties.builder(Text.builder(this.text).hidden(this.hiddenText).build())
     .icon(Icon.builder(this.iconName).hidden(this.hiddenIcon).build())
     .build();
+
   @Input() click: (...params: any[]) => void
 
   protected constructor(text: string, iconName: string) {
@@ -17,7 +25,8 @@ export abstract class AbstractButton implements OnInit {
     this.iconName = iconName;
   }
 
-  private _hiddenText: boolean = false;
+  ngOnInit() {
+  }
 
   get hiddenText(): boolean {
     return this._hiddenText;
@@ -31,8 +40,6 @@ export abstract class AbstractButton implements OnInit {
       .build();
   }
 
-  private _hiddenIcon: boolean = false;
-
   get hiddenIcon(): boolean {
     return this._hiddenIcon;
   }
@@ -43,8 +50,5 @@ export abstract class AbstractButton implements OnInit {
     this.properties = Properties.builder(Text.builder(this.text).hidden(this._hiddenText).build())
       .icon(Icon.builder(this.iconName).hidden(this._hiddenIcon).build())
       .build();
-  }
-
-  ngOnInit() {
   }
 }

@@ -1,185 +1,239 @@
-<div class="mx-5 my-5">
-  <div class="d-flex flex-column">
-    <div class=" row my-3 justify-content-start"><h3><strong>{{title}}</strong></h3></div>
-    <div class="row my-1 d-flex align-items-baseline">
-      <div class="col">
-        <div class="row d-flex justify-content-start">
+<div class="d-flex flex-row justify-content-center p-5">
+  <div class="w-{{tableWidth}}">
+    <div class="d-flex flex-column">
+      <!--      <div class="col">-->
+      <div class="d-flex flex-row my-3 justify-content-center"><h1><strong>{{title}}</strong></h1></div>
+      <!--      </div>-->
+      <!--      <div class="col">-->
+      <div class="d-flex flex-wrap justify-content-between my-1">
+        <div class="d-flex">
+          <!-- refresh button---------------------------------------------------------------------------------->
+          <div *ngIf="refreshButtonVisible">
+            <app-refresh-button [click]="currentPage"
+                                [hiddenIcon]="hiddenIcon"
+                                [hiddenText]="hiddenText"
+                                [shape]="buttonShape">
+
+            </app-refresh-button>
+          </div>
+          <!-- refresh button---------------------------------------------------------------------------------->
+          <div *ngIf="refreshButtonVisible" class="mx-1"></div>
           <!-- add button---------------------------------------------------------------------------------->
           <div *ngIf="addButtonVisible">
-            <app-add-button [hiddenIcon]="hiddenIcon" [hiddenText]="hiddenText"></app-add-button>
+            <app-add-button [hiddenIcon]="hiddenIcon"
+                            [hiddenText]="hiddenText"
+                            [shape]="buttonShape">
+
+            </app-add-button>
           </div>
           <!-- add button---------------------------------------------------------------------------------->
-          <div class="mx-1"></div>
+          <div *ngIf="deleteAllButtonVisible" class="mx-1"></div>
           <!-- delete all button-->
-          <div *ngIf="deleteAllButtonVisible && !deleteButtonVisible">
+          <div *ngIf="deleteAllButtonVisible">
             <app-delete-bunch-button [click]="deleteAll"
                                      [hiddenIcon]="hiddenIcon"
                                      [hiddenText]="hiddenText"
-                                     [identities]="deletedItems">
+                                     [identities]="deletedItems"
+                                     [shape]="buttonShape">
             </app-delete-bunch-button>
           </div>
           <!-- delete all button-->
         </div>
-      </div>
-      <div class="col d-flex justify-content-end px-0">
-        <!--bunch dropdown---------------------------------------------------------------------------------->
-        <div *ngIf="!bunchDropdown.hidden" class="btn-group">
-          <button aria-expanded="false"
-                  aria-haspopup="true"
-                  class="btn rounded-0 btn-dark dropdown-toggle"
-                  data-toggle="dropdown"
-                  type="button">
-            {{hiddenText ? defaultBunch : bunchDropdown.title.content}}
-          </button>
-          <div class="dropdown-menu">
-            <a (click)="bunchChange(bunch)" *ngFor='let bunch of bunches' class="dropdown-item">{{bunch}}</a>
+        <div class="d-flex">
+          <!--bunch dropdown---------------------------------------------------------------------------------->
+          <div *ngIf="!bunchDropdown.hidden" class="btn-group">
+            <button aria-expanded="false"
+                    aria-haspopup="true"
+                    class="btn rounded-0 btn-dark dropdown-toggle"
+                    data-toggle="dropdown"
+                    type="button">
+              {{hiddenText ? defaultBunch : bunchDropdown.title.content}}
+            </button>
+            <div class="dropdown-menu">
+              <a (click)="bunchChange(bunch)" *ngFor='let bunch of bunches' class="dropdown-item">{{bunch}}</a>
+            </div>
           </div>
-        </div>
-        <!--bunch dropdown---------------------------------------------------------------------------------->
-        <!--columns dropdown---------------------------------------------------------------------------------->
-        <div *ngIf="!columnSelectionDropdown.hidden" class="btn-group">
-          <button aria-expanded="false"
-                  aria-haspopup="true"
-                  class="btn rounded-0 btn-dark dropdown-toggle"
-                  data-toggle="dropdown"
-                  type="button">
-            <i *ngIf="!hiddenIcon" class="fa fa-angle-double-down"></i>
-            {{columnSelectionDropdown.title.hidden || hiddenText ? '' : columnSelectionDropdown.separator}}
-            {{columnSelectionDropdown.title.hidden || hiddenText ? '' : columnSelectionDropdown.title.content}}
-          </button>
-          <div class="dropdown-menu">
-            <a *ngFor='let column of columns' class="dropdown-item">
-              <input (change)="columnSelectionChange(column, $event)"
-                     value="{{column}}"
-                     checked
-                     class="mx-1"
-                     type="checkbox"/>
-              {{column.title.content}}
-            </a>
+          <!--bunch dropdown---------------------------------------------------------------------------------->
+          <!--columns dropdown---------------------------------------------------------------------------------->
+          <div *ngIf="!columnSelectionDropdown.hidden" class="btn-group">
+            <button aria-expanded="false"
+                    aria-haspopup="true"
+                    class="btn rounded-0 btn-dark dropdown-toggle"
+                    data-toggle="dropdown"
+                    type="button">
+              <i *ngIf="!hiddenIcon" class="fa fa-angle-double-down"></i>
+              {{columnSelectionDropdown.title.hidden || hiddenText ? '' : columnSelectionDropdown.separator}}
+              {{columnSelectionDropdown.title.hidden || hiddenText ? '' : columnSelectionDropdown.title.content}}
+            </button>
+            <div class="dropdown-menu">
+              <a *ngFor='let column of columns' class="dropdown-item">
+                <input (change)="columnSelectionChange(column, $event)"
+                       checked
+                       class="mx-1"
+                       type="checkbox"
+                       value="{{column}}"/>
+                {{column.title.content}}
+              </a>
+            </div>
           </div>
+          <!--columns dropdown---------------------------------------------------------------------------------->
+          <!--refresh menu button---------------------------------------------------------------------------------->
+          <app-refresh-menu-button *ngIf="refreshMenuButtonVisible"
+                                   [click]="currentPage"
+                                   [hiddenIcon]="hiddenIcon"
+                                   [hiddenText]="hiddenText">
+          </app-refresh-menu-button>
+          <!--refresh menu button---------------------------------------------------------------------------------->
         </div>
-        <!--columns dropdown---------------------------------------------------------------------------------->
-        <!--refresh button---------------------------------------------------------------------------------->
-        <app-refresh-menu-button *ngIf="refreshButtonVisible"
-                                 [click]="currentPage"
-                                 [hiddenIcon]="hiddenIcon"
-                                 [hiddenText]="hiddenText">
-        </app-refresh-menu-button>
-        <!--refresh button---------------------------------------------------------------------------------->
       </div>
-    </div>
-    <div class="row my-1">
-      <!--data table---------------------------------------------------------------------------------->
-      <table class="table table-hover table-bordered table-sm">
-        <!--table header---------------------------------------------------------------------------------->
-        <thead class="thead-light">
-        <th [hidden]="firstColumn.hidden">
-          {{selectAllCheckboxVisible ? '' : firstColumn.title.content}}
-          <input (click)="toggleCheckedAllTuples()"
-                 *ngIf="selectAllCheckboxVisible"
-                 type="checkbox"
-                 checked="{{checkedAllTuples}}"/>
-        </th>
-        <th *ngFor="let column of columns" [hidden]="column.hidden" class='table-header'>
-          {{column.title.content}}
-        </th>
-        <th [hidden]="operationColumn.hidden || (!readButtonVisible && !editButtonVisible && !deleteButtonVisible)"
-            class="fit">
-          {{operationColumn.title.content}}
-        </th>
-        </thead>
-        <!--table header---------------------------------------------------------------------------------->
-        <!--table body---------------------------------------------------------------------------------->
-        <tbody>
-        <tr *ngFor="let item of page.content; index as i">
-          <!--table first column---------------------------------------------------------------------------------->
-          <td [hidden]="firstColumn.hidden" class="fit">
-            <app-index-button *ngIf="!deleteAllButtonVisible" [index]="i + 1" border=""></app-index-button>
-            <input (change)="deletedItemsChange($event)"
-                   *ngIf="deleteAllButtonVisible"
+      <!--      </div>-->
+      <!--      <div class="col">-->
+      <div class="d-flex flex-row justify-content-center align-items-baseline my-1">
+        <!--data table---------------------------------------------------------------------------------->
+        <table class="table table-hover table-bordered table-sm">
+          <!--table header---------------------------------------------------------------------------------->
+          <thead class="thead-light">
+          <th [hidden]="firstColumn.hidden"
+              class="table-header fit text-center p-{{headerHeight}}">
+            {{selectAllCheckboxVisible ? '' : firstColumn.title.content}}
+            <input (click)="toggleCheckedAllTuples()"
+                   *ngIf="selectAllCheckboxVisible"
                    checked="{{checkedAllTuples}}"
-                   type="checkbox"
-                   value="{{item.id}}"/>
-          </td>
-          <!--table first column---------------------------------------------------------------------------------->
-          <!--table logic column---------------------------------------------------------------------------------->
-          <td *ngFor="let column of columns"
-              [hidden]="column.hidden"
-              class="align-middle">
-            {{item[column.field.content]}}
-          </td>
-          <!--table logic column---------------------------------------------------------------------------------->
-          <!--table operation column---------------------------------------------------------------------------------->
-          <td [hidden]="operationColumn.hidden || (!readButtonVisible && !editButtonVisible && !deleteButtonVisible)"
-              class="fit">
-            <div class="d-flex flex-row px-2 justify-content-end">
-              <!--read button---------------------------------------------------------------------------------->
-              <div>
-                <app-read-button *ngIf="readButtonVisible" [hiddenIcon]="hiddenIcon" [hiddenText]="hiddenText">
-                </app-read-button>
-              </div>
-              <!--read button---------------------------------------------------------------------------------->
-              <div class="mx-1"></div>
-              <!--edit button---------------------------------------------------------------------------------->
-              <div>
-                <app-edit-button *ngIf="editButtonVisible" [hiddenIcon]="hiddenIcon" [hiddenText]="hiddenText">
-                </app-edit-button>
-              </div>
-              <!--edit button---------------------------------------------------------------------------------->
-              <div class="mx-1"></div>
-              <!-- delete button-->
-              <div>
-                <app-delete-button *ngIf="deleteButtonVisible && !deleteAllButtonVisible"
-                                   [click]="delete"
+                   type="checkbox"/>
+          </th>
+          <th *ngFor="let column of columns" [hidden]="column.hidden"
+              class='table-header fit-logic  py-{{headerHeight}}'>
+            {{column.title.content}}
+          </th>
+          <th [hidden]="operationColumn.hidden || (!readButtonVisible && !editButtonVisible && !deleteButtonVisible)"
+              class="table-header fit text-center py-{{headerHeight}}">
+            {{operationColumn.title.content}}
+          </th>
+          </thead>
+          <!--table header---------------------------------------------------------------------------------->
+          <!--table body---------------------------------------------------------------------------------->
+          <tbody>
+          <tr *ngFor="let item of page.content; index as i">
+            <!--table first column---------------------------------------------------------------------------------->
+            <td [hidden]="firstColumn.hidden" class="fit align-middle p-{{rowHeight}}">
+              <div *ngIf="!deleteAllButtonVisible">{{i + 1}}</div>
+              <input (change)="deletedItemsChange($event)"
+                     *ngIf="deleteAllButtonVisible"
+                     checked="{{checkedAllTuples}}"
+                     type="checkbox"
+                     value="{{item.id}}"/>
+            </td>
+            <!--table first column---------------------------------------------------------------------------------->
+            <!--table logic column---------------------------------------------------------------------------------->
+            <td *ngFor="let column of columns"
+                [hidden]="column.hidden"
+                class="align-middle fit-logic py-{{rowHeight}}">
+              {{item[column.field.content]}}
+            </td>
+            <!--table logic column---------------------------------------------------------------------------------->
+            <!--table operation column---------------------------------------------------------------------------------->
+            <td
+              [hidden]="operationColumn.hidden || (!readButtonVisible && !editButtonVisible && !deleteButtonVisible)"
+              class="fit py-{{rowHeight}}">
+              <div class="d-flex flex-row px-2 justify-content-end">
+                <!--read button---------------------------------------------------------------------------------->
+                <div>
+                  <app-read-button *ngIf="readButtonVisible"
                                    [hiddenIcon]="hiddenIcon"
                                    [hiddenText]="hiddenText"
-                                   [identity]="item.id">
-                </app-delete-button>
+                                   [shape]="buttonShape">
+                  </app-read-button>
+                </div>
+                <!--read button---------------------------------------------------------------------------------->
+                <div class="mx-1"></div>
+                <!--edit button---------------------------------------------------------------------------------->
+                <div>
+                  <app-edit-button *ngIf="editButtonVisible"
+                                   [hiddenIcon]="hiddenIcon"
+                                   [hiddenText]="hiddenText"
+                                   [shape]="buttonShape">
+                  </app-edit-button>
+                </div>
+                <!--edit button---------------------------------------------------------------------------------->
+                <div class="mx-1"></div>
+                <!-- delete button-->
+                <div>
+                  <app-delete-button *ngIf="deleteButtonVisible"
+                                     [click]="delete"
+                                     [hiddenIcon]="hiddenIcon"
+                                     [hiddenText]="hiddenText"
+                                     [identity]="item.id"
+                                     [shape]="buttonShape">
+                  </app-delete-button>
+                </div>
+                <!-- delete button-->
               </div>
-              <!-- delete button-->
-            </div>
-          </td>
-          <!--table operation column---------------------------------------------------------------------------------->
-        </tr>
-        </tbody>
-        <!--table body---------------------------------------------------------------------------------->
-      </table>
-      <!--data table---------------------------------------------------------------------------------->
-    </div>
-    <div *ngIf="pageIndices" class="col-auto">
-      <!--table indices---------------------------------------------------------------------------------->
-      <ul class="pagination justify-content-center align-items-baseline">
-        <!--previous button---------------------------------------------------------------------------------->
-        <li class="page-item">
-          <app-previous-button [click]="previousPage" [hiddenIcon]="hiddenIcon" [hiddenText]="hiddenText">
-          </app-previous-button>
-        </li>
-        <!--previous button---------------------------------------------------------------------------------->
-        <div *ngIf="indicesOffset > 0" class="mx-2">
-          <button (click)="previousIndex()" class="btn rounded-0 border-0" type="button">
-            <i class="fa fa-angle-double-left"></i>
-          </button>
-        </div>
-        <!--indices---------------------------------------------------------------------------------->
-        <li *ngFor='let num of page.indices' class="page-item">
-          <div *ngIf="num >= indicesOffset && num < indicesOffset + indicesLimit">
-            <app-index-button [click]="getPage" [color]="isActive(num)" [index]="num"></app-index-button>
+            </td>
+            <!--table operation column---------------------------------------------------------------------------------->
+          </tr>
+          </tbody>
+          <!--table body---------------------------------------------------------------------------------->
+        </table>
+        <!--data table---------------------------------------------------------------------------------->
+      </div>
+      <!--      </div>-->
+      <!--      <div class="col">-->
+      <div *ngIf="pageIndices" class="d-flex flex-row justify-content-center align-items-baseline">
+        <!--table indices---------------------------------------------------------------------------------->
+        <ul class="pagination">
+          <!--previous button---------------------------------------------------------------------------------->
+          <li class="page-item">
+            <app-previous-button [border]="paginationButtonBorder"
+                                 [click]="previousPage"
+                                 [hiddenIcon]="hiddenIcon"
+                                 [hiddenText]="hiddenText"
+                                 [shape]="paginationButtonShape">
+            </app-previous-button>
+          </li>
+          <!--previous button---------------------------------------------------------------------------------->
+          <div *ngIf="indicesOffset > 0" class="mx-2">
+            <app-previous-button [border]="''"
+                                 [click]="previousIndex"
+                                 [hiddenIcon]="hiddenIcon"
+                                 [hiddenText]="true"
+                                 [shape]="paginationButtonShape">
+            </app-previous-button>
           </div>
-        </li>
-        <!--indices---------------------------------------------------------------------------------->
-        <div *ngIf="indicesOffset + indicesLimit < page.indices.length" class="mx-2">
-          <button (click)="nextIndex()" class="btn rounded-0 border-0" type="button">
-            <i class="fa fa-angle-double-right"></i>
-          </button>
-        </div>
-        <!--next button---------------------------------------------------------------------------------->
-        <li class="page-item">
-          <app-next-button [click]="nextPage" [hiddenIcon]="hiddenIcon" [hiddenText]="hiddenText">
-          </app-next-button>
-        </li>
-        <!--next button---------------------------------------------------------------------------------->
-      </ul>
-      <!--table indices---------------------------------------------------------------------------------->
+          <!--indices---------------------------------------------------------------------------------->
+          <li *ngFor='let num of page.indices' class="page-item">
+            <div *ngIf="num >= indicesOffset && num < indicesOffset + indicesLimit">
+              <app-index-button [border]="paginationButtonBorder"
+                                [click]="getPage"
+                                [color]="isActive(num)"
+                                [index]="num"
+                                [shape]="paginationButtonShape">
+
+              </app-index-button>
+            </div>
+          </li>
+          <!--indices---------------------------------------------------------------------------------->
+          <div *ngIf="indicesOffset + indicesLimit < page.indices.length" class="mx-2">
+            <app-next-button [border]="''"
+                             [click]="nextIndex"
+                             [hiddenIcon]="hiddenIcon"
+                             [hiddenText]="true"
+                             [shape]="paginationButtonShape">
+            </app-next-button>
+          </div>
+          <!--next button---------------------------------------------------------------------------------->
+          <li class="page-item">
+            <app-next-button [border]="paginationButtonBorder"
+                             [click]="nextPage"
+                             [hiddenIcon]="hiddenIcon"
+                             [hiddenText]="hiddenText"
+                             [shape]="paginationButtonShape">
+            </app-next-button>
+          </li>
+          <!--next button---------------------------------------------------------------------------------->
+        </ul>
+        <!--table indices---------------------------------------------------------------------------------->
+      </div>
+      <!--      </div>-->
     </div>
   </div>
 </div>

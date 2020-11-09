@@ -13,6 +13,7 @@ export class DeleteButtonComponent extends AbstractButton {
 
   constructor() {
     super('Delete', 'fa fa-trash');
+    this.color = 'btn-danger';
   }
 
 }
