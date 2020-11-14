@@ -23,4 +23,3 @@ services:
         condition: service_healthy
     ports:
       - 9091:9091
-    restart: on-failure
