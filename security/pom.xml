@@ -223,9 +223,11 @@
         <profile>
             <id>AccessDockerToHost</id>
             <properties>
-                <database.host>host.docker.internal</database.host>
-                <queue.host>host.docker.internal</queue.host>
+                <database.host>host.docker.internal:3306</database.host>
+                <queue.host>host.docker.internal:61616</queue.host>
                 <config.server.host>host.docker.internal</config.server.host>
+                <product.host>0.0.0.0</product.host>
+                <product.port>9091</product.port>
             </properties>
         </profile>
         <profile>

@@ -1,0 +1,2 @@
+docker build -t samanalishiri/config-server:latest .
+docker run -p 9091:9091 -t samanalishiri/config-server:latest
