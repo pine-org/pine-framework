@@ -62,14 +62,4 @@
             </resource>
         </resources>
     </build>
-    <profiles>
-        <profile>
-            <id>AccessDockerToHost</id>
-            <properties>
-                <env>accessdockertohost</env>
-                <build.profile.id>accessdockertohost</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-    </profiles>
 </project>

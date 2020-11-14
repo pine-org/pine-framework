@@ -25,6 +25,7 @@
         <message-queue-vendor>empty</message-queue-vendor>
         <database-vendor>empty</database-vendor>
         <env>empty</env>
+        <config-repository>empty</config-repository>
 
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
@@ -253,9 +254,10 @@
             <properties>
                 <database.host>host.docker.internal:3306</database.host>
                 <queue.host>host.docker.internal:61616</queue.host>
-                <config.server.host>host.docker.internal</config.server.host>
+                <config.server.host>config-server:8888</config.server.host>
                 <product.host>0.0.0.0</product.host>
                 <product.port>9091</product.port>
+                <config-repository>accessdockertohost</config-repository>
             </properties>
         </profile>
         <profile>
@@ -266,6 +268,7 @@
                 <config.server.host>localhost:8888</config.server.host>
                 <product.host>127.0.0.1</product.host>
                 <product.port>9091</product.port>
+                <config-repository>localhost</config-repository>
             </properties>
         </profile>
         <profile>

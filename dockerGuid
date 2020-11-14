@@ -17,7 +17,7 @@ docker run -p 8888:8888 config-server
 docker container exec -it ae bash
 
 docker system prune
-docker-compose up --build
+docker-compose up --build -d
 
 
 ======================================================

@@ -235,7 +235,7 @@
             <properties>
                 <database.host>host.docker.internal:3306</database.host>
                 <queue.host>host.docker.internal:61616</queue.host>
-                <config.server.host>host.docker.internal</config.server.host>
+                <config.server.host>config-server:8888</config.server.host>
                 <product.host>0.0.0.0</product.host>
                 <product.port>9091</product.port>
             </properties>
