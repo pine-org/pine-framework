@@ -1,0 +1,4 @@
+docker system prune
+docker image rm config-server:latest
+docker image rm e-shop:latest
+docker-compose up

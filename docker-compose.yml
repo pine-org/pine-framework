@@ -1,7 +1,7 @@
 version: '3'
 services:
   config-server:
-    image: config-server
+    image: config-server:latest
     build:
       context: ./spring-core/config-server
       dockerfile: Dockerfile
@@ -12,11 +12,10 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-
   e-shop:
-    image: e-shop
+    image: e-shop:latest
     build:
-      context: ./tutorial/e-shop/rest-api
+      context: ./tutorial/e-shop/demo
       dockerfile: Dockerfile
     depends_on:
       config-server:
