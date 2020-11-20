@@ -1,4 +1,3 @@
-message-queue-name: sample-queue,status-queue
 spring:
   activemq:
     broker-url: tcp://host.docker.internal:61616
