@@ -13,9 +13,9 @@ spring:
       server:
         git:
           cloneOnStart: true
-          search-paths: config-repo-@env@-@config-repository@
           uri: https://github.com/pine-org/pine-framework
+          search-paths: config-@env@-@config-repository@
   main:
-    banner-mode: 'off'
+    banner-mode: off
   profiles:
     active: internationalization,@database-vendor@,@message-queue-vendor@
