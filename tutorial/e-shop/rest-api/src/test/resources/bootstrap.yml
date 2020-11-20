@@ -1,0 +1,10 @@
+server:
+  address: 127.0.0.1
+  port: 0
+  servlet:
+    context-path: /e-shop
+spring:
+  application:
+    name: e-shop
+  profiles:
+    active: test,common-test,internationalization,activemq-test,h2

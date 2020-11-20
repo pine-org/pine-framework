@@ -235,7 +235,8 @@
             <properties>
                 <database.host>host.docker.internal:3306</database.host>
                 <queue.host>host.docker.internal:61616</queue.host>
-                <config.server.host>config-server:8888</config.server.host>
+                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
+                <config.server.host>pine-config-server:8888</config.server.host>
                 <product.host>0.0.0.0</product.host>
                 <product.port>9091</product.port>
                 <config-repository>accessdockertohost</config-repository>
@@ -246,6 +247,7 @@
             <properties>
                 <database.host>localhost:3306</database.host>
                 <queue.host>localhost:61616</queue.host>
+                <discovery.server.host>localhost:8761</discovery.server.host>
                 <config.server.host>localhost:8888</config.server.host>
                 <product.host>127.0.0.1</product.host>
                 <product.port>9091</product.port>

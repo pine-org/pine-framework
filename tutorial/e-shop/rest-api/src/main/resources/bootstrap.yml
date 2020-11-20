@@ -1,0 +1,10 @@
+server:
+  address: '@product.host@'
+  port: '@product.port@'
+  servlet:
+    context-path: /e-shop
+spring:
+  application:
+    name: e-shop
+  profiles:
+    active: '@env@,@config-profile@,@message-queue-vendor@,@database-vendor@,US'

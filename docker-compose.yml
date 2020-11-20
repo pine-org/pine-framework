@@ -1,24 +1,64 @@
 version: '3'
 services:
-  config-server:
+  pine-discovery-server-eureka:
+    hostname: "pine-discovery-server-eureka"
+    image: discovery-server-eureka:latest
+    build:
+      context: ./spring-core/discovery-server-eureka
+      dockerfile: Dockerfile
+    ports:
+      - 8761:8761
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - pine-net
+  pine-config-server:
+    hostname: "pine-config-server"
     image: config-server:latest
     build:
       context: ./spring-core/config-server
       dockerfile: Dockerfile
+    depends_on:
+      pine-discovery-server-eureka:
+        condition: service_healthy
+    links:
+      - pine-discovery-server-eureka
     ports:
       - 8888:8888
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8888/config-server/mysql-development" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
       interval: 30s
       timeout: 10s
       retries: 5
-  e-shop:
+    networks:
+      - pine-net
+  pine-e-shop:
+    hostname: "pine-e-shop"
     image: e-shop:latest
     build:
-      context: ./tutorial/e-shop/demo
+      context: ./tutorial/e-shop/rest-api
       dockerfile: Dockerfile
     depends_on:
-      config-server:
+      pine-discovery-server-eureka:
         condition: service_healthy
+      pine-config-server:
+        condition: service_healthy
+    links:
+      - pine-discovery-server-eureka
+      - pine-config-server
     ports:
       - 9091:9091
+    networks:
+      - pine-net
+  pine-test:
+    image: openjdk:8
+    command: tail -F anything
+    networks:
+      - pine-net
+networks:
+  pine-net:
+    internal: true
+    driver: bridge

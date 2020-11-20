@@ -23,8 +23,8 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>application-common-${env}.properties</include>
-                    <include>application-config-server-${env}.properties</include>
+                    <include>bootstrap-common-${env}.yml</include>
+                    <include>bootstrap-config-server-${env}.yml</include>
                     <include>bannername.txt</include>
                 </includes>
             </resource>

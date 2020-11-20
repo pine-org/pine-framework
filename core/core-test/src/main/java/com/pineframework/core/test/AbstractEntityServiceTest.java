@@ -74,8 +74,8 @@ public abstract class AbstractEntityServiceTest<I extends Serializable, T extend
     public void deleteById(I id) {
         getOperator().delete(id);
 
-        Optional model = getOperator().findById(id);
-        assertFalse(model.isPresent());
+        long count = getOperator().count((root, query, cb) -> cb.equal(root.get("id"), id));
+        assertFalse(count > 0);
         logInfo(format("delete model[%s] by id[%s] successful", getTestDataName(id), id));
     }
 

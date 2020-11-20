@@ -1,0 +1,2 @@
+docker build -t samanalishiri/discovery-server-eureka:latest .
+docker run -p 8761:8761 -t samanalishiri/discovery-server-eureka:latest

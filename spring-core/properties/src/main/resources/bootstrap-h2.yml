@@ -1,0 +1,15 @@
+'@orm@': ''
+h2:
+  spring:
+    datasource:
+      driver-class-name: org.h2.Driver
+      initialization-mode: embedded
+      password: ''
+      platform: h2
+      url: jdbc:h2:mem:pine;MVCC=true;DB_CLOSE_DELAY=-1;MODE=mysql
+      username: sa
+    h2:
+      console:
+        enabled: true
+    jpa:
+      show-sql: true

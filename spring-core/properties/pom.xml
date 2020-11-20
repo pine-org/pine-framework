@@ -21,18 +21,18 @@
     <build>
         <!--        <filters>-->
         <!--            <filter>src/main/resources/env/log/log4j-${env}.properties</filter>-->
-        <!--            <filter>src/main/resources/env/mq/application-${message-queue-vendor}-${env}.properties</filter>-->
-        <!--            <filter>src/main/resources/env/database/application-${database-vendor}-${env}.properties</filter>-->
+        <!--            <filter>src/main/resources/env/mq/bootstrap-${message-queue-vendor}-${env}.yml</filter>-->
+        <!--            <filter>src/main/resources/env/database/bootstrap-${database-vendor}-${env}.yml</filter>-->
         <!--        </filters>-->
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>application-internationalization.properties</include>
-                    <include>application-common-${env}.properties</include>
-                    <include>application-${database-vendor}.properties</include>
-                    <include>application-${message-queue-vendor}.properties</include>
+                    <include>bootstrap-internationalization.yml</include>
+                    <include>bootstrap-common-${env}.yml</include>
+                    <include>bootstrap-${database-vendor}.yml</include>
+                    <include>bootstrap-${message-queue-vendor}.yml</include>
                     <include>log4j.properties</include>
                     <include>banner.txt</include>
                 </includes>
