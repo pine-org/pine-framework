@@ -1,2 +1,2 @@
-docker build -t samanalishiri/e-shop:latest .
-docker run -p 9091:9091 -t samanalishiri/e-shop:latest
+docker build -t e-shop:latest .
+docker run -p 9091:9091 -t e-shop:latest
