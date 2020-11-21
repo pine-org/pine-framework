@@ -1,0 +1,4 @@
+extract jdepend-2.10.zip/jdepend-2.10.tar.gz
+cd jdepend-2.10 directory
+ant jar
+copy jdepend-2.10.jar to jdepend root directory
