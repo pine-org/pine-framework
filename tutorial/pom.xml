@@ -141,7 +141,6 @@
             <properties>
                 <env>test</env>
                 <build.profile.id>test</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
                 <database.host>localhost:3306</database.host>
                 <queue.host>localhost:61616</queue.host>
                 <config.server.host>localhost:8888</config.server.host>

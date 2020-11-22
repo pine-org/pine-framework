@@ -10,15 +10,6 @@ sudo "/Library/Application Support/VirtualBox/LaunchDaemons/VirtualBoxStartup.sh
 
 $ docker-machine create --driver=virtualbox test
 
-docker build -t config-server .
-docker image ls
-docker run -p 8888:8888 config-server
-
-docker container exec -it ae bash
-
-docker system prune
-docker-compose up --build -d
-
 
 ======================================================
 docker --version
@@ -45,6 +36,9 @@ create image manually
 docker run -it alpine sh
 docker ps
 docker commit -c 'CMD [""]' image-id
+
+docker compose
+docker-compose up [--build] [-d]
 
 
 

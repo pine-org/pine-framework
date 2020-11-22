@@ -28,13 +28,12 @@ class PageModelTest extends AbstractTest {
     void printSpecificView() throws JsonProcessingException {
         Page page = new Page();
         String jsonString = mapper.writerWithView(PageMetadataView.class).writeValueAsString(page);
-        Assertions.assertTrue(jsonString.contains("offset"));
+        Assertions.assertFalse(jsonString.contains("offset"));
         Assertions.assertTrue(jsonString.contains("size"));
-        Assertions.assertFalse(jsonString.contains("index"));
-        Assertions.assertFalse(jsonString.contains("indices"));
-        Assertions.assertFalse(jsonString.contains("count"));
+        Assertions.assertTrue(jsonString.contains("index"));
+        Assertions.assertTrue(jsonString.contains("indices"));
         Assertions.assertFalse(jsonString.contains("content"));
-        Assertions.assertFalse(jsonString.contains("filters"));
+        Assertions.assertTrue(jsonString.contains("filters"));
         logInfo(jsonString);
     }
 }
