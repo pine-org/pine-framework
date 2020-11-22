@@ -9,5 +9,3 @@ Feature: Hello World
   Example:
   | name  | answer      |
   | World | Hello World |
-
-

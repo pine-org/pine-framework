@@ -1,4 +1,4 @@
-package com.pineframework.core.tutorial.eshop.test;
+package com.pineframework.core.tutorial.eshop.test.goods;
 
 import com.pineframework.core.test.AbstractRepositoryTest;
 import com.pineframework.core.test.JpaRepositoryTestImpl;
