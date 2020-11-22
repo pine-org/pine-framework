@@ -49,7 +49,6 @@ public class CategoryOgmRepository {
         return category.getId();
     }
 
-
     public Optional<CategoryEntity> selectById(Long id) {
         EntityManager em = null;
         CategoryEntity entity = null;

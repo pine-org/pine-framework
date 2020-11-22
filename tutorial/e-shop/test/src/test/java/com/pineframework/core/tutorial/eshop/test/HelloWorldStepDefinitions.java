@@ -1,4 +1,4 @@
-package com.pineframework.core.tutorial.eshop.integrationtest;
+package com.pineframework.core.tutorial.eshop.test;
 
 import io.cucumber.java8.En;
 import org.junit.jupiter.api.Assertions;
