@@ -1,20 +1,20 @@
-package com.pineframework.core.tutorial.eshop;
+package com.pineframework.core.tutorial.eshop.test.goods;
 
 import com.pineframework.core.test.AbstractRepositoryTest;
+import com.pineframework.core.test.JpaRepositoryTestImpl;
 import com.pineframework.core.tutorial.eshop.business.domain.GoodsEntity;
 import com.pineframework.core.tutorial.eshop.business.repository.GoodsRepository;
+import com.pineframework.core.tutorial.eshop.business.repository.GoodsRepositoryImpl;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityTransaction;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,19 +26,17 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
 @DisplayName("E-Shop Goods Repository Test")
-@Transactional
-@Commit
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-public class GoodsRepositoryTest extends AbstractRepositoryTest<Long, GoodsEntity, GoodsRepository> {
+@TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
+public class GoodRepositoryTest extends AbstractRepositoryTest<Long, GoodsEntity, GoodsRepository> {
 
-    public static final Map<String, GoodsEntity> STORAGE = new HashMap();
+    private static final Map<String, GoodsEntity> STORAGE = new HashMap<>();
+    private static final JpaRepositoryTestImpl JPA_REPOSITORY_TEST = new JpaRepositoryTestImpl("GoodRepositoryTest");
 
-    @Autowired
-    public GoodsRepositoryTest(GoodsRepository repository) {
-        super(repository, STORAGE);
+    private final EntityTransaction transaction = JPA_REPOSITORY_TEST.getEntityManager().getTransaction();
+
+    public GoodRepositoryTest() {
+        super(new GoodsRepositoryImpl(JPA_REPOSITORY_TEST), STORAGE);
     }
 
     @Override
@@ -62,11 +60,23 @@ public class GoodsRepositoryTest extends AbstractRepositoryTest<Long, GoodsEntit
         addToStorage("chair", chair);
     }
 
+    @Override
+    @BeforeEach
+    public void setUp() {
+        super.setUp();
+        transaction.begin();
+    }
+
+    @AfterEach
+    void tearDown() {
+        transaction.commit();
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"table", "desk", "chair"})
     @DisplayName("Save three goods entity {table, desk, chair}")
     @Order(1)
-    public void save_SaveNewGoodsEntity_ReturnId(String name) {
+    void save_GivenGoods_WhenSaveFunction_ThenReturnID(String name) {
         GoodsEntity entity = getFromStorage(name);
         Long id = save(entity);
         assertNotNull(id);
@@ -123,7 +133,7 @@ public class GoodsRepositoryTest extends AbstractRepositoryTest<Long, GoodsEntit
         Long id = testEntity.getId();
         assertNotNull(id);
         deleteById(id);
-
+        getOperator().clear();
         Optional entity = getOperator().findById(id);
         assertFalse(entity.isPresent());
     }

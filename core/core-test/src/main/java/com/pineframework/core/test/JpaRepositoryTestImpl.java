@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,20 @@ import static javax.persistence.Persistence.createEntityManagerFactory;
 
 public class JpaRepositoryTestImpl implements Repository {
 
-    private final EntityManager entityManager = HibernateUtils.createEntityManager();
+    private final EntityManagerFactory entityManagerFactory;
+
+    private final EntityManager entityManager;
+
+    public JpaRepositoryTestImpl(String databaseName) {
+        HashMap<Object, Object> map = new HashMap<>();
+        map.put("javax.persistence.jdbc.url", "jdbc:h2:mem:" + databaseName + ";DB_CLOSE_DELAY=-1");
+        entityManagerFactory = createEntityManagerFactory("jpa-h2-test", map);
+        entityManager = entityManagerFactory.createEntityManager();
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
 
     @Override
     public void flush() {
@@ -107,21 +121,8 @@ public class JpaRepositoryTestImpl implements Repository {
         return query;
     }
 
-    private static class HibernateUtils {
-
-        private static final EntityManagerFactory ENTITY_MANAGER_FACTORY;
-
-        static {
-            ENTITY_MANAGER_FACTORY = createEntityManagerFactory("jpa-h2-test");
-        }
-
-        public static EntityManager createEntityManager() {
-            return ENTITY_MANAGER_FACTORY.createEntityManager();
-        }
-
-        public static void closeApplication() {
-            ENTITY_MANAGER_FACTORY.close();
-        }
-
+    public void closeDatabase() {
+        entityManagerFactory.close();
     }
+
 }

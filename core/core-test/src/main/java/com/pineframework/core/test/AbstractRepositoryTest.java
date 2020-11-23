@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static java.lang.String.format;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -67,8 +66,6 @@ public abstract class AbstractRepositoryTest<I extends Serializable, T extends F
     @Override
     public void deleteById(I id) {
         getOperator().delete(id);
-        Optional entity = getOperator().findById(id);
-        assertFalse(entity.isPresent());
         logInfo(format("delete entity[%s] by id[%s] successful", getTestObjectName(id), id));
     }
 
