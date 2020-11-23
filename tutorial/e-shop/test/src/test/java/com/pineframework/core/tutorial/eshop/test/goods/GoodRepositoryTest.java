@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class GoodRepositoryTest extends AbstractRepositoryTest<Long, GoodsEntity, GoodsRepository> {
 
     private static final Map<String, GoodsEntity> STORAGE = new HashMap<>();
+
     private static final JpaRepositoryTestImpl JPA_REPOSITORY_TEST = new JpaRepositoryTestImpl("GoodRepositoryTest");
 
     private final EntityTransaction transaction = JPA_REPOSITORY_TEST.getEntityManager().getTransaction();
