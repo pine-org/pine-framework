@@ -40,7 +40,7 @@
         <asciidoctorj.version>2.3.0</asciidoctorj.version>
         <jruby.version>9.2.11.1</jruby.version>
 
-        <contratc.version>1.0.0-SNAPSHOT</contratc.version>
+        <contract.version>1.0.0-SNAPSHOT</contract.version>
         <core-business.version>1.0.0-SNAPSHOT</core-business.version>
         <data-model.version>1.0.0-SNAPSHOT</data-model.version>
         <helper.version>1.0.0-SNAPSHOT</helper.version>

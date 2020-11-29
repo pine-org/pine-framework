@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.pineframework.core.helper.FileUtils.readFile;
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -127,4 +129,16 @@ public class GoodsRepositoryTest extends AbstractRepositoryTest<Long, GoodsEntit
         Optional entity = getOperator().findById(id);
         assertFalse(entity.isPresent());
     }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"table"})
+    @DisplayName("Save table goods with photo entity {table}")
+    @Order(5)
+    public void save_SaveNewGoodsWithPhotoEntity_ReturnId(String name) {
+        GoodsEntity entity = getFromStorage(name);
+        entity.setPhoto(readFile(format("src/test/resources/img/%s.jpg", name)));
+        Long id = save(entity);
+        assertNotNull(id);
+    }
+
 }

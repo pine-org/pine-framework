@@ -4,17 +4,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+/**
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 public final class ObjectRegistry<T> {
 
-    private Map<String, T> map = new HashMap<>();
+    private final Map<String, T> map = new HashMap<>();
 
-    public ObjectRegistry register(String name, T t) {
+    public ObjectRegistry<T> register(String name, T t) {
         map.put(name, t);
         return this;
     }
 
     public T lookup(String name) {
-        return map.containsKey(name) ? map.get(name) : null;
+        return map.getOrDefault(name, null);
     }
 
     public T lookupOrElseGet(String name, Supplier<T> supplier) {

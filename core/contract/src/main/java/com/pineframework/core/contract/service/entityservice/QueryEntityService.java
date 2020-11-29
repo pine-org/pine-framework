@@ -10,6 +10,8 @@ import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import com.pineframework.core.helper.CollectionUtils;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -36,12 +38,13 @@ public interface QueryEntityService<I extends Serializable,
 
     @Override
     default M[] findAll() {
-        return CollectionUtils.ofNullable(getTransformer().transform(getRepository().findAll()));
+        return CollectionUtils.ofNullable(getTransformer()
+                .transform(getRepository().findAll(), new HashMap<>()));
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    default Optional<Page> findByPage(Page page) {
+    default Optional<Page> findByPage(Page page, Map<String, Object> params) {
         Long count = getRepository().count(page.getFilters());
 
         if (count == 0)
@@ -53,7 +56,7 @@ public interface QueryEntityService<I extends Serializable,
         int offset = (page.getIndex()) * page.getSize();
         page.setOffset(offset);
 
-        page.setContent(getTransformer().transform(getRepository().find(page)));
+        page.setContent(getTransformer().transform(getRepository().find(page), params));
         return Optional.of(page);
     }
 
@@ -66,12 +69,12 @@ public interface QueryEntityService<I extends Serializable,
     @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     default M[] findByFilter(Filter... filters) {
-        return getTransformer().transform((E[]) getRepository().find(filters));
+        return getTransformer().transform((E[]) getRepository().find(filters), new HashMap<>());
     }
 
     @Override
     default Optional<M> findByModel(M m) {
-        return getRepository().findOne(getTransformer().transform(m).toFilter())
-                .map(e -> getTransformer().transform(e));
+        return getRepository().findOne(getTransformer().transform(m, new HashMap<>()).toFilter())
+                .map(e -> getTransformer().transform(e, new HashMap<>()));
     }
 }

@@ -19,7 +19,7 @@
         <dependency>
             <groupId>com.pineframework.core.contract</groupId>
             <artifactId>contract</artifactId>
-            <version>${contratc.version}</version>
+            <version>${contract.version}</version>
         </dependency>
         <dependency>
             <groupId>com.pineframework.core.datamodel</groupId>

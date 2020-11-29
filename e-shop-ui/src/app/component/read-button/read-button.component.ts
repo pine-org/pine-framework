@@ -2,14 +2,14 @@ import {Component} from '@angular/core';
 import {AbstractButton} from "../AbstractButton";
 
 @Component({
-  selector: 'app-read-button',
-  templateUrl: './read-button.component.html',
-  styleUrls: ['./read-button.component.css']
+    selector: 'app-read-button',
+    templateUrl: './read-button.component.html',
+    styleUrls: ['./read-button.component.css']
 })
 export class ReadButtonComponent extends AbstractButton {
 
-  constructor() {
-    super('Read', 'fa fa-eye');
-    this.color = 'btn-info';
-  }
+    constructor() {
+        super('Read', 'fa fa-eye');
+        this.color = 'btn-info';
+    }
 }

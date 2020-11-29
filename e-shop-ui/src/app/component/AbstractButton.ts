@@ -4,51 +4,51 @@ import {Icon, Properties, Text} from "./Properties";
 @Directive()
 export abstract class AbstractButton implements OnInit {
 
-  text: string = '';
+    text: string = '';
 
-  iconName: string = '';
+    iconName: string = '';
 
-  @Input() color: string = '';
-  @Input() border: string = 'border';
-  @Input() shape: string = '';
-  private _hiddenText: boolean = false;
-  private _hiddenIcon: boolean = false;
+    @Input() color: string = '';
+    @Input() border: string = 'border';
+    @Input() shape: string = '';
+    @Input() properties: Properties = Properties.builder(Text.builder(this.text).hidden(this.hiddenText).build())
+        .icon(Icon.builder(this.iconName).hidden(this.hiddenIcon).build())
+        .build();
+    @Input() click: (...params: any[]) => void
 
-  @Input() properties: Properties = Properties.builder(Text.builder(this.text).hidden(this.hiddenText).build())
-    .icon(Icon.builder(this.iconName).hidden(this.hiddenIcon).build())
-    .build();
+    protected constructor(text: string, iconName: string) {
+        this.text = text;
+        this.iconName = iconName;
+    }
 
-  @Input() click: (...params: any[]) => void
+    private _hiddenText: boolean = false;
 
-  protected constructor(text: string, iconName: string) {
-    this.text = text;
-    this.iconName = iconName;
-  }
+    get hiddenText(): boolean {
+        return this._hiddenText;
+    }
 
-  ngOnInit() {
-  }
+    @Input()
+    set hiddenText(value: boolean) {
+        this._hiddenText = value;
+        this.properties = Properties.builder(Text.builder(this.text).hidden(this._hiddenText).build())
+            .icon(Icon.builder(this.iconName).hidden(this._hiddenIcon).build())
+            .build();
+    }
 
-  get hiddenText(): boolean {
-    return this._hiddenText;
-  }
+    private _hiddenIcon: boolean = false;
 
-  @Input()
-  set hiddenText(value: boolean) {
-    this._hiddenText = value;
-    this.properties = Properties.builder(Text.builder(this.text).hidden(this._hiddenText).build())
-      .icon(Icon.builder(this.iconName).hidden(this._hiddenIcon).build())
-      .build();
-  }
+    get hiddenIcon(): boolean {
+        return this._hiddenIcon;
+    }
 
-  get hiddenIcon(): boolean {
-    return this._hiddenIcon;
-  }
+    @Input()
+    set hiddenIcon(value: boolean) {
+        this._hiddenIcon = value;
+        this.properties = Properties.builder(Text.builder(this.text).hidden(this._hiddenText).build())
+            .icon(Icon.builder(this.iconName).hidden(this._hiddenIcon).build())
+            .build();
+    }
 
-  @Input()
-  set hiddenIcon(value: boolean) {
-    this._hiddenIcon = value;
-    this.properties = Properties.builder(Text.builder(this.text).hidden(this._hiddenText).build())
-      .icon(Icon.builder(this.iconName).hidden(this._hiddenIcon).build())
-      .build();
-  }
+    ngOnInit() {
+    }
 }

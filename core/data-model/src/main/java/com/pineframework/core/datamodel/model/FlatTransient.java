@@ -44,7 +44,8 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
     @JsonIgnore
     protected final ObjectMapper objectMapper = new ObjectMapper();
 
-    protected final Map<String, Object> metadata;
+    @JsonIgnore
+    protected final Map<String, Object> dynamicData;
 
     protected FlatTransient(FlatTransient.Builder builder) {
         this.id = (I) builder.id;
@@ -55,7 +56,7 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
         this.modifyUserId = builder.modifyUserId;
         this.modifyUnitId = builder.modifyUnitId;
         this.version = builder.version;
-        this.metadata = builder.metadata;
+        this.dynamicData = builder.dynamicData;
     }
 
     public abstract <T extends FlatTransient<I>> Builder replace(T m);
@@ -122,8 +123,9 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
         return version;
     }
 
-    public Object getMetadata(String name) {
-        return metadata.get(name);
+    @JsonIgnore
+    public Map<String, Object> getDynamicData() {
+        return dynamicData;
     }
 
     @Override
@@ -131,12 +133,12 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
         if (this == o) return true;
         if (!(o instanceof FlatTransient)) return false;
         FlatTransient<?> that = (FlatTransient<?>) o;
-        return Objects.equals(id, that.id) && Objects.equals(metadata, that.metadata);
+        return Objects.equals(id, that.id) && Objects.equals(dynamicData, that.dynamicData);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, metadata);
+        return Objects.hash(id, dynamicData);
     }
 
     @Override
@@ -172,7 +174,7 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
         @NotNull(message = "error.validation.notNull", groups = UpdateValidationGroup.class)
         protected Integer version;
 
-        protected Map<String, Object> metadata = new HashMap<>();
+        protected Map<String, Object> dynamicData = new HashMap<>();
 
         protected Builder() {
         }
@@ -217,8 +219,9 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
             return (B) this;
         }
 
-        public B addMetadata(String name, Object val) {
-            metadata.put(name, val);
+        @JsonIgnore
+        public B dynamicData(String name, Object val) {
+            dynamicData.put(name, val);
             return (B) this;
         }
 
@@ -231,6 +234,7 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
             this.modifyUserId = model.getModifyUserId();
             this.modifyUnitId = model.getModifyUnitId();
             this.version = model.getVersion();
+            this.dynamicData = model.getDynamicData();
             return (B) this;
         }
 

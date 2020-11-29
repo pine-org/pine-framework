@@ -4,6 +4,7 @@ import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * In order to add additional states to the transformer.
@@ -18,9 +19,13 @@ public interface ImmutableAdditionalTransformer<I extends Serializable,
         M extends FlatTransient<I>,
         B extends FlatTransient.Builder<I, M, B>> {
 
-    default void addToModel(E e, B builder, int deep, String... fields) {
+    default void transformAdditionalToModel(E e, B builder, int deep, Map<String, Object> params, String... fields) {
     }
 
-    default void addToEntity(E e, M m, int deep, String... fields) {
+    default void transformAdditionalToEntity(E e, M m, int deep, Map<String, Object> params, String... fields) {
+    }
+
+    default Boolean condition(E e, M b) {
+        return Boolean.TRUE;
     }
 }

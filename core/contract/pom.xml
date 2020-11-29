@@ -11,7 +11,7 @@
 
     <groupId>com.pineframework.core.contract</groupId>
     <artifactId>contract</artifactId>
-    <version>${contratc.version}</version>
+    <version>${contract.version}</version>
     <packaging>jar</packaging>
     <name>Contract</name>
     <description>

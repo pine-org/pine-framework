@@ -26,39 +26,41 @@ import {PreviousButtonComponent} from './component/previous-button/previous-butt
 import {IndexButtonComponent} from './component/index-button/index-button.component';
 import {DataGridComponent} from './component/data-grid/data-grid.component';
 import {DeleteBunchButtonComponent} from './component/delete-bunch-button/delete-bunch-button.component';
+import {SlideButtonComponent} from './component/slide-button/slide-button.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    SaveButtonComponent,
-    AddButtonComponent,
-    ReadButtonComponent,
-    UpdateButtonComponent,
-    EditButtonComponent,
-    DeleteButtonComponent,
-    RefreshButtonComponent,
-    RefreshMenuButtonComponent,
-    NextButtonComponent,
-    PreviousButtonComponent,
-    IndexButtonComponent,
-    DataGridComponent,
-    DeleteBunchButtonComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatCardModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    FormsModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        SaveButtonComponent,
+        AddButtonComponent,
+        ReadButtonComponent,
+        UpdateButtonComponent,
+        EditButtonComponent,
+        DeleteButtonComponent,
+        RefreshButtonComponent,
+        RefreshMenuButtonComponent,
+        NextButtonComponent,
+        PreviousButtonComponent,
+        IndexButtonComponent,
+        DataGridComponent,
+        DeleteBunchButtonComponent,
+        SlideButtonComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatCardModule,
+        MatButtonModule,
+        MatProgressSpinnerModule,
+        FormsModule,
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }

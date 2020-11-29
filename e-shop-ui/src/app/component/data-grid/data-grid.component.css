@@ -1,15 +1,15 @@
 .table td.fit,
 .table th.fit {
-  white-space: nowrap;
-  width: 1%;
+    white-space: nowrap;
+    width: 1%;
 }
 
 .table td.fit-logic,
 .table th.fit-logic {
-  white-space: nowrap;
-  width: 500px;
+    white-space: nowrap;
+    width: 500px;
 }
 
 table th {
-  font-weight: bolder;
+    font-weight: bolder;
 }

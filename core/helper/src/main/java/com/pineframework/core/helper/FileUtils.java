@@ -2,6 +2,10 @@ package com.pineframework.core.helper;
 
 import io.vavr.control.Try;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,6 +15,7 @@ import java.util.stream.Stream;
 
 import static com.pineframework.core.helper.StringUtils.requireNotEmpty;
 import static java.lang.Thread.currentThread;
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author Saman Alishirishahrbabak
@@ -50,4 +55,29 @@ public final class FileUtils {
         return Try.of(() -> Files.walk(getPathsUnderPackage(packageName)).map(path -> pathToPackage(path))).get();
     }
 
+    public static URI toUri(String path) {
+        ClassLoader classLoader = FileUtils.class.getClassLoader();
+        URL dir = classLoader.getResource(path);
+        requireNonNull(dir);
+        return Try.of(dir::toURI).get();
+    }
+
+    public static byte[] readFile(String path) {
+        File file = new File(path);
+
+        return Try.withResources(() -> new FileInputStream(file))
+                .of(inputStream -> {
+                    byte[] bytes = new byte[(int) file.length()];
+                    inputStream.read(bytes);
+                    return bytes;
+                }).get();
+    }
+
+    public static void createFile(String name, byte[] content) {
+        Try.withResources(() -> new FileOutputStream(new File(name)))
+                .of(outputStream -> {
+                    outputStream.write(content);
+                    return outputStream;
+                });
+    }
 }

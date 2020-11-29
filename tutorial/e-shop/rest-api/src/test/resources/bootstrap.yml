@@ -7,4 +7,4 @@ spring:
   application:
     name: e-shop
   profiles:
-    active: test,common-test,internationalization,activemq-test,h2
+    active: test,common,internationalization,activemq,h2

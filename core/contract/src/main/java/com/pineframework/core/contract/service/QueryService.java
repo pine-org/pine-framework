@@ -3,6 +3,7 @@ package com.pineframework.core.contract.service;
 import com.pineframework.core.datamodel.filter.Filter;
 import com.pineframework.core.datamodel.paging.Page;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -27,7 +28,7 @@ public interface QueryService<I, M> {
      * @param page page
      * @return page
      */
-    Optional<Page> findByPage(Page page);
+    Optional<Page> findByPage(Page page, Map<String, Object> params);
 
     /**
      * Count the records of data

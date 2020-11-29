@@ -8,6 +8,7 @@ import com.pineframework.core.datamodel.filter.Filter;
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
+@SuppressWarnings("rawtypes")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Page implements Pageable {
 

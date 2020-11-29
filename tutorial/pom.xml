@@ -140,19 +140,75 @@
             <id>Test</id>
             <properties>
                 <env>test</env>
-                <build.profile.id>test</build.profile.id>
-                <database.host>localhost:3306</database.host>
-                <queue.host>localhost:61616</queue.host>
-                <config.server.host>localhost:8888</config.server.host>
-                <product.host>127.0.0.1</product.host>
-                <product.port>0</product.port>
-                <config-profile>internationalization,common-${env}</config-profile>
             </properties>
             <dependencies>
                 <dependency>
                     <groupId>com.pineframework.core.spring.properties</groupId>
                     <artifactId>properties</artifactId>
                     <version>1.0.0-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>AccessDockerToHost</id>
+            <properties>
+                <database.host>host.docker.internal:3306</database.host>
+                <queue.host>host.docker.internal:61616</queue.host>
+                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
+                <config.server.host>pine-config-server:8888</config.server.host>
+                <product.host>0.0.0.0</product.host>
+                <product.port>9091</product.port>
+                <config-repository>accessdockertohost</config-repository>
+            </properties>
+        </profile>
+        <profile>
+            <id>Localhost</id>
+            <properties>
+                <database.host>localhost:3306</database.host>
+                <queue.host>localhost:61616</queue.host>
+                <discovery.server.host>localhost:8761</discovery.server.host>
+                <config.server.host>localhost:8888</config.server.host>
+                <product.host>127.0.0.1</product.host>
+                <product.port>9091</product.port>
+                <config-repository>localhost</config-repository>
+            </properties>
+        </profile>
+        <profile>
+            <id>ActiveMQ</id>
+            <properties>
+                <message-queue-vendor>activemq-${env}</message-queue-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>MongoDB</id>
+            <properties>
+                <database-vendor>mongodb-${env}</database-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>MySQL</id>
+            <properties>
+                <database-vendor>mysql-${env}</database-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>Oracle</id>
+            <properties>
+                <database-vendor>oracle-${env}</database-vendor>
+                <build.profile.id>oracle</build.profile.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>H2</id>
+            <properties>
+                <database-vendor>h2</database-vendor>
+                <build.profile.id>h2</build.profile.id>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <version>1.4.200</version>
                 </dependency>
             </dependencies>
         </profile>
@@ -248,69 +304,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-        <profile>
-            <id>AccessDockerToHost</id>
-            <properties>
-                <database.host>host.docker.internal:3306</database.host>
-                <queue.host>host.docker.internal:61616</queue.host>
-                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
-                <config.server.host>pine-config-server:8888</config.server.host>
-                <product.host>0.0.0.0</product.host>
-                <product.port>9091</product.port>
-                <config-repository>accessdockertohost</config-repository>
-            </properties>
-        </profile>
-        <profile>
-            <id>Localhost</id>
-            <properties>
-                <database.host>localhost:3306</database.host>
-                <queue.host>localhost:61616</queue.host>
-                <discovery.server.host>localhost:8761</discovery.server.host>
-                <config.server.host>localhost:8888</config.server.host>
-                <product.host>127.0.0.1</product.host>
-                <product.port>9091</product.port>
-                <config-repository>localhost</config-repository>
-            </properties>
-        </profile>
-        <profile>
-            <id>ActiveMQ</id>
-            <properties>
-                <message-queue-vendor>activemq-${env}</message-queue-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>MongoDB</id>
-            <properties>
-                <database-vendor>mongodb</database-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>MySQL</id>
-            <properties>
-                <database-vendor>mysql-${env}</database-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>Oracle</id>
-            <properties>
-                <database-vendor>oracle-${env}</database-vendor>
-                <build.profile.id>oracle</build.profile.id>
-            </properties>
-        </profile>
-        <profile>
-            <id>H2</id>
-            <properties>
-                <database-vendor>h2</database-vendor>
-                <build.profile.id>h2</build.profile.id>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>1.4.200</version>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>Document</id>

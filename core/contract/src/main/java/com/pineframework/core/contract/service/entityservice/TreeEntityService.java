@@ -11,6 +11,7 @@ import com.pineframework.core.datamodel.persistence.TreePersistence;
 import io.vavr.control.Option;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Optional;
 
 import static io.vavr.API.$;
@@ -72,23 +73,26 @@ public interface TreeEntityService<I extends Serializable,
 
     @Override
     default M[] findChildren(I id) {
-        return getTransformer().transform(getRepository().findChildren(id));
+        return getTransformer()
+                .transform(getRepository().findChildren(id), new HashMap<>());
     }
 
     @Override
     default M[] findTreeAsList(I id) {
-        return getTransformer().transform(getRepository().findTreeAsList(id));
+        return getTransformer()
+                .transform(getRepository().findTreeAsList(id), new HashMap<>());
     }
 
     @Override
     default M[] findSubTreeAsList(I id) {
-        return getTransformer().transform(getRepository().findSubTreeAsList(id));
+        return getTransformer()
+                .transform(getRepository().findSubTreeAsList(id), new HashMap<>());
     }
 
     @Override
     default Optional<M> findTree(I id) {
         E e = getRepository().findTree(id).orElseGet(this::createEmptyPersistenceObject);
-        return Optional.ofNullable(getTransformer().hierarchyTransform(e));
+        return Optional.ofNullable(getTransformer().hierarchyTransform(e, new HashMap<>()));
     }
 
 }

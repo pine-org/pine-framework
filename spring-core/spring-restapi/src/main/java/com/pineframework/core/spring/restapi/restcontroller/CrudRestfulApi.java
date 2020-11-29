@@ -1,6 +1,7 @@
 package com.pineframework.core.spring.restapi.restcontroller;
 
 import com.pineframework.core.contract.service.CrudService;
+import com.pineframework.core.datamodel.enums.Commands;
 import com.pineframework.core.datamodel.exception.ValidationException;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.validation.CreateValidationGroup;
@@ -19,10 +20,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static com.pineframework.core.spring.restapi.helper.ErrorUtils.checkErrors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -116,9 +120,12 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
     @GetMapping("/{id}")
     @ResponseStatus(value = OK, code = OK)
     default ResponseEntity<EntityModel<M>> findById(
+            @RequestHeader Map<String, String> headers,
             @Parameter(name = "ID", description = "${restfulApi.findById.param}", required = true)
             @PathVariable("id") I id) {
-
+        Commands[] commands = Stream.of(headers.get("commands").split(";"))
+                .map(Commands::valueOf)
+                .toArray(Commands[]::new);
         return getService().findById(id)
                 .map(m -> new EntityModel<>(m, linkTo(getClass()).slash(m.getId()).withSelfRel()))
                 .map(ResponseEntity::ok)

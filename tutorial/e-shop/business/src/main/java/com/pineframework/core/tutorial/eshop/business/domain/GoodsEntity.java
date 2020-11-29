@@ -2,21 +2,27 @@ package com.pineframework.core.tutorial.eshop.business.domain;
 
 import com.pineframework.core.business.domain.AbstractAuditingEntity;
 import com.pineframework.core.datamodel.filter.Filter;
+import com.pineframework.core.datamodel.persistence.BlobSupport;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 
+@SuppressWarnings({"unchecked", "rawtypes"})
 @Entity
 @Table(name = "GOODS")
-public class GoodsEntity extends AbstractAuditingEntity<Long> {
+public class GoodsEntity extends AbstractAuditingEntity<Long> implements BlobSupport {
 
     @Column(name = "NAME", nullable = false, length = 50, unique = true)
     private String name;
@@ -24,13 +30,15 @@ public class GoodsEntity extends AbstractAuditingEntity<Long> {
     @Column(name = "CODE", nullable = false, length = 50, unique = true)
     private String code;
 
-    @Column(name = "PRICE", nullable = true, precision = 12, scale = 2)
+    @Column(name = "PRICE", precision = 12, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "DESCRIPTINO", nullable = true, length = 150, unique = true)
+    @Column(name = "DESCRIPTION", length = 150, unique = true)
     private String description;
 
-    @Column(name = "PHOTO", nullable = true)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "PHOTO", columnDefinition = "MEDIUMBLOB")
     private byte[] photo;
 
     @Id
@@ -94,5 +102,17 @@ public class GoodsEntity extends AbstractAuditingEntity<Long> {
         filters[0] = (root, query, cb) -> cb.equal(root.get("code"), getCode());
         filters[1] = (root, query, cb) -> cb.equal(root.get("name"), getName());
         return filters;
+    }
+
+    @Override
+    @Transient
+    public byte[] getDefaultBlob() {
+        return photo;
+    }
+
+    @Override
+    @Transient
+    public byte[][] getBlobs() {
+        return new byte[][]{photo};
     }
 }

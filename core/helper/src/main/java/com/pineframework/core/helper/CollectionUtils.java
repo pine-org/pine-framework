@@ -15,6 +15,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -81,6 +82,10 @@ public final class CollectionUtils {
         return Arrays.stream(models)
                 .map(f)
                 .toArray(size -> (E[]) Array.newInstance(type, size));
+    }
+
+    public static <T, E> void forEach(T[] models, Function<T, E> mapper, Consumer<E> endFunc) {
+        Arrays.stream(models).map(mapper).forEach(endFunc);
     }
 
     public static <E> E[] createArray(Class<?> type, int length) {

@@ -5,6 +5,8 @@ import com.pineframework.core.tutorial.eshop.business.domain.GoodsEntity;
 import com.pineframework.core.tutorial.eshop.model.GoodsModel;
 import com.pineframework.core.tutorial.eshop.model.GoodsModel.Builder;
 
+import java.util.Map;
+
 public class GoodsTransformer extends AbstractImmutableFlatTransformer<Long, GoodsEntity, GoodsModel, Builder> {
 
     @Override
@@ -13,17 +15,19 @@ public class GoodsTransformer extends AbstractImmutableFlatTransformer<Long, Goo
     }
 
     @Override
-    protected void transformEntityToModel(GoodsEntity input, Builder outputBuilder, int deep, String... field) {
+    protected void transformEntityToModel(GoodsEntity input, Builder outputBuilder, int deep,
+                                          Map<String, Object> params, String... field) {
         outputBuilder.price(input.getPrice());
         outputBuilder.description(input.getDescription());
-        outputBuilder.photo(input.getPhoto());
     }
 
     @Override
-    protected void transformModelToEntity(GoodsModel input, GoodsEntity output, int deep, String... field) {
+    protected void transformModelToEntity(GoodsModel input, GoodsEntity output, int deep,
+                                          Map<String, Object> params, String... field) {
         output.setName(input.getName());
         output.setCode(input.getCode());
         output.setPrice(input.getPrice());
         output.setDescription(input.getDescription());
+        output.setPhoto(input.getPhoto());
     }
 }

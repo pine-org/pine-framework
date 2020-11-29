@@ -165,6 +165,73 @@
             </properties>
         </profile>
         <profile>
+            <id>AccessDockerToHost</id>
+            <properties>
+                <database.host>host.docker.internal:3306</database.host>
+                <queue.host>host.docker.internal:61616</queue.host>
+                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
+                <config.server.host>pine-config-server:8888</config.server.host>
+                <product.host>0.0.0.0</product.host>
+                <product.port>9091</product.port>
+                <config-repository>accessdockertohost</config-repository>
+            </properties>
+        </profile>
+        <profile>
+            <id>Localhost</id>
+            <properties>
+                <database.host>localhost:3306</database.host>
+                <queue.host>localhost:61616</queue.host>
+                <discovery.server.host>localhost:8761</discovery.server.host>
+                <config.server.host>localhost:8888</config.server.host>
+                <product.host>127.0.0.1</product.host>
+                <product.port>9091</product.port>
+                <config-repository>localhost</config-repository>
+            </properties>
+        </profile>
+        <profile>
+            <id>ActiveMQ</id>
+            <properties>
+                <message-queue-vendor>activemq-${env}</message-queue-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>Hibernate</id>
+            <properties>
+                <orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.MySQLDialect'
+                    ddl-auto: 'update'
+                    generate_statistics: true
+                </orm>
+            </properties>
+        </profile>
+        <profile>
+            <id>MySQL</id>
+            <properties>
+                <database-vendor>mysql-${env}</database-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>Oracle</id>
+            <properties>
+                <database-vendor>oracle-${env}</database-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>H2</id>
+            <properties>
+                <database-vendor>h2</database-vendor>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <version>1.4.200</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
             <id>Parsi-Check-style</id>
             <build>
                 <plugins>
@@ -256,75 +323,6 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>
-        <profile>
-            <id>AccessDockerToHost</id>
-            <properties>
-                <database.host>host.docker.internal:3306</database.host>
-                <queue.host>host.docker.internal:61616</queue.host>
-                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
-                <config.server.host>pine-config-server:8888</config.server.host>
-                <product.host>0.0.0.0</product.host>
-                <product.port>9091</product.port>
-                <config-repository>accessdockertohost</config-repository>
-            </properties>
-        </profile>
-        <profile>
-            <id>Localhost</id>
-            <properties>
-                <database.host>localhost:3306</database.host>
-                <queue.host>localhost:61616</queue.host>
-                <discovery.server.host>localhost:8761</discovery.server.host>
-                <config.server.host>localhost:8888</config.server.host>
-                <product.host>127.0.0.1</product.host>
-                <product.port>9091</product.port>
-                <config-repository>localhost</config-repository>
-            </properties>
-        </profile>
-        <profile>
-            <id>ActiveMQ</id>
-            <properties>
-                <message-queue-vendor>activemq-${env}</message-queue-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>Hibernate</id>
-            <properties>
-                <orm>
-                    hibernate:
-                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
-                    dialect: 'org.hibernate.dialect.MySQLDialect'
-                    ddl-auto: 'update'
-                    generate_statistics: true
-                </orm>
-            </properties>
-        </profile>
-        <profile>
-            <id>MySQL</id>
-            <properties>
-                <database-vendor>mysql-${env}</database-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>Oracle</id>
-            <properties>
-                <database-vendor>oracle-${env}</database-vendor>
-                <build.profile.id>oracle</build.profile.id>
-            </properties>
-        </profile>
-        <profile>
-            <id>H2</id>
-            <properties>
-                <database-vendor>h2</database-vendor>
-                <build.profile.id>h2</build.profile.id>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>1.4.200</version>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>Document</id>

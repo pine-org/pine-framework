@@ -8,7 +8,6 @@ import com.pineframework.core.tutorial.eshop.business.service.queue.MainQueuePro
 import com.pineframework.core.tutorial.eshop.business.service.queue.StatusQueueProxyServiceImpl;
 import com.pineframework.core.tutorial.eshop.business.service.queue.listener.MainQueueListener;
 import com.pineframework.core.tutorial.eshop.business.service.queue.listener.StatusQueueListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,15 +20,18 @@ import java.util.Map;
 
 import static com.pineframework.core.spring.restapi.config.ApplicationContextBean.getBean;
 
+@SuppressWarnings("rawtypes")
 @Configuration
 public class JmsContext {
 
-    @Autowired
-    @Qualifier("queues")
-    private Map<String, Queue> queues;
+    private final Map<String, Queue> queues;
 
-    @Autowired
-    private TransactionalBeanFactory txBeanFactory;
+    private final TransactionalBeanFactory txBeanFactory;
+
+    public JmsContext(@Qualifier("queues") Map<String, Queue> queues, TransactionalBeanFactory txBeanFactory) {
+        this.queues = queues;
+        this.txBeanFactory = txBeanFactory;
+    }
 
     @Bean(name = "mainQueueService")
     public QueueService mainQueueService(JmsTemplate jmsTemplate) {

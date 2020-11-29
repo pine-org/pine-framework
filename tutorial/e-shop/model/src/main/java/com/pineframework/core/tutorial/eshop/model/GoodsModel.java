@@ -7,15 +7,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.pineframework.core.datamodel.model.FlatTransient;
+import com.pineframework.core.datamodel.model.TransientBlobSupport;
 import com.pineframework.core.datamodel.validation.CreateValidationGroup;
 import com.pineframework.core.datamodel.validation.UpdateValidationGroup;
 
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
+@SuppressWarnings({"rawtypes", "unchecked"})
 @JsonDeserialize(builder = GoodsModel.Builder.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public final class GoodsModel extends FlatTransient<Long> {
+public final class GoodsModel extends FlatTransient<Long> implements TransientBlobSupport {
 
     @NotBlank(message = "error.validation.notBlank",
             groups = {CreateValidationGroup.class, UpdateValidationGroup.class})
@@ -65,6 +67,12 @@ public final class GoodsModel extends FlatTransient<Long> {
         return photo;
     }
 
+    @JsonIgnore
+    public <T> T getDynamicData(String name) {
+        return (T) getDynamicData().get(name);
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
     @JsonPOJOBuilder(withPrefix = "")
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder extends FlatTransient.Builder<Long, GoodsModel, GoodsModel.Builder> {
