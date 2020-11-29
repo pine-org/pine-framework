@@ -11,7 +11,6 @@ import com.pineframework.core.datamodel.persistence.FlatPersistence;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.function.Consumer;
 
 import static com.pineframework.core.datamodel.utils.ObjectsUtils.areEquivalence;
@@ -77,7 +76,7 @@ public interface BatchEntityService<I extends Serializable,
     @SuppressWarnings("Convert2MethodRef")
     @Override
     default I[] batchSave(M[] models) {
-        E[] entities = getTransformer().transform(models, new HashMap<>());
+        E[] entities = getTransformer().transform(models);
 
         beforeBatchSave(entities, models);
         getRepository().save(entities);
@@ -90,16 +89,16 @@ public interface BatchEntityService<I extends Serializable,
     @Override
     default void batchUpdate(M[] models) {
         E[] entities = getRepository().find((I[]) mapTo(models, m -> m.getId(), Long.class));
-        M[] theLast = getTransformer().transform(entities, new HashMap<>());
+        M[] theLast = getTransformer().transform(entities);
         beforeBatchUpdate(entities, models);
         batch(models, m -> getRepository().findById(m.getId()).ifPresent(e -> getTransformer()
-                .transform(m, e, new HashMap<>())));
+                .transform(m, e)));
         afterBatchUpdate(entities, theLast);
     }
 
     @Override
     default void batchDelete(I[] identities) {
-        M[] models = getTransformer().transform(getRepository().find(identities), new HashMap<>());
+        M[] models = getTransformer().transform(getRepository().find(identities));
 
         beforeBatchDelete(models);
         getRepository().delete(identities);

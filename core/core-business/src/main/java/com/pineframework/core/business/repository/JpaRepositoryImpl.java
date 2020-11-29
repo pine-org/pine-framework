@@ -85,11 +85,7 @@ public class JpaRepositoryImpl implements Repository {
 
     @Override
     public <I extends Serializable, E extends FlatPersistence<I>> E[] paging(Class<E> c, Pageable page) {
-        return execute(c, page);
-    }
-
-    public <I extends Serializable, E extends FlatPersistence<I>> E[] execute(Class<E> c, Pageable page) {
-        TypedQuery<E> query = execute(new SelectByFilter<E>(c, page.getFilters()));
+        TypedQuery<E> query = execute(new SelectByFilter<E>(c, page.getFilters(), page.getOrders()));
         query.setFirstResult(page.getOffset());
         query.setMaxResults(page.getSize());
         List<E> list = query.getResultList();
@@ -101,7 +97,9 @@ public class JpaRepositoryImpl implements Repository {
         CriteriaQuery<M> cq = cb.createQuery(select.getModelType());
         Root<E> root = cq.from(select.getEntityType());
         cq.select(select.getSelection().apply(root, cb));
-        select.getWhereClause().accept(cq, filter -> filter.toPredicate(root, cq, cb));
+        select.getPredicates().accept(cq, filter -> filter.toPredicate(root, cq, cb));
+        select.getOrders().accept(cq, sort -> sort.toOrder(root, cq, cb));
+
         TypedQuery<M> query = entityManager.createQuery(cq);
         query.setHint("org.hibernate.cacheable", true);
         return query;

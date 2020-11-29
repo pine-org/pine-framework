@@ -10,7 +10,6 @@ import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Optional;
 
 import static io.vavr.API.$;
@@ -43,7 +42,7 @@ public interface CrudEntityService<I extends Serializable,
     @Override
     default Optional<I> save(M m) {
 
-        E entity = getTransformer().transform(m, new HashMap<>());
+        E entity = getTransformer().transform(m);
 
         beforeSave(entity, m);
         getRepository().save(entity);
@@ -57,7 +56,7 @@ public interface CrudEntityService<I extends Serializable,
         E entity = getRepository().findById(id)
                 .orElseThrow(() -> new NotFoundDataByIdException(getTransientType().getSimpleName(), id));
 
-        return ofNullable(getTransformer().transform(entity, new HashMap<>()));
+        return ofNullable(getTransformer().transform(entity));
     }
 
     @Override
@@ -65,9 +64,9 @@ public interface CrudEntityService<I extends Serializable,
         getRepository().findById(m.getId()).ifPresent(e ->
                 Match(m.getVersion()).of(
                         Case($(e.getVersion()), o -> run(() -> {
-                            M theLast = getTransformer().transform(e, new HashMap<>());
+                            M theLast = getTransformer().transform(e);
                             beforeUpdate(e, m);
-                            getTransformer().transform(m, e, new HashMap<>());
+                            getTransformer().transform(m, e);
                             getRepository().flush();
                             afterUpdate(e, theLast);
                         })),
@@ -83,7 +82,7 @@ public interface CrudEntityService<I extends Serializable,
         E entity = getRepository().findById(id)
                 .orElseThrow(() -> new NotFoundDataByIdException(getTransientType().getSimpleName(), id));
 
-        M model = getTransformer().transform(entity, new HashMap<>());
+        M model = getTransformer().transform(entity);
 
         beforeDelete(model);
         getRepository().delete(id);

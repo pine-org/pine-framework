@@ -115,7 +115,7 @@ public class JpaRepositoryTestImpl implements Repository {
         CriteriaQuery<M> cq = cb.createQuery(select.getModelType());
         Root<E> root = cq.from(select.getEntityType());
         cq.select(select.getSelection().apply(root, cb));
-        select.getWhereClause().accept(cq, filter -> filter.toPredicate(root, cq, cb));
+        select.getPredicates().accept(cq, filter -> filter.toPredicate(root, cq, cb));
         TypedQuery<M> query = entityManager.createQuery(cq);
         query.setHint("org.hibernate.cacheable", true);
         return query;

@@ -13,6 +13,6 @@ export class Goods {
     lastModifyDate: string;
     lastModifyOwnerUnit: string;
     version: number;
-    defaultBlob: string;
+    photo: string;
     _links: Links;
 }

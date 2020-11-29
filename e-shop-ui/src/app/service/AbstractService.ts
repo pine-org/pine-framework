@@ -37,6 +37,8 @@ export abstract class AbstractService<T> implements Service<T> {
         metadata.index = page.index;
         metadata.size = page.size;
         metadata.filters = page.filters;
+        metadata.projections = page.projections;
+        metadata.sorts = page.sorts;
         return this.httpClient.get<Page>(this.getUri("/search/page/" + encodeURIComponent(JSON.stringify(metadata))), this._httpOptions);
     }
 

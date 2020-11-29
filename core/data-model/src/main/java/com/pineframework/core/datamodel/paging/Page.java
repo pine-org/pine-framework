@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.pineframework.core.datamodel.filter.Filter;
+import com.pineframework.core.datamodel.sort.Sort;
 
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
@@ -28,6 +29,12 @@ public class Page implements Pageable {
     private Filter[] filters = new Filter[0];
 
     private Object[] content = new Object[0];
+
+    @JsonView(PageMetadataView.class)
+    private String[] projections = new String[0];
+
+    @JsonView(PageMetadataView.class)
+    private Sort[] orders = new Sort[0];
 
     public Page() {
     }
@@ -88,6 +95,23 @@ public class Page implements Pageable {
 
     public void setIndices(int[] indices) {
         this.indices = indices;
+    }
+
+    public String[] getProjections() {
+        return projections;
+    }
+
+    public void setProjections(String[] projections) {
+        this.projections = projections;
+    }
+
+    @Override
+    public Sort[] getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Sort[] orders) {
+        this.orders = orders;
     }
 
     @JsonIgnore

@@ -11,7 +11,7 @@
 
     <groupId>com.pineframework.core.business</groupId>
     <artifactId>core-business</artifactId>
-    <version>${core-business.version}</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>Core Business</name>
     <description>This module include all classes that will used to business tier</description>
 

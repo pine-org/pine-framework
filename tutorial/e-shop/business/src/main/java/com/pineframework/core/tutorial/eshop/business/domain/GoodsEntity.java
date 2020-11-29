@@ -2,7 +2,6 @@ package com.pineframework.core.tutorial.eshop.business.domain;
 
 import com.pineframework.core.business.domain.AbstractAuditingEntity;
 import com.pineframework.core.datamodel.filter.Filter;
-import com.pineframework.core.datamodel.persistence.BlobSupport;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -16,13 +15,12 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.math.BigDecimal;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 @Entity
 @Table(name = "GOODS")
-public class GoodsEntity extends AbstractAuditingEntity<Long> implements BlobSupport {
+public class GoodsEntity extends AbstractAuditingEntity<Long> {
 
     @Column(name = "NAME", nullable = false, length = 50, unique = true)
     private String name;
@@ -102,17 +100,5 @@ public class GoodsEntity extends AbstractAuditingEntity<Long> implements BlobSup
         filters[0] = (root, query, cb) -> cb.equal(root.get("code"), getCode());
         filters[1] = (root, query, cb) -> cb.equal(root.get("name"), getName());
         return filters;
-    }
-
-    @Override
-    @Transient
-    public byte[] getDefaultBlob() {
-        return photo;
-    }
-
-    @Override
-    @Transient
-    public byte[][] getBlobs() {
-        return new byte[][]{photo};
     }
 }

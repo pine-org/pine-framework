@@ -4,7 +4,6 @@ import com.pineframework.core.datamodel.model.TreeTransient;
 import com.pineframework.core.datamodel.persistence.TreePersistence;
 
 import java.io.Serializable;
-import java.util.Map;
 
 
 /**
@@ -23,7 +22,7 @@ public interface ImmutableTreeTransformer<
         B extends TreeTransient.Builder<I, M, B>>
         extends ImmutableFlatTransformer<I, E, M, B> {
 
-    M hierarchyTransform(E e, int level, int deep, Map<String, Object> params, String... fields);
+    M hierarchyTransform(E e, int level, int deep, String... fields);
 
-    M hierarchyTransform(E e, Map<String, Object> params, String... fields);
+    M hierarchyTransform(E e, String... fields);
 }

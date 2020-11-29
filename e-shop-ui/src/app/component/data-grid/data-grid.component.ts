@@ -2,7 +2,7 @@ import {Service} from "../../service/AbstractService";
 import {Component, Input, OnInit} from "@angular/core";
 import {Icon, Properties, Text} from "../Properties";
 import {Page} from "../../service/Page";
-import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'app-data-grid',
@@ -26,6 +26,10 @@ export class DataGridComponent implements OnInit {
     @Input() bunches: string[] = ['5', '10', '15', '20'];
 
     defaultBunch: string = this.bunches[0];
+
+    @Input() contentPadding: string = '3';
+
+    @Input() checkBoxPadding: string = '3';
 
     @Input() rowHeight: string = '3';
 
@@ -62,22 +66,8 @@ export class DataGridComponent implements OnInit {
     @Input() deleteButtonVisible: boolean = true;
 
     @Input() pageIndices: boolean = true;
-    @Input() photo: boolean = false;
-    @Input() photoPreview: boolean = false;
-    photoColumn: Properties = Properties.builder(Text.builder('Photo').build())
-        .hidden(!this.photo)
-        .build();
-
-// ######################################################################################
-    closeResult: string;
-
-    constructor(private modalService: NgbModal) {
-    }
-
 // ######################################################################################
     private _deleteAllButtonVisible: boolean = false;
-
-    // ######################################################################################
 
     get deleteAllButtonVisible(): boolean {
         return this._deleteAllButtonVisible;
@@ -88,6 +78,8 @@ export class DataGridComponent implements OnInit {
         this._deleteAllButtonVisible = value;
         this.deleteButtonVisible = !value;
     }
+
+// ######################################################################################
 
 // ######################################################################################
     private _readOnly: boolean = false;
@@ -112,6 +104,8 @@ export class DataGridComponent implements OnInit {
     }
 
     // ######################################################################################
+
+    // ######################################################################################
     private _bunchDropdownVisible: boolean = true;
 
     get bunchDropdownVisible(): boolean {
@@ -125,8 +119,6 @@ export class DataGridComponent implements OnInit {
             .hidden(!this._bunchDropdownVisible)
             .build();
     }
-
-    // ######################################################################################
 
     bunchDropdown: Properties = Properties.builder(Text.builder("Bunch").build())
         .hidden(!this._bunchDropdownVisible)
@@ -144,8 +136,6 @@ export class DataGridComponent implements OnInit {
         return this._operationColumnVisible;
     }
 
-    // ######################################################################################
-
     @Input()
     set operationColumnVisible(value: boolean) {
         this._operationColumnVisible = value;
@@ -153,6 +143,8 @@ export class DataGridComponent implements OnInit {
             .hidden(!this._operationColumnVisible)
             .build();
     }
+
+    // ######################################################################################
 
     // ######################################################################################
     private _firstColumnVisibility: boolean = true;
@@ -165,10 +157,6 @@ export class DataGridComponent implements OnInit {
         return this._firstColumnVisibility;
     }
 
-    // ######################################################################################
-
-    // ######################################################################################
-
     @Input()
     set firstColumnVisibility(value: boolean) {
         this._firstColumnVisibility = value;
@@ -176,6 +164,8 @@ export class DataGridComponent implements OnInit {
             .hidden(!this._firstColumnVisibility)
             .build();
     }
+
+    // ######################################################################################
 
     // ######################################################################################
     private _columnSelectionDropdownVisible: boolean = true;
@@ -198,35 +188,71 @@ export class DataGridComponent implements OnInit {
         .icon(Icon.builder('fa fa-angle-double-down').build())
         .build();
 
-    getDefaultBlob(item) {
-        return "data:image/jpeg;base64," + item.defaultBlob
+    // ######################################################################################
+
+    // ######################################################################################
+
+    albumIndex: number = 0
+
+    @Input() photo: string = "";
+
+    @Input() photoPreview: boolean = false;
+
+    @Input() slide: boolean = false;
+
+    photoColumn: Properties = Properties.builder(Text.builder('Photo').build())
+        .hidden(this.photo == '')
+        .build();
+
+    constructor(private modalService: NgbModal) {
     }
 
-    showSlide() {
-
+    getAlbum(item) {
+        let album = [];
+        album.push(item);
+        album.push(item);
+        return album.map(value => "data:image/jpeg;base64," + value);
     }
 
-    open = (content) => {
-        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(
-            (result) => {
-                this.closeResult = `Closed with: ${result}`;
-            },
-            (reason) => {
-                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-            });
+    // ######################################################################################
+
+    getPhotoByIndex(item, index) {
+        let album = [];
+        album.push(item[this.photo]);
+        album.push(item[this.photo]);
+        return "data:image/jpeg;base64," + album[index];
     }
+
+    // ######################################################################################
 
     ngOnInit() {
         this.getPage(this.page.index);
     }
 
-    // ######################################################################################
-
     getData(page: Page) {
+        page.projections.push(this.photo)
         this.service.list(page).subscribe((response: Page) => {
             this.page = response;
         })
     }
+
+
+    openAlbumModal = (content) => {
+        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(
+            (result) => {
+            },
+            (reason) => {
+            });
+    }
+
+    previousPhoto = () => {
+        this.albumIndex--;
+    }
+
+    nextPhoto = () => {
+        this.albumIndex++;
+    }
+
 
     delete = (id) => {
         this.service.delete(id).subscribe(() => {
@@ -334,16 +360,6 @@ export class DataGridComponent implements OnInit {
         if (this.indicesOffset > 0) {
             this.indicesOffset -= this.indicesLimit
             this.getPage(this.indicesOffset + this.indicesLimit - 1);
-        }
-    }
-
-    private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-            return 'by pressing ESC';
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'by clicking on a backdrop';
-        } else {
-            return `with: ${reason}`;
         }
     }
 

@@ -6,5 +6,7 @@ export class Page {
     indices: number[] = [];
     content: any[] = [];
     filters: any[] = [];
+    sorts: any[] = [];
+    projections: string[] = [];
     links: Links;
 }

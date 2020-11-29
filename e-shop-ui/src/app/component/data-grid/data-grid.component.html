@@ -95,7 +95,7 @@
                     <!--table header---------------------------------------------------------------------------------->
                     <thead class="thead-light">
                     <th [hidden]="firstColumn.hidden"
-                        class="table-header fit text-center p-{{headerHeight}}">
+                        class="table-header fit justify-content-center align-middle p-{{checkBoxPadding}}">
                         {{selectAllCheckboxVisible ? '' : firstColumn.title.content}}
                         <input (click)="toggleCheckedAllTuples()"
                                *ngIf="selectAllCheckboxVisible"
@@ -103,7 +103,7 @@
                                type="checkbox"/>
                     </th>
                     <th *ngFor="let column of columns" [hidden]="column.hidden"
-                        class='table-header fit-logic  py-{{headerHeight}}'>
+                        class='table-header fit-logic  py-{{headerHeight}} px-{{contentPadding}}'>
                         {{column.title.content}}
                     </th>
                     <th *ngIf="photo"
@@ -120,45 +120,53 @@
                     <tbody>
                     <tr *ngFor="let item of page.content; index as i">
                         <!--table first column---------------------------------------------------------------------------------->
-                        <td [hidden]="firstColumn.hidden" class="fit align-middle p-{{rowHeight}}">
+                        <td [hidden]="firstColumn.hidden"
+                            class="fit justify-content-center align-middle p-{{checkBoxPadding}}">
                             <div *ngIf="!deleteAllButtonVisible">{{i + 1}}</div>
                             <input (change)="deletedItemsChange($event)"
                                    *ngIf="deleteAllButtonVisible"
                                    checked="{{checkedAllTuples}}"
                                    type="checkbox"
+                                   class="p-0"
                                    value="{{item.id}}"/>
                         </td>
                         <!--table first column---------------------------------------------------------------------------------->
                         <!--table logic column---------------------------------------------------------------------------------->
                         <td *ngFor="let column of columns"
                             [hidden]="column.hidden"
-                            class="align-middle fit-logic py-{{rowHeight}}">
+                            class="align-middle fit-logic py-{{rowHeight}} px-{{contentPadding}}">
                             {{item[column.field.content]}}
                         </td>
                         <!--table logic column---------------------------------------------------------------------------------->
 
-                        <td *ngIf="photo">
-                            <div *ngIf="photoPreview">
-                                <img [src]="getDefaultBlob(item)" height="50" width="50">
+                        <td *ngIf="photo != ''">
+                            <div *ngIf="photoPreview"
+                                 class="d-flex flex-row px-2 justify-content-center align-middle py-{{rowHeight}}">
+                                <div *ngFor="let e of getAlbum(item[photo])">
+                                    <img [src]="e" class="m-1" height="25" width="25">
+                                </div>
                             </div>
-                            <div *ngIf="!photoPreview">
-                                <app-slide-button [click]="open"
+                            <div *ngIf="slide">
+                                <app-slide-button [click]="openAlbumModal"
                                                   [hiddenIcon]="hiddenIcon"
                                                   [hiddenText]="hiddenText"
-                                                  [modal]="mymodal"
+                                                  [modal]="albumModal"
                                                   [shape]="buttonShape">
                                 </app-slide-button>
 
-                                <ng-template #mymodal let-modal>
+                                <ng-template #albumModal let-modal>
                                     <div class="modal-header border-0">
-                                        <button (click)="modal.dismiss('Cross click')"
+                                        <button (click)="modal.dismiss()"
                                                 class="btn rounded-0 btn-warning border-dark m-0 px-3"
                                                 type="button">
                                             <h1 class="m-0 p-0">×</h1>
                                         </button>
                                     </div>
                                     <div class="modal-body d-flex flex-row justify-content-center align-items-baseline">
-                                        <img [src]="getDefaultBlob(item)" height="250" width="250">
+                                        <app-previous-button [click]="previousPhoto"></app-previous-button>
+                                        <img [src]="getPhotoByIndex(item, albumIndex)" class="m-1" height="250"
+                                             width="250">
+                                        <app-next-button [click]="nextPhoto"></app-next-button>
                                     </div>
                                 </ng-template>
                             </div>
