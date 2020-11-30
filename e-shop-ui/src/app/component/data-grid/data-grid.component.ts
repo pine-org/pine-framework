@@ -53,6 +53,8 @@ export class DataGridComponent implements OnInit {
 
     @Input() indicesLimit = 5;
 
+    @Input() sliderIndicesLimit = 3;
+
     @Input() addButtonVisible: boolean = true;
 
     @Input() refreshMenuButtonVisible: boolean = true;
@@ -130,9 +132,10 @@ export class DataGridComponent implements OnInit {
         .build();
 
     // ######################################################################################
-    private _operationColumnVisible: boolean = true;
 
     // ######################################################################################
+
+    private _operationColumnVisible: boolean = true;
     operationColumn: Properties = Properties.builder(Text.builder('Operation').build())
         .hidden(!this._operationColumnVisible)
         .build();
@@ -197,12 +200,12 @@ export class DataGridComponent implements OnInit {
 
     // ######################################################################################
 
-    constructor() {
-    }
-
     @Input() photoPreview: boolean = false;
 
     @Input() slide: boolean = false;
+    photoColumn: Properties = Properties.builder(Text.builder('Photo').build())
+        .hidden(this.photo == '')
+        .build();
 
     private _photo: string = "";
 
@@ -210,28 +213,22 @@ export class DataGridComponent implements OnInit {
         return this._photo;
     }
 
-    photoColumn: Properties = Properties.builder(Text.builder('Photo').build())
-        .hidden(this.photo == '')
-        .build();
-
-// ######################################################################################
-
-    // ######################################################################################
-
     @Input()
     set photo(value: string) {
         this._photo = value;
         this.page.projections.push(value)
     }
 
-    ngOnInit() {
-        this.getPage(this.page.index);
+    // ######################################################################################
+
+    // ######################################################################################
+
+
+    constructor() {
     }
 
-    getData(page: Page) {
-        this.service.list(page).subscribe((response: Page) => {
-            this.page = response;
-        })
+    ngOnInit() {
+        this.getPage(this.page.index);
     }
 
     deletedItemsChange(event) {
@@ -289,18 +286,20 @@ export class DataGridComponent implements OnInit {
     }
 
     refreshCurrentPage = () => {
-        this.beforeNextPage()
+        this.resetCheckbox()
         this.getPage(this.page.index);
     }
 
     getPage = (index: number) => {
-        this.beforeNextPage();
+        this.resetCheckbox();
         this.page.index = index;
         this.page.size = parseInt(this.defaultBunch);
-        this.getData(this.page);
+        this.service.list(this.page).subscribe((response: Page) => {
+            this.page = response;
+        })
     }
 
-    beforeNextPage = () => {
+    resetCheckbox = () => {
         this.checkedAllTuples = null;
     }
 }

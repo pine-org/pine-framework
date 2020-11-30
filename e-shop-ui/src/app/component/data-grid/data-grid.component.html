@@ -145,7 +145,7 @@
                                     <app-photo-album [buttonShape]="buttonShape"
                                                      [hiddenIcon]="hiddenIcon"
                                                      [hiddenText]="hiddenText"
-                                                     [indicesLimit]="indicesLimit"
+                                                     [indicesLimit]="sliderIndicesLimit"
                                                      [indicesOffset]="indicesOffset"
                                                      [pageIndices]="pageIndices"
                                                      [paginationButtonBorder]="paginationButtonBorder"
@@ -209,7 +209,7 @@
             <!--      <div class="col">-->
             <div *ngIf="pageIndices" class="d-flex flex-row justify-content-center align-items-baseline">
                 <!--table indices---------------------------------------------------------------------------------->
-                <app-page-index [beforeNextPage]="beforeNextPage"
+                <app-page-index [beforeNextPage]="resetCheckbox"
                                 [buttonShape]="buttonShape"
                                 [deleteAllEvent]="deleteAllEvent.asObservable()"
                                 [deleteEvent]="deleteEvent.asObservable()"
