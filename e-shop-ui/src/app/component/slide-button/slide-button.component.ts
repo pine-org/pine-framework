@@ -11,7 +11,7 @@ export class SlideButtonComponent extends AbstractButton {
   @Input() modal: any;
 
   constructor() {
-    super('Slide', 'fa fa-eye');
+    super('Slide', 'fa fa-file-image');
     this.color = 'btn-info';
   }
 

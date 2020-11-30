@@ -106,7 +106,7 @@
                         class='table-header fit-logic  py-{{headerHeight}} px-{{contentPadding}}'>
                         {{column.title.content}}
                     </th>
-                    <th *ngIf="photo"
+                    <th *ngIf="photo != ''"
                         class="table-header fit text-center py-{{headerHeight}}">
                         {{photoColumn.title.content}}
                     </th>
@@ -139,14 +139,26 @@
                         </td>
                         <!--table logic column---------------------------------------------------------------------------------->
 
-                        <td *ngIf="photo != ''">
-                            <app-photo-album [buttonShape]="buttonShape"
-                                             [hiddenIcon]="hiddenIcon"
-                                             [hiddenText]="hiddenText"
-                                             [photoPreview]="photoPreview"
-                                             [photos]="item[photo]"
-                                             [slide]="slide">
-                            </app-photo-album>
+                        <td *ngIf="photo != ''" class="fit align-middle py-{{rowHeight}}">
+                            <div class="d-flex flex-row px-2 justify-content-center">
+                                <div *ngIf="item[photo].length > 0">
+                                    <app-photo-album [buttonShape]="buttonShape"
+                                                     [hiddenIcon]="hiddenIcon"
+                                                     [hiddenText]="hiddenText"
+                                                     [indicesLimit]="indicesLimit"
+                                                     [indicesOffset]="indicesOffset"
+                                                     [pageIndices]="pageIndices"
+                                                     [paginationButtonBorder]="paginationButtonBorder"
+                                                     [paginationButtonShape]="paginationButtonShape"
+                                                     [photoPreview]="photoPreview"
+                                                     [photos]="item[photo]"
+                                                     [slide]="slide">
+                                    </app-photo-album>
+                                </div>
+                                <div *ngIf="item[photo].length == 0">
+                                    <div></div>
+                                </div>
+                            </div>
                         </td>
 
                         <!--table operation column---------------------------------------------------------------------------------->
