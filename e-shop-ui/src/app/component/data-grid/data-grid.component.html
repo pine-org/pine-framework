@@ -9,7 +9,7 @@
                 <div class="d-flex">
                     <!-- refresh button---------------------------------------------------------------------------------->
                     <div *ngIf="refreshButtonVisible">
-                        <app-refresh-button [click]="currentPage"
+                        <app-refresh-button [click]="refreshCurrentPage"
                                             [hiddenIcon]="hiddenIcon"
                                             [hiddenText]="hiddenText"
                                             [shape]="buttonShape">
@@ -80,7 +80,7 @@
                     <!--columns dropdown---------------------------------------------------------------------------------->
                     <!--refresh menu button---------------------------------------------------------------------------------->
                     <app-refresh-menu-button *ngIf="refreshMenuButtonVisible"
-                                             [click]="currentPage"
+                                             [click]="refreshCurrentPage"
                                              [hiddenIcon]="hiddenIcon"
                                              [hiddenText]="hiddenText">
                     </app-refresh-menu-button>
@@ -140,36 +140,13 @@
                         <!--table logic column---------------------------------------------------------------------------------->
 
                         <td *ngIf="photo != ''">
-                            <div *ngIf="photoPreview"
-                                 class="d-flex flex-row px-2 justify-content-center align-middle py-{{rowHeight}}">
-                                <div *ngFor="let e of getAlbum(item[photo])">
-                                    <img [src]="e" class="m-1" height="25" width="25">
-                                </div>
-                            </div>
-                            <div *ngIf="slide">
-                                <app-slide-button [click]="openAlbumModal"
-                                                  [hiddenIcon]="hiddenIcon"
-                                                  [hiddenText]="hiddenText"
-                                                  [modal]="albumModal"
-                                                  [shape]="buttonShape">
-                                </app-slide-button>
-
-                                <ng-template #albumModal let-modal>
-                                    <div class="modal-header border-0">
-                                        <button (click)="modal.dismiss()"
-                                                class="btn rounded-0 btn-warning border-dark m-0 px-3"
-                                                type="button">
-                                            <h1 class="m-0 p-0">×</h1>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body d-flex flex-row justify-content-center align-items-baseline">
-                                        <app-previous-button [click]="previousPhoto"></app-previous-button>
-                                        <img [src]="getPhotoByIndex(item, albumIndex)" class="m-1" height="250"
-                                             width="250">
-                                        <app-next-button [click]="nextPhoto"></app-next-button>
-                                    </div>
-                                </ng-template>
-                            </div>
+                            <app-photo-album [buttonShape]="buttonShape"
+                                             [hiddenIcon]="hiddenIcon"
+                                             [hiddenText]="hiddenText"
+                                             [photoPreview]="photoPreview"
+                                             [photos]="item[photo]"
+                                             [slide]="slide">
+                            </app-photo-album>
                         </td>
 
                         <!--table operation column---------------------------------------------------------------------------------->
@@ -220,58 +197,22 @@
             <!--      <div class="col">-->
             <div *ngIf="pageIndices" class="d-flex flex-row justify-content-center align-items-baseline">
                 <!--table indices---------------------------------------------------------------------------------->
-                <ul class="pagination">
-                    <!--previous button---------------------------------------------------------------------------------->
-                    <li class="page-item">
-                        <app-previous-button [border]="paginationButtonBorder"
-                                             [click]="previousPage"
-                                             [hiddenIcon]="hiddenIcon"
-                                             [hiddenText]="hiddenText"
-                                             [shape]="paginationButtonShape">
-                        </app-previous-button>
-                    </li>
-                    <!--previous button---------------------------------------------------------------------------------->
-                    <div *ngIf="indicesOffset > 0" class="mx-2">
-                        <app-previous-button [border]="''"
-                                             [click]="previousIndex"
-                                             [hiddenIcon]="hiddenIcon"
-                                             [hiddenText]="true"
-                                             [shape]="paginationButtonShape">
-                        </app-previous-button>
-                    </div>
-                    <!--indices---------------------------------------------------------------------------------->
-                    <li *ngFor='let num of page.indices' class="page-item">
-                        <div *ngIf="num >= indicesOffset && num < indicesOffset + indicesLimit">
-                            <app-index-button [border]="paginationButtonBorder"
-                                              [click]="getPage"
-                                              [color]="isActive(num)"
-                                              [index]="num"
-                                              [shape]="paginationButtonShape">
-
-                            </app-index-button>
-                        </div>
-                    </li>
-                    <!--indices---------------------------------------------------------------------------------->
-                    <div *ngIf="indicesOffset + indicesLimit < page.indices.length" class="mx-2">
-                        <app-next-button [border]="''"
-                                         [click]="nextIndex"
-                                         [hiddenIcon]="hiddenIcon"
-                                         [hiddenText]="true"
-                                         [shape]="paginationButtonShape">
-                        </app-next-button>
-                    </div>
-                    <!--next button---------------------------------------------------------------------------------->
-                    <li class="page-item">
-                        <app-next-button [border]="paginationButtonBorder"
-                                         [click]="nextPage"
-                                         [hiddenIcon]="hiddenIcon"
-                                         [hiddenText]="hiddenText"
-                                         [shape]="paginationButtonShape">
-                        </app-next-button>
-                    </li>
-                    <!--next button---------------------------------------------------------------------------------->
-                </ul>
-                <!--table indices---------------------------------------------------------------------------------->
+                <app-page-index [beforeNextPage]="beforeNextPage"
+                                [buttonShape]="buttonShape"
+                                [deleteAllEvent]="deleteAllEvent.asObservable()"
+                                [deleteEvent]="deleteEvent.asObservable()"
+                                [deletedItems]="deletedItems"
+                                [getPage]="getPage"
+                                [hiddenIcon]="hiddenIcon"
+                                [hiddenText]="hiddenText"
+                                [indicesLimit]="indicesLimit"
+                                [indicesOffset]="indicesOffset"
+                                [pageIndices]="pageIndices"
+                                [page]="page"
+                                [paginationButtonBorder]="paginationButtonBorder"
+                                [paginationButtonShape]="paginationButtonShape"
+                >
+                </app-page-index>
             </div>
             <!--      </div>-->
         </div>

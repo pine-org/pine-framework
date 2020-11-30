@@ -2,8 +2,11 @@ package com.pineframework.core.tutorial.eshop.business.transformer;
 
 import com.pineframework.core.business.transformer.AbstractImmutableFlatTransformer;
 import com.pineframework.core.tutorial.eshop.business.domain.GoodsEntity;
+import com.pineframework.core.tutorial.eshop.business.domain.GoodsPhotoEntity;
 import com.pineframework.core.tutorial.eshop.model.GoodsModel;
 import com.pineframework.core.tutorial.eshop.model.GoodsModel.Builder;
+
+import java.util.stream.Collectors;
 
 import static com.pineframework.core.helper.CollectionUtils.contains;
 import static com.pineframework.core.helper.CollectionUtils.isThereAnyElement;
@@ -23,6 +26,8 @@ public class GoodsTransformer extends AbstractImmutableFlatTransformer<Long, Goo
         isThereAnyElement(field)
                 .ifTrue(() -> {
                     contains(field, "photo"::equals).ifTrue(() -> outputBuilder.photo(input.getPhoto()));
+                    contains(field, "photos"::equals).ifTrue(() -> outputBuilder.photos(input.getPhotos()
+                            .stream().map(GoodsPhotoEntity::getContent).collect(Collectors.toList())));
                 });
     }
 

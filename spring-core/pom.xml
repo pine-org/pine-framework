@@ -165,6 +165,14 @@
             </properties>
         </profile>
         <profile>
+            <id>BuildTest</id>
+            <properties>
+                <env>test</env>
+                <build.profile.id>test</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
             <id>AccessDockerToHost</id>
             <properties>
                 <database.host>host.docker.internal:3306</database.host>

@@ -12,6 +12,8 @@ import com.pineframework.core.datamodel.validation.UpdateValidationGroup;
 
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 @JsonDeserialize(builder = GoodsModel.Builder.class)
@@ -32,6 +34,8 @@ public final class GoodsModel extends FlatTransient<Long> {
 
     private final byte[] photo;
 
+    private final List<byte[]> photos;
+
     public GoodsModel(GoodsModel.Builder builder) {
         super(builder);
         this.name = builder.name;
@@ -39,6 +43,7 @@ public final class GoodsModel extends FlatTransient<Long> {
         this.price = builder.price;
         this.description = builder.description;
         this.photo = builder.photo;
+        this.photos = builder.photos;
     }
 
     public <T extends FlatTransient<Long>> FlatTransient.Builder replace(T m) {
@@ -66,6 +71,10 @@ public final class GoodsModel extends FlatTransient<Long> {
         return photo;
     }
 
+    public List<byte[]> getPhotos() {
+        return photos;
+    }
+
     @SuppressWarnings("UnusedReturnValue")
     @JsonPOJOBuilder(withPrefix = "")
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -75,11 +84,13 @@ public final class GoodsModel extends FlatTransient<Long> {
 
         private final String code;
 
-        public byte[] photo;
-
         private BigDecimal price;
 
         private String description;
+
+        public byte[] photo;
+
+        private List<byte[]> photos = new ArrayList<>();
 
         @JsonCreator
         public Builder(@JsonProperty("name") String name, @JsonProperty("code") String code) {
@@ -108,6 +119,11 @@ public final class GoodsModel extends FlatTransient<Long> {
 
         public Builder photo(byte[] photo) {
             this.photo = photo;
+            return this;
+        }
+
+        public Builder photos(List<byte[]> photos) {
+            this.photos = photos;
             return this;
         }
 

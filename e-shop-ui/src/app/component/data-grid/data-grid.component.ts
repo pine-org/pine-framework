@@ -1,8 +1,8 @@
 import {Service} from "../../service/AbstractService";
-import {Component, Input, OnInit} from "@angular/core";
+import {Component, Input, OnInit, Output} from "@angular/core";
 import {Icon, Properties, Text} from "../Properties";
 import {Page} from "../../service/Page";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {Subject} from "rxjs";
 
 @Component({
     selector: 'app-data-grid',
@@ -66,6 +66,11 @@ export class DataGridComponent implements OnInit {
     @Input() deleteButtonVisible: boolean = true;
 
     @Input() pageIndices: boolean = true;
+
+    @Output() deleteEvent: Subject<void> = new Subject<void>();
+
+    @Output() deleteAllEvent: Subject<void> = new Subject<void>();
+
 // ######################################################################################
     private _deleteAllButtonVisible: boolean = false;
 
@@ -192,84 +197,41 @@ export class DataGridComponent implements OnInit {
 
     // ######################################################################################
 
-    albumIndex: number = 0
-
-    @Input() photo: string = "";
+    constructor() {
+    }
 
     @Input() photoPreview: boolean = false;
 
     @Input() slide: boolean = false;
 
+    private _photo: string = "";
+
+    get photo(): string {
+        return this._photo;
+    }
+
     photoColumn: Properties = Properties.builder(Text.builder('Photo').build())
         .hidden(this.photo == '')
         .build();
 
-    constructor(private modalService: NgbModal) {
-    }
-
-    getAlbum(item) {
-        let album = [];
-        album.push(item);
-        album.push(item);
-        return album.map(value => "data:image/jpeg;base64," + value);
-    }
+// ######################################################################################
 
     // ######################################################################################
 
-    getPhotoByIndex(item, index) {
-        let album = [];
-        album.push(item[this.photo]);
-        album.push(item[this.photo]);
-        return "data:image/jpeg;base64," + album[index];
+    @Input()
+    set photo(value: string) {
+        this._photo = value;
+        this.page.projections.push(value)
     }
-
-    // ######################################################################################
 
     ngOnInit() {
         this.getPage(this.page.index);
     }
 
     getData(page: Page) {
-        page.projections.push(this.photo)
         this.service.list(page).subscribe((response: Page) => {
             this.page = response;
         })
-    }
-
-
-    openAlbumModal = (content) => {
-        this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(
-            (result) => {
-            },
-            (reason) => {
-            });
-    }
-
-    previousPhoto = () => {
-        this.albumIndex--;
-    }
-
-    nextPhoto = () => {
-        this.albumIndex++;
-    }
-
-
-    delete = (id) => {
-        this.service.delete(id).subscribe(() => {
-            if (this.page.content.length == 1)
-                this.previousPage();
-            else
-                this.currentPage();
-        });
-    }
-
-    deleteAll = (identities: any[]) => {
-        this.service.deleteAll(identities).subscribe(() => {
-            if (this.page.content.length == 1 || this.deletedItems.length == this.page.content.length)
-                this.previousPage();
-            else
-                this.currentPage();
-        });
     }
 
     deletedItemsChange(event) {
@@ -314,53 +276,31 @@ export class DataGridComponent implements OnInit {
             .forEach(value => value.hidden = !event.target.checked);
     }
 
-    isActive(num: number) {
-        return this.page.index == num ? 'btn-primary' : '';
+    delete = (id) => {
+        this.service.delete(id).subscribe(() => {
+            this.deleteEvent.next();
+        });
+    }
+
+    deleteAll = (identities: any[]) => {
+        this.service.deleteAll(identities).subscribe(() => {
+            this.deleteAllEvent.next();
+        });
+    }
+
+    refreshCurrentPage = () => {
+        this.beforeNextPage()
+        this.getPage(this.page.index);
     }
 
     getPage = (index: number) => {
-        this.checkedAllTuples = null;
+        this.beforeNextPage();
         this.page.index = index;
         this.page.size = parseInt(this.defaultBunch);
         this.getData(this.page);
     }
 
-    currentPage = () => {
+    beforeNextPage = () => {
         this.checkedAllTuples = null;
-        this.getData(this.page);
     }
-
-    nextPage = () => {
-        this.checkedAllTuples = null;
-        if (this.page.index < this.page.indices.length - 1) {
-            if (this.page.index == this.indicesOffset + this.indicesLimit - 1) {
-                this.indicesOffset += this.indicesLimit
-            }
-            this.getPage(this.page.index + 1);
-        }
-    }
-
-    previousPage = () => {
-        if (this.page.index > 0) {
-            if (this.page.index <= this.indicesOffset) {
-                this.indicesOffset -= this.indicesLimit
-            }
-            this.getPage(this.page.index - 1);
-        }
-    }
-
-    nextIndex = () => {
-        if (this.indicesOffset < this.page.indices.length) {
-            this.indicesOffset += this.indicesLimit
-            this.getPage(this.indicesOffset);
-        }
-    }
-
-    previousIndex = () => {
-        if (this.indicesOffset > 0) {
-            this.indicesOffset -= this.indicesLimit
-            this.getPage(this.indicesOffset + this.indicesLimit - 1);
-        }
-    }
-
 }

@@ -1,0 +1,3 @@
+mvn -f ./core/pom.xml clean install -P Test,ActiveMQ,H2,Localhost
+mvn -f ./spring-core/pom.xml clean install -P Test,ActiveMQ,H2,Localhost
+mvn -f ./tutorial/pom.xml clean install -P Test,ActiveMQ,H2,Localhost

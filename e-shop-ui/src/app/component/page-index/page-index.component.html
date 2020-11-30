@@ -1,0 +1,55 @@
+<div *ngIf="pageIndices" class="d-flex flex-row justify-content-center align-items-baseline">
+    <!--table indices---------------------------------------------------------------------------------->
+    <ul class="pagination">
+        <!--previous button---------------------------------------------------------------------------------->
+        <li class="page-item">
+            <app-previous-button [border]="paginationButtonBorder"
+                                 [click]="previousPage"
+                                 [hiddenIcon]="hiddenIcon"
+                                 [hiddenText]="hiddenText"
+                                 [shape]="paginationButtonShape">
+            </app-previous-button>
+        </li>
+        <!--previous button---------------------------------------------------------------------------------->
+        <div *ngIf="indicesOffset > 0" class="mx-2">
+            <app-previous-button [border]="''"
+                                 [click]="previousIndex"
+                                 [hiddenIcon]="hiddenIcon"
+                                 [hiddenText]="true"
+                                 [shape]="paginationButtonShape">
+            </app-previous-button>
+        </div>
+        <!--indices---------------------------------------------------------------------------------->
+        <li *ngFor='let num of page.indices' class="page-item">
+            <div *ngIf="num >= indicesOffset && num < indicesOffset + indicesLimit">
+                <app-index-button [border]="paginationButtonBorder"
+                                  [click]="getPage"
+                                  [color]="isActive(num)"
+                                  [index]="num"
+                                  [shape]="paginationButtonShape">
+
+                </app-index-button>
+            </div>
+        </li>
+        <!--indices---------------------------------------------------------------------------------->
+        <div *ngIf="indicesOffset + indicesLimit < page.indices.length" class="mx-2">
+            <app-next-button [border]="''"
+                             [click]="nextIndex"
+                             [hiddenIcon]="hiddenIcon"
+                             [hiddenText]="true"
+                             [shape]="paginationButtonShape">
+            </app-next-button>
+        </div>
+        <!--next button---------------------------------------------------------------------------------->
+        <li class="page-item">
+            <app-next-button [border]="paginationButtonBorder"
+                             [click]="nextPage"
+                             [hiddenIcon]="hiddenIcon"
+                             [hiddenText]="hiddenText"
+                             [shape]="paginationButtonShape">
+            </app-next-button>
+        </li>
+        <!--next button---------------------------------------------------------------------------------->
+    </ul>
+    <!--table indices---------------------------------------------------------------------------------->
+</div>

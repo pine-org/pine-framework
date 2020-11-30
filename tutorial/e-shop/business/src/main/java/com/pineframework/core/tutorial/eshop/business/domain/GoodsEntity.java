@@ -6,6 +6,7 @@ import com.pineframework.core.datamodel.filter.Filter;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,9 +14,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 @Entity
@@ -36,8 +40,10 @@ public class GoodsEntity extends AbstractAuditingEntity<Long> {
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "PHOTO", columnDefinition = "MEDIUMBLOB")
+    @Column(name = "PHOTO", columnDefinition = "MEDIUMBLOB", length = 2147483647)
     private byte[] photo;
+
+    private List<GoodsPhotoEntity> photos = new ArrayList<>();
 
     @Id
     @Column(name = "ID", unique = true, nullable = false)
@@ -92,6 +98,16 @@ public class GoodsEntity extends AbstractAuditingEntity<Long> {
 
     public void setPhoto(byte[] photo) {
         this.photo = photo;
+    }
+
+    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Access(AccessType.PROPERTY)
+    public List<GoodsPhotoEntity> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<GoodsPhotoEntity> photos) {
+        this.photos = photos;
     }
 
     @Override

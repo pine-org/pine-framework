@@ -1,0 +1,45 @@
+<div *ngIf="photoPreview"
+     class="d-flex flex-row px-2 justify-content-center align-middle py-1">
+    <div *ngFor="let e of getAllPhotos()">
+        <img [src]="e" class="m-1" height="25" width="25">
+    </div>
+</div>
+<div *ngIf="slide">
+    <app-slide-button [click]="openAlbumModal"
+                      [hiddenIcon]="hiddenIcon"
+                      [hiddenText]="hiddenText"
+                      [modal]="albumModal"
+                      [shape]="buttonShape">
+    </app-slide-button>
+
+    <ng-template #albumModal let-modal>
+        <div class="modal-header border-0">
+            <button (click)="modal.dismiss()"
+                    class="btn rounded-0 btn-warning border-dark m-0 px-3"
+                    type="button">
+                <h1 class="m-0 p-0">×</h1>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="d-flex flex-row justify-content-center align-items-baseline m-5">
+                <div *ngFor="let item of page.content; index as i">
+                    <img [src]="convertToPhotoFormat(item)" class="m-1" height="250" width="250">
+                </div>
+            </div>
+            <div>
+                <app-page-index [buttonShape]="buttonShape"
+                                [deletedItems]="deletedItems"
+                                [getPage]="getPage"
+                                [hiddenIcon]="hiddenIcon"
+                                [hiddenText]="hiddenText"
+                                [indicesLimit]="indicesLimit"
+                                [indicesOffset]="indicesOffset"
+                                [pageIndices]="pageIndices"
+                                [page]="page"
+                                [paginationButtonBorder]="paginationButtonBorder"
+                                [paginationButtonShape]="paginationButtonShape">
+                </app-page-index>
+            </div>
+        </div>
+    </ng-template>
+</div>

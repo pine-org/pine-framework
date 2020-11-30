@@ -27,6 +27,8 @@ import {IndexButtonComponent} from './component/index-button/index-button.compon
 import {DataGridComponent} from './component/data-grid/data-grid.component';
 import {DeleteBunchButtonComponent} from './component/delete-bunch-button/delete-bunch-button.component';
 import {SlideButtonComponent} from './component/slide-button/slide-button.component';
+import {PhotoAlbumComponent} from './component/photo-album/photo-album.component';
+import {PageIndexComponent} from './component/page-index/page-index.component';
 
 @NgModule({
     declarations: [
@@ -45,7 +47,9 @@ import {SlideButtonComponent} from './component/slide-button/slide-button.compon
         IndexButtonComponent,
         DataGridComponent,
         DeleteBunchButtonComponent,
-        SlideButtonComponent
+        SlideButtonComponent,
+        PhotoAlbumComponent,
+        PageIndexComponent
     ],
     imports: [
         BrowserModule,
