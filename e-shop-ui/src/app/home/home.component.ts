@@ -11,11 +11,13 @@ import {Service} from "../service/AbstractService";
 export class HomeComponent implements OnInit {
 
     columns = [
-        Properties.builder(Text.builder('ID').build()).field("id").build(),
-        Properties.builder(Text.builder('Name').build()).field("name").build(),
-        Properties.builder(Text.builder('Code').build()).field("code").build(),
-        Properties.builder(Text.builder('Price').build()).field("price").build(),
-        Properties.builder(Text.builder('Description').build()).field("description").build(),
+      Properties.builder(Text.builder('ID').build()).field("id").build(),
+      Properties.builder(Text.builder('Name').build()).field("name").type("text").build(),
+      Properties.builder(Text.builder('Code').build()).field("code").type("text").build(),
+      Properties.builder(Text.builder('Price').build()).field("price").type("text").build(),
+      Properties.builder(Text.builder('Description').build()).field("description").type("text").build(),
+      Properties.builder(Text.builder('Photo').build()).field("photo").type("picture").build(),
+      Properties.builder(Text.builder('Album').build()).field("photos").type("picture").build(),
     ];
 
     bunches: string[] = ['10', '15'];

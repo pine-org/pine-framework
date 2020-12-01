@@ -29,6 +29,7 @@ import {DeleteBunchButtonComponent} from './component/delete-bunch-button/delete
 import {SlideButtonComponent} from './component/slide-button/slide-button.component';
 import {PhotoAlbumComponent} from './component/photo-album/photo-album.component';
 import {PageIndexComponent} from './component/page-index/page-index.component';
+import {CoffeeButtonComponent} from './component/coffee-button/coffee-button.component';
 
 @NgModule({
     declarations: [
@@ -39,17 +40,18 @@ import {PageIndexComponent} from './component/page-index/page-index.component';
         ReadButtonComponent,
         UpdateButtonComponent,
         EditButtonComponent,
-        DeleteButtonComponent,
-        RefreshButtonComponent,
-        RefreshMenuButtonComponent,
-        NextButtonComponent,
-        PreviousButtonComponent,
-        IndexButtonComponent,
-        DataGridComponent,
-        DeleteBunchButtonComponent,
-        SlideButtonComponent,
-        PhotoAlbumComponent,
-        PageIndexComponent
+      DeleteButtonComponent,
+      RefreshButtonComponent,
+      RefreshMenuButtonComponent,
+      NextButtonComponent,
+      PreviousButtonComponent,
+      IndexButtonComponent,
+      DataGridComponent,
+      DeleteBunchButtonComponent,
+      SlideButtonComponent,
+      PhotoAlbumComponent,
+      PageIndexComponent,
+      CoffeeButtonComponent
     ],
     imports: [
         BrowserModule,
