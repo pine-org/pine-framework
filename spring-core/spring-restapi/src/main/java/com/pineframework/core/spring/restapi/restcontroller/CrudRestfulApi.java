@@ -118,7 +118,7 @@ public interface CrudRestfulApi<I extends Serializable, M extends FlatTransient<
     default ResponseEntity<EntityModel<M>> findById(
             @Parameter(name = "ID", description = "${restfulApi.findById.param}", required = true)
             @PathVariable("id") I id) {
-        return getService().findById(id)
+        return getService().findByIdErrorProne(id)
                 .map(m -> new EntityModel<>(m, linkTo(getClass()).slash(m.getId()).withSelfRel()))
                 .map(ResponseEntity::ok)
                 .get();

@@ -52,11 +52,11 @@ public class GoodsRestApiTest extends AbstractRestfulWebService<Long, GoodsModel
                 .price(BigDecimal.valueOf(6565, 2)).build());
     }
 
-    @ParameterizedTest
-    @DisplayName("GIVEN Goods WHEN post request THEN status is created")
+    @ParameterizedTest(name = "{index} => name=''{0}''")
+    @DisplayName("post request")
     @ValueSource(strings = {"table", "desk", "chair"})
     @Order(1)
-    void save_GivenGoods_WhenPostRequest_ThenStatusIsCreate(String name) {
+    void save_GivenNewGoods_WhenPostRequest_ThenReturnCreateStatus(String name) {
         GoodsModel testModel = getFromStorage(name);
         ResponseEntity<String> response = post(testModel, API_V1_GOODS);
         assertNotNull(response);
@@ -74,11 +74,11 @@ public class GoodsRestApiTest extends AbstractRestfulWebService<Long, GoodsModel
         updateStorage(name, model);
     }
 
-    @ParameterizedTest
-    @DisplayName("GIVEN identity WHEN get request THEN status is OK")
+    @ParameterizedTest(name = "{index} => name=''{0}''")
+    @DisplayName("get request")
     @ValueSource(strings = {"table", "desk", "chair"})
     @Order(2)
-    void findById_GivenIdentity_WhenGetRequest_ThenStatusIsOk(String name) {
+    void findById_GivenIdentity_WhenGetRequest_ThenReturnOKStatus(String name) {
         GoodsModel testModel = getFromStorage(name);
         Long id = testModel.getId();
         assertNotNull(id);
@@ -98,11 +98,11 @@ public class GoodsRestApiTest extends AbstractRestfulWebService<Long, GoodsModel
         updateStorage(name, model);
     }
 
-    @ParameterizedTest
-    @DisplayName("GIVEN Goods WHEN put request THEN status is no content")
+    @ParameterizedTest(name = "{index} => name=''{0}''")
+    @DisplayName("put request")
     @ValueSource(strings = {"table", "desk", "chair"})
     @Order(3)
-    void update_GivenGoods_WhenPutRequest_ThenStatusIsNoContent(String name) {
+    void update_GivenChangedGoods_WhenPutRequest_ThenReturnNoContentStatus(String name) {
         GoodsModel testModel = getFromStorage(name);
         Long id = testModel.getId();
 
@@ -126,11 +126,11 @@ public class GoodsRestApiTest extends AbstractRestfulWebService<Long, GoodsModel
         updateStorage(name, model);
     }
 
-    @ParameterizedTest
-    @DisplayName("GIVEN identity WHEN delete request THEN status is no content")
+    @ParameterizedTest(name = "{index} => name=''{0}''")
+    @DisplayName("delete request")
     @ValueSource(strings = {"table", "desk", "chair"})
     @Order(3)
-    void delete_GivenIdentity_WhenDeleteRequest_ThenStatusIsNoContent(String name) {
+    void delete_GivenIdentity_WhenDeleteRequest_ThenReturnNoContentStatus(String name) {
         GoodsModel testModel = getFromStorage(name);
         Long id = testModel.getId();
 

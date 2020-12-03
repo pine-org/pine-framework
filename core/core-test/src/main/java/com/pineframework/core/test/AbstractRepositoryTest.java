@@ -5,15 +5,11 @@ import com.pineframework.core.contract.repository.flat.QueryRepository;
 import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import org.junit.jupiter.api.BeforeEach;
 
-import javax.ws.rs.NotSupportedException;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
-import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @param <I> identity
@@ -22,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
-public abstract class AbstractRepositoryTest<I extends Serializable, T extends FlatPersistence,
+public abstract class AbstractRepositoryTest<I extends Serializable, T extends FlatPersistence<I>,
         E extends CrudRepository & QueryRepository> extends AbstractTest<T> implements BasicBusinessOperation<I, T, E> {
 
     protected final E operator;
@@ -43,37 +39,24 @@ public abstract class AbstractRepositoryTest<I extends Serializable, T extends F
     }
 
     @Override
-    public I save(T data) {
+    public Optional<I> save(T data) {
         getOperator().save(data);
-        assertNotNull(data.getId());
-        logInfo(format("save entity[%s] successful", getTestObjectName((I) data.getId())));
-        return (I) data.getId();
+        return Optional.ofNullable(data.getId());
     }
 
     @Override
-    public T findById(I id) {
-        Optional<T> entity = getOperator().findById(id);
-        assertTrue(entity.isPresent());
-        logInfo(format("find entity[%s] by id[%s] successful", getTestObjectName(id), id));
-        return entity.get();
+    public Optional<T> findById(I id) {
+        return getOperator().findById(id);
     }
 
     @Override
-    public T update(I id, T data) {
-        throw new NotSupportedException();
+    public void update(I id, T data) {
+        getOperator().flush();
     }
 
     @Override
     public void deleteById(I id) {
         getOperator().delete(id);
-        logInfo(format("delete entity[%s] by id[%s] successful", getTestObjectName(id), id));
     }
 
-    public String getTestObjectName(I id) {
-        Optional<Map.Entry<String, T>> entry = storage.entrySet().stream()
-                .filter(e -> Objects.equals(e.getValue().getId(), id))
-                .findFirst();
-
-        return entry.isPresent() ? entry.get().getKey() : "";
-    }
 }

@@ -24,6 +24,7 @@ import java.util.List;
 @SuppressWarnings({"unchecked", "rawtypes"})
 @Entity
 @Table(name = "GOODS")
+@Access(AccessType.FIELD)
 public class GoodsEntity extends AbstractAuditingEntity<Long> {
 
     @Column(name = "NAME", nullable = false, length = 50, unique = true)
@@ -40,9 +41,10 @@ public class GoodsEntity extends AbstractAuditingEntity<Long> {
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    @Column(name = "PHOTO", columnDefinition = "MEDIUMBLOB", length = 2147483647)
+    @Column(name = "PHOTO", columnDefinition = "VARBINARY(2147483647)", length = 2147483647)
     private byte[] photo;
 
+    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<GoodsPhotoEntity> photos = new ArrayList<>();
 
     @Id
@@ -100,8 +102,6 @@ public class GoodsEntity extends AbstractAuditingEntity<Long> {
         this.photo = photo;
     }
 
-    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @Access(AccessType.PROPERTY)
     public List<GoodsPhotoEntity> getPhotos() {
         return photos;
     }

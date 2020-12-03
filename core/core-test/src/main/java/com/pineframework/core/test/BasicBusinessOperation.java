@@ -1,5 +1,7 @@
 package com.pineframework.core.test;
 
+import java.util.Optional;
+
 /**
  * Provide CRUD contraction.
  *
@@ -12,11 +14,11 @@ public interface BasicBusinessOperation<I, T, E> {
 
     E getOperator();
 
-    I save(T data);
+    Optional<I> save(T data);
 
-    T findById(I id);
+    Optional<T> findById(I id);
 
-    T update(I id, T data);
+    void update(I id, T data);
 
     void deleteById(I id);
 }

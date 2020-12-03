@@ -52,11 +52,20 @@ public interface CrudEntityService<I extends Serializable,
     }
 
     @Override
-    default Optional<M> findById(I id) {
+    default Optional<M> findByIdErrorProne(I id) {
         E entity = getRepository().findById(id)
                 .orElseThrow(() -> new NotFoundDataByIdException(getTransientType().getSimpleName(), id));
 
         return ofNullable(getTransformer().transform(entity));
+    }
+
+    @Override
+    default Optional<M> findById(I id) {
+        Optional<E> entity = getRepository().findById(id);
+        if (!entity.isPresent())
+            return Optional.empty();
+
+        return ofNullable(getTransformer().transform(entity.get()));
     }
 
     @Override

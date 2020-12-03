@@ -1,5 +1,7 @@
 package com.pineframework.core.contract.service;
 
+import com.pineframework.core.datamodel.exception.NotFoundDataByIdException;
+
 import java.util.Optional;
 
 /**
@@ -18,6 +20,16 @@ public interface CrudService<I, M> {
      * @return optional of identity
      */
     Optional<I> save(M m);
+
+    /**
+     * Find persisted data by identity otherwise throw an exception.
+     *
+     * @param id identity
+     * @return optional of transient object
+     * @throws NotFoundDataByIdException
+     */
+    Optional<M> findByIdErrorProne(I id);
+
 
     /**
      * Find persisted data by identity.

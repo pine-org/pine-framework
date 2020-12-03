@@ -24,7 +24,6 @@ import java.util.Optional;
 
 import static com.pineframework.core.helper.FileUtils.readFile;
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -69,74 +68,74 @@ public class GoodsRepositoryTest extends AbstractRepositoryTest<Long, GoodsEntit
         addToStorage("chair", chair);
     }
 
-    @ParameterizedTest(name = "{index} => goods=''{0}''")
+    @ParameterizedTest(name = "{index} => name=''{0}''")
     @ValueSource(strings = {"table", "bed", "chair"})
     @DisplayName("save new goods")
     @Order(1)
-    public void save_GivenNewGoods_WhenInvokeSaveFunction_ReturnId(String name) {
+    public void save_GivenNewGoods_WhenSave_ThenReturnId(String name) {
         GoodsEntity entity = getFromStorage(name);
-        Long id = save(entity);
-        assertNotNull(id);
-        assertThat(id).isIn(1L, 2L, 3L);
+        Optional<Long> identity = save(entity);
+        assertTrue(identity.isPresent());
+        identity.ifPresent(it -> assertNotNull(it));
     }
 
-    @ParameterizedTest(name = "{index} => goods=''{0}''")
+    @ParameterizedTest(name = "{index} => name=''{0}''")
     @ValueSource(strings = {"table", "bed", "chair"})
     @DisplayName("find by goods id")
     @Order(2)
-    public void findById_GivenLongNumberAsGoodsId_WhenInvokeFindByIdFunction_ReturnGoodsEntity(String name) {
+    public void findById_GivenLongNumberAsParam_WhenFindById_ThenReturnModel(String name) {
+        GoodsEntity testEntity = getFromStorage(name);
+        Long id = testEntity.getId();
+        assertNotNull(id);
+
+        Optional<GoodsEntity> model = findById(id);
+        assertTrue(model.isPresent());
+        model.ifPresent(it -> {
+            assertNotNull(it);
+            assertEquals(testEntity.getName(), it.getName());
+            assertEquals(testEntity.getCode(), it.getCode());
+            assertEquals(testEntity.getPrice(), it.getPrice());
+            updateStorage(name, it);
+        });
+    }
+
+    @ParameterizedTest(name = "{index} => name=''{0}''")
+    @ValueSource(strings = {"table", "bed", "chair"})
+    @DisplayName("update goods")
+    @Order(3)
+    public void update_GivenChangedModel_WhenUpdate_ThenApplyChanges(String name) {
+        GoodsEntity entity = getFromStorage(name);
+        Long id = entity.getId();
+        Integer version = entity.getVersion();
+        String goodsName = entity.getName();
+        assertNotNull(id);
+        assertNotNull(version);
+        assertNotNull(goodsName);
+
+        entity.setName(goodsName + "_updated");
+        update(id, entity);
+
+        assertEquals(goodsName + "_updated", entity.getName());
+    }
+
+
+    @ParameterizedTest(name = "{index} => name=''{0}''")
+    @ValueSource(strings = {"table", "bed", "chair"})
+    @DisplayName("delete by goods id")
+    @Order(4)
+    public void delete_GivenLongNumberAsParam_WhenDelete_ThenApplyDelete(String name) {
         GoodsEntity testModel = getFromStorage(name);
         Long id = testModel.getId();
         assertNotNull(id);
 
-        GoodsEntity model = findById(id);
-
-        assertNotNull(model);
-        assertEquals(testModel.getName(), model.getName());
-        assertEquals(testModel.getCode(), model.getCode());
-        assertEquals(testModel.getPrice(), model.getPrice());
-    }
-
-    @ParameterizedTest(name = "{index} => goods=''{0}''")
-    @ValueSource(strings = {"table", "bed", "chair"})
-    @DisplayName("update name of goods")
-    @Order(3)
-    public void update_GivenChangedGoods_WhenInvokeUpdateFunction_ThenReturnVoid(String name) {
-        GoodsEntity testEntity = getFromStorage(name);
-        Long id = testEntity.getId();
-        Integer version = testEntity.getVersion();
-        String nameField = testEntity.getName();
-        assertNotNull(id);
-        assertNotNull(nameField);
-        assertNotNull(version);
-
-        GoodsEntity entity = findById(id);
-        entity.setName(nameField + "_updated");
-        getOperator().flush();
-
-        GoodsEntity updatedEntity = findById(id);
-
-        assertEquals(nameField + "_updated", updatedEntity.getName());
-        assertTrue(updatedEntity.getVersion() == version + 1);
-        updateStorage(name, updatedEntity);
-    }
-
-    @ParameterizedTest(name = "{index} => goods=''{0}''")
-    @ValueSource(strings = {"table", "bed", "chair"})
-    @DisplayName("delete goods by id")
-    @Order(4)
-    public void delete_GivenIdAsParam_WhenInvokeDeleteFunction_ThenReturnVoid(String name) {
-        GoodsEntity testEntity = getFromStorage(name);
-        Long id = testEntity.getId();
-        assertNotNull(id);
         deleteById(id);
 
-        Optional entity = getOperator().findById(id);
-        assertFalse(entity.isPresent());
+        Optional<GoodsEntity> model = findById(id);
+        assertFalse(model.isPresent());
     }
 
     @Test
-    @DisplayName("Save goods with photo relation")
+    @DisplayName("save new goods with photo relations")
     @Order(5)
     public void save_GivenNewGoodsWithPhotos_WhenInvokeSaveFunction_ThenReturnId() {
         GoodsEntity goods = new GoodsEntity();
@@ -149,8 +148,9 @@ public class GoodsRepositoryTest extends AbstractRepositoryTest<Long, GoodsEntit
         goods.getPhotos().add(new GoodsPhotoEntity(readFile(format("src/test/resources/img/%s.jpg", "closet")), goods));
         goods.getPhotos().add(new GoodsPhotoEntity(readFile(format("src/test/resources/img/%s.jpg", "table")), goods));
 
-        Long id = save(goods);
-        assertNotNull(id);
+        Optional<Long> id = save(goods);
+        assertTrue(id.isPresent());
+        id.ifPresent(it -> assertNotNull(it));
     }
 
 }

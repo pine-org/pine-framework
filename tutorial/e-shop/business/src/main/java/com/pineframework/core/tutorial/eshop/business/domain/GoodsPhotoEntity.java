@@ -19,12 +19,15 @@ import javax.persistence.Table;
 @SuppressWarnings({"unchecked", "rawtypes"})
 @Entity
 @Table(name = "GOODS_PHOTO")
+@Access(AccessType.FIELD)
 public class GoodsPhotoEntity extends AbstractAuditingEntity<Long> {
 
     @Lob
-    @Column(name = "CONTENT", columnDefinition = "MEDIUMBLOB", length = 2147483647)
+    @Column(name = "CONTENT", columnDefinition = "VARBINARY(2147483647)", length = 2147483647)
     private byte[] content;
 
+    @ManyToOne
+    @JoinColumn(name = "GOODS_ID", referencedColumnName = "ID")
     private GoodsEntity goods;
 
     public GoodsPhotoEntity() {
@@ -58,9 +61,6 @@ public class GoodsPhotoEntity extends AbstractAuditingEntity<Long> {
         this.content = photo;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "GOODS_ID", referencedColumnName = "ID")
-    @Access(AccessType.PROPERTY)
     public GoodsEntity getGoods() {
         return goods;
     }

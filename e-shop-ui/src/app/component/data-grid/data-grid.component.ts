@@ -81,7 +81,7 @@ export class DataGridComponent implements OnInit {
   @Output() deleteAllEvent: Subject<void> = new Subject<void>();
 
 // ######################################################################################
-  @Input() private makingCoffee: boolean = false;
+  @Input() makingCoffee: boolean = false;
 
   constructor(private modalService: NgbModal) {
   }
