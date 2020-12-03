@@ -20,9 +20,10 @@ import javax.persistence.EntityTransaction;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -44,7 +45,7 @@ public class GoodsEntityServiceTest extends AbstractEntityServiceTest<Long, Good
     public void init() {
         addToStorage("table", new GoodsModel.Builder("Table", "001")
                 .price(BigDecimal.valueOf(8585, 2)).build());
-        addToStorage("desk", new GoodsModel.Builder("Desk", "002")
+        addToStorage("bed", new GoodsModel.Builder("Bed", "002")
                 .price(BigDecimal.valueOf(7575, 2)).build());
         addToStorage("chair", new GoodsModel.Builder("Chair", "003")
                 .price(BigDecimal.valueOf(6565, 2)).build());
@@ -62,70 +63,84 @@ public class GoodsEntityServiceTest extends AbstractEntityServiceTest<Long, Good
         transaction.commit();
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"table", "desk", "chair"})
-    @DisplayName("Save three goods model {table, desk, chair}")
+    @ParameterizedTest(name = "{index} => name=''{0}''")
+    @ValueSource(strings = {"table", "bed", "chair"})
+    @DisplayName("save new goods")
     @Order(1)
-    public void save_SaveNewGoods_ReturnId(String name) {
+    public void save_GivenNewGoods_WhenSave_ThenReturnId(String name) {
         GoodsModel model = getFromStorage(name);
-        Long id = save(model);
-        assertNotNull(id);
-        assertThat(id).isIn(1L, 2L, 3L);
-        updateStorage(name, new GoodsModel.Builder(model.getName(), model.getCode())
-                .from(model)
-                .id(id)
-                .build());
+        Optional<Long> identity = save(model);
+        assertTrue(identity.isPresent());
+        identity.ifPresent(it -> {
+            assertNotNull(it);
+            updateStorage(name, new GoodsModel.Builder(model.getName(), model.getCode())
+                    .from(model)
+                    .id(it)
+                    .build());
+        });
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"table", "desk", "chair"})
-    @DisplayName("Find by goods model id")
+    @ParameterizedTest(name = "{index} => name=''{0}''")
+    @ValueSource(strings = {"table", "bed", "chair"})
+    @DisplayName("find by goods id")
     @Order(2)
-    public void findById_LongNumberAsGoodsId_ReturnGoodsModel(String name) {
+    public void findById_GivenLongNumberAsParam_WhenFindById_ThenReturnModel(String name) {
         GoodsModel testModel = getFromStorage(name);
         Long id = testModel.getId();
         assertNotNull(id);
 
-        GoodsModel model = findById(id);
-
-        assertNotNull(model);
-        assertEquals(testModel.getName(), model.getName());
-        assertEquals(testModel.getCode(), model.getCode());
-        assertEquals(testModel.getPrice(), model.getPrice());
-        updateStorage(name, model);
+        Optional<GoodsModel> model = findById(id);
+        assertTrue(model.isPresent());
+        model.ifPresent(it -> {
+            assertNotNull(it);
+            assertEquals(testModel.getName(), it.getName());
+            assertEquals(testModel.getCode(), it.getCode());
+            assertEquals(testModel.getPrice(), it.getPrice());
+            updateStorage(name, it);
+        });
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {"table", "desk", "chair"})
-    @DisplayName("Update name of three goods model {table, desk, chair}")
+    @ParameterizedTest(name = "{index} => name=''{0}''")
+    @ValueSource(strings = {"table", "bed", "chair"})
+    @DisplayName("update goods")
     @Order(3)
-    public void update_WhenDataIsChanged_ThenSaveUpdatedModel(String name) {
+    public void update_GivenChangedModel_WhenUpdate_ThenApplyChanges(String name) {
         GoodsModel testModel = getFromStorage(name);
         Long id = testModel.getId();
         Integer version = testModel.getVersion();
         assertNotNull(id);
         assertNotNull(version);
 
-        GoodsModel updateTestModel = new GoodsModel.Builder(testModel.getName() + "_updated", testModel.getCode())
+        GoodsModel changedModel = new GoodsModel.Builder(testModel.getName() + "_updated", testModel.getCode())
                 .from(testModel).build();
 
-        GoodsModel model = update(id, updateTestModel);
-        assertNotNull(model);
-        assertEquals(testModel.getName() + "_updated", model.getName());
-        assertTrue(model.getVersion() == version + 1);
-        updateStorage(name, model);
+        update(id, changedModel);
+
+        Optional<GoodsModel> model = findById(id);
+        assertTrue(model.isPresent());
+        model.ifPresent(it -> {
+            assertNotNull(it);
+            assertEquals(testModel.getName() + "_updated", it.getName());
+            assertTrue(it.getVersion() == version + 1);
+            updateStorage(name, it);
+        });
     }
 
 
-    @ParameterizedTest
-    @ValueSource(strings = {"table", "desk", "chair"})
-    @DisplayName("Delete three goods model {table, desk, chair}")
+    @ParameterizedTest(name = "{index} => name=''{0}''")
+    @ValueSource(strings = {"table", "bed", "chair"})
+    @DisplayName("delete by goods id")
     @Order(4)
-    public void delete_WhenDataIsDelete_ThenDecreaseCountAllAsManyOne(String name) {
+    public void delete_GivenLongNumberAsParam_WhenDelete_ThenApplyDelete(String name) {
         GoodsModel testModel = getFromStorage(name);
         Long id = testModel.getId();
         assertNotNull(id);
+
         deleteById(id);
+        getOperator().getRepository().clear();
+
+        Optional<GoodsModel> model = findById(id);
+        assertFalse(model.isPresent());
     }
 
 }

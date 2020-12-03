@@ -1,3 +1,0 @@
-java -cp "./jdepend/jdepend-2.10.jar" jdepend.swingui.JDepend ./core/contract/target/classes
-#java -cp "./jdepend/jdepend-2.10.jar" java jdepend.textui.JDepend ./core/contract/target/classes
-#java -cp "./jdepend/jdepend-2.10.jar" java jdepend.xmlui.JDepend -file ./jdepend/report.xml ./core/contract/target/classes

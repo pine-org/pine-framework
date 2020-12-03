@@ -134,6 +134,14 @@ public class GoodsRepositoryTest extends AbstractRepositoryTest<Long, GoodsEntit
         assertFalse(model.isPresent());
     }
 
+    public static GoodsPhotoEntity create(byte[] content, GoodsEntity goods) {
+        GoodsPhotoEntity entity = new GoodsPhotoEntity();
+        entity.setContent(content);
+        entity.setGoods(goods);
+
+        return entity;
+    }
+
     @Test
     @DisplayName("save new goods with photo relations")
     @Order(5)
@@ -142,15 +150,14 @@ public class GoodsRepositoryTest extends AbstractRepositoryTest<Long, GoodsEntit
         goods.setName("Furniture");
         goods.setCode("005");
         goods.setPrice(BigDecimal.valueOf(6565, 2));
-        goods.getPhotos().add(new GoodsPhotoEntity(readFile(format("src/test/resources/img/%s.jpg", "armchair")), goods));
-        goods.getPhotos().add(new GoodsPhotoEntity(readFile(format("src/test/resources/img/%s.jpg", "bed")), goods));
-        goods.getPhotos().add(new GoodsPhotoEntity(readFile(format("src/test/resources/img/%s.jpg", "chair")), goods));
-        goods.getPhotos().add(new GoodsPhotoEntity(readFile(format("src/test/resources/img/%s.jpg", "closet")), goods));
-        goods.getPhotos().add(new GoodsPhotoEntity(readFile(format("src/test/resources/img/%s.jpg", "table")), goods));
+        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "armchair")), goods));
+        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "bed")), goods));
+        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "chair")), goods));
+        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "closet")), goods));
+        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "table")), goods));
 
         Optional<Long> id = save(goods);
         assertTrue(id.isPresent());
         id.ifPresent(it -> assertNotNull(it));
     }
-
 }

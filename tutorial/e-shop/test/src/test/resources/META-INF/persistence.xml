@@ -7,6 +7,7 @@
     <persistence-unit name="jpa-h2-test">
         <description>EntityManager getReference persistence unit</description>
         <class>com.pineframework.core.tutorial.eshop.business.domain.GoodsEntity</class>
+        <class>com.pineframework.core.tutorial.eshop.business.domain.GoodsPhotoEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <!-- even if we set exclude-unlisted-classes=true, strangely it's not enough to exclude defined hbm files in hibernate.cfg.xml.

@@ -87,17 +87,6 @@
             <artifactId>reactive-streams</artifactId>
             <version>1.0.2</version>
         </dependency>
-        <!--Database-->
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>12.2.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.19</version>
-        </dependency>
         <!--utility -->
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -241,6 +230,64 @@
                 <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
+        <profile>
+            <id>Localhost</id>
+            <properties>
+                <database.host>localhost:3306</database.host>
+                <queue.host>localhost:61616</queue.host>
+                <discovery.server.host>localhost:8761</discovery.server.host>
+                <config.server.host>localhost:8888</config.server.host>
+                <product.host>127.0.0.1</product.host>
+                <product.port>9091</product.port>
+                <config-repository>localhost</config-repository>
+            </properties>
+        </profile>
+        <profile>
+            <id>ActiveMQ</id>
+            <properties>
+                <message-queue>activemq</message-queue>
+            </properties>
+        </profile>
+        <profile>
+            <id>Oracle</id>
+            <properties>
+                <database>oracle</database>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.oracle</groupId>
+                    <artifactId>ojdbc8</artifactId>
+                    <version>12.2.0.1</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>MySQL</id>
+            <properties>
+                <database>mysql</database>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>8.0.19</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>H2</id>
+            <properties>
+                <database>h2</database>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <version>1.4.200</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
         <profile>
             <id>Parsi-Check-style</id>
             <build>

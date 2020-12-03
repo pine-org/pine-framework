@@ -33,11 +33,6 @@ public class GoodsPhotoEntity extends AbstractAuditingEntity<Long> {
     public GoodsPhotoEntity() {
     }
 
-    public GoodsPhotoEntity(byte[] content, GoodsEntity goods) {
-        this.content = content;
-        this.goods = goods;
-    }
-
     @Id
     @Column(name = "ID", unique = true, nullable = false)
     @SequenceGenerator(name = "GOODS_PHOTO_GEN", sequenceName = "GOODS_PHOTO_SEQ", allocationSize = ALLOCATION_SIZE)
