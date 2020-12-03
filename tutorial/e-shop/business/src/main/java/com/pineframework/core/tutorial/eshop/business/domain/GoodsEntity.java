@@ -44,7 +44,8 @@ public class GoodsEntity extends AbstractAuditingEntity<Long> {
     @Column(name = "PHOTO", columnDefinition = "VARBINARY(2147483647)", length = 2147483647)
     private byte[] photo;
 
-    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = GoodsPhotoEntity.class)
+    @OneToMany(mappedBy = "goods", fetch = FetchType.LAZY, cascade = CascadeType.ALL,
+            targetEntity = GoodsPhotoEntity.class)
     private List<GoodsPhotoEntity> photos = new ArrayList<>();
 
     @Id
