@@ -9,10 +9,10 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <groupId>com.pineframework.core.document</groupId>
-    <artifactId>core-document</artifactId>
+    <artifactId>document</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Core Java8 -> Core Document</name>
+    <name>Core Java8 -> Document</name>
     <profiles>
         <profile>
             <id>Document</id>

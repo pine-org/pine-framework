@@ -30,12 +30,12 @@
         <dependency>
             <groupId>com.pineframework.core.datamodel</groupId>
             <artifactId>data-model</artifactId>
-            <version>${data-model.version}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.pineframework.core.helper</groupId>
             <artifactId>helper</artifactId>
-            <version>${helper.version}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

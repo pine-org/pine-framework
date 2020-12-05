@@ -7,21 +7,21 @@ rectangle "Pine Framework" as pineFramework {
 
         together {
             component "I18N" as i18n
-            component "Document" as coreDocument
+            component "Document" as document
         }
 
         together {
             component "Data Model" as dataModel
             component "Helper" as helper
-            component "Test" as coreTest
+            component "Test" as test
             component "Contract" as contract
-            component "Business" as coreBusiness
+            component "Business" as business
         }
 
         contract ..> dataModel
         contract ..> helper
-        coreBusiness ..> contract
-        coreTest .right.> contract
+        business ..> contract
+        test .right.> contract
     }
 
     rectangle "Product Component Template" as productComponent {
@@ -44,8 +44,8 @@ rectangle "Pine Framework" as pineFramework {
         business ..> model
         exposer ..> business
 
-        comp ..> coreBusiness
-        comp ..> coreTest
+        comp ..> business
+        comp ..> test
     }
 }
 @enduml

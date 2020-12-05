@@ -9,21 +9,21 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <groupId>com.pineframework.core.business</groupId>
-    <artifactId>core-business</artifactId>
+    <artifactId>business</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>Core Java8 -> Core Business</name>
+    <packaging>jar</packaging>
+    <name>Core Java8 -> Business</name>
     <description>This module include all classes that will used to business tier</description>
-
     <dependencies>
         <dependency>
             <groupId>com.pineframework.core.contract</groupId>
             <artifactId>contract</artifactId>
-            <version>${contract.version}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.pineframework.core.datamodel</groupId>
             <artifactId>data-model</artifactId>
-            <version>${data-model.version}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.pineframework.core.helper</groupId>

@@ -1,8 +1,8 @@
 mvn -f ./core-java8/contract/pom.xml jdepend:generate
-mvn -f ./core-java8/core-business/pom.xml jdepend:generate
-mvn -f ./core-java8/core-document/pom.xml jdepend:generate
-mvn -f ./core-java8/core-hibernate/pom.xml jdepend:generate
-mvn -f ./core-java8/core-test/pom.xml jdepend:generate
+mvn -f ./core-java8/business/pom.xml jdepend:generate
+mvn -f ./core-java8/document/pom.xml jdepend:generate
+mvn -f ./core-java8/hibernate/pom.xml jdepend:generate
+mvn -f ./core-java8/test/pom.xml jdepend:generate
 mvn -f ./core-java8/helper/pom.xml jdepend:generate
 mvn -f ./core-java8/i18n/pom.xml jdepend:generate
 

@@ -25,10 +25,10 @@ Core components are as follows:
 * Data Model
 * Helper
 * Contract
-* Core Business
-* Core Test
+* Business
+* Test
 * I18n
-* Core Document
+* Document
 
 ====
 .Core components

@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.pineframework.core.test</groupId>
-    <artifactId>core-test</artifactId>
+    <artifactId>test</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Core Java8 -> Core Test</name>
+    <name>Core Java8 -> Test</name>
     <description>
         Test module include unit test dependencies and abstractions that needed to execute unit tests.
     </description>
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>com.pineframework.core.contract</groupId>
             <artifactId>contract</artifactId>
-            <version>${contract.version}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>

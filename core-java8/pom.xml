@@ -34,30 +34,21 @@
         <database-vendor>empty</database-vendor>
 
         <javaee.version>8.0.1</javaee.version>
-
         <asciidoctor.maven.plugin.version>2.0.0-RC.1</asciidoctor.maven.plugin.version>
         <asciidoctorj.diagram.version>2.0.2</asciidoctorj.diagram.version>
         <asciidoctorj.pdf.version>1.5.3</asciidoctorj.pdf.version>
         <asciidoctorj.version>2.3.0</asciidoctorj.version>
         <jruby.version>9.2.11.1</jruby.version>
-
-        <contract.version>1.0.0-SNAPSHOT</contract.version>
-        <core-business.version>1.0.0-SNAPSHOT</core-business.version>
-        <data-model.version>1.0.0-SNAPSHOT</data-model.version>
-        <helper.version>1.0.0-SNAPSHOT</helper.version>
-        <core-test.version>1.0.0-SNAPSHOT</core-test.version>
-        <i18n.version>1.0.0-SNAPSHOT</i18n.version>
-        <core-document.version>1.0.0-SNAPSHOT</core-document.version>
     </properties>
     <modules>
         <module>helper</module>
         <module>data-model</module>
         <module>contract</module>
-        <module>core-test</module>
-        <module>core-business</module>
+        <module>test</module>
+        <module>business</module>
         <module>i18n</module>
-        <module>core-document</module>
-        <module>core-hibernate</module>
+        <module>document</module>
+        <module>hibernate</module>
         <module>core-mongodb</module>
     </modules>
     <dependencies>

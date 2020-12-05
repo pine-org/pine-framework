@@ -135,22 +135,22 @@ public final class ReflectionUtils {
     }
 
     public static <T> T convertFromDatabaseType(Class<T> c, Object o) {
-        return (T) DataBaseTypeConverter.converters.get(c).apply(o);
+        return (T) DataBaseTypeConverter.CONVERTERS.get(c).apply(o);
     }
 
     public static <T> T convertToPrimitive(Class<T> c, Object o) {
-        return (T) PrimitiveConverter.converters.get(c).apply(o);
+        return (T) PrimitiveConverter.CONVERTERS.get(c).apply(o);
     }
 
     private static final class DataBaseTypeConverter {
 
-        private static final Map<Class, Function> converters = new HashMap();
+        private static final Map<Class, Function> CONVERTERS = new HashMap();
 
         static {
-            converters.putAll(PrimitiveConverter.converters);
-            converters.put(LocalDate.class, (o) -> convertToLocalDate((TIMESTAMP) o));
-            converters.put(LocalDateTime.class, (o) -> convertToLocalDateAndTime((TIMESTAMP) o));
-            converters.put(LocalTime.class, (o) -> convertToLocalTime((TIMESTAMP) o));
+            CONVERTERS.putAll(PrimitiveConverter.CONVERTERS);
+            CONVERTERS.put(LocalDate.class, (o) -> convertToLocalDate((TIMESTAMP) o));
+            CONVERTERS.put(LocalDateTime.class, (o) -> convertToLocalDateAndTime((TIMESTAMP) o));
+            CONVERTERS.put(LocalTime.class, (o) -> convertToLocalTime((TIMESTAMP) o));
         }
 
         private static Long convertToLocalTime(TIMESTAMP o) {
@@ -168,16 +168,16 @@ public final class ReflectionUtils {
 
     private static final class PrimitiveConverter {
 
-        private static final Map<Class, Function> converters = new HashMap();
+        private static final Map<Class, Function> CONVERTERS = new HashMap();
 
         static {
-            converters.put(Integer.class, (o) -> Integer.valueOf(String.valueOf(o)));
-            converters.put(Long.class, (o) -> Long.valueOf(String.valueOf(o)));
-            converters.put(String.class, (o) -> String.valueOf(o));
-            converters.put(Boolean.class, (o) -> Integer.valueOf(String.valueOf(o)).intValue() == 1);
-            converters.put(LocalDate.class, (o) -> extractDate(o));
-            converters.put(LocalDateTime.class, (o) -> extractDateAndTime(o));
-            converters.put(LocalTime.class, (o) -> extractTime(o));
+            CONVERTERS.put(Integer.class, (o) -> Integer.valueOf(String.valueOf(o)));
+            CONVERTERS.put(Long.class, (o) -> Long.valueOf(String.valueOf(o)));
+            CONVERTERS.put(String.class, (o) -> String.valueOf(o));
+            CONVERTERS.put(Boolean.class, (o) -> Integer.valueOf(String.valueOf(o)).intValue() == 1);
+            CONVERTERS.put(LocalDate.class, (o) -> extractDate(o));
+            CONVERTERS.put(LocalDateTime.class, (o) -> extractDateAndTime(o));
+            CONVERTERS.put(LocalTime.class, (o) -> extractTime(o));
         }
 
         private static LocalTime extractTime(Object o) {
