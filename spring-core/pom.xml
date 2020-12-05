@@ -31,13 +31,13 @@
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
     </properties>
     <modules>
-        <module>spring-activemq</module>
+        <module>activemq</module>
         <module>restapi</module>
-        <module>spring-messaging</module>
+        <module>messaging</module>
         <module>config-server</module>
         <module>discovery-server-eureka</module>
         <module>discovery-server-address</module>
-        <module>spring-transaction</module>
+        <module>transaction</module>
         <module>config-server-address</module>
         <module>restapi-test</module>
         <module>properties</module>

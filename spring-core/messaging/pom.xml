@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.pineframework.core.spring</groupId>
-    <artifactId>spring-messaging</artifactId>
+    <artifactId>messaging</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Spring Core -> Messaging</name>
