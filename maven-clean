@@ -1,4 +1,4 @@
 mvn -f ./core-java8/pom.xml clean
-mvn -f ./security/pom.xml clean
+mvn -f ./core-security/pom.xml clean
 mvn -f ./core-spring/pom.xml clean
 mvn -f ./tutorial/pom.xml clean

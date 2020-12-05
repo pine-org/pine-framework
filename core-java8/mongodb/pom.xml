@@ -10,10 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.pineframework.core</groupId>
-    <artifactId>core-mongodb</artifactId>
+    <artifactId>mongodb</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Core Java8 -> Core Mongo DB</name>
+    <name>Core Java8 -> Mongo DB</name>
     <dependencyManagement>
         <dependencies>
             <dependency>
