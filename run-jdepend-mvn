@@ -11,8 +11,8 @@ mvn -f ./spring-core/discovery-server-eureka/pom.xml jdepend:generate
 mvn -f ./spring-core/properties/pom.xml jdepend:generate
 mvn -f ./spring-core/spring-activemq/pom.xml jdepend:generate
 mvn -f ./spring-core/spring-messaging/pom.xml jdepend:generate
-mvn -f ./spring-core/spring-restapi/pom.xml jdepend:generate
-mvn -f ./spring-core/spring-restapi-test/pom.xml jdepend:generate
+mvn -f ./spring-core/restapi/pom.xml jdepend:generate
+mvn -f ./spring-core/restapi-test/pom.xml jdepend:generate
 mvn -f ./spring-core/spring-transaction/pom.xml jdepend:generate
 
 mvn -f ./tutorial/e-shop/business/pom.xml jdepend:generate

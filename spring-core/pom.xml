@@ -32,14 +32,14 @@
     </properties>
     <modules>
         <module>spring-activemq</module>
-        <module>spring-restapi</module>
+        <module>restapi</module>
         <module>spring-messaging</module>
         <module>config-server</module>
         <module>discovery-server-eureka</module>
         <module>discovery-server-address</module>
         <module>spring-transaction</module>
         <module>config-server-address</module>
-        <module>spring-restapi-test</module>
+        <module>restapi-test</module>
         <module>properties</module>
     </modules>
     <dependencyManagement>

@@ -48,7 +48,7 @@
         </dependency>
         <dependency>
             <groupId>com.pineframework.core.spring</groupId>
-            <artifactId>spring-restapi</artifactId>
+            <artifactId>restapi</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -64,7 +64,7 @@
         </dependency>
         <dependency>
             <groupId>com.pineframework.core.spring</groupId>
-            <artifactId>spring-restapi-test</artifactId>
+            <artifactId>restapi-test</artifactId>
             <version>1.0.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
