@@ -1,14 +1,14 @@
 mvn -f ./core-java8/pom.xml idea:clean
 mvn -f ./core-java8/pom.xml idea:module
 
-mvn -f ./spring-core/pom.xml idea:clean
-mvn -f ./spring-core/pom.xml idea:module
+mvn -f ./core-spring/pom.xml idea:clean
+mvn -f ./core-spring/pom.xml idea:module
 
-mvn -f ./spring-core/config-server/pom.xml idea:clean
-mvn -f ./spring-core/config-server/pom.xml idea:module
+mvn -f ./core-spring/config-server/pom.xml idea:clean
+mvn -f ./core-spring/config-server/pom.xml idea:module
 
-mvn -f ./spring-core/discovery-server-eureka/pom.xml idea:clean
-mvn -f ./spring-core/discovery-server-eureka/pom.xml idea:module
+mvn -f ./core-spring/discovery-server-eureka/pom.xml idea:clean
+mvn -f ./core-spring/discovery-server-eureka/pom.xml idea:module
 
 mvn -f ./tutorial/pom.xml idea:clean
 mvn -f ./tutorial/pom.xml idea:module

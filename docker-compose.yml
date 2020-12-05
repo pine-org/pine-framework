@@ -4,7 +4,7 @@ services:
     hostname: "pine-discovery-server-eureka"
     image: discovery-server-eureka:latest
     build:
-      context: ./spring-core/discovery-server-eureka
+      context: ./core-spring/discovery-server-eureka
       dockerfile: Dockerfile
     ports:
       - 8761:8761
@@ -17,7 +17,7 @@ services:
     hostname: "pine-config-server"
     image: config-server:latest
     build:
-      context: ./spring-core/config-server
+      context: ./core-spring/config-server
       dockerfile: Dockerfile
     depends_on:
       pine-discovery-server-eureka:

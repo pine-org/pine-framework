@@ -1,1 +1,1 @@
-java -jar ./spring-core/config-server/target/config-server-*.jar
+java -jar ./core-spring/config-server/target/config-server-*.jar
