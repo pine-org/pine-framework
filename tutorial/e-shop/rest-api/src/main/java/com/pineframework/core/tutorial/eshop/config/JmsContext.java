@@ -20,8 +20,8 @@ import java.util.Map;
 
 import static com.pineframework.core.spring.restapi.config.ApplicationContextBean.getBean;
 
-@SuppressWarnings("rawtypes")
 @Configuration
+@Profile(value = "activemq")
 public class JmsContext {
 
     private final Map<String, Queue> queues;

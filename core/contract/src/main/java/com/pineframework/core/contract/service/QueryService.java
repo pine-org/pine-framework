@@ -35,7 +35,6 @@ public interface QueryService<I, M> {
      * @param filters where clause
      * @return long number
      */
-    @SuppressWarnings("rawtypes")
     long count(Filter... filters);
 
     /**
@@ -44,7 +43,6 @@ public interface QueryService<I, M> {
      * @param filters where clause
      * @return array of transient object
      */
-    @SuppressWarnings("rawtypes")
     M[] findByFilter(Filter... filters);
 
     /**

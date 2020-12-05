@@ -38,7 +38,6 @@ public interface CrudEntityService<I extends Serializable,
         R extends CrudRepository<I, E>>
         extends EntityService<I, E, M, B, T, R>, AroundServiceOperation<I, E, M>, CrudService<I, M> {
 
-    @SuppressWarnings("unchecked")
     @Override
     default Optional<I> save(M m) {
 
@@ -85,7 +84,6 @@ public interface CrudEntityService<I extends Serializable,
                 ));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     default void delete(I id) {
         E entity = getRepository().findById(id)

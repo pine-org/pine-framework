@@ -9,7 +9,6 @@ import com.pineframework.core.datamodel.sort.Sort;
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-@SuppressWarnings("rawtypes")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Page implements Pageable {
 

@@ -19,7 +19,6 @@ public abstract class AbstractTreeRepository<I extends Serializable, E extends T
 
     private final Class<E> entityType;
 
-    @SuppressWarnings("unchecked")
     public AbstractTreeRepository(Repository repository) {
         super(repository);
         entityType = (Class<E>) GenericUtils.extract(this.getClass(), 1);

@@ -36,6 +36,7 @@
         <module>spring-messaging</module>
         <module>config-server</module>
         <module>discovery-server-eureka</module>
+        <module>discovery-server-address</module>
         <module>spring-transaction</module>
         <module>config-server-address</module>
         <module>spring-restapi-test</module>
@@ -134,6 +135,13 @@
     </build>
     <profiles>
         <profile>
+            <id>US</id>
+            <properties>
+                <country>US</country>
+                <language>en</language>
+            </properties>
+        </profile>
+        <profile>
             <id>Production</id>
             <properties>
                 <env>production</env>
@@ -194,6 +202,12 @@
                 <product.host>127.0.0.1</product.host>
                 <product.port>9091</product.port>
                 <config-repository>localhost</config-repository>
+            </properties>
+        </profile>
+        <profile>
+            <id>DiscoveryServerEureka</id>
+            <properties>
+                <discovery-server-vendor>discovery-server-eureka-${env}</discovery-server-vendor>
             </properties>
         </profile>
         <profile>

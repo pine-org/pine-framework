@@ -24,7 +24,6 @@ import static java.util.Objects.isNull;
  * @param <B> transient object builder
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-@SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class AbstractImmutableFlatTransformer<I extends Serializable,
         E extends FlatPersistence<I>,
         M extends FlatTransient<I>,

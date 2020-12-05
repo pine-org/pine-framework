@@ -25,7 +25,6 @@ public interface TreeRepository<I extends Serializable, E extends TreePersistenc
      * @param id node identity
      * @return node array
      */
-    @SuppressWarnings("Convert2Diamond")
     default E[] findChildren(I id) {
         return getImpl().find(new SelectChildren<E>(getType(), id));
     }
@@ -36,7 +35,6 @@ public interface TreeRepository<I extends Serializable, E extends TreePersistenc
      * @param id node identity
      * @return node array
      */
-    @SuppressWarnings("Convert2Diamond")
     default E[] findTreeAsList(I id) {
         Optional<E> root = getImpl().findOne(getType(), id);
         if (root.isPresent())
@@ -51,7 +49,6 @@ public interface TreeRepository<I extends Serializable, E extends TreePersistenc
      * @param id node identity
      * @return node array
      */
-    @SuppressWarnings("Convert2Diamond")
     default E[] findSubTreeAsList(I id) {
         Optional<E> root = getImpl().findOne(getType(), id);
         if (root.isPresent())

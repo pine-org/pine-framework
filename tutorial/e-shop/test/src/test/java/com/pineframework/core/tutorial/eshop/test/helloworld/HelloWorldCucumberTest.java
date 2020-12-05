@@ -1,4 +1,4 @@
-package com.pineframework.core.tutorial.eshop.test;
+package com.pineframework.core.tutorial.eshop.test.helloworld;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;

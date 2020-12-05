@@ -36,7 +36,6 @@ public abstract class AbstractRestfulWebService<I, T> extends AbstractTest<T> {
 
     protected ObjectMapper objectMapper = new ObjectMapper();
 
-    @SuppressWarnings("unchecked")
     public AbstractRestfulWebService(Map<String, T> storage) {
         super(storage);
         modelType = (Class<T>) GenericUtils.extract(getClass(), 1);

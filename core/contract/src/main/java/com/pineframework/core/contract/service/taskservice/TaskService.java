@@ -15,7 +15,6 @@ public interface TaskService extends MultiType {
      * @param <T>  repository type
      * @return repository
      */
-    @SuppressWarnings("unchecked")
     default <T extends Repository> T getRepository(String name) {
         return (T) getTypes().lookup(name);
     }

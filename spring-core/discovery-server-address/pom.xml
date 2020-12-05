@@ -9,10 +9,10 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <groupId>com.pineframework.core.spring</groupId>
-    <artifactId>config-server-address</artifactId>
+    <artifactId>discovery-server-address</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Spring Core -> Config Server Address</name>
+    <name>Spring Core -> Discovery Server Address</name>
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <resources>
@@ -20,11 +20,10 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>bootstrap-common-${env}.yml</include>
-                    <include>bootstrap-config-server-${env}.yml</include>
-                    <include>bannername.txt</include>
+                    <include>bootstrap-${discovery-server-vendor}.yml</include>
                 </includes>
             </resource>
         </resources>
     </build>
+
 </project>

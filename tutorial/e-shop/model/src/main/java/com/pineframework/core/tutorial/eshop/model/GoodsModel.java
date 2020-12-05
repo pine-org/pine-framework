@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"rawtypes", "unchecked"})
 @JsonDeserialize(builder = GoodsModel.Builder.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public final class GoodsModel extends FlatTransient<Long> {
@@ -75,7 +74,6 @@ public final class GoodsModel extends FlatTransient<Long> {
         return photos;
     }
 
-    @SuppressWarnings("UnusedReturnValue")
     @JsonPOJOBuilder(withPrefix = "")
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static final class Builder extends FlatTransient.Builder<Long, GoodsModel, GoodsModel.Builder> {

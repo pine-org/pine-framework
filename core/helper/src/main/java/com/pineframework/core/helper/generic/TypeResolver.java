@@ -47,7 +47,6 @@ import static java.util.Objects.nonNull;
  *
  * @author Jonathan Halterman
  */
-@SuppressWarnings("restriction")
 public final class TypeResolver {
     /**
      * Cache of type variable/argument pairs
@@ -71,7 +70,7 @@ public final class TypeResolver {
 
     private static Method GET_CONSTANT_POOL_METHOD_AT;
 
-    private static Logger logger = LoggerFactory.getLogger(TypeResolver.class);
+    private static final Logger logger = LoggerFactory.getLogger(TypeResolver.class);
 
     static {
         JAVA_VERSION = Double.parseDouble(System.getProperty("java.specification.version", "0"));
@@ -505,7 +504,7 @@ public final class TypeResolver {
             return Array.newInstance(component, 0).getClass();
 
         } else if (type instanceof TypeVariable) {
-            type = getTypeVariableMap(owner, clazz).get((TypeVariable<?>) type);
+            type = getTypeVariableMap(owner, clazz).get(type);
             type = (isNull(type)) ? resolveBound((TypeVariable<?>) type) : resolveRawClass(type, owner, clazz);
         }
 

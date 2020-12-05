@@ -21,7 +21,6 @@ public interface CrudRepository<I extends Serializable, E extends FlatPersistenc
      *
      * @param entities persistable pbject
      */
-    @SuppressWarnings("unchecked")
     default void save(E... entities) {
         getImpl().save(getType(), entities);
     }
@@ -41,7 +40,6 @@ public interface CrudRepository<I extends Serializable, E extends FlatPersistenc
      *
      * @param identities identities
      */
-    @SuppressWarnings("unchecked")
     default void delete(I... identities) {
         getImpl().delete(getType(), identities);
     }

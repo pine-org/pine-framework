@@ -24,7 +24,6 @@ import java.util.List;
  * @param <E> entity
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-@SuppressWarnings("rawtypes")
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @Access(AccessType.FIELD)

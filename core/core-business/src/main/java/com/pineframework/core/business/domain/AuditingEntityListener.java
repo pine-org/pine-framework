@@ -11,7 +11,6 @@ import javax.persistence.PreUpdate;
  *
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-@SuppressWarnings("rawtypes")
 public class AuditingEntityListener {
 
     /**

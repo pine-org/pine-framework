@@ -19,11 +19,6 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.19</version>
-        </dependency>
-        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
@@ -55,45 +50,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>Oracle</id>
-            <properties>
-                <database-vendor>oracle</database-vendor>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.oracle</groupId>
-                    <artifactId>ojdbc8</artifactId>
-                    <version>12.2.0.1</version>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>MySQL</id>
-            <properties>
-                <database-vendor>mysql</database-vendor>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>mysql</groupId>
-                    <artifactId>mysql-connector-java</artifactId>
-                    <version>8.0.19</version>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>H2</id>
-            <properties>
-                <database-vendor>h2</database-vendor>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>1.4.200</version>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
 </project>

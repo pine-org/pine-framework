@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings({"unchecked", "rawtypes"})
 @Entity
 @Table(name = "GOODS")
 @Access(AccessType.FIELD)

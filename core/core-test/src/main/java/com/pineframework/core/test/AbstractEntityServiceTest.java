@@ -17,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * @param <T> transformer
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-@SuppressWarnings(value = {"unchecked", "rawtypes"})
 public abstract class AbstractEntityServiceTest<I extends Serializable, T extends FlatTransient,
         E extends CrudEntityService & QueryService> extends AbstractTest<T> implements BasicBusinessOperation<I, T, E> {
 

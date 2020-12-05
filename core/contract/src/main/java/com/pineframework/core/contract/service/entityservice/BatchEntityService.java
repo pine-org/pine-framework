@@ -73,7 +73,6 @@ public interface BatchEntityService<I extends Serializable,
     default void afterBatchOperations(E[] entities, M[] models) {
     }
 
-    @SuppressWarnings("Convert2MethodRef")
     @Override
     default I[] batchSave(M[] models) {
         E[] entities = getTransformer().transform(models);
@@ -85,7 +84,6 @@ public interface BatchEntityService<I extends Serializable,
         return mapTo(entities, e -> e.getId(), Long.class);
     }
 
-    @SuppressWarnings("Convert2MethodRef")
     @Override
     default void batchUpdate(M[] models) {
         E[] entities = getRepository().find((I[]) mapTo(models, m -> m.getId(), Long.class));
@@ -105,7 +103,6 @@ public interface BatchEntityService<I extends Serializable,
         afterBatchDelete(models);
     }
 
-    @SuppressWarnings("Convert2MethodRef")
     @Override
     default I[] batchOperations(M[] models, I[] identities) {
         E[] entities = getRepository().find(identities);

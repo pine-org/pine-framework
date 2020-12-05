@@ -23,7 +23,6 @@ public abstract class AbstractEnumConverter<T, E extends Enum<E> & Convertible<T
 
     private final Class<E> enumClassType;
 
-    @SuppressWarnings("unchecked")
     public AbstractEnumConverter() {
         enumClassType = (Class<E>) GenericUtils.extract(this.getClass(), 1);
     }

@@ -14,7 +14,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-@SuppressWarnings("unchecked")
 public interface Select<E, M> {
 
     default Filter<E>[] getFilters() {

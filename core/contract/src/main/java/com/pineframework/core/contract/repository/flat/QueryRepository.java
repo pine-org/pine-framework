@@ -21,7 +21,6 @@ import java.util.Optional;
  * @param <E> persistable type
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-@SuppressWarnings(value = {"unchecked", "Convert2Diamond"})
 public interface QueryRepository<I extends Serializable, E extends FlatPersistence<I>>
         extends FlatRepository<I, E> {
 
@@ -69,7 +68,6 @@ public interface QueryRepository<I extends Serializable, E extends FlatPersisten
      * @param identities identities
      * @return persistable object array
      */
-    @SuppressWarnings("ConfusingArgumentToVarargsMethod")
     default E[] find(I... identities) {
         return getImpl().find(new SelectByFilter<E>(getType(), (root, query, cb) -> root.get("id").in(identities)));
     }

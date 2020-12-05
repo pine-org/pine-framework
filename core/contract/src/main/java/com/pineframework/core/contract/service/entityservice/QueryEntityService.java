@@ -40,7 +40,6 @@ public interface QueryEntityService<I extends Serializable,
                 .transform(getRepository().findAll()));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     default Optional<Page> findByPage(Page page) {
         Long count = getRepository().count(page.getFilters());
@@ -58,13 +57,11 @@ public interface QueryEntityService<I extends Serializable,
         return Optional.of(page);
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     default long count(Filter... filters) {
         return getRepository().count(filters);
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     default M[] findByFilter(Filter... filters) {
         return getTransformer().transform((E[]) getRepository().find(filters));

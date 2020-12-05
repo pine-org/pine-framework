@@ -45,7 +45,6 @@ public abstract class AbstractFlatEntityService<I extends Serializable,
 
     private final Class<E> entityType;
 
-    @SuppressWarnings("unchecked")
     public AbstractFlatEntityService(R repository, T transformer) {
         this.repository = repository;
         this.transformer = transformer;

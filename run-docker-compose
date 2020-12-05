@@ -3,4 +3,4 @@ docker image rm discovery-server-eureka:latest
 docker image rm config-server:latest
 docker image rm e-shop:latest
 docker network rm pine-net
-docker-compose up
+docker-compose up --build

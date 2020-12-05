@@ -11,6 +11,9 @@
     <artifactId>config-server</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <name>Spring Core -> Config Server</name>
+    <properties>
+        <discovery-server-vendor>empty</discovery-server-vendor>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -23,10 +26,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-config-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -66,4 +65,38 @@
             </resource>
         </resources>
     </build>
+    <profiles>
+        <profile>
+            <id>DiscoveryServerEureka</id>
+            <properties>
+                <discovery-server-vendor>discovery-server-eureka,discovery-server-eureka-${env}
+                </discovery-server-vendor>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>com.sun.jersey</groupId>
+                            <artifactId>jersey-client</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>com.sun.jersey</groupId>
+                            <artifactId>jersey-core</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>com.sun.jersey.contribs</groupId>
+                            <artifactId>jersey-apache-client4</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+                <dependency>
+                    <groupId>com.pineframework.core.spring</groupId>
+                    <artifactId>discovery-server-address</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>

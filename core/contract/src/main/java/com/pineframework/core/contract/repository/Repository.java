@@ -37,7 +37,6 @@ public interface Repository {
      * @param <I>      identity type
      * @param <E>      persistable type
      */
-    @SuppressWarnings("unchecked")
     <I extends Serializable, E extends FlatPersistence<I>> void save(Class<E> c, E... entities);
 
     /**
@@ -48,7 +47,6 @@ public interface Repository {
      * @param <I>        identity type
      * @param <E>        persistable type
      */
-    @SuppressWarnings("unchecked")
     <I extends Serializable, E extends FlatPersistence<I>> void delete(Class<E> c, I... identities);
 
     /**

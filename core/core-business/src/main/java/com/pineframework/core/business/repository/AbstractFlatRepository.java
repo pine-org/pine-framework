@@ -23,7 +23,6 @@ public abstract class AbstractFlatRepository<I extends Serializable, E extends F
 
     private final Repository repository;
 
-    @SuppressWarnings("unchecked")
     public AbstractFlatRepository(Repository repository) {
         this.repository = repository;
         entityType = (Class<E>) GenericUtils.extract(this.getClass(), 1);

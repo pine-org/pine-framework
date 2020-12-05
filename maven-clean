@@ -1,0 +1,4 @@
+mvn -f ./core/pom.xml clean
+mvn -f ./security/pom.xml clean
+mvn -f ./spring-core/pom.xml clean
+mvn -f ./tutorial/pom.xml clean

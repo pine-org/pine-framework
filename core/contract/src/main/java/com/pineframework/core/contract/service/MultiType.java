@@ -18,6 +18,5 @@ public interface MultiType {
      *
      * @return {@link ObjectRegistry}
      */
-    @SuppressWarnings("rawtypes")
     ObjectRegistry getTypes();
 }

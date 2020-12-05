@@ -16,7 +16,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-@SuppressWarnings({"unchecked", "rawtypes"})
 @Entity
 @Table(name = "GOODS_PHOTO")
 @Access(AccessType.FIELD)

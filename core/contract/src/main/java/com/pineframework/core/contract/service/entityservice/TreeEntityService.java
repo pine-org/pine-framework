@@ -53,7 +53,6 @@ public interface TreeEntityService<I extends Serializable,
         updatePathHierarchy(e);
     }
 
-    @SuppressWarnings("OptionalGetWithoutIsPresent")
     default void updatePath(E e) {
         if (nonNull(e.getParent())) {
             E root = getRepository().findTree(e.getParent().getId()).get();

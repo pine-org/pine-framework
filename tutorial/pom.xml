@@ -21,10 +21,13 @@
         <asciidoctorj.version>2.3.0</asciidoctorj.version>
         <jruby.version>9.2.11.1</jruby.version>
 
+        <env>empty</env>
         <config-profile>empty</config-profile>
+        <discovery-server-vendor>empty</discovery-server-vendor>
         <message-queue-vendor>empty</message-queue-vendor>
         <database-vendor>empty</database-vendor>
-        <env>empty</env>
+        <country>US</country>
+        <language>en</language>
 
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
@@ -99,6 +102,13 @@
         </plugins>
     </build>
     <profiles>
+        <profile>
+            <id>US</id>
+            <properties>
+                <country>US</country>
+                <language>en</language>
+            </properties>
+        </profile>
         <profile>
             <id>PropertiesFile</id>
             <properties>
@@ -192,7 +202,7 @@
         <profile>
             <id>ActiveMQ</id>
             <properties>
-                <message-queue-vendor>activemq-${env}</message-queue-vendor>
+                <message-queue-vendor>activemq,activemq-${env}</message-queue-vendor>
             </properties>
         </profile>
         <profile>
