@@ -1,5 +1,5 @@
-mvn -f ./core/pom.xml idea:clean
-mvn -f ./core/pom.xml idea:module
+mvn -f ./core-java8/pom.xml idea:clean
+mvn -f ./core-java8/pom.xml idea:module
 
 mvn -f ./spring-core/pom.xml idea:clean
 mvn -f ./spring-core/pom.xml idea:module

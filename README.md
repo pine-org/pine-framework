@@ -42,12 +42,12 @@ Download [Jenkins](https://jenkins.io/download/) in WAR format then execute comm
 If you want to deploy products on your machine and every tools installed on your machine
 
 ### Build based on spring and properties files
-- `mvn -f ./core/pom.xml clean install -P ...`
+- `mvn -f ./core-java8/pom.xml clean install -P ...`
 - `mvn -f ./spring-core/pom.xml clean install -P ...`
 - `mvn -f ./tutorial/pom.xml clean install -P ...,PropertiesFile`
 
 ### Build based on spring and config server (Cloud)
-- `mvn -f ./core/pom.xml clean install -P ...`
+- `mvn -f ./core-java8/pom.xml clean install -P ...`
 - `mvn -f ./spring-core/pom.xml clean install -P ...`
 - `mvn -f ./tutorial/pom.xml clean install -P ...,ConfigServer`
 
@@ -56,7 +56,7 @@ If you want to deploy products on your machine and every tools installed on your
 Run all tools on your machine.
 
 Build the project:
-- `mvn -f ./core/pom.xml clean install -P Development,Localhost,...`
+- `mvn -f ./core-java8/pom.xml clean install -P Development,Localhost,...`
 - `mvn -f ./spring-core/pom.xml clean install -P Development,Localhost,...`
 - `mvn -f ./tutorial/pom.xml clean install -P Development,Localhost,...,PropertiesFile`
 
@@ -64,7 +64,7 @@ Run your modules on your machine:
  - `java -jar ./tutorial/e-shop/rest-api/target/e-shop-*.jar`
 
 Build the cloud base project:
-- `mvn -f ./core/pom.xml clean install -P Development,Localhost,...`
+- `mvn -f ./core-java8/pom.xml clean install -P Development,Localhost,...`
 - `mvn -f ./spring-core/pom.xml clean install -P Development,Localhost,...`
 - `mvn -f ./tutorial/pom.xml clean install -P Development,Localhost,...,ConfigServer`
 

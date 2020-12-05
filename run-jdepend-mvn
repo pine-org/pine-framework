@@ -1,10 +1,10 @@
-mvn -f ./core/contract/pom.xml jdepend:generate
-mvn -f ./core/core-business/pom.xml jdepend:generate
-mvn -f ./core/core-document/pom.xml jdepend:generate
-mvn -f ./core/core-hibernate/pom.xml jdepend:generate
-mvn -f ./core/core-test/pom.xml jdepend:generate
-mvn -f ./core/helper/pom.xml jdepend:generate
-mvn -f ./core/i18n/pom.xml jdepend:generate
+mvn -f ./core-java8/contract/pom.xml jdepend:generate
+mvn -f ./core-java8/core-business/pom.xml jdepend:generate
+mvn -f ./core-java8/core-document/pom.xml jdepend:generate
+mvn -f ./core-java8/core-hibernate/pom.xml jdepend:generate
+mvn -f ./core-java8/core-test/pom.xml jdepend:generate
+mvn -f ./core-java8/helper/pom.xml jdepend:generate
+mvn -f ./core-java8/i18n/pom.xml jdepend:generate
 
 mvn -f ./spring-core/config-server/pom.xml jdepend:generate
 mvn -f ./spring-core/discovery-server-eureka/pom.xml jdepend:generate

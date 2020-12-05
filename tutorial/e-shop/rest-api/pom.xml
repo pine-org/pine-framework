@@ -11,7 +11,7 @@
     <groupId>com.pineframework.core.tutorial.eshop</groupId>
     <artifactId>rest-api</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>E-Shop -> Rest API</name>
+    <name>Tutorial -> E-Shop -> Rest API</name>
     <dependencyManagement>
         <dependencies>
             <dependency>
