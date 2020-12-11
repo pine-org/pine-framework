@@ -1,16 +1,17 @@
 package com.pineframework.core.datamodel.model;
 
-public class EmptyModel implements Transient<Integer> {
+public class EmptyModel extends FlatTransient<String> {
 
     private static final long serialVersionUID = 7595836524580695687L;
 
-    @Override
-    public Integer getId() {
-        return Integer.valueOf(1);
+    private EmptyModel(EmptyModel.Builder builder) {
+        super(builder);
     }
 
-    @Override
-    public Integer getVersion() {
-        return Integer.valueOf(1);
+    public static final class Builder extends FlatTransient.Builder<String, EmptyModel, EmptyModel.Builder> {
+        @Override
+        public EmptyModel build() {
+            return new EmptyModel(this);
+        }
     }
 }

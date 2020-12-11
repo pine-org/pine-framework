@@ -14,5 +14,5 @@ public interface Pageable {
 
     String[] getProjections();
 
-    Sort[] getOrders();
+    Sort[] getSorts();
 }

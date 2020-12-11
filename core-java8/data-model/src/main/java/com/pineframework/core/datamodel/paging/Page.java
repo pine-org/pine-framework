@@ -33,7 +33,7 @@ public class Page implements Pageable {
     private String[] projections = new String[0];
 
     @JsonView(PageMetadataView.class)
-    private Sort[] orders = new Sort[0];
+    private Sort[] sorts = new Sort[0];
 
     public Page() {
     }
@@ -105,12 +105,12 @@ public class Page implements Pageable {
     }
 
     @Override
-    public Sort[] getOrders() {
-        return orders;
+    public Sort[] getSorts() {
+        return sorts;
     }
 
-    public void setOrders(Sort[] orders) {
-        this.orders = orders;
+    public void setSorts(Sort[] sorts) {
+        this.sorts = sorts;
     }
 
     @JsonIgnore

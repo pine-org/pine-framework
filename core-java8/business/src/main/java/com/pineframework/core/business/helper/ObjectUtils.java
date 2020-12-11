@@ -7,7 +7,10 @@ import static java.util.Objects.isNull;
 /**
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-public class ObjectUtils {
+public final class ObjectUtils {
+
+    private ObjectUtils() {
+    }
 
     /**
      * If the object is null then throw {@link RequiredException}.

@@ -27,9 +27,11 @@ public interface BusinessService<I extends Serializable,
         T extends ImmutableFlatTransformer<I, E, M, B>,
         R extends FlatRepository<I, E>> extends Loggable {
 
-    Class<M> getTransientType();
+    Class<I> getIdentityType();
 
     Class<E> getPersistenceType();
+
+    Class<M> getTransientType();
 
     R getRepository();
 

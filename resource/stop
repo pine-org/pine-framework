@@ -1,0 +1,10 @@
+./apache-activemq-5.16.0/bin/activemq stop
+kill $(lsof -ti:8161)
+
+./pine-broker/bin/artemis-service" stop
+kill $(lsof -ti:8161)
+
+./sonarqube-8.5.1.38104/bin/macosx-universal-64/sonar.sh stop
+kill $(lsof -ti:9000)
+
+

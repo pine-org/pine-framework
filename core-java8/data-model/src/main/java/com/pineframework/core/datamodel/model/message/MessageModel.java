@@ -18,11 +18,6 @@ public class MessageModel extends FlatTransient<String> {
         this.content = builder.content;
     }
 
-    @Override
-    public <T extends FlatTransient<String>> MessageModel.Builder replace(T m) {
-        return new MessageModel.Builder().from((MessageModel) m);
-    }
-
     public Object getContent() {
         return content;
     }

@@ -42,8 +42,8 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
     @JsonIgnore
     protected final ObjectMapper objectMapper = new ObjectMapper();
 
-    protected FlatTransient(FlatTransient.Builder builder) {
-        this.id = (I) builder.id;
+    protected FlatTransient(FlatTransient.Builder<I, ?, ?> builder) {
+        this.id = builder.id;
         this.insertDate = builder.insertDate;
         this.insertUserId = builder.insertUserId;
         this.insertUnitId = builder.insertUnitId;
@@ -52,8 +52,6 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
         this.modifyUnitId = builder.modifyUnitId;
         this.version = builder.version;
     }
-
-    public abstract <T extends FlatTransient<I>> Builder replace(T m);
 
     /**
      * @return id
@@ -135,6 +133,7 @@ public abstract class FlatTransient<I extends Serializable> implements Transient
         return Try.of(() -> objectMapper.writeValueAsString(this)).get();
     }
 
+    @SuppressWarnings("unchecked")
     public abstract static class Builder<I extends Serializable,
             M extends FlatTransient<I>,
             B extends FlatTransient.Builder<I, M, B>> {

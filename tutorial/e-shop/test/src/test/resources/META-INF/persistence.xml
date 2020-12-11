@@ -14,9 +14,7 @@
             So, some entities out of the scope unwillingly managed by our persistence unit. In order to prevent this, we disable autodetection
             of the hbm files completely. When we set this property, hibernate ignores the exclude-unlisted-classes property. -->
             <property name="hibernate.archive.autodetection" value=""/>
-
             <property name="hibernate.jpa.compliance.proxy" value="false"/>
-
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.generate_statistics" value="false"/>

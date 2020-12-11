@@ -27,8 +27,8 @@
         <env>empty</env>
         <config-repository>empty</config-repository>
 
-        <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
-        <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
+        <spring-boot.version>2.3.5.RELEASE</spring-boot.version>
     </properties>
     <modules>
         <module>activemq</module>

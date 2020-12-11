@@ -46,6 +46,14 @@ public interface QueryService<I, M> {
     M[] findByFilter(Filter... filters);
 
     /**
+     * Get identities by filters
+     *
+     * @param filters where clause
+     * @return array of transient object
+     */
+    I[] findIdentitiesByFilter(Filter... filters);
+
+    /**
      * Find data by example
      *
      * @param m transient object

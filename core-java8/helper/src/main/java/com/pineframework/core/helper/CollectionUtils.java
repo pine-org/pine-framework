@@ -78,9 +78,9 @@ public final class CollectionUtils {
         return c.stream().map(f).collect(toCollection(ArrayList::new));
     }
 
-    public static <T, E> E[] mapTo(T[] models, Function<T, E> f, Class<?> type) {
+    public static <T, E> E[] mapTo(T[] models, Function<T, E> function, Class<E> type) {
         return Arrays.stream(models)
-                .map(f)
+                .map(function)
                 .toArray(size -> (E[]) Array.newInstance(type, size));
     }
 

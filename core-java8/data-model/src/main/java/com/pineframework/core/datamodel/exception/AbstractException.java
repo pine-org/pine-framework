@@ -10,7 +10,7 @@ public abstract class AbstractException extends RuntimeException {
 
     private final int code;
 
-    private final Object[] args;
+    private final transient Object[] args;
 
     public AbstractException(String message, int code, Object... args) {
         super(message);

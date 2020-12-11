@@ -81,12 +81,12 @@ public interface BatchEntityService<I extends Serializable,
         getRepository().save(entities);
         afterBatchSave(entities, models);
 
-        return mapTo(entities, e -> e.getId(), Long.class);
+        return mapTo(entities, e -> e.getId(), getIdentityType());
     }
 
     @Override
     default void batchUpdate(M[] models) {
-        E[] entities = getRepository().find((I[]) mapTo(models, m -> m.getId(), Long.class));
+        E[] entities = getRepository().find(mapTo(models, m -> m.getId(), getIdentityType()));
         M[] theLast = getTransformer().transform(entities);
         beforeBatchUpdate(entities, models);
         batch(models, m -> getRepository().findById(m.getId()).ifPresent(e -> getTransformer()
@@ -109,7 +109,7 @@ public interface BatchEntityService<I extends Serializable,
         beforeBatchOperations(entities, models);
 
         E[] deletedEntities = subtract(entities, models, (e, m) -> areEquivalence(e, m), getPersistenceType());
-        batchDelete(mapTo(deletedEntities, e -> e.getId(), Long.class));
+        batchDelete(mapTo(deletedEntities, e -> e.getId(), getIdentityType()));
         batchUpdate(intersection(models, entities, (m, e) -> areEquivalence(m, e), getTransientType()));
         I[] addedIds = batchSave(subtract(models, entities, (m, e) -> areEquivalence(m, e), getPersistenceType()));
 

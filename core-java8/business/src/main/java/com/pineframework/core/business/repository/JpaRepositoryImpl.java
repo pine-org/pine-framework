@@ -26,7 +26,7 @@ import static java.util.Optional.ofNullable;
  *
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
-
+@SuppressWarnings("unchecked")
 public class JpaRepositoryImpl implements Repository {
 
     @PersistenceContext
@@ -57,6 +57,7 @@ public class JpaRepositoryImpl implements Repository {
     }
 
     @Override
+    @SuppressWarnings("ConfusingArgumentToVarargsMethod")
     public <I extends Serializable, E extends FlatPersistence<I>> void delete(Class<E> c, I... identities) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaDelete<E> cq = cb.createCriteriaDelete(c);
@@ -85,7 +86,7 @@ public class JpaRepositoryImpl implements Repository {
 
     @Override
     public <I extends Serializable, E extends FlatPersistence<I>> E[] paging(Class<E> c, Pageable page) {
-        TypedQuery<E> query = execute(new SelectByFilter<E>(c, page.getFilters(), page.getOrders()));
+        TypedQuery<E> query = execute(new SelectByFilter<E>(c, page.getFilters(), page.getSorts()));
         query.setFirstResult(page.getOffset());
         query.setMaxResults(page.getSize());
         List<E> list = query.getResultList();

@@ -2,6 +2,7 @@ package com.pineframework.core.spring.restapi.restcontroller;
 
 import com.pineframework.core.contract.service.queue.QueueService;
 import com.pineframework.core.datamodel.exception.ValidationException;
+import com.pineframework.core.datamodel.model.EmptyModel;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.validation.CreateValidationGroup;
 import com.pineframework.core.spring.restapi.helper.ErrorUtils;
@@ -77,7 +78,10 @@ public abstract class AbstractQueueRestApi<I extends Serializable, M extends Fla
 
         ErrorUtils.checkErrors(errors);
 
-        return Option(Function(this::pushBody).compose(this::beforePush).andThen(this::afterPush).apply(model))
+        return Option(Function(this::pushBody)
+                .compose(this::beforePush)
+                .andThen(this::afterPush)
+                .apply(model))
                 .map(m -> new EntityModel<>(m.getId(), linkTo(getClass(), m.getId()).slash(m.getId()).withSelfRel()))
                 .map(m -> ResponseEntity.status(CREATED).body(m))
                 .get();
@@ -87,8 +91,8 @@ public abstract class AbstractQueueRestApi<I extends Serializable, M extends Fla
      * execute before push operation.
      * overridable.
      *
-     * @param model
-     * @return model
+     * @param model message
+     * @return model message
      */
     protected M beforePush(M model) {
         return model;
@@ -102,9 +106,7 @@ public abstract class AbstractQueueRestApi<I extends Serializable, M extends Fla
      * @return model
      */
     protected M pushBody(M model) {
-        return Option(getService().push(model))
-                .map(optional -> (M) optional.map(id -> model.replace(model).id(id).build()).get())
-                .get();
+        return getService().push(model).orElse((M) new EmptyModel.Builder().build());
     }
 
     /**

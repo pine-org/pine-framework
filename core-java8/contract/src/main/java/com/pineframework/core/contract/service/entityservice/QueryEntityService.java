@@ -10,7 +10,10 @@ import com.pineframework.core.datamodel.persistence.FlatPersistence;
 import com.pineframework.core.helper.CollectionUtils;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.lang.Math.ceil;
@@ -26,6 +29,7 @@ import static java.lang.Math.ceil;
  * @param <R> repository
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
+@SuppressWarnings({"unchecked", "rawtypes"})
 public interface QueryEntityService<I extends Serializable,
         E extends FlatPersistence<I>,
         M extends FlatTransient<I>,
@@ -65,6 +69,15 @@ public interface QueryEntityService<I extends Serializable,
     @Override
     default M[] findByFilter(Filter... filters) {
         return getTransformer().transform((E[]) getRepository().find(filters));
+    }
+
+    @Override
+    default I[] findIdentitiesByFilter(Filter... filters) {
+        E[] entities = (E[]) getRepository().find(filters);
+        return Arrays.stream(entities)
+                .map(e -> e.getId())
+                .collect(Collectors.toList())
+                .toArray((I[]) Array.newInstance(getIdentityType(), entities.length));
     }
 
     @Override

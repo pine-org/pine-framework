@@ -27,7 +27,7 @@ import java.util.List;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @Access(AccessType.FIELD)
-public abstract class AbstractAuditingTreeEntity<I extends Serializable, E extends TreePersistence>
+public abstract class AbstractAuditingTreeEntity<I extends Serializable, E extends TreePersistence<I, E>>
         extends TreePersistence<I, E> {
 
     @JoinColumn(name = "PARENT_ID", referencedColumnName = "ID")
@@ -38,20 +38,11 @@ public abstract class AbstractAuditingTreeEntity<I extends Serializable, E exten
         return parent;
     }
 
-    @Override
-    public void setParent(E parent) {
-        this.parent = parent;
-    }
-
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Access(AccessType.PROPERTY)
     @Override
     public List<E> getChildren() {
         return children;
-    }
-
-    public void setChildren(List<E> children) {
-        this.children = children;
     }
 
     @Column(name = "PATH")
@@ -61,21 +52,11 @@ public abstract class AbstractAuditingTreeEntity<I extends Serializable, E exten
         return path;
     }
 
-    @Override
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     @Column(name = "INSERT_USER_ID", updatable = false)
     @Access(AccessType.PROPERTY)
     @Override
     public Long getInsertUserId() {
         return insertUserId;
-    }
-
-    @Override
-    public void setInsertUserId(Long insertUserId) {
-        this.insertUserId = insertUserId;
     }
 
     @Column(name = "MODIFY_USER_ID")
@@ -85,21 +66,11 @@ public abstract class AbstractAuditingTreeEntity<I extends Serializable, E exten
         return modifyUserId;
     }
 
-    @Override
-    public void setModifyUserId(Long modifyUserId) {
-        this.modifyUserId = modifyUserId;
-    }
-
     @Column(name = "INSERT_DATE", updatable = false)
     @Access(AccessType.PROPERTY)
     @Override
     public LocalDateTime getInsertDate() {
         return insertDate;
-    }
-
-    @Override
-    public void setInsertDate(LocalDateTime insertDate) {
-        this.insertDate = insertDate;
     }
 
     @Column(name = "MODIFY_DATE")
@@ -109,11 +80,6 @@ public abstract class AbstractAuditingTreeEntity<I extends Serializable, E exten
         return modifyDate;
     }
 
-    @Override
-    public void setModifyDate(LocalDateTime modifyDate) {
-        this.modifyDate = modifyDate;
-    }
-
     @Column(name = "INSERT_UNIT_ID", updatable = false)
     @Access(AccessType.PROPERTY)
     @Override
@@ -121,21 +87,11 @@ public abstract class AbstractAuditingTreeEntity<I extends Serializable, E exten
         return super.getInsertUnitId();
     }
 
-    @Override
-    public void setInsertUnitId(Long insertUnitId) {
-        super.setInsertUnitId(insertUnitId);
-    }
-
     @Column(name = "MODIFY_UNIT_ID")
     @Access(AccessType.PROPERTY)
     @Override
     public Long getModifyUnitId() {
         return super.getModifyUnitId();
-    }
-
-    @Override
-    public void setModifyUnitId(Long modifyUnitId) {
-        super.setModifyUnitId(modifyUnitId);
     }
 
     @Version
@@ -146,8 +102,4 @@ public abstract class AbstractAuditingTreeEntity<I extends Serializable, E exten
         return version;
     }
 
-    @Override
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
 }

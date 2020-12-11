@@ -14,6 +14,16 @@
     <packaging>jar</packaging>
     <name>Core Java8 -> Business</name>
     <description>This module include all classes that will used to business tier</description>
+    <developers>
+        <developer>
+            <name>Saman Alishirishahrbabak</name>
+            <email>samanalishiri@gmail.com</email>
+            <roles>
+                <role>Architecture</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
     <dependencies>
         <dependency>
             <groupId>com.pineframework.core.contract</groupId>

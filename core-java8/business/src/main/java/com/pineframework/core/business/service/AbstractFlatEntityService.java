@@ -41,25 +41,34 @@ public abstract class AbstractFlatEntityService<I extends Serializable,
 
     private final T transformer;
 
+    private final Class<I> identityType;
+
     private final Class<M> modelType;
 
     private final Class<E> entityType;
 
+    @SuppressWarnings("unchecked")
     public AbstractFlatEntityService(R repository, T transformer) {
         this.repository = repository;
         this.transformer = transformer;
-        modelType = (Class<M>) extract(this.getClass(), 2);
+        identityType = (Class<I>) extract(this.getClass(), 0);
         entityType = (Class<E>) extract(this.getClass(), 1);
+        modelType = (Class<M>) extract(this.getClass(), 2);
     }
 
     @Override
-    public Class<M> getTransientType() {
-        return modelType;
+    public Class<I> getIdentityType() {
+        return identityType;
     }
 
     @Override
     public Class<E> getPersistenceType() {
         return entityType;
+    }
+
+    @Override
+    public Class<M> getTransientType() {
+        return modelType;
     }
 
     @Override

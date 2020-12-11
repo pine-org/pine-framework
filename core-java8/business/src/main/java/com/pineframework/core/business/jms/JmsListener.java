@@ -21,5 +21,8 @@ public interface JmsListener {
      */
     String getDestination();
 
+    /**
+     * @return message processor
+     */
     MessageListener getProcess();
 }

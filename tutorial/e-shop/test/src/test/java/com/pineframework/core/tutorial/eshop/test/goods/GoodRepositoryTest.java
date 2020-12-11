@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -22,13 +21,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.pineframework.core.helper.FileUtils.readFile;
-import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 @DisplayName("E-Shop Goods Repository Test")
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 public class GoodRepositoryTest extends AbstractRepositoryTest<Long, GoodsEntity, GoodsRepository> {
@@ -150,22 +150,22 @@ public class GoodRepositoryTest extends AbstractRepositoryTest<Long, GoodsEntity
         assertFalse(model.isPresent());
     }
 
-    @Test
-    @DisplayName("save new goods with photo relations")
-    @Order(5)
-    public void save_GivenNewGoodsWithPhotos_WhenInvokeSaveFunction_ThenReturnId() {
-        GoodsEntity goods = new GoodsEntity();
-        goods.setName("Furniture");
-        goods.setCode("005");
-        goods.setPrice(BigDecimal.valueOf(6565, 2));
-        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "armchair")), goods));
-        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "bed")), goods));
-        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "chair")), goods));
-        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "closet")), goods));
-        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "table")), goods));
-
-        Optional<Long> id = save(goods);
-        assertTrue(id.isPresent());
-        id.ifPresent(it -> assertNotNull(it));
-    }
+//    @Test
+//    @DisplayName("save new goods with photo relations")
+//    @Order(5)
+//    public void save_GivenNewGoodsWithPhotos_WhenInvokeSaveFunction_ThenReturnId() {
+//        GoodsEntity goods = new GoodsEntity();
+//        goods.setName("Furniture");
+//        goods.setCode("005");
+//        goods.setPrice(BigDecimal.valueOf(6565, 2));
+//        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "armchair")), goods));
+//        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "bed")), goods));
+//        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "chair")), goods));
+//        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "closet")), goods));
+//        goods.getPhotos().add(create(readFile(format("src/test/resources/img/%s.jpg", "table")), goods));
+//
+//        Optional<Long> id = save(goods);
+//        assertTrue(id.isPresent());
+//        id.ifPresent(it -> assertNotNull(it));
+//    }
 }

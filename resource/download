@@ -1,0 +1,13 @@
+curl -O https://downloads.apache.org//activemq/5.16.0/apache-activemq-5.16.0-bin.tar.gz
+tar -xvzf ./apache-activemq-*
+
+curl -O https://ftp.halifax.rwth-aachen.de/apache/activemq/activemq-artemis/2.16.0/apache-artemis-2.16.0-bin.tar.gz
+tar -xvzf ./apache-artemis-*
+./apache-artemis-2.16.0/bin/artemis create pine-broker
+
+curl -O https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.5.1.38104.zip
+tar -xvzf ./sonarqube-*
+
+curl -O https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.5.0.2216-macosx.zip
+tar -xvzf ./sonar-scanner-*
+

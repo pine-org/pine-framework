@@ -45,17 +45,17 @@ public abstract class AbstractImmutableFlatTransformer<I extends Serializable,
         entityClassType = (Class<E>) GenericUtils.extract(this.getClass(), 1);
     }
 
-    protected Class<? extends FlatTransient> getModelType() {
+    protected Class<M> getModelType() {
         return modelClassType;
     }
 
-    protected Class<? extends FlatPersistence> getEntityType() {
+    protected Class<E> getEntityType() {
         return entityClassType;
     }
 
     @Override
     public E createEntity() {
-        return Try.of(() -> (E) getEntityType().newInstance()).get();
+        return Try.of(() -> getEntityType().newInstance()).get();
     }
 
     public void transformAdditionalToModel(E e, B builder, int deep, String... field) {

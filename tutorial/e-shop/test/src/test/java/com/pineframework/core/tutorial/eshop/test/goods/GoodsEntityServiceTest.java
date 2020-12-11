@@ -27,6 +27,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * @author Saman Alishiri, samanalishiri@gmail.com
+ */
 @DisplayName("E-Shop Goods Service Tests")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class GoodsEntityServiceTest extends AbstractEntityServiceTest<Long, GoodsModel, GoodsEntityService> {
