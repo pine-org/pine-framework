@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {GoodsService} from "../goods/goods.service";
+import {ProductService} from "../product/product.service";
 import {Properties, Text} from "../component/Properties";
 import {Service} from "../service/AbstractService";
 
@@ -20,21 +20,21 @@ export class HomeComponent implements OnInit {
       Properties.builder(Text.builder('Album').build()).field("photos").type("picture").build(),
     ];
 
-    bunches: string[] = ['10', '15'];
+  bunches: string[] = ['10', '15'];
 
 
-    constructor(private service: GoodsService) {
-    }
+  constructor(private service: ProductService) {
+  }
 
-    ngOnInit() {
-    }
+  ngOnInit() {
+  }
 
-    getTitle(): string {
-        return "GOODS";
-    }
+  getTitle(): string {
+    return "PRODUCT";
+  }
 
-    getService(): Service<any> {
-        return this.service;
+  getService(): Service<any> {
+    return this.service;
     }
 
 }

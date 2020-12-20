@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>core-java8</artifactId>
+        <groupId>com.pineframework.core</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <groupId>com.pineframework.core.cache</groupId>
+    <artifactId>inmemory-cache</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Core Java8 -> In Memory Cache</name>
+    <description>
+        Ths module support JVM cache, Redis cache and H2 cache
+    </description>
+    <dependencies>
+        <dependency>
+            <groupId>com.pineframework.core.helper</groupId>
+            <artifactId>helper</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pineframework.core.contract</groupId>
+            <artifactId>contract</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.kstyrc</groupId>
+            <artifactId>embedded-redis</artifactId>
+            <version>0.6</version>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <version>5.1.7.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>3.14.0</version>
+        </dependency>
+    </dependencies>
+</project>

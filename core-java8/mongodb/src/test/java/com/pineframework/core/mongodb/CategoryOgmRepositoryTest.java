@@ -41,7 +41,7 @@ public class CategoryOgmRepositoryTest {
 
     @Order(1)
     @Test
-    public void insert_GivenGoods_WhenExecuteInsertQuery_ThenSaveAndReturnId() {
+    public void insert_GivenProduct_WhenExecuteInsertQuery_ThenSaveAndReturnId() {
         CategoryEntity entity = new CategoryEntity();
         entity.setName("Test_Category");
         entity.setCode("Test_001");

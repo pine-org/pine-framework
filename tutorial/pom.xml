@@ -36,6 +36,11 @@
         <module>e-shop</module>
     </modules>
     <dependencies>
+        <dependency>
+            <groupId>com.pineframework.core.cache</groupId>
+            <artifactId>inmemory-cache</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
         <!--architectural-->
         <dependency>
             <groupId>com.tngtech.archunit</groupId>

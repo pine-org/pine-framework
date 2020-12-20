@@ -448,4 +448,14 @@ public final class CollectionUtils {
     public static <E> List<E> listOf(Collection<E> c) {
         return new ArrayList<>(c);
     }
+
+    public static <T> T[] concat(T[] t1, T... t2) {
+        return ArrayUtils.addAll(t1, t2);
+    }
+
+    public static <T, E extends Collection<T>> E concat(E t1, E t2) {
+        t2.stream().forEach(t1::add);
+        return t1;
+    }
+
 }

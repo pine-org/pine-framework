@@ -33,6 +33,8 @@ public final class DatabaseMetadataUtils {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(DatabaseMetadataUtils.class);
 
+    public static final int ROW_ID_INDEX = 1;
+
     private DatabaseMetadataUtils() {
     }
 

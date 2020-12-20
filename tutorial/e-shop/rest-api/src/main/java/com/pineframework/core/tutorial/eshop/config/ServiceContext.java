@@ -3,11 +3,11 @@ package com.pineframework.core.tutorial.eshop.config;
 import com.pineframework.core.business.repository.JpaRepositoryImpl;
 import com.pineframework.core.contract.config.TransactionalBeanFactory;
 import com.pineframework.core.contract.repository.Repository;
-import com.pineframework.core.tutorial.eshop.business.repository.GoodsRepository;
-import com.pineframework.core.tutorial.eshop.business.repository.GoodsRepositoryImpl;
-import com.pineframework.core.tutorial.eshop.business.service.GoodsEntityService;
-import com.pineframework.core.tutorial.eshop.business.service.GoodsEntityServiceImpl;
-import com.pineframework.core.tutorial.eshop.business.transformer.GoodsTransformer;
+import com.pineframework.core.tutorial.eshop.business.repository.ProductRepository;
+import com.pineframework.core.tutorial.eshop.business.repository.ProductRepositoryImpl;
+import com.pineframework.core.tutorial.eshop.business.service.ProductEntityService;
+import com.pineframework.core.tutorial.eshop.business.service.ProductEntityServiceImpl;
+import com.pineframework.core.tutorial.eshop.business.transformer.ProductTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,15 +23,15 @@ public class ServiceContext {
         return new JpaRepositoryImpl();
     }
 
-    @Bean(name = "goodsRepository")
-    public GoodsRepository goodsRepository(Repository repository) {
-        return new GoodsRepositoryImpl(repository);
+    @Bean(name = "productRepository")
+    public ProductRepository productRepository(Repository repository) {
+        return new ProductRepositoryImpl(repository);
     }
 
-    @Bean(name = "goodsEntityService")
-    public GoodsEntityService goodsEntityService(GoodsRepository repository) {
-        return txBeanFactory.create(new GoodsEntityServiceImpl(repository, new GoodsTransformer()),
-                GoodsEntityService.class);
+    @Bean(name = "productEntityService")
+    public ProductEntityService productEntityService(ProductRepository repository) {
+        return txBeanFactory.create(new ProductEntityServiceImpl(repository, new ProductTransformer()),
+                ProductEntityService.class);
     }
 
 }

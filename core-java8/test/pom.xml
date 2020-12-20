@@ -179,5 +179,25 @@
                 <database-vendor>h2</database-vendor>
             </properties>
         </profile>
+        <profile>
+            <id>Hibernate</id>
+            <properties>
+                <mysql-orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.MySQLDialect'
+                    ddl-auto: 'update'
+                    generate_statistics: true
+                </mysql-orm>
+                <oracle-orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.Oracle12cDialect'
+                    ddl-auto: 'update'
+                    default_schema: 'PINE'
+                    generate_statistics: true
+                </oracle-orm>
+            </properties>
+        </profile>
     </profiles>
 </project>

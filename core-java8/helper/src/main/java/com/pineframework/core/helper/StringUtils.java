@@ -12,6 +12,12 @@ import java.util.stream.StreamSupport;
  */
 public final class StringUtils {
 
+    public static final String EMPTY = "";
+
+    public static final String NULL = null;
+
+    public static final String ENTER = "\n";
+
     private StringUtils() {
     }
 

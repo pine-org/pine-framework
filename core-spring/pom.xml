@@ -219,13 +219,21 @@
         <profile>
             <id>Hibernate</id>
             <properties>
-                <orm>
+                <mysql-orm>
                     hibernate:
                     naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
                     dialect: 'org.hibernate.dialect.MySQLDialect'
                     ddl-auto: 'update'
                     generate_statistics: true
-                </orm>
+                </mysql-orm>
+                <oracle-orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.Oracle12cDialect'
+                    ddl-auto: 'update'
+                    default_schema: 'PINE'
+                    generate_statistics: true
+                </oracle-orm>
             </properties>
         </profile>
         <profile>
