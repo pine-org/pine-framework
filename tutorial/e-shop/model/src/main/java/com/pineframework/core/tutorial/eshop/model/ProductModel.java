@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.pineframework.core.cache.annotation.CacheData;
 import com.pineframework.core.datamodel.model.FlatTransient;
 import com.pineframework.core.datamodel.validation.CreateValidationGroup;
 import com.pineframework.core.datamodel.validation.UpdateValidationGroup;
@@ -17,6 +18,10 @@ import java.util.List;
 
 @JsonDeserialize(builder = ProductModel.Builder.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
+@CacheData(schema = "PINE",
+        tableName = "PRODUCT",
+        parent = FlatTransient.class,
+        firstLoad = true)
 public final class ProductModel extends FlatTransient<Long> {
 
     @NotBlank(message = "error.validation.notBlank",

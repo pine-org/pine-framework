@@ -9,10 +9,10 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <groupId>com.pineframework.core.cache</groupId>
-    <artifactId>inmemory-cache</artifactId>
+    <artifactId>cache</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>Core Java8 -> In Memory Cache</name>
+    <name>Core Java8 -> Cache</name>
     <description>
         Ths module support JVM cache, Redis cache and H2 cache
     </description>

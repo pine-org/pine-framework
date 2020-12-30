@@ -3,20 +3,7 @@ package com.pineframework.core.tutorial.eshop.business.domain;
 import com.pineframework.core.business.domain.AbstractAuditingEntity;
 import com.pineframework.core.datamodel.filter.Filter;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +22,7 @@ public class ProductEntity extends AbstractAuditingEntity<Long> {
     @Column(name = "PRICE", precision = 12, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "DESCRIPTION", length = 150, unique = true)
+    @Column(name = "DESCRIPTION", length = 150)
     private String description;
 
     @Lob

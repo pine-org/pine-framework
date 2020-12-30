@@ -22,10 +22,13 @@ docker kill image-id
 docker logs image-id
 run = create + start
 docker run image-name command
-docker system prune
+docker system prune -a
+docker volumes prune
 docker exec -it container-id command
 docker exec -it container-id sh
 docker run -it image-name sh
+
+docker container ls -la
 
 Dockerfile
 docker build -t image-name(docker-id/project-name:version) .
@@ -39,6 +42,9 @@ docker commit -c 'CMD [""]' image-id
 
 docker compose
 docker-compose up [--build] [-d]
+
+rm  Library/Containers/com.docker.docker/Data/vms/0/data/*
+restart docker
 
 
 

@@ -1,23 +1,6 @@
-docker build --rm -t samanalishiri/oracle-db-xe:18c .
-docker run -itd --privileged -p 1521:1521 -p 5500:5500 --name oracle-db-xe-container samanalishiri/oracle-db-xe:18c
-docker exec -it oracle-db-xe-container sh
-yum -y localinstall oracle-database-preinstall-18c-1.0-1.el7.x86_64.rpm
-export ORACLE_DOCKER_INSTALL=true
-yum -y localinstall ./oracle-database-xe-18c-1.0-1.x86_64.rpm
-/etc/init.d/oracle-xe-18c configure
-password:Adminxe18c
-export ORACLE_HOME=/opt/oracle/product/18c/dbhomeXE && export ORACLE_SID=XE && export PATH=$ORACLE_HOME/bin:$PATH
-sqlplus sys as sysdba
-systemctl start oracle-xe-18c
-systemctl enable oracle-xe-18c
-docker commit oracle-db-xe-container
-docker push oracle-db-xe-container
-docker start oracle-db-xe-container
-
 download oracle-database-xe-18c-1.0-1.x86_64.rpm from https://www.oracle.com/database/technologies/xe-downloads.html
 git clone https://github.com/oracle/docker-images.git
 copy oracle-database-xe-18c-1.0-1.x86_64.rpm to docker-images/OracleDatabase/SingleInstance/dockerfiles/18.4.0/
-
 cd docker-images/OracleDatabase/SingleInstance/dockerfiles
 buildDockerImage.sh -x -v 18.4.0
 docker run --name oracle-xe-18c \
@@ -37,7 +20,8 @@ grant CREATE SESSION, ALTER SESSION, CREATE DATABASE LINK,
     CREATE ROLE, CREATE SEQUENCE, CREATE SYNONYM, CREATE TABLE,
     CREATE TRIGGER, CREATE TYPE, CREATE VIEW, UNLIMITED TABLESPACE
     to pine;
-grant execute on dbms_xa to pine ;
+grant execute on dbms_xa to pine;
 grant select on pending_trans$ to pine;
 grant select on dba_2pc_pending to pine;
 grant select on dba_pending_transactions to pine;
+grant change notification to pine;

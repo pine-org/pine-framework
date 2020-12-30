@@ -13,7 +13,7 @@ import java.util.function.Function;
  * @author Saman Alishiri, samanalishiri@gmail.com
  */
 
-public class JvmHashOperationContext {
+public final class JvmHashOperationContext {
     public static final Map<RowOperation, Function<DelayedCacheObject, Consumer<HashTemplate<DelayedCacheObject>>>>
             MAP_OPERATION = new HashMap<>();
 

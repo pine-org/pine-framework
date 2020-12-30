@@ -1,0 +1,33 @@
+download Linux x86-64.zip from https://www.oracle.com/database/technologies/oracle-database-software-downloads.html#19c
+git clone https://github.com/oracle/docker-images.git
+copy Linux x86-64.zip to docker-images/OracleDatabase/SingleInstance/dockerfiles/19.3.0/
+cd docker-images/OracleDatabase/SingleInstance/dockerfiles
+buildDockerImage.sh -s -v 19.3.0
+docker run --name oracle-se2-19c \
+-p 1521:1521 -p 5500:5500 \
+-e ORACLE_SID=pine \
+-e ORACLE_PDB=pinepdb1 \
+-e ORACLE_PWD=AdminPine19c \
+-e ORACLE_EDITION=standard \
+-e ORACLE_CHARACTERSET=AL32UTF8 \
+-v /opt/oracle/oradata \
+oracle/database:19.3.0-se2
+
+
+docker start oracle-ee-19c
+
+use sys as sysdba
+alter session set "_ORACLE_SCRIPT"=true;
+create user pine identified by pine;
+grant CREATE SESSION, ALTER SESSION, CREATE DATABASE LINK,
+    CREATE MATERIALIZED VIEW, CREATE PROCEDURE, CREATE PUBLIC SYNONYM,
+    CREATE ROLE, CREATE SEQUENCE, CREATE SYNONYM, CREATE TABLE,
+    CREATE TRIGGER, CREATE TYPE, CREATE VIEW, UNLIMITED TABLESPACE
+    to pine;
+grant change notification to pine;
+
+grant execute on dbms_xa to pine;
+grant select on pending_trans$ to pine;
+grant select on dba_2pc_pending to pine;
+grant select on dba_pending_transactions to pine;
+

@@ -47,7 +47,7 @@
         <module>i18n</module>
         <module>document</module>
         <module>hibernate</module>
-        <module>inmemory-cache</module>
+        <module>cache</module>
         <module>mongodb</module>
     </modules>
     <dependencies>

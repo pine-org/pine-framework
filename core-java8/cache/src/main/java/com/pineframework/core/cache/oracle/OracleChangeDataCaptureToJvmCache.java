@@ -5,6 +5,7 @@ import com.pineframework.core.cache.event.SimpleCacheObject;
 import com.pineframework.core.cache.javacache.JvmHashOperationContext;
 import com.pineframework.core.cache.template.HashTemplate;
 import com.pineframework.core.contract.enumeration.Convertible;
+import oracle.jdbc.OracleConnection;
 
 import java.lang.ref.SoftReference;
 
@@ -13,7 +14,14 @@ import java.lang.ref.SoftReference;
  */
 public final class OracleChangeDataCaptureToJvmCache extends OracleChangeDataCapture {
 
-    private HashTemplate<DelayedCacheObject> jvmHashTemplate;
+    private final HashTemplate<DelayedCacheObject> jvmHashTemplate;
+
+    public OracleChangeDataCaptureToJvmCache(OracleConnection connection,
+                                             HashTemplate<DelayedCacheObject> jvmHashTemplate,
+                                             String... cacheObjectPackage) {
+        super(connection, cacheObjectPackage);
+        this.jvmHashTemplate = jvmHashTemplate;
+    }
 
     @Override
     protected void process(SimpleCacheObject object) {

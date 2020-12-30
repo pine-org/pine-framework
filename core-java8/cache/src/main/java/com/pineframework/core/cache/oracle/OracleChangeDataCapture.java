@@ -1,10 +1,6 @@
 package com.pineframework.core.cache.oracle;
 
-import com.pineframework.core.cache.annotation.CacheData;
-import com.pineframework.core.cache.annotation.Enums;
-import com.pineframework.core.cache.annotation.Mapped;
-import com.pineframework.core.cache.annotation.NotCache;
-import com.pineframework.core.cache.annotation.Relation;
+import com.pineframework.core.cache.annotation.*;
 import com.pineframework.core.cache.event.RowOperation;
 import com.pineframework.core.cache.event.SimpleCacheObject;
 import oracle.jdbc.OracleConnection;
@@ -17,30 +13,14 @@ import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static com.pineframework.core.helper.CollectionUtils.concat;
-import static com.pineframework.core.helper.CollectionUtils.isThereAnyElement;
-import static com.pineframework.core.helper.CollectionUtils.mapOf;
-import static com.pineframework.core.helper.CollectionUtils.mapTo;
-import static com.pineframework.core.helper.DatabaseMetadataUtils.ROW_ID_INDEX;
-import static com.pineframework.core.helper.DatabaseMetadataUtils.getColumns;
-import static com.pineframework.core.helper.DatabaseMetadataUtils.registerChangeNotification;
+import static com.pineframework.core.helper.CollectionUtils.*;
+import static com.pineframework.core.helper.DatabaseMetadataUtils.*;
 import static com.pineframework.core.helper.EnumUtils.getEnumByValueOfEnum;
-import static com.pineframework.core.helper.ReflectionUtils.PUBLIC_FIELD;
-import static com.pineframework.core.helper.ReflectionUtils.convertFromDatabaseType;
-import static com.pineframework.core.helper.ReflectionUtils.getAllFields;
-import static com.pineframework.core.helper.ReflectionUtils.getAnnotatedFields;
-import static com.pineframework.core.helper.ReflectionUtils.getAnnotationsOfFields;
-import static com.pineframework.core.helper.ReflectionUtils.getClassesByAnnotation;
-import static com.pineframework.core.helper.ReflectionUtils.getField;
-import static com.pineframework.core.helper.ReflectionUtils.getFieldType;
+import static com.pineframework.core.helper.ReflectionUtils.*;
 import static com.pineframework.core.helper.StringUtils.convertToCamelCase;
 import static com.pineframework.core.helper.StringUtils.convertToTitleCase;
 import static org.apache.commons.lang3.reflect.MethodUtils.invokeMethod;
@@ -53,9 +33,14 @@ public abstract class OracleChangeDataCapture {
 
     private final Logger logger = LoggerFactory.getLogger(OracleChangeDataCapture.class);
 
-    private OracleConnection connection;
+    private final OracleConnection connection;
 
-    private String[] cacheObjectPackage;
+    private final String[] cacheObjectPackage;
+
+    public OracleChangeDataCapture(OracleConnection connection, String... cacheObjectPackage) {
+        this.connection = connection;
+        this.cacheObjectPackage = cacheObjectPackage;
+    }
 
     public void init() {
         getClassesByAnnotation(cacheObjectPackage, CacheData.class)

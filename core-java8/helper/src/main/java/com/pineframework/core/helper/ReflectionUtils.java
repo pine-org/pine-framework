@@ -3,27 +3,20 @@ package com.pineframework.core.helper;
 import com.pineframework.core.helper.generic.TypeResolver;
 import io.vavr.control.Try;
 import oracle.sql.TIMESTAMP;
+import org.reflections.Reflections;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static com.pineframework.core.helper.FileUtils.walkThrowPackage;
 import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.util.Objects.nonNull;
-import static org.apache.commons.lang3.StringUtils.substringBetween;
 
 /**
  * @author Saman Alishirishahrbabak
@@ -77,20 +70,14 @@ public final class ReflectionUtils {
     }
 
     public static Set<Class<?>> getClassesByAnnotation(String packageName, Class<? extends Annotation> annotation) {
-        String root = packageName.split("\\.")[0];
-        return walkThrowPackage(packageName)
-                .filter(s -> s.endsWith(".class"))
-                .map(s -> root + "." + substringBetween(s, root + ".", ".class"))
-                .map(s -> Try.of(() -> Class.forName(s)).get())
-                .filter(clazz -> clazz.isAnnotationPresent(annotation))
-                .collect(Collectors.toSet());
+        Reflections reflections = new Reflections(packageName);
+        return reflections.getTypesAnnotatedWith(annotation);
     }
 
     public static Set<Class<?>> getClasses(String packageName) {
-        String root = packageName.split("\\.")[0];
-        return walkThrowPackage(packageName)
-                .filter(s -> s.endsWith(".class"))
-                .map(s -> root + "." + substringBetween(s, root + ".", ".class"))
+        Reflections reflections = new Reflections(packageName);
+        return reflections.getAllTypes()
+                .stream()
                 .map(s -> Try.of(() -> Class.forName(s)).get())
                 .collect(Collectors.toSet());
     }
