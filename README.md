@@ -30,53 +30,29 @@ Download [Jenkins](https://jenkins.io/download/) in WAR format then execute comm
 
 ### Install JFrog
 
- - Download [JFrog](https://jfrog.com/open-source/)
- - [Getting Start](https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory)
+- Download [JFrog](https://jfrog.com/open-source/)
+- [Getting Start](https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory)
 
 ### Install Database
 
 ### Install ActiveMQ
-    apache-activemq/bin/activemq start
-
-## Build
-If you want to deploy products on your machine and every tools installed on your machine
-
-### Build based on spring and properties files
-- `mvn -f ./core-java8/pom.xml clean install -P ...`
-- `mvn -f ./core-spring/pom.xml clean install -P ...`
-- `mvn -f ./tutorial/pom.xml clean install -P ...,PropertiesFile`
-
-### Build based on spring and config server (Cloud)
-- `mvn -f ./core-java8/pom.xml clean install -P ...`
-- `mvn -f ./core-spring/pom.xml clean install -P ...`
-- `mvn -f ./tutorial/pom.xml clean install -P ...,ConfigServer`
-
-## Run
-### Development Environment (deploy on localhost)
-Run all tools on your machine.
-
-Build the project:
-- `mvn -f ./core-java8/pom.xml clean install -P Development,Localhost,...`
-- `mvn -f ./core-spring/pom.xml clean install -P Development,Localhost,...`
-- `mvn -f ./tutorial/pom.xml clean install -P Development,Localhost,...,PropertiesFile`
-
-Run your modules on your machine:
- - `java -jar ./tutorial/e-shop/rest-api/target/e-shop-*.jar`
-
-Build the cloud base project:
-- `mvn -f ./core-java8/pom.xml clean install -P Development,Localhost,...`
-- `mvn -f ./core-spring/pom.xml clean install -P Development,Localhost,...`
-- `mvn -f ./tutorial/pom.xml clean install -P Development,Localhost,...,ConfigServer`
-
-Run config server on your machine:
- - `java -jar ./core-spring/config-server/target/config-server-*.jar`
-
- - [Configuration repository](https://github.com/pine-org/pine-framework/tree/master/config-repo-development)
-
- - [Configuration Service Console](http://127.0.0.1:8888/config-server/common-development)
-
-Run your modules on your machine:
- - `java -jar ./tutorial/e-shop/rest-api/target/e-shop-*.jar`
 
 ## Test
- - `mvn test -P Test`
+
+- `file: run-test-properties`
+
+## Getting Start
+
+- `file: run-getting-start`
+
+## Build
+
+### Development Environment (prepare requirements, such as mysql, activemq, ...)
+
+- `file: build-development-properties`
+
+## Run
+
+### Development Environment
+
+- `file: run-eshop`
