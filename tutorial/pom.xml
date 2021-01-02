@@ -223,7 +223,7 @@
         <profile>
             <id>ActiveMQ</id>
             <properties>
-                <message-queue-vendor>activemq,activemq-${env}</message-queue-vendor>
+                <message-queue-vendor>messaging,activemq,activemq-${env}</message-queue-vendor>
             </properties>
         </profile>
         <profile>

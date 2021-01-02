@@ -20,7 +20,7 @@ import static com.pineframework.core.helper.CollectionUtils.mapOf;
  * @author Saman Alishirishahrbabak
  */
 @Configuration
-@Profile(value = {"properties-file", "test"})
+@Profile(value = {"properties-file & activemq", "test & activemq"})
 public class ActiveMqStaticConfiguration implements QueueConfiguration {
 
     @Value("${message-queue-name}")

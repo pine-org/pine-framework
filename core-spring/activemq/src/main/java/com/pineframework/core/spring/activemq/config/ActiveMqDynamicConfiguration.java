@@ -22,7 +22,7 @@ import static com.pineframework.core.helper.CollectionUtils.mapOf;
  */
 @Configuration
 @RefreshScope
-@Profile("config-server")
+@Profile(value = {"config-server & activemq"})
 public class ActiveMqDynamicConfiguration implements QueueConfiguration {
 
     @Value("${message-queue-name}")
