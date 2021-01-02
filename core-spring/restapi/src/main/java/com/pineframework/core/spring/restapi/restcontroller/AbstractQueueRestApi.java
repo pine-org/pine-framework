@@ -70,7 +70,7 @@ public abstract class AbstractQueueRestApi<I extends Serializable, M extends Fla
             @ApiResponse(responseCode = "422", description = "${restfulApi.push.response.422}")})
     @PostMapping
     @ResponseStatus(value = CREATED, code = CREATED)
-    public ResponseEntity<EntityModel<I>> push(
+    public ResponseEntity<EntityModel<M>> push(
             @Parameter(name = "Model", description = "${restfulApi.push.param}", required = true)
             @Validated(CreateValidationGroup.class)
             @RequestBody M model,
@@ -82,7 +82,7 @@ public abstract class AbstractQueueRestApi<I extends Serializable, M extends Fla
                 .compose(this::beforePush)
                 .andThen(this::afterPush)
                 .apply(model))
-                .map(m -> new EntityModel<>(m.getId(), linkTo(getClass(), m.getId()).slash(m.getId()).withSelfRel()))
+                .map(m -> new EntityModel<>(m, linkTo(getClass(), m.getId()).slash(m.getId()).withSelfRel()))
                 .map(m -> ResponseEntity.status(CREATED).body(m))
                 .get();
     }
