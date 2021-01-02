@@ -17,6 +17,7 @@ import oracle.jdbc.OracleDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.sql.SQLException;
 import java.util.Properties;
@@ -53,6 +54,7 @@ public class ServiceContext {
     }
 
     @Bean(name = "jvmCache", destroyMethod = "")
+    @Profile("cache")
     public OracleChangeDataCapture jvmCache() {
         OracleChangeDataCaptureToJvmCache bean = new OracleChangeDataCaptureToJvmCache(
                 Try.of(() -> getOracleConnection()).get(),

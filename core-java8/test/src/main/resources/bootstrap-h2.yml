@@ -11,9 +11,5 @@ h2:
       console:
         enabled: true
     jpa:
-      hibernate:
-        ddl-auto: create
-        dialect: org.hibernate.dialect.H2Dialect
-        generate_statistics: true
-        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
       show-sql: true
+      @h2-orm@

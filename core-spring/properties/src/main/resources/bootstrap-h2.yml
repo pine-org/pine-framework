@@ -12,4 +12,4 @@ h2:
         enabled: true
     jpa:
       show-sql: true
-      @mysql-orm@
+      @h2-orm@

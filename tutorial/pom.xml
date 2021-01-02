@@ -28,6 +28,7 @@
         <database-vendor>empty</database-vendor>
         <country>US</country>
         <language>en</language>
+        <cache>empty</cache>
 
         <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
         <spring-boot.version>2.3.5.RELEASE</spring-boot.version>
@@ -199,7 +200,7 @@
                 <queue.host>localhost:61616</queue.host>
                 <discovery.server.host>localhost:8761</discovery.server.host>
                 <config.server.host>localhost:8888</config.server.host>
-                <product.host>127.0.0.1</product.host>
+                <product.host>localhost</product.host>
                 <product.port>9091</product.port>
                 <config-repository>localhost</config-repository>
             </properties>
@@ -227,6 +228,13 @@
             <properties>
                 <database-vendor>oracle-${env}</database-vendor>
                 <build.profile.id>oracle</build.profile.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>Cache</id>
+            <properties>
+                <cache>cache</cache>
+                <build.profile.id>cache</build.profile.id>
             </properties>
         </profile>
         <profile>

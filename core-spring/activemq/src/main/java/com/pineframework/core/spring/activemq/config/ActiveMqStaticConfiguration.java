@@ -13,15 +13,15 @@ import java.util.Map;
 import static com.pineframework.core.helper.CollectionUtils.mapOf;
 
 /**
- * Configuration for connect to ActiveMQ Classic. Create bean from {@link ActiveMqConfigurationPropertiesProfile}
+ * Configuration for connect to ActiveMQ Classic. Create bean from {@link ActiveMqStaticConfiguration}
  * when {@code config-server} profile was added to application properties.
- * {@link ActiveMqConfigurationPropertiesProfile} support json type.
+ * {@link ActiveMqStaticConfiguration} support json type.
  *
  * @author Saman Alishirishahrbabak
  */
 @Configuration
-@Profile("properties-file")
-public class ActiveMqConfigurationPropertiesProfile implements QueueConfiguration {
+@Profile(value = {"properties-file", "test"})
+public class ActiveMqStaticConfiguration implements QueueConfiguration {
 
     @Value("${message-queue-name}")
     private String[] queues;

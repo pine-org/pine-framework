@@ -199,7 +199,7 @@
                 <queue.host>localhost:61616</queue.host>
                 <discovery.server.host>localhost:8761</discovery.server.host>
                 <config.server.host>localhost:8888</config.server.host>
-                <product.host>127.0.0.1</product.host>
+                <product.host>localhost</product.host>
                 <product.port>9091</product.port>
                 <config-repository>localhost</config-repository>
             </properties>
@@ -219,13 +219,6 @@
         <profile>
             <id>Hibernate</id>
             <properties>
-                <mysql-orm>
-                    hibernate:
-                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
-                    dialect: 'org.hibernate.dialect.MySQLDialect'
-                    ddl-auto: 'update'
-                    generate_statistics: true
-                </mysql-orm>
                 <oracle-orm>
                     hibernate:
                     naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
@@ -234,6 +227,20 @@
                     default_schema: 'PINE'
                     generate_statistics: true
                 </oracle-orm>
+                <mysql-orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.MySQLDialect'
+                    ddl-auto: 'update'
+                    generate_statistics: true
+                </mysql-orm>
+                <h2-orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.H2Dialect'
+                    ddl-auto: 'update'
+                    generate_statistics: true
+                </h2-orm>
             </properties>
         </profile>
         <profile>
@@ -253,13 +260,6 @@
             <properties>
                 <database-vendor>h2</database-vendor>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>1.4.200</version>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>Parsi-Check-style</id>

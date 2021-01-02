@@ -6,9 +6,5 @@ spring:
     url: jdbc:mysql://@database.host@/eshop?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
   jpa:
-    hibernate:
-      ddl-auto: update
-      dialect: org.hibernate.dialect.MySQLDialect
-      generate_statistics: true
-      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     show-sql: true
+    @mysql-orm@

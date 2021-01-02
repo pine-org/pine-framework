@@ -11,7 +11,7 @@
     <name>Core Java8</name>
     <description>
         The core module is an abstract and utility module. It provides more abstraction and contracts also helpers and
-        utils for end modules to get integrity, clean architecture and extendibility.
+        utils for end modules to get integrity, clean architecture and extendability.
     </description>
     <developers>
         <developer>

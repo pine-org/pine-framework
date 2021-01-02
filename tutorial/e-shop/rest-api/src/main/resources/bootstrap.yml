@@ -7,4 +7,4 @@ spring:
   application:
     name: e-shop
   profiles:
-    active: '@env@,@config-profile@,@message-queue-vendor@,@database-vendor@,@discovery-server-vendor@,@country@'
+    active: '@env@,@config-profile@,@message-queue-vendor@,@database-vendor@,@discovery-server-vendor@,@country@,@cache@'
