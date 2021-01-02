@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    initialization-mode: never
+    url: jdbc:mysql://@mysql.host@/pine?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    password: Root1234
+    username: root
+  jpa:
+    show-sql: true
+    @mysql-orm@
