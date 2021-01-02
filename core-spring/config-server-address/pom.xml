@@ -21,7 +21,7 @@
                 <filtering>true</filtering>
                 <includes>
                     <include>bootstrap-common-${env}.yml</include>
-                    <include>bootstrap-config-server-${env}.yml</include>
+                    <include>bootstrap-${config-server-vendor}.yml</include>
                     <include>bannername.txt</include>
                 </includes>
             </resource>

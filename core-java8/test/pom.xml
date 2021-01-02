@@ -146,8 +146,9 @@
         <profile>
             <id>Localhost</id>
             <properties>
-                <database.host>localhost:3306</database.host>
-                <queue.host>localhost:61616</queue.host>
+                <mysql.host>localhost:3306</mysql.host>
+                <oracle.host>@localhost:1521</oracle.host>
+                <activemq.host>localhost:61616</activemq.host>
                 <discovery.server.host>localhost:8761</discovery.server.host>
                 <config.server.host>localhost:8888</config.server.host>
                 <product.host>localhost</product.host>
