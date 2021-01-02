@@ -1,8 +1,0 @@
-message-queue-name: sample-queue,status-queue
-spring:
-  activemq:
-    broker-url: tcp://@activemq.host@
-    packages:
-      trust-all: true
-    password: admin
-    user: admin

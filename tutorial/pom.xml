@@ -14,29 +14,54 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <useIncrementalCompilation>false</useIncrementalCompilation>
-
         <asciidoctor.maven.plugin.version>2.0.0-RC.1</asciidoctor.maven.plugin.version>
         <asciidoctorj.diagram.version>2.0.2</asciidoctorj.diagram.version>
         <asciidoctorj.pdf.version>1.5.3</asciidoctorj.pdf.version>
         <asciidoctorj.version>2.3.0</asciidoctorj.version>
         <jruby.version>9.2.11.1</jruby.version>
-
         <env>empty</env>
         <config-profile>empty</config-profile>
+        <messaging>empty</messaging>
         <discovery-server-vendor>empty</discovery-server-vendor>
         <message-queue-vendor>empty</message-queue-vendor>
         <database-vendor>empty</database-vendor>
         <country>US</country>
         <language>en</language>
         <cache>empty</cache>
-
         <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
         <spring-boot.version>2.3.5.RELEASE</spring-boot.version>
     </properties>
     <modules>
         <module>e-shop</module>
+        <module>properties</module>
     </modules>
     <dependencies>
+        <dependency>
+            <groupId>com.pineframework.core.business</groupId>
+            <artifactId>business</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pineframework.core.contract</groupId>
+            <artifactId>contract</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pineframework.core.datamodel</groupId>
+            <artifactId>data-model</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pineframework.core.helper</groupId>
+            <artifactId>helper</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pineframework.core.test</groupId>
+            <artifactId>test</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.pineframework.core.cache</groupId>
             <artifactId>cache</artifactId>
@@ -116,17 +141,11 @@
             </properties>
         </profile>
         <profile>
-            <id>PropertiesFile</id>
+            <id>IR</id>
             <properties>
-                <config-profile>properties-file,internationalization,common-${env}</config-profile>
+                <country>IR</country>
+                <language>fa</language>
             </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.pineframework.core.spring.properties</groupId>
-                    <artifactId>properties</artifactId>
-                    <version>1.0.0-SNAPSHOT</version>
-                </dependency>
-            </dependencies>
         </profile>
         <profile>
             <id>Production</id>
@@ -153,20 +172,6 @@
             </properties>
         </profile>
         <profile>
-            <id>Test</id>
-            <properties>
-                <env>test</env>
-                <build.profile.id>test</build.profile.id>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.pineframework.core.spring.properties</groupId>
-                    <artifactId>properties</artifactId>
-                    <version>1.0.0-SNAPSHOT</version>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
             <id>BuildTest</id>
             <properties>
                 <env>test</env>
@@ -182,17 +187,19 @@
             </dependencies>
         </profile>
         <profile>
-            <id>AccessDockerToHost</id>
+            <id>Test</id>
             <properties>
-                <mysql.host>host.docker.internal:3306</mysql.host>
-                <oracle.host>@host.docker.internal:1521</oracle.host>
-                <activemq.host>host.docker.internal:61616</activemq.host>
-                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
-                <config.server.host>pine-config-server:8888</config.server.host>
-                <product.host>0.0.0.0</product.host>
-                <product.port>9091</product.port>
-                <config-repository>accessdockertohost</config-repository>
+                <env>test</env>
+                <config-profile>internationalization,common</config-profile>
+                <build.profile.id>test</build.profile.id>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.pineframework.core.spring.properties</groupId>
+                    <artifactId>properties</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
         </profile>
         <profile>
             <id>Localhost</id>
@@ -205,6 +212,19 @@
                 <product.host>localhost</product.host>
                 <product.port>9091</product.port>
                 <config-repository>localhost</config-repository>
+            </properties>
+        </profile>
+        <profile>
+            <id>AccessDockerToHost</id>
+            <properties>
+                <mysql.host>host.docker.internal:3306</mysql.host>
+                <oracle.host>@host.docker.internal:1521</oracle.host>
+                <activemq.host>host.docker.internal:61616</activemq.host>
+                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
+                <config.server.host>pine-config-server:8888</config.server.host>
+                <product.host>0.0.0.0</product.host>
+                <product.port>9091</product.port>
+                <config-repository>accessdockertohost</config-repository>
             </properties>
         </profile>
         <profile>
@@ -223,19 +243,14 @@
         <profile>
             <id>ActiveMQ</id>
             <properties>
-                <message-queue-vendor>messaging,activemq,activemq-${env}</message-queue-vendor>
+                <messaging>messaging,activemq</messaging>
+                <message-queue-vendor>activemq-${env}</message-queue-vendor>
             </properties>
         </profile>
         <profile>
             <id>MongoDB</id>
             <properties>
                 <database-vendor>mongodb-${env}</database-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>MySQL</id>
-            <properties>
-                <database-vendor>mysql-${env}</database-vendor>
             </properties>
         </profile>
         <profile>
@@ -246,10 +261,15 @@
             </properties>
         </profile>
         <profile>
-            <id>Cache</id>
+            <id>MySQL</id>
             <properties>
-                <cache>cache</cache>
-                <build.profile.id>cache</build.profile.id>
+                <database-vendor>mysql-${env}</database-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>Postgres</id>
+            <properties>
+                <database-vendor>postgres-${env}</database-vendor>
             </properties>
         </profile>
         <profile>
@@ -263,6 +283,47 @@
                     <groupId>com.h2database</groupId>
                     <artifactId>h2</artifactId>
                     <version>1.4.200</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>Cache</id>
+            <properties>
+                <cache>cache</cache>
+                <build.profile.id>cache</build.profile.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>Hibernate</id>
+            <properties>
+                <oracle-orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.Oracle12cDialect'
+                    ddl-auto: 'update'
+                    default_schema: 'PINE'
+                    generate_statistics: true
+                </oracle-orm>
+                <mysql-orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.MySQLDialect'
+                    ddl-auto: 'update'
+                    generate_statistics: true
+                </mysql-orm>
+                <h2-orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.H2Dialect'
+                    ddl-auto: 'update'
+                    generate_statistics: true
+                </h2-orm>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.pineframework.core</groupId>
+                    <artifactId>hibernate</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
                 </dependency>
             </dependencies>
         </profile>

@@ -42,8 +42,10 @@
               "});",
               "",
               "var body = JSON.parse(pm.response.text());",
-              "let id = body.content[body.content.length - 1].id;",
-              "pm.environment.set(\"currentProductId\", id);"
+              "if (body.content.length > 0){",
+              "    let id = body.content[body.content.length - 1].id;",
+              "    pm.environment.set(\"currentProductId\", id);",
+              "}"
             ],
             "type": "text/javascript"
           }

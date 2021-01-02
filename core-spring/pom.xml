@@ -14,19 +14,21 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <useIncrementalCompilation>false</useIncrementalCompilation>
-
         <asciidoctor.maven.plugin.version>2.0.0-RC.1</asciidoctor.maven.plugin.version>
         <asciidoctorj.diagram.version>2.0.2</asciidoctorj.diagram.version>
         <asciidoctorj.pdf.version>1.5.3</asciidoctorj.pdf.version>
         <asciidoctorj.version>2.3.0</asciidoctorj.version>
         <jruby.version>9.2.11.1</jruby.version>
-
+        <env>empty</env>
         <config-profile>empty</config-profile>
+        <messaging>empty</messaging>
+        <discovery-server-vendor>empty</discovery-server-vendor>
         <message-queue-vendor>empty</message-queue-vendor>
         <database-vendor>empty</database-vendor>
-        <env>empty</env>
+        <country>US</country>
+        <language>en</language>
+        <cache>empty</cache>
         <config-repository>empty</config-repository>
-
         <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
         <spring-boot.version>2.3.5.RELEASE</spring-boot.version>
     </properties>
@@ -40,7 +42,6 @@
         <module>transaction</module>
         <module>config-server-address</module>
         <module>restapi-test</module>
-        <module>properties</module>
     </modules>
     <dependencyManagement>
         <dependencies>
@@ -135,108 +136,15 @@
     </build>
     <profiles>
         <profile>
-            <id>US</id>
-            <properties>
-                <country>US</country>
-                <language>en</language>
-            </properties>
-        </profile>
-        <profile>
-            <id>Production</id>
-            <properties>
-                <env>production</env>
-                <build.profile.id>production</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>Development</id>
-            <properties>
-                <env>development</env>
-                <build.profile.id>development</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>UAT</id>
-            <properties>
-                <env>uat</env>
-                <build.profile.id>uat</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>Test</id>
-            <properties>
-                <env>test</env>
-                <build.profile.id>test</build.profile.id>
-            </properties>
-        </profile>
-        <profile>
-            <id>BuildTest</id>
-            <properties>
-                <env>test</env>
-                <build.profile.id>test</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>AccessDockerToHost</id>
-            <properties>
-                <mysql.host>host.docker.internal:3306</mysql.host>
-                <oracle.host>@host.docker.internal:1521</oracle.host>
-                <activemq.host>host.docker.internal:61616</activemq.host>
-                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
-                <config.server.host>pine-config-server:8888</config.server.host>
-                <product.host>0.0.0.0</product.host>
-                <product.port>9091</product.port>
-                <config-repository>accessdockertohost</config-repository>
-            </properties>
-        </profile>
-        <profile>
-            <id>Localhost</id>
-            <properties>
-                <mysql.host>localhost:3306</mysql.host>
-                <oracle.host>@localhost:1521</oracle.host>
-                <activemq.host>localhost:61616</activemq.host>
-                <discovery.server.host>localhost:8761</discovery.server.host>
-                <config.server.host>localhost:8888</config.server.host>
-                <product.host>localhost</product.host>
-                <product.port>9091</product.port>
-                <config-repository>localhost</config-repository>
-            </properties>
-        </profile>
-        <profile>
-            <id>Docker</id>
-            <properties>
-                <mysql.host>pine-mysql:3306</mysql.host>
-                <oracle.host>@pine-oracle:1521</oracle.host>
-                <activemq.host>pine-activemq:61616</activemq.host>
-                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
-                <config.server.host>pine-config-server:8888</config.server.host>
-                <product.host>0.0.0.0</product.host>
-                <product.port>9091</product.port>
-                <config-repository>docker</config-repository>
-            </properties>
-        </profile>
-        <profile>
             <id>DiscoveryServerEureka</id>
             <properties>
                 <discovery-server-vendor>discovery-server-eureka-${env}</discovery-server-vendor>
             </properties>
         </profile>
-
         <profile>
             <id>ConfigServer</id>
             <properties>
                 <config-server-vendor>config-server-${env}</config-server-vendor>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>ActiveMQ</id>
-            <properties>
-                <message-queue-vendor>activemq-${env}</message-queue-vendor>
             </properties>
         </profile>
         <profile>
@@ -265,6 +173,139 @@
                     generate_statistics: true
                 </h2-orm>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.pineframework.core</groupId>
+                    <artifactId>hibernate</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>US</id>
+            <properties>
+                <country>US</country>
+                <language>en</language>
+            </properties>
+        </profile>
+        <profile>
+            <id>IR</id>
+            <properties>
+                <country>IR</country>
+                <language>fa</language>
+            </properties>
+        </profile>
+        <profile>
+            <id>Production</id>
+            <properties>
+                <env>production</env>
+                <build.profile.id>production</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>Development</id>
+            <properties>
+                <env>development</env>
+                <build.profile.id>development</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>UAT</id>
+            <properties>
+                <env>uat</env>
+                <build.profile.id>uat</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
+        <profile>
+            <id>BuildTest</id>
+            <properties>
+                <env>test</env>
+                <build.profile.id>test</build.profile.id>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.pineframework.core.spring.properties</groupId>
+                    <artifactId>properties</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>Test</id>
+            <properties>
+                <env>test</env>
+                <build.profile.id>test</build.profile.id>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.pineframework.core.spring.properties</groupId>
+                    <artifactId>properties</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>Localhost</id>
+            <properties>
+                <mysql.host>localhost:3306</mysql.host>
+                <oracle.host>@localhost:1521</oracle.host>
+                <activemq.host>localhost:61616</activemq.host>
+                <discovery.server.host>localhost:8761</discovery.server.host>
+                <config.server.host>localhost:8888</config.server.host>
+                <product.host>localhost</product.host>
+                <product.port>9091</product.port>
+                <config-repository>localhost</config-repository>
+            </properties>
+        </profile>
+        <profile>
+            <id>AccessDockerToHost</id>
+            <properties>
+                <mysql.host>host.docker.internal:3306</mysql.host>
+                <oracle.host>@host.docker.internal:1521</oracle.host>
+                <activemq.host>host.docker.internal:61616</activemq.host>
+                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
+                <config.server.host>pine-config-server:8888</config.server.host>
+                <product.host>0.0.0.0</product.host>
+                <product.port>9091</product.port>
+                <config-repository>accessdockertohost</config-repository>
+            </properties>
+        </profile>
+        <profile>
+            <id>Docker</id>
+            <properties>
+                <mysql.host>pine-mysql:3306</mysql.host>
+                <oracle.host>@pine-oracle:1521</oracle.host>
+                <activemq.host>pine-activemq:61616</activemq.host>
+                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
+                <config.server.host>pine-config-server:8888</config.server.host>
+                <product.host>0.0.0.0</product.host>
+                <product.port>9091</product.port>
+                <config-repository>docker</config-repository>
+            </properties>
+        </profile>
+        <profile>
+            <id>ActiveMQ</id>
+            <properties>
+                <messaging>messaging,activemq</messaging>
+                <message-queue-vendor>messaging,activemq,activemq-${env}</message-queue-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>MongoDB</id>
+            <properties>
+                <database-vendor>mongodb-${env}</database-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>Oracle</id>
+            <properties>
+                <database-vendor>oracle-${env}</database-vendor>
+                <build.profile.id>oracle</build.profile.id>
+            </properties>
         </profile>
         <profile>
             <id>MySQL</id>
@@ -273,15 +314,30 @@
             </properties>
         </profile>
         <profile>
-            <id>Oracle</id>
+            <id>Postgres</id>
             <properties>
-                <database-vendor>oracle-${env}</database-vendor>
+                <database-vendor>postgres-${env}</database-vendor>
             </properties>
         </profile>
         <profile>
             <id>H2</id>
             <properties>
                 <database-vendor>h2</database-vendor>
+                <build.profile.id>h2</build.profile.id>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <version>1.4.200</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>Cache</id>
+            <properties>
+                <cache>cache</cache>
+                <build.profile.id>cache</build.profile.id>
             </properties>
         </profile>
         <profile>

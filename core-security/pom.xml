@@ -108,6 +108,54 @@
     </build>
     <profiles>
         <profile>
+            <id>Hibernate</id>
+            <properties>
+                <oracle-orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.Oracle12cDialect'
+                    ddl-auto: 'update'
+                    default_schema: 'PINE'
+                    generate_statistics: true
+                </oracle-orm>
+                <mysql-orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.MySQLDialect'
+                    ddl-auto: 'update'
+                    generate_statistics: true
+                </mysql-orm>
+                <h2-orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.H2Dialect'
+                    ddl-auto: 'update'
+                    generate_statistics: true
+                </h2-orm>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.pineframework.core</groupId>
+                    <artifactId>hibernate</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>US</id>
+            <properties>
+                <country>US</country>
+                <language>en</language>
+            </properties>
+        </profile>
+        <profile>
+            <id>IR</id>
+            <properties>
+                <country>IR</country>
+                <language>fa</language>
+            </properties>
+        </profile>
+        <profile>
             <id>Production</id>
             <properties>
                 <env>production</env>
@@ -132,18 +180,124 @@
             </properties>
         </profile>
         <profile>
-            <id>Test</id>
-            <properties>
-                <env>test</env>
-                <build.profile.id>test</build.profile.id>
-            </properties>
-        </profile>
-        <profile>
             <id>BuildTest</id>
             <properties>
                 <env>test</env>
                 <build.profile.id>test</build.profile.id>
                 <maven.test.skip>true</maven.test.skip>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.pineframework.core.spring.properties</groupId>
+                    <artifactId>properties</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>Test</id>
+            <properties>
+                <env>test</env>
+                <build.profile.id>test</build.profile.id>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.pineframework.core.spring.properties</groupId>
+                    <artifactId>properties</artifactId>
+                    <version>1.0.0-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>Localhost</id>
+            <properties>
+                <mysql.host>localhost:3306</mysql.host>
+                <oracle.host>@localhost:1521</oracle.host>
+                <activemq.host>localhost:61616</activemq.host>
+                <discovery.server.host>localhost:8761</discovery.server.host>
+                <config.server.host>localhost:8888</config.server.host>
+                <product.host>localhost</product.host>
+                <product.port>9091</product.port>
+                <config-repository>localhost</config-repository>
+            </properties>
+        </profile>
+        <profile>
+            <id>AccessDockerToHost</id>
+            <properties>
+                <mysql.host>host.docker.internal:3306</mysql.host>
+                <oracle.host>@host.docker.internal:1521</oracle.host>
+                <activemq.host>host.docker.internal:61616</activemq.host>
+                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
+                <config.server.host>pine-config-server:8888</config.server.host>
+                <product.host>0.0.0.0</product.host>
+                <product.port>9091</product.port>
+                <config-repository>accessdockertohost</config-repository>
+            </properties>
+        </profile>
+        <profile>
+            <id>Docker</id>
+            <properties>
+                <mysql.host>pine-mysql:3306</mysql.host>
+                <oracle.host>@pine-oracle:1521</oracle.host>
+                <activemq.host>pine-activemq:61616</activemq.host>
+                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
+                <config.server.host>pine-config-server:8888</config.server.host>
+                <product.host>0.0.0.0</product.host>
+                <product.port>9091</product.port>
+                <config-repository>docker</config-repository>
+            </properties>
+        </profile>
+        <profile>
+            <id>ActiveMQ</id>
+            <properties>
+                <messaging>messaging,activemq</messaging>
+                <message-queue-vendor>messaging,activemq,activemq-${env}</message-queue-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>MongoDB</id>
+            <properties>
+                <database-vendor>mongodb-${env}</database-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>Oracle</id>
+            <properties>
+                <database-vendor>oracle-${env}</database-vendor>
+                <build.profile.id>oracle</build.profile.id>
+            </properties>
+        </profile>
+        <profile>
+            <id>MySQL</id>
+            <properties>
+                <database-vendor>mysql-${env}</database-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>Postgres</id>
+            <properties>
+                <database-vendor>postgres-${env}</database-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>H2</id>
+            <properties>
+                <database-vendor>h2</database-vendor>
+                <build.profile.id>h2</build.profile.id>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <version>1.4.200</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>Cache</id>
+            <properties>
+                <cache>cache</cache>
+                <build.profile.id>cache</build.profile.id>
             </properties>
         </profile>
         <profile>
@@ -223,7 +377,6 @@
                                     <encoding>UTF-8</encoding>
                                     <consoleOutput>true</consoleOutput>
                                     <failsOnError>true</failsOnError>
-
                                     <failOnViolation>true</failOnViolation>
                                     <includeResources>false</includeResources>
                                     <includeTestResources>false</includeTestResources>
@@ -241,76 +394,128 @@
             </build>
         </profile>
         <profile>
-            <id>AccessDockerToHost</id>
-            <properties>
-                <mysql.host>host.docker.internal:3306</mysql.host>
-                <oracle.host>@host.docker.internal:1521</oracle.host>
-                <activemq.host>host.docker.internal:61616</activemq.host>
-                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
-                <config.server.host>pine-config-server:8888</config.server.host>
-                <product.host>0.0.0.0</product.host>
-                <product.port>9091</product.port>
-                <config-repository>accessdockertohost</config-repository>
-            </properties>
-        </profile>
-        <profile>
-            <id>Localhost</id>
-            <properties>
-                <mysql.host>localhost:3306</mysql.host>
-                <oracle.host>@localhost:1521</oracle.host>
-                <activemq.host>localhost:61616</activemq.host>
-                <discovery.server.host>localhost:8761</discovery.server.host>
-                <config.server.host>localhost:8888</config.server.host>
-                <product.host>localhost</product.host>
-                <product.port>9091</product.port>
-                <config-repository>localhost</config-repository>
-            </properties>
-        </profile>
-        <profile>
-            <id>Docker</id>
-            <properties>
-                <mysql.host>pine-mysql:3306</mysql.host>
-                <oracle.host>@pine-oracle:1521</oracle.host>
-                <activemq.host>pine-activemq:61616</activemq.host>
-                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
-                <config.server.host>pine-config-server:8888</config.server.host>
-                <product.host>0.0.0.0</product.host>
-                <product.port>9091</product.port>
-                <config-repository>docker</config-repository>
-            </properties>
-        </profile>
-        <profile>
-            <id>ActiveMQ</id>
-            <properties>
-                <message-queue-vendor>activemq-${env}</message-queue-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>MySQL</id>
-            <properties>
-                <database-vendor>mysql-${env}</database-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>Oracle</id>
-            <properties>
-                <database-vendor>oracle</database-vendor>
-                <build.profile.id>oracle-${env}</build.profile.id>
-            </properties>
-        </profile>
-        <profile>
-            <id>H2</id>
-            <properties>
-                <database-vendor>h2</database-vendor>
-                <build.profile.id>h2</build.profile.id>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>com.h2database</groupId>
-                    <artifactId>h2</artifactId>
-                    <version>1.4.200</version>
-                </dependency>
-            </dependencies>
+            <id>Document</id>
+            <build>
+                <defaultGoal>generate-resources</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctor-maven-plugin</artifactId>
+                        <version>${asciidoctor.maven.plugin.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.asciidoctor</groupId>
+                                <artifactId>asciidoctorj-diagram</artifactId>
+                                <version>${asciidoctorj.diagram.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.asciidoctor</groupId>
+                                <artifactId>asciidoctorj-pdf</artifactId>
+                                <version>${asciidoctorj.pdf.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.jruby</groupId>
+                                <artifactId>jruby-complete</artifactId>
+                                <version>${jruby.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.asciidoctor</groupId>
+                                <artifactId>asciidoctorj</artifactId>
+                                <version>${asciidoctorj.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <sourceDirectory>docs</sourceDirectory>
+                            <requires>
+                                <require>asciidoctor-diagram</require>
+                            </requires>
+                            <attributes>
+                                <endpoint-url>http://example.org</endpoint-url>
+                                <sourcedir>${project.build.sourceDirectory}</sourcedir>
+                                <project-version>${project.version}</project-version>
+                            </attributes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>generate-html-doc</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>process-asciidoc</goal>
+                                </goals>
+                                <configuration>
+                                    <backend>html5</backend>
+                                    <attributes>
+                                        <imagesdir>./images</imagesdir>
+                                        <toc>left</toc>
+                                        <icons>font</icons>
+                                        <sectanchors>true</sectanchors>
+                                        <idprefix/>
+                                        <idseparator>-</idseparator>
+                                    </attributes>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>generate-pdf-doc</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>process-asciidoc</goal>
+                                </goals>
+                                <configuration>
+                                    <backend>pdf</backend>
+                                    <sourceHighlighter>coderay</sourceHighlighter>
+                                    <attributes>
+                                        <icons>font</icons>
+                                        <pagenums/>
+                                        <toc/>
+                                        <idprefix/>
+                                        <idseparator>-</idseparator>
+                                    </attributes>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>asciidoc-to-html</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>process-asciidoc</goal>
+                                </goals>
+                                <configuration>
+                                    <backend>html5</backend>
+                                    <sourceHighlighter>coderay</sourceHighlighter>
+                                    <attributes>
+                                        <imagesdir>./images</imagesdir>
+                                        <toc>left</toc>
+                                        <icons>font</icons>
+                                        <sectanchors>true</sectanchors>
+                                        <idprefix/>
+                                        <idseparator>-</idseparator>
+                                        <docinfo1>true</docinfo1>
+                                    </attributes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.github.jeluard</groupId>
+                        <artifactId>plantuml-maven-plugin</artifactId>
+                        <version>1.2</version>
+                        <configuration>
+                            <sourceFiles>
+                                <directory>${basedir}</directory>
+                                <includes>
+                                    <include>diagrams/uml/**/*.puml</include>
+                                </includes>
+                            </sourceFiles>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>net.sourceforge.plantuml</groupId>
+                                <artifactId>plantuml</artifactId>
+                                <version>8059</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

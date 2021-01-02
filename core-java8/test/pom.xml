@@ -159,6 +159,7 @@
         <profile>
             <id>ActiveMQ</id>
             <properties>
+                <messaging>messaging,activemq</messaging>
                 <message-queue-vendor>activemq</message-queue-vendor>
             </properties>
         </profile>
@@ -172,6 +173,12 @@
             <id>MySQL</id>
             <properties>
                 <database-vendor>mysql</database-vendor>
+            </properties>
+        </profile>
+        <profile>
+            <id>Postgres</id>
+            <properties>
+                <database-vendor>postgres</database-vendor>
             </properties>
         </profile>
         <profile>
