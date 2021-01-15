@@ -32,7 +32,7 @@
         <spring-boot.version>2.3.5.RELEASE</spring-boot.version>
     </properties>
     <modules>
-        <module>e-shop</module>
+        <module>eshop</module>
         <module>properties</module>
     </modules>
     <dependencies>

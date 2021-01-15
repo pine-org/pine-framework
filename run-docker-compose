@@ -1,5 +1,5 @@
 docker system prune
 docker image rm discovery-server-eureka:latest
 docker image rm config-server:latest
-docker image rm e-shop:latest
+docker image rm eshop:latest
 docker-compose up --build

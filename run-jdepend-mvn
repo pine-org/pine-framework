@@ -15,8 +15,8 @@ mvn -f ./core-spring/restapi/pom.xml jdepend:generate
 mvn -f ./core-spring/restapi-test/pom.xml jdepend:generate
 mvn -f ./core-spring/transaction/pom.xml jdepend:generate
 
-mvn -f ./tutorial/e-shop/business/pom.xml jdepend:generate
-mvn -f ./tutorial/e-shop/document/pom.xml jdepend:generate
-mvn -f ./tutorial/e-shop/model/pom.xml jdepend:generate
-mvn -f ./tutorial/e-shop/rest-api/pom.xml jdepend:generate
-mvn -f ./tutorial/e-shop/test/pom.xml jdepend:generate
+mvn -f ./tutorial/eshop/business/pom.xml jdepend:generate
+mvn -f ./tutorial/eshop/document/pom.xml jdepend:generate
+mvn -f ./tutorial/eshop/model/pom.xml jdepend:generate
+mvn -f ./tutorial/eshop/rest-api/pom.xml jdepend:generate
+mvn -f ./tutorial/eshop/test/pom.xml jdepend:generate

@@ -7,4 +7,3 @@ ng add @angular/material
 npm start
 
 ng generate component component-name
-ng generate component slide-button

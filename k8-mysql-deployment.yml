@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pine-mysql-pv
+  labels:
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 250Mi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data"
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pine-mysql-pvc
+  labels:
+    app: pine-mysql
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 250Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pine-mysql-deployment
+  labels:
+    app: pine-mysql
+spec:
+  selector:
+    matchLabels:
+      app: pine-mysql
+      tier: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: pine-mysql
+        tier: mysql
+    spec:
+      containers:
+        - image: mysql:8.0
+          name: mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: mysql-root-password
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-configmap
+                  key: mysql-database
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: pine-mysql-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pine-mysql-service
+  labels:
+    app: pine-mysql
+spec:
+  selector:
+    app: pine-mysql
+    tier: mysql
+  ports:
+    - port: 3306

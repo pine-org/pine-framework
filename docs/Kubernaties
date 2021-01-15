@@ -1,0 +1,24 @@
+brew install hyperkit
+brew install minikube
+
+minikube start --vm-driver=hyperkit
+
+kubectl get nodes
+kubectl get pod
+kubectl get services
+kubectl get deployment
+minikube status
+kubectl version
+
+kubectl create deployment deployment-name --image=image-name
+kubectl delete deployment deployment-name
+kubectl logs pod-name
+kubectl describe pod pod-name
+
+connect pod vm: kubectl exec -it pod-name -- bin/bash
+apply configuration: kubectl apply -f file-name
+encrypt text: echo -n 'string'| base64
+
+kubectl delete all --all
+
+kubectl exec -it pod-name -- bin/bash

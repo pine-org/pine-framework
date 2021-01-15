@@ -97,6 +97,7 @@ public abstract class OracleChangeDataCapture {
 
     private void onChange(DatabaseChangeEvent event, Class<?> clazz) {
         try {
+            System.out.println("HELLO");
             String key = generateCacheKey(clazz);
             Map<String, String> mapping = createColumnFieldMapping(clazz, null);
             RowChangeDescription[] changes = getTableChange(event);

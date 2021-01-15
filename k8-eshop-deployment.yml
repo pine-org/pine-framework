@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eshop-deployment
+  labels:
+    app: eshop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eshop
+  template:
+    metadata:
+      labels:
+        app: eshop
+    spec:
+      containers:
+        - name: eshop
+          image: samanalishiri/eshop:1.0.0-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 9091
+          resources:
+            limits:
+              cpu: 0.2
+              memory: "200Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eshop-service
+  labels:
+    app: eshop
+spec:
+  type: NodePort
+  selector:
+    app: eshop
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9091
+      targetPort: 9091
+      nodePort: 30001

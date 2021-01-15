@@ -1,0 +1,35 @@
+kubectl delete secrets mysql-secret
+kubectl delete configMap mysql-configmap
+kubectl delete persistentvolume pine-mysql-pv
+kubectl delete persistentvolumeclaim pine-mysql-pvc
+kubectl delete all --all
+
+kubectl apply -f ./k8-mysql-secret.yml
+kubectl apply -f ./k8-mysql-configmap.yml
+kubectl apply -f ./k8-mysql-deployment.yml
+kubectl apply -f ./k8-eshop-deployment.yml
+
+echo
+echo ========== persistentvolume ==========
+kubectl get persistentvolume
+
+echo
+echo ========== persistentvolumeclaim ==========
+kubectl get persistentvolumeclaim
+
+echo
+echo ========== services ==========
+kubectl get services
+
+echo
+echo ========== deployments ==========
+kubectl get deployments
+
+echo
+echo ========== pod ==========
+kubectl get pod
+
+echo
+echo ========== urls ==========
+minikube service eshop-service --url
+

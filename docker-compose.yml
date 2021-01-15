@@ -44,11 +44,11 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-  pine-e-shop:
+  pine-eshop:
     hostname: "pine-e-shop"
-    image: e-shop:latest
+    image: eshop:latest
     build:
-      context: ./tutorial/e-shop/rest-api
+      context: ./tutorial/eshop/rest-api
       dockerfile: Dockerfile
     depends_on:
       pine-discovery-server-eureka:

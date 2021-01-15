@@ -1,0 +1,10 @@
+server:
+  address: localhost
+  port: 0
+  servlet:
+    context-path: /eshop
+spring:
+  application:
+    name: eshop
+  profiles:
+    active: test,common,internationalization,messaging,activemq,h2

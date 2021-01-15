@@ -1,2 +1,2 @@
-docker build -t config-server:latest .
-docker run -p 8888:8888 -t config-server:latest
+docker build -t samanalishiri/config-server:latest .
+docker run -p 8888:8888 -t samanalishiri/config-server:latest

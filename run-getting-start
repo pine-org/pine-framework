@@ -1,4 +1,4 @@
 mvn -f ./core-java8/pom.xml clean install -P BuildTest,ActiveMQ,Hibernate,H2,Localhost,English-Check-style
 mvn -f ./core-spring/pom.xml clean install -P BuildTest,ActiveMQ,Hibernate,H2,Localhost,English-Check-style,US
 mvn -f ./tutorial/pom.xml clean install -P BuildTest,ActiveMQ,Hibernate,H2,Localhost,English-Check-style,PropertiesFile,US
-java -jar ./tutorial/e-shop/rest-api/target/e-shop-1.0.0-SNAPSHOT.jar
+java -jar ./tutorial/eshop/rest-api/target/eshop-1.0.0-SNAPSHOT.jar

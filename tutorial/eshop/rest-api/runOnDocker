@@ -1,0 +1,2 @@
+docker build -t samanalishiri/eshop:1.0.0-SNAPSHOT .
+docker run -p 9091:9091 -t samanalishiri/eshop:1.0.0-SNAPSHOT
