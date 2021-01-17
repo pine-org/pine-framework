@@ -2,6 +2,7 @@ brew install hyperkit
 brew install minikube
 
 minikube start --vm-driver=hyperkit
+eval $(minikube docker-env)
 
 kubectl get nodes
 kubectl get pod
@@ -22,3 +23,5 @@ encrypt text: echo -n 'string'| base64
 kubectl delete all --all
 
 kubectl exec -it pod-name -- bin/bash
+
+minikube dashboard

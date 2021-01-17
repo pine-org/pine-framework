@@ -45,7 +45,7 @@ services:
       timeout: 10s
       retries: 5
   pine-eshop:
-    hostname: "pine-e-shop"
+    hostname: "pine-eshop"
     image: eshop:latest
     build:
       context: ./tutorial/eshop/rest-api

@@ -81,9 +81,13 @@ public final class ProductModel extends FlatTransient<Long> {
         private final String name;
 
         private final String code;
+
         public byte[] photo;
+
         private BigDecimal price;
+
         private String description;
+
         private List<byte[]> photos = new ArrayList<>();
 
         @JsonCreator

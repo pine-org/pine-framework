@@ -241,6 +241,19 @@
             </properties>
         </profile>
         <profile>
+            <id>K8</id>
+            <properties>
+                <mysql.host>pine-mysql:3306</mysql.host>
+                <oracle.host>@pine-oracle:1521</oracle.host>
+                <activemq.host>pine-activemq:61616</activemq.host>
+                <discovery.server.host>pine-discovery-server-eureka:8761</discovery.server.host>
+                <config.server.host>pine-config-server:8888</config.server.host>
+                <product.host>0.0.0.0</product.host>
+                <product.port>9091</product.port>
+                <config-repository>k8</config-repository>
+            </properties>
+        </profile>
+        <profile>
             <id>ActiveMQ</id>
             <properties>
                 <messaging>messaging,activemq</messaging>

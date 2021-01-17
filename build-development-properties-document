@@ -9,5 +9,5 @@ mvn -f ./core-java8/document/pom.xml process-resources -P Document
 mvn -f ./core-security/document/pom.xml com.github.jeluard:plantuml-maven-plugin:generate -P Document
 mvn -f ./core-security/document/pom.xml process-resources -P Document
 
-mvn -f ./tutorial/e-shop/document/pom.xml com.github.jeluard:plantuml-maven-plugin:generate -P Document
-mvn -f ./tutorial/e-shop/document/pom.xml process-resources -P Document
+mvn -f ./tutorial/eshop/document/pom.xml com.github.jeluard:plantuml-maven-plugin:generate -P Document
+mvn -f ./tutorial/eshop/document/pom.xml process-resources -P Document

@@ -13,5 +13,5 @@ mvn -f ./core-spring/discovery-server-eureka/pom.xml idea:module
 mvn -f ./tutorial/pom.xml idea:clean
 mvn -f ./tutorial/pom.xml idea:module
 
-mvn -f ./tutorial/e-shop/rest-api/pom.xml idea:clean
-mvn -f ./tutorial/e-shop/rest-api/pom.xml idea:module
+mvn -f ./tutorial/eshop/rest-api/pom.xml idea:clean
+mvn -f ./tutorial/eshop/rest-api/pom.xml idea:module
