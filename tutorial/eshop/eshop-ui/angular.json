@@ -1,0 +1,138 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "eshop-main-ui": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/eshop-main-ui",
+      "sourceRoot": "projects/eshop-main-ui/src",
+      "prefix": "eshop-main-ui",
+      "architect": {
+        "build": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "outputPath": "dist/eshop-main-ui",
+            "index": "projects/eshop-main-ui/src/index.html",
+            "main": "projects/eshop-main-ui/src/main.single-spa.ts",
+            "polyfills": "projects/eshop-main-ui/src/polyfills.ts",
+            "tsConfig": "projects/eshop-main-ui/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/eshop-main-ui/src/favicon.ico",
+              "projects/eshop-main-ui/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/eshop-main-ui/src/styles.scss"
+            ],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "projects/eshop-main-ui/extra-webpack.config.js",
+              "libraryName": "eshop-main-ui",
+              "libraryTarget": "umd"
+            }
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/eshop-main-ui/src/environments/environment.ts",
+                  "with": "projects/eshop-main-ui/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-builders/custom-webpack:dev-server",
+          "options": {
+            "browserTarget": "eshop-main-ui:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "eshop-main-ui:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "eshop-main-ui:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/eshop-main-ui/src/test.ts",
+            "polyfills": "projects/eshop-main-ui/src/polyfills.ts",
+            "tsConfig": "projects/eshop-main-ui/tsconfig.spec.json",
+            "karmaConfig": "projects/eshop-main-ui/karma.conf.js",
+            "assets": [
+              "projects/eshop-main-ui/src/favicon.ico",
+              "projects/eshop-main-ui/src/assets"
+            ],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/eshop-main-ui/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/eshop-main-ui/tsconfig.app.json",
+              "projects/eshop-main-ui/tsconfig.spec.json",
+              "projects/eshop-main-ui/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/eshop-main-ui/e2e/protractor.conf.js",
+            "devServerTarget": "eshop-main-ui:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "eshop-main-ui:serve:production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "eshop-main-ui"
+}
