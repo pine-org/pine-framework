@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,8 +24,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.Valid;
 import java.io.Serializable;
+import java.util.List;
 import java.util.stream.Stream;
 
+import static com.pineframework.core.helper.CollectionUtils.toArray;
 import static com.pineframework.core.spring.restapi.helper.ErrorUtils.checkErrors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -66,7 +67,7 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
     default ResponseEntity<CollectionModel<I>> batchOperations(
             @Parameter(name = "Models", description = "${restfulApi.batchOperations.param.1st}", required = true)
             @Validated({CreateValidationGroup.class, UpdateValidationGroup.class})
-            @RequestBody M[] models,
+            @RequestBody List<M> models,
             @Parameter(name = "Identities", description = "${restfulApi.batchOperations.param.2nd}", required = true)
             @Valid
             @RequestBody I[] identities,
@@ -74,9 +75,11 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
 
         checkErrors(errors);
 
-        beforeBatchOperations(models);
-        I[] ids = batchOperationsBody(models, identities);
-        afterBatchOperations(models);
+        M[] array = toArray(models, this.getClass(), 1);
+
+        beforeBatchOperations(array);
+        I[] ids = batchOperationsBody(array, identities);
+        afterBatchOperations(array);
 
         Link[] links = Stream.of(ids)
                 .map(id -> linkTo(getClass(), id).slash(id).withSelfRel())
@@ -135,14 +138,16 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
     default ResponseEntity<CollectionModel<I>> batchSave(
             @Parameter(name = "Model", description = "${restfulApi.batchSave.param}", required = true)
             @Validated(CreateValidationGroup.class)
-            @RequestBody M[] models,
+            @RequestBody List<M> models,
             @Parameter(name = "errors", hidden = true) Errors errors) {
 
         checkErrors(errors);
 
-        beforeBatchSave(models);
-        I[] ids = batchSaveBody(models);
-        afterBatchSave(models);
+        M[] array = toArray(models, this.getClass(), 1);
+
+        beforeBatchSave(array);
+        I[] ids = batchSaveBody(array);
+        afterBatchSave(array);
 
         Link[] links = Stream.of(ids)
                 .map(id -> linkTo(getClass(), id).slash(id).withSelfRel())
@@ -197,19 +202,21 @@ public interface BatchRestfulApi<I extends Serializable, M extends FlatTransient
             @ApiResponse(responseCode = "204", description = "${restfulApi.batchUpdate.response.204}"),
             @ApiResponse(responseCode = "422", description = "${restfulApi.batchUpdate.response.422}")})
 
-    @PatchMapping("/batch/update")
+    @PutMapping("/batch/update")
     @ResponseStatus(value = NO_CONTENT, code = NO_CONTENT)
     default ResponseEntity batchUpdate(
             @Parameter(name = "Model", description = "${restfulApi.batchUpdate.param}", required = true)
             @Validated(UpdateValidationGroup.class)
-            @RequestBody M[] models,
+            @RequestBody List<M> models,
             @Parameter(name = "errors", hidden = true) Errors errors) {
 
         checkErrors(errors);
 
-        beforeBatchUpdate(models);
-        batchUpdateBody(models);
-        afterBatchUpdate(models);
+        M[] array = toArray(models, this.getClass(), 1);
+
+        beforeBatchUpdate(array);
+        batchUpdateBody(array);
+        afterBatchUpdate(array);
 
         return ResponseEntity.noContent().build();
     }

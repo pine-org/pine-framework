@@ -1,0 +1,6 @@
+step-1: curl -O https://downloads.apache.org//activemq/5.16.0/apache-activemq-5.16.0-bin.tar.gz
+step-2: tar -xvzf ./apache-activemq-*
+step-3: ./apache-activemq-5.16.0/bin/activemq start
+step-4: http://localhost:8161/ admin:admin
+step-5: ./apache-activemq-5.16.0/bin/activemq stop
+step-6: kill $(lsof -ti:8161)

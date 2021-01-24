@@ -20,6 +20,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import static com.pineframework.core.helper.GenericUtils.extract;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
@@ -88,8 +89,20 @@ public final class CollectionUtils {
         Arrays.stream(models).map(mapper).forEach(endFunc);
     }
 
-    public static <E> E[] createArray(Class<?> type, int length) {
+    public static <E> E[] createArray(Class<E> type, int length) {
         return (E[]) Array.newInstance(type, length);
+    }
+
+    public static <E> E[] createArray(Class<?> type, int generic, int length) {
+        return createArray((Class<E>) extract(type, generic), length);
+    }
+
+    public static <E> E[] toArray(List<E> list, Class<E> type) {
+        return list.toArray(createArray(type, list.size()));
+    }
+
+    public static <E> E[] toArray(List<E> list, Class<?> type, int generic) {
+        return list.toArray(createArray((Class<E>) extract(type, generic), list.size()));
     }
 
     /**

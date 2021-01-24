@@ -1,0 +1,28 @@
+website: https://plantuml.com/
+github: https://github.com/plantuml
+online tools: https://www.planttext.com/ , https://plantuml-editor.kkeisuke.com/
+
+integrate to maven:
+step-1: create diagrams folder in project root
+step-2: create uml folder as a sub directory of diagrams
+step-3: add all .puml files to uml folder
+<plugin>
+    <groupId>com.github.jeluard</groupId>
+    <artifactId>plantuml-maven-plugin</artifactId>
+    <version>1.2</version>
+    <configuration>
+        <sourceFiles>
+            <directory>${basedir}</directory>
+            <includes>
+                <include>diagrams/uml/**/*.puml</include>
+            </includes>
+        </sourceFiles>
+    </configuration>
+    <dependencies>
+        <dependency>
+            <groupId>net.sourceforge.plantuml</groupId>
+            <artifactId>plantuml</artifactId>
+            <version>8059</version>
+        </dependency>
+    </dependencies>
+</plugin>

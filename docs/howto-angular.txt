@@ -1,26 +1,153 @@
-npm install -g npm
-npm install -g @angular/cli
-ng --version
+step-1: install node
+step-2: npm install -g npm
+step-3: npm install -g @angular/cli
+step-4: ng --version
 
-ng new pine-ui --create-application false
-cd pine-ui
-ng generate application main-ui --routing --style=scss --prefix main-ui
-npm install
+======================================================================================================
+======================================================================================================
+======================================================================================================
 
+create project: ng new a-name --routing --style=scss --prefix a-name
 
-npm uninstall @schematics/angular
-npm install @schematics/angular@9.1.0
-ng add @angular/material
-ng add single-spa-angular
-npm install
+create workspace: ng new a-name --create-application false
+create workspace project: ng generate application a-name --routing --style=scss --prefix a-name
+create workspace lib:
 
-Add providers: [{ provide: APP_BASE_HREF, useValue: '/' }] to app-routing.module.ts
-Add { path: '**', component: EmptyRouteComponent } to your app-routing.module.ts
-Add a declaration for EmptyRouteComponent in app.module.ts
+create component: ng generate component component-name
 
-npm start
-npm run build:single-spa:main-ui
-npm run serve:single-spa:main-ui
+======================================================================================================
+======================================================================================================
+======================================================================================================
+MICRO FRONTEND
 
+step-1: create root:
+step-2: ng new pine-ui --create-application false
+step-3: cd pine-ui
+step-4: ng generate application main-ui --routing --style=scss --prefix main-ui
+step-5: npm install
+step-6: npm start
+step-7: replace following code to whole content of index.html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta
+    content="default-src *  data: blob: 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * data: blob: 'unsafe-inline'; font-src * data: blob: 'unsafe-inline';"
+    http-equiv="Content-Security-Policy">
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <title>Pine UI</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="systemjs-importmap" name="importmap-type">
+  <script type="systemjs-importmap">
+      {
+        "imports": {
+          "eshop-main-ui": "http://localhost:4201/main.js",
+          "single-spa": "https://cdnjs.cloudflare.com/ajax/libs/single-spa/4.3.5/system/single-spa.min.js"
+        }
+      }
 
-ng generate component component-name
+  </script>
+  <link as="script" crossorigin="anonymous"
+        href="https://cdnjs.cloudflare.com/ajax/libs/single-spa/4.3.5/system/single-spa.min.js" rel="preload"/>
+  <script src='https://unpkg.com/core-js-bundle@3.1.4/minified.js'></script>
+  <script src="https://unpkg.com/zone.js"></script>
+  <script src="https://unpkg.com/import-map-overrides@1.6.0/dist/import-map-overrides.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/system.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/amd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-exports.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-register.min.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+<script>
+  System.import('single-spa').then(function (singleSpa) {
+    singleSpa.registerApplication(
+      'eshop-main-ui',
+      function () {
+        return System.import('eshop-main-ui');
+      },
+      function (location) {
+        // return location.pathname.startsWith('/eshop-main-ui');
+        return true;
+      }
+    )
+
+    singleSpa.start();
+  })
+</script>
+<import-map-overrides-full></import-map-overrides-full>
+</body>
+</html>
+
+======================================================================================================
+
+create other micro frontends:
+step-1: ng new eshop-ui --create-application false
+step-2: cd eshop-ui
+step-3: ng generate application eshop-main-ui --routing --style=scss --prefix eshop-main-ui
+step-4: npm install
+step-5: npm uninstall @schematics/angular
+step-6: npm install @schematics/angular@9.1.0
+step-7: ng add @angular/material
+step-8: ng add single-spa-angular
+step-9: npm install
+step-10: Add providers: [{ provide: APP_BASE_HREF, useValue: '/' }] to app-routing.module.ts
+step-11: Add { path: '**', component: EmptyRouteComponent } to your app-routing.module.ts
+step-12: Add a declaration for EmptyRouteComponent in app.module.ts
+step-13: npm run build:single-spa:eshop-main-ui
+step-14: npm run serve:single-spa:eshop-main-ui
+step-17: replace following code to whole content of index.html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta
+    content="default-src *  data: blob: 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * data: blob: 'unsafe-inline'; font-src * data: blob: 'unsafe-inline';"
+    http-equiv="Content-Security-Policy">
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <title>Pine UI</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="systemjs-importmap" name="importmap-type">
+  <script type="systemjs-importmap">
+      {
+        "imports": {
+          "eshop-main-ui": "http://localhost:4201/main.js",
+          "single-spa": "https://cdnjs.cloudflare.com/ajax/libs/single-spa/4.3.5/system/single-spa.min.js"
+        }
+      }
+
+  </script>
+  <link as="script" crossorigin="anonymous"
+        href="https://cdnjs.cloudflare.com/ajax/libs/single-spa/4.3.5/system/single-spa.min.js" rel="preload"/>
+  <script src='https://unpkg.com/core-js-bundle@3.1.4/minified.js'></script>
+  <script src="https://unpkg.com/zone.js"></script>
+  <script src="https://unpkg.com/import-map-overrides@1.6.0/dist/import-map-overrides.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/system.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/amd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-exports.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-register.min.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+<script>
+  System.import('single-spa').then(function (singleSpa) {
+    singleSpa.registerApplication(
+      'eshop-main-ui',
+      function () {
+        return System.import('eshop-main-ui');
+      },
+      function (location) {
+        // return location.pathname.startsWith('/eshop-main-ui');
+        return true;
+      }
+    )
+
+    singleSpa.start();
+  })
+</script>
+<import-map-overrides-full></import-map-overrides-full>
+<eshop-main-ui-root></eshop-main-ui-root>
+</body>
+</html>

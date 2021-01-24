@@ -51,5 +51,4 @@ public class SpringQueueService implements QueueService<String, MessageModel> {
         String text = Try.of(() -> textMessage.getText()).get();
         return ofNullable(modelBuilder.fromJson(String.valueOf(text)).build());
     }
-
 }

@@ -1,0 +1,45 @@
+install:
+brew install hyperkit
+brew install minikube
+minikube start --vm-driver=hyperkit
+kubectl version
+minikube status
+eval $(minikube docker-env)
+
+==================================================================
+==================================================================
+
+show resources: kubectl get resource-type
+sample:
+kubectl get nodes
+kubectl get pod
+kubectl get services
+kubectl get deployment
+
+==================================================================
+==================================================================
+
+create deployment: kubectl create deployment deployment-name --image=image-name
+show log: kubectl logs pod-name
+connect pod vm: kubectl exec -it pod-name -- bin/bash
+
+description: kubectl describe resource-type resource-name
+sample: kubectl describe pod pod-name
+
+delete: kubectl delete resource-type resource-name
+sample: kubectl delete deployment deployment-name
+delete all: kubectl delete all --all
+
+==================================================================
+==================================================================
+
+apply configuration: kubectl apply -f file-name
+encrypt text: echo -n 'string'| base64
+
+==================================================================
+==================================================================
+
+connect to web console: minikube dashboard
+
+==================================================================
+==================================================================

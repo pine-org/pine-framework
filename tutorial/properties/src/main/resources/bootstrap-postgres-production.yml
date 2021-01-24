@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    initialization-mode: never
+    url: jdbc:postgresql://@postgres-host@:5432/eshop
+    password: pine
+    username: pine
+  jpa:
+    show-sql: true
+    @postgres-orm@

@@ -1,3 +1,0 @@
-ActiveMQ:http://localhost:8161/ admin:admin
-Artemis:http://localhost:8161/ admin:admin
-Sonarqube:http://localhost:9000/ admin:admin

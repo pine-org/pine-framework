@@ -1,0 +1,59 @@
+install docker machine:
+step-1: base=https://github.com/docker/machine/releases/download/v0.16.0 &&
+   curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/usr/local/bin/docker-machine &&
+   chmod +x /usr/local/bin/docker-machine
+
+step-2: docker-machine --version
+
+for mac
+Go to System Preferences > Security & Privacy Then hit the "Allow" button to let Oracle (VirtualBox) load.
+sudo "/Library/Application Support/VirtualBox/LaunchDaemons/VirtualBoxStartup.sh" restart
+
+$ step-3: docker-machine create --driver=virtualbox test
+
+======================================================
+======================================================
+
+docker --version
+docker -v
+docker ps [--all]
+docker image ls
+docker container ls [-la]
+
+docker pull image-name
+docker create image-name
+docker start [-a] image-id
+docker stop image-id
+docker kill image-id
+docker logs image-id
+docker run [-p 8080:8080] [-it] image-name command
+run = create + start
+
+delete:
+docker image rm image-name/tag
+docker system prune [-a]
+docker volumes prune
+{
+rm  Library/Containers/com.docker.docker/Data/vms/0/data/*
+restart docker
+}
+
+connect to container: docker exec -it container-id command
+connect to container terminal: docker exec -it container-id sh
+
+create image from Dockerfile: docker build -t image-name(docker-id/project-name:version) .
+
+create image manually:
+step-1= docker run -it alpine sh
+step-2= customize image
+step-3= docker commit -c 'CMD [""]' image-id
+
+docker compose:
+docker-compose up [--build] [-d]
+
+
+
+
+
+
+

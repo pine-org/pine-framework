@@ -4,15 +4,21 @@ services:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
+    volumes:
+      - ./tutorial/resource:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: Root1234
-      MYSQL_DATABASE: pine
     ports:
       - 3306
     healthcheck:
       test: "mysqladmin --host=127.0.0.1 --user=root --password=Root1234 status"
       interval: 1s
       retries: 120
+  pine-postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: pine
   pine-discovery-server-eureka:
     hostname: "pine-discovery-server-eureka"
     image: discovery-server-eureka:latest
@@ -66,3 +72,8 @@ services:
   pine-test:
     image: openjdk:8
     command: tail -F anything
+  pine-adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080

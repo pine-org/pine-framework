@@ -1,18 +1,20 @@
-download oracle-database-xe-18c-1.0-1.x86_64.rpm from https://www.oracle.com/database/technologies/xe-downloads.html
-git clone https://github.com/oracle/docker-images.git
-copy oracle-database-xe-18c-1.0-1.x86_64.rpm to docker-images/OracleDatabase/SingleInstance/dockerfiles/18.4.0/
-cd docker-images/OracleDatabase/SingleInstance/dockerfiles
-buildDockerImage.sh -x -v 18.4.0
-docker run --name oracle-xe-18c \
+step-1: download oracle-database-xe-18c-1.0-1.x86_64.rpm from https://www.oracle.com/database/technologies/xe-downloads.html
+step-2: git clone https://github.com/oracle/docker-images.git
+step-3: copy oracle-database-xe-18c-1.0-1.x86_64.rpm to path-to/OracleDatabase/SingleInstance/dockerfiles/18.4.0/
+step-4: cd path-to/OracleDatabase/SingleInstance/dockerfiles
+step-5: buildDockerImage.sh -x -v 18.4.0
+step-6: docker run --name oracle-xe-18c \
 -p 1521:1521 -p 5500:5500 \
 -e ORACLE_PWD=Adminxe18c \
 -e ORACLE_CHARACTERSET=UTF8 \
 -v /opt/oracle/oradata \
 oracle/database:18.4.0-xe
 
-docker start oracle-xe-18c
+docker stop/start oracle-xe-18c
 
-
+step-7:
+connect to eshop: sys as sysdba
+execute follow SQL:
 alter session set "_ORACLE_SCRIPT"=true;
 create user pine identified by pine;
 grant CREATE SESSION, ALTER SESSION, CREATE DATABASE LINK,

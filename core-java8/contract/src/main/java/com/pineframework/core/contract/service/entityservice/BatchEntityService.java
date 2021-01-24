@@ -89,8 +89,7 @@ public interface BatchEntityService<I extends Serializable,
         E[] entities = getRepository().find(mapTo(models, m -> m.getId(), getIdentityType()));
         M[] theLast = getTransformer().transform(entities);
         beforeBatchUpdate(entities, models);
-        batch(models, m -> getRepository().findById(m.getId()).ifPresent(e -> getTransformer()
-                .transform(m, e)));
+        batch(models, m -> getRepository().findById(m.getId()).ifPresent(e -> getTransformer().transform(m, e)));
         afterBatchUpdate(entities, theLast);
     }
 

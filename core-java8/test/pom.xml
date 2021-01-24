@@ -146,8 +146,9 @@
         <profile>
             <id>Localhost</id>
             <properties>
-                <mysql.host>localhost:3306</mysql.host>
                 <oracle.host>@localhost:1521</oracle.host>
+                <mysql.host>localhost:3306</mysql.host>
+                <postgres.host>@pine-postgres:5432</postgres.host>
                 <activemq.host>localhost:61616</activemq.host>
                 <discovery.server.host>localhost:8761</discovery.server.host>
                 <config.server.host>localhost:8888</config.server.host>
@@ -205,6 +206,13 @@
                     ddl-auto: 'update'
                     generate_statistics: true
                 </mysql-orm>
+                <postgres-orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.PostgreSQLDialect'
+                    ddl-auto: 'update'
+                    generate_statistics: true
+                </postgres-orm>
                 <h2-orm>
                     hibernate:
                     naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'

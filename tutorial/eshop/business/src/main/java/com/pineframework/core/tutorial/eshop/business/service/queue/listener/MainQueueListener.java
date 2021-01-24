@@ -12,10 +12,10 @@ import static com.pineframework.core.datamodel.model.message.MqStatus.ACCEPTED;
 
 public class MainQueueListener implements JmsListener {
 
-    private final QueueService queueService;
+    private final QueueService statusQueueService;
 
-    public MainQueueListener(QueueService queueService) {
-        this.queueService = queueService;
+    public MainQueueListener(QueueService statusQueueService) {
+        this.statusQueueService = statusQueueService;
     }
 
     @Override
@@ -30,7 +30,10 @@ public class MainQueueListener implements JmsListener {
 
     @Override
     public MessageListener getProcess() {
-        return message -> queueService.push(new Builder().id(getJmsCorrelationID(message)).content(ACCEPTED).build());
+        return message -> statusQueueService.push(new Builder()
+                .id(getJmsCorrelationID(message))
+                .content(ACCEPTED)
+                .build());
     }
 
     public String getJmsCorrelationID(Message message) {

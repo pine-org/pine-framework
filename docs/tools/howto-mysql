@@ -1,0 +1,25 @@
+install mysql
+add mysql bin directory to system path
+
+========================================================================================================
+========================================================================================================
+========================================================================================================
+
+connect to mysql: mysql -u root -p
+SQL:
+show databases;
+CREATE DATABASE IF NOT EXISTS `eshop` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+show databases;
+CREATE USER IF NOT EXISTS 'pine'@'localhost' IDENTIFIED BY 'pine';
+GRANT BINLOG_ADMIN, SYSTEM_VARIABLES_ADMIN ON *.* TO 'pine'@'localhost';
+GRANT XA_RECOVER_ADMIN ON *.* TO 'pine'@'localhost';
+GRANT ALL ON `eshop`.* TO 'pine'@'localhost';
+FLUSH PRIVILEGES;
+exit;
+
+========================================================================================================
+========================================================================================================
+========================================================================================================
+
+
+

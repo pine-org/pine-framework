@@ -6,95 +6,6 @@
   },
   "item": [
     {
-      "name": "E-Shop_Product_Pagination_GET",
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "exec": [
-              "var encoded = encodeURIComponent(JSON.stringify({\"index\": 0,\"size\": 10}));",
-              "pm.environment.set(\"pageModel\", encoded);"
-            ],
-            "type": "text/javascript"
-          }
-        },
-        {
-          "listen": "test",
-          "script": {
-            "exec": [
-              "pm.test(\"status must be OK\", function () {",
-              "    pm.response.to.have.status(200);",
-              "    pm.response.to.be.ok;",
-              "});",
-              "",
-              "pm.test(\"response must be valid and have a body\", function () {",
-              "    pm.response.to.be.withBody;",
-              "    pm.response.to.be.json;",
-              "    var body = JSON.parse(pm.response.text());",
-              "    pm.expect(body).to.have.property(\"size\");",
-              "    pm.expect(body).to.have.property(\"index\");",
-              "    pm.expect(body).to.have.property(\"indices\");",
-              "    pm.expect(body).to.have.property(\"content\");",
-              "    pm.expect(body).to.have.property(\"filters\");",
-              "    pm.expect(body).to.have.property(\"projections\");",
-              "    pm.expect(body).to.have.property(\"sorts\");",
-              "    pm.expect(body).to.have.property(\"links\");",
-              "});",
-              "",
-              "var body = JSON.parse(pm.response.text());",
-              "if (body.content.length > 0){",
-              "    let id = body.content[body.content.length - 1].id;",
-              "    pm.environment.set(\"currentProductId\", id);",
-              "}"
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true,
-        "disabledSystemHeaders": {
-          "content-type": true
-        }
-      },
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": ""
-        },
-        "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/search/page/:pageModel",
-          "host": [
-            "{{eshop.host}}"
-          ],
-          "path": [
-            "{{application}}",
-            "api",
-            "v1",
-            "product",
-            "search",
-            "page",
-            ":pageModel"
-          ],
-          "variable": [
-            {
-              "key": "pageModel",
-              "value": "{{pageModel}}"
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
       "name": "E-Shop_Product_UP_GET",
       "event": [
         {
@@ -110,12 +21,12 @@
           "listen": "test",
           "script": {
             "exec": [
-              "pm.test(\"status must be OK\", function () {",
+              "pm.test(\"Status must be OK (200)\", function () {",
               "    pm.response.to.have.status(200);",
               "    pm.response.to.be.ok;",
               "});",
               "",
-              "pm.test(\"response must be valid and have a body\", function () {",
+              "pm.test(\"Response must be valid and have a body with 'UP' value\", function () {",
               "     pm.response.to.be.withBody;",
               "     var body = pm.response.text();",
               "     pm.expect(body).eqls(\"UP\");",
@@ -161,14 +72,142 @@
       "response": []
     },
     {
-      "name": "E-Shop_Config-Server-profile_GET",
+      "name": "E-Shop_Product_Save_POST",
       "event": [
         {
           "listen": "prerequest",
           "script": {
             "exec": [
-              "var encoded = encodeURIComponent(JSON.stringify({\"index\": 0,\"size\": 10}));",
-              "pm.environment.set(\"encoded-model\", encoded);"
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status must be Created (201)\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([201]);",
+              "});",
+              "",
+              "",
+              "pm.test(\"Rsponse Location should be not null and include an ID\", function(){",
+              "    let location = pm.response.headers.get(\"Location\");",
+              "    pm.expect(location).not.null",
+              "    let id = location.substr(location.lastIndexOf(\"/\") + 1);",
+              "    pm.expect(id).not.null",
+              "    pm.environment.set(\"currentProductId\", id);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true
+        }
+      },
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Table\",\n    \"code\": \"001\",\n    \"description\": \"Table is made in the USA\",\n    \"price\": 1450\n}"
+        },
+        "url": {
+          "raw": "{{eshop.host}}/{{application}}/api/v1/product/",
+          "host": [
+            "{{eshop.host}}"
+          ],
+          "path": [
+            "{{application}}",
+            "api",
+            "v1",
+            "product",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E-Shop_Product_FindById_GET",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status must be OK (200)\", function () {",
+              "    pm.response.to.be.ok;",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"response must be valid and have a body\", function () {",
+              "    pm.response.to.be.withBody;",
+              "    pm.response.to.be.json;",
+              "    var body = JSON.parse(pm.response.text());",
+              "    pm.expect(body).to.have.property(\"id\");",
+              "    pm.environment.set(\"currentProductId\", body.id);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"insertDate\");",
+              "    pm.environment.set(\"currentProductInsertDate\", body.insertDate);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"insertUserId\");",
+              "    pm.environment.set(\"currentProductInsertUserId\", body.insertUserId);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"insertUnitId\");",
+              "    pm.environment.set(\"currentProductInsertUnitId\", body.insertUnitId);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"modifyDate\");",
+              "    pm.environment.set(\"currentProductModifyDate\", body.modifyDate);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"modifyUserId\");",
+              "    pm.environment.set(\"currentProductModifyUserId\", body.modifyUserId);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"modifyUnitId\");",
+              "    pm.environment.set(\"currentProductModifyUnitId\", body.modifyUnitId);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"version\");",
+              "    pm.environment.set(\"currentProductVersion\", body.version);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"name\");",
+              "    pm.environment.set(\"currentProductName\", body.name);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"code\");",
+              "    pm.environment.set(\"currentProductCode\", body.code);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"price\");",
+              "    pm.environment.set(\"currentProductPrice\", body.price);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"description\");",
+              "    pm.environment.set(\"currentProductDescription\", body.description);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"photo\");",
+              "    pm.environment.set(\"currentProductPhoto\", body.photo);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"photos\");",
+              "    pm.environment.set(\"currentProductPhotos\", body.photos);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"links\");",
+              "    pm.environment.set(\"currentProductLinks\", body.links);",
+              "});"
             ],
             "type": "text/javascript"
           }
@@ -185,8 +224,8 @@
         "header": [
           {
             "key": "Content-Type",
-            "type": "text",
-            "value": "application/json"
+            "value": "application/json",
+            "type": "text"
           }
         ],
         "body": {
@@ -194,27 +233,245 @@
           "raw": ""
         },
         "url": {
-          "raw": "{{config-server.host}}/config-server/mysql-development",
+          "raw": "{{eshop.host}}/{{application}}/api/v1/product/{{currentProductId}}",
           "host": [
-            "{{config-server.host}}"
+            "{{eshop.host}}"
           ],
           "path": [
-            "config-server",
-            "mysql-development"
+            "{{application}}",
+            "api",
+            "v1",
+            "product",
+            "{{currentProductId}}"
           ]
         }
       },
       "response": []
     },
     {
-      "name": "E-Shop_Product_PaginationByFilter_GET",
+      "name": "E-Shop_Product_Update_PUT",
       "event": [
         {
           "listen": "prerequest",
           "script": {
             "exec": [
-              "var pageModel = encodeURIComponent(JSON.stringify({\"index\": 0,\"size\": 10,\"filters\":[{\"type\":\"equals\",\"field\":\"id\",\"value\":\"21\"}], \"projections\": ['photos']}));",
-              "pm.environment.set(\"pageModel\", pageModel);"
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status must be No Content (204)\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"id\": {{currentProductId}},\n    \"insertDate\": \"{{currentProductInsertDate}}\",\n    \"insertUserId\": {{currentProductInsertUserId}},\n    \"insertUnitId\": {{currentProductInsertUnitId}},\n    \"modifyDate\": {{currentProductModifyDate}},\n    \"modifyUserId\": {{currentProductModifyUserId}},\n    \"modifyUnitId\": {{currentProductModifyUnitId}},\n    \"version\": {{currentProductVersion}},\n    \"name\": \"{{currentProductName}}_updated\",\n    \"code\": \"{{currentProductCode}}\",\n    \"description\": \"{{currentProductDescription}}\",\n    \"price\": {{currentProductPrice}}\n}"
+        },
+        "url": {
+          "raw": "{{eshop.host}}/{{application}}/api/v1/product/{{currentProductId}}",
+          "host": [
+            "{{eshop.host}}"
+          ],
+          "path": [
+            "{{application}}",
+            "api",
+            "v1",
+            "product",
+            "{{currentProductId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E-Shop_Product_FindById_GET _AfterUpdate",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status must be OK (200)\", function () {",
+              "    pm.response.to.be.ok;",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"response must be valid and have a body\", function () {",
+              "    pm.response.to.be.withBody;",
+              "    pm.response.to.be.json;",
+              "    var body = JSON.parse(pm.response.text());",
+              "    pm.expect(body).to.have.property(\"id\");",
+              "    pm.environment.set(\"currentProductId\", body.id);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"insertDate\");",
+              "    pm.environment.set(\"currentProductInsertDate\", body.insertDate);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"insertUserId\");",
+              "    pm.environment.set(\"currentProductInsertUserId\", body.insertUserId);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"insertUnitId\");",
+              "    pm.environment.set(\"currentProductInsertUnitId\", body.insertUnitId);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"modifyDate\");",
+              "    pm.environment.set(\"currentProductModifyDate\", body.modifyDate);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"modifyUserId\");",
+              "    pm.environment.set(\"currentProductModifyUserId\", body.modifyUserId);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"modifyUnitId\");",
+              "    pm.environment.set(\"currentProductModifyUnitId\", body.modifyUnitId);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"version\");",
+              "    pm.environment.set(\"currentProductVersion\", body.version);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"name\");",
+              "    pm.environment.set(\"currentProductName\", body.name);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"code\");",
+              "    pm.environment.set(\"currentProductCode\", body.code);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"price\");",
+              "    pm.environment.set(\"currentProductPrice\", body.price);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"description\");",
+              "    pm.environment.set(\"currentProductDescription\", body.description);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"photo\");",
+              "    pm.environment.set(\"currentProductPhoto\", body.photo);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"photos\");",
+              "    pm.environment.set(\"currentProductPhotos\", body.photos);",
+              "   ",
+              "    pm.expect(body).to.have.property(\"links\");",
+              "    pm.environment.set(\"currentProductLinks\", body.links);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true,
+        "disabledSystemHeaders": {
+          "content-type": true
+        }
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{eshop.host}}/{{application}}/api/v1/product/{{currentProductId}}",
+          "host": [
+            "{{eshop.host}}"
+          ],
+          "path": [
+            "{{application}}",
+            "api",
+            "v1",
+            "product",
+            "{{currentProductId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E-Shop_Product_Pagination_GET",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "var encoded = encodeURIComponent(JSON.stringify({\"index\": 0,\"size\": 10}));",
+              "pm.environment.set(\"pageModel\", encoded);"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status must be OK (200)\", function () {",
+              "    pm.response.to.be.ok;",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"response must be valid and have a body\", function () {",
+              "    pm.response.to.be.withBody;",
+              "    pm.response.to.be.json;",
+              "    var body = JSON.parse(pm.response.text());",
+              "    pm.expect(body).to.have.property(\"size\");",
+              "    pm.expect(body).to.have.property(\"index\");",
+              "    pm.expect(body).to.have.property(\"indices\");",
+              "    pm.expect(body).to.have.property(\"content\");",
+              "    pm.expect(body).to.have.property(\"filters\");",
+              "    pm.expect(body).to.have.property(\"projections\");",
+              "    pm.expect(body).to.have.property(\"sorts\");",
+              "    pm.expect(body).to.have.property(\"links\");",
+              "    var body = JSON.parse(pm.response.text());",
+              "    if (body.content.length > 0){",
+              "        let content = body.content[body.content.length - 1];",
+              "        pm.environment.set(\"currentProductId\", content.id);",
+              "        pm.environment.set(\"currentProductInsertDate\", content.insertDate);",
+              "        pm.environment.set(\"currentProductInsertUserId\", content.insertUserId);",
+              "        pm.environment.set(\"currentProductInsertUnitId\", content.insertUnitId);",
+              "        pm.environment.set(\"currentProductModifyDate\", content.modifyDate);",
+              "        pm.environment.set(\"currentProductModifyUserId\", content.modifyUserId);",
+              "        pm.environment.set(\"currentProductModifyUnitId\", content.modifyUnitId);",
+              "        pm.environment.set(\"currentProductVersion\", content.version);",
+              "        pm.environment.set(\"currentProductName\", content.name);   ",
+              "        pm.environment.set(\"currentProductCode\", content.code);",
+              "        pm.environment.set(\"currentProductPrice\", content.price);",
+              "        pm.environment.set(\"currentProductDescription\", content.description);",
+              "        pm.environment.set(\"currentProductPhoto\", content.photo);",
+              "        pm.environment.set(\"currentProductPhotos\", content.photos);",
+              "        pm.environment.set(\"currentProductLinks\", content.links);",
+              "    }",
+              "});",
+              ""
             ],
             "type": "text/javascript"
           }
@@ -264,7 +521,76 @@
       "response": []
     },
     {
-      "name": "E-Shop_Product_Save_POST",
+      "name": "E-Shop_Product_PaginationByFilterAndProjection_GET",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "var pageModel = encodeURIComponent(JSON.stringify({\"index\": 0,\"size\": 10,\"filters\":[{\"type\":\"equals\",\"field\":\"id\",\"value\":pm.environment.get(\"currentProductId\")}], \"projections\": ['photos']}));",
+              "pm.environment.set(\"pageModel\", pageModel);"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status must be OK (200)\", function () {",
+              "    pm.response.to.be.ok;",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true,
+        "disabledSystemHeaders": {
+          "content-type": true
+        }
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{eshop.host}}/{{application}}/api/v1/product/search/page/:pageModel",
+          "host": [
+            "{{eshop.host}}"
+          ],
+          "path": [
+            "{{application}}",
+            "api",
+            "v1",
+            "product",
+            "search",
+            "page",
+            ":pageModel"
+          ],
+          "variable": [
+            {
+              "key": "pageModel",
+              "value": "{{pageModel}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E-Shop_Product_Delete_DELETE",
       "event": [
         {
           "listen": "prerequest",
@@ -279,9 +605,81 @@
           "listen": "test",
           "script": {
             "exec": [
-              "let location = pm.response.headers.get(\"Location\");",
-              "let id = location.substr(location.lastIndexOf(\"/\") + 1);",
-              "pm.environment.set(\"currentProductId\", id);"
+              "pm.test(\"Status must be No Content (204)\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true
+        }
+      },
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{eshop.host}}/{{application}}/api/v1/product/{{currentProductId}}",
+          "host": [
+            "{{eshop.host}}"
+          ],
+          "path": [
+            "{{application}}",
+            "api",
+            "v1",
+            "product",
+            "{{currentProductId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E-Shop_Product_BatchSave_POST",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status must be Created (201)\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([201]);",
+              "});",
+              "",
+              "pm.test(\"response must be valid and have a body\", function () {",
+              "    pm.response.to.be.withBody;",
+              "    pm.response.to.be.json;",
+              "    var body = JSON.parse(pm.response.text());",
+              "    pm.expect(body).to.have.property(\"content\");",
+              "    pm.expect(body).to.have.property(\"links\");",
+              "    var body = JSON.parse(pm.response.text());",
+              "    if (body.content.length > 0){",
+              "        let content = body.content;",
+              "        pm.environment.set(\"currentProductBatchId\", content);",
+              "    }",
+              "});"
             ],
             "type": "text/javascript"
           }
@@ -303,10 +701,10 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n    \"name\": \"Table\",\n    \"code\": \"001\",\n    \"description\": \"Table is made in the USA\",\n    \"price\": 1450\n}"
+          "raw": "[\n    {\n        \"name\": \"Table\",\n        \"code\": \"001\",\n        \"description\": \"Table is made in the Iran\",\n        \"price\": 1450\n    },\n    {\n        \"name\": \"Chair\",\n        \"code\": \"002\",\n        \"description\": \"Chair is made in the Iran\",\n        \"price\": 1450\n    }\n]"
         },
         "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/",
+          "raw": "{{eshop.host}}/{{application}}/api/v1/product/batch/save",
           "host": [
             "{{eshop.host}}"
           ],
@@ -315,7 +713,69 @@
             "api",
             "v1",
             "product",
-            ""
+            "batch",
+            "save"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E-Shop_Product_BatchDelete_DELETE",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status must be No Content (204)\", function () {",
+              "    pm.response.to.have.status(204);",
+              "});",
+              ""
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disabledSystemHeaders": {
+          "content-type": true
+        }
+      },
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Content-Type",
+            "type": "text",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "{{eshop.host}}/{{application}}/api/v1/product/batch/delete/{{currentProductBatchId}}",
+          "host": [
+            "{{eshop.host}}"
+          ],
+          "path": [
+            "{{application}}",
+            "api",
+            "v1",
+            "product",
+            "batch",
+            "delete",
+            "{{currentProductBatchId}}"
           ]
         }
       },
@@ -329,6 +789,28 @@
           "script": {
             "exec": [
               ""
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status must be Created (201)\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([201]);",
+              "});",
+              "",
+              "pm.test(\"response must be valid and have a body\", function () {",
+              "    pm.response.to.be.withBody;",
+              "    pm.response.to.be.json;",
+              "    var body = JSON.parse(pm.response.text());",
+              "    pm.expect(body).to.have.property(\"id\");",
+              "    pm.environment.set(\"currentProductQueueMesssageId\", body.id);",
+              "    pm.expect(body).to.have.property(\"content\");",
+              "    pm.expect(body).to.have.property(\"links\");",
+              "    ",
+              "});"
             ],
             "type": "text/javascript"
           }
@@ -363,197 +845,6 @@
             "v1",
             "queue",
             ""
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "E-Shop_Product_Update_PUT",
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "exec": [
-              ""
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "protocolProfileBehavior": {
-        "disabledSystemHeaders": {
-          "content-type": true
-        }
-      },
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "type": "text",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"id\": 12,\n    \"insertDate\": \"2020-10-22T23:00:52.685\",\n    \"insertUserId\": 1,\n    \"insertUnitId\": 1,\n    \"modifyDate\": null,\n    \"modifyUserId\": null,\n    \"modifyUnitId\": null,\n    \"version\": 0,\n    \"name\": \"Laptop_updated\",\n    \"code\": \"001\",\n    \"price\": 1450.00,\n    \"description\": \"Made in the USA\",\n    \"photo\": null\n}"
-        },
-        "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/{{currentProductId}}",
-          "host": [
-            "{{eshop.host}}"
-          ],
-          "path": [
-            "{{application}}",
-            "api",
-            "v1",
-            "product",
-            "{{currentProductId}}"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "E-Shop_Product_FindById_GET",
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "exec": [
-              ""
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true,
-        "disabledSystemHeaders": {
-          "content-type": true
-        }
-      },
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": ""
-        },
-        "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/{{currentProductId}}",
-          "host": [
-            "{{eshop.host}}"
-          ],
-          "path": [
-            "{{application}}",
-            "api",
-            "v1",
-            "product",
-            "{{currentProductId}}"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "E-Shop_Product_BatchDelete_DELETE",
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "exec": [
-              ""
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "protocolProfileBehavior": {
-        "disabledSystemHeaders": {
-          "content-type": true
-        }
-      },
-      "request": {
-        "method": "DELETE",
-        "header": [
-          {
-            "key": "Content-Type",
-            "type": "text",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": ""
-        },
-        "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/batch/delete/{{currentProductId}}",
-          "host": [
-            "{{eshop.host}}"
-          ],
-          "path": [
-            "{{application}}",
-            "api",
-            "v1",
-            "product",
-            "batch",
-            "delete",
-            "{{currentProductId}}"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "E-Shop_Product_Delete_DELETE",
-      "event": [
-        {
-          "listen": "prerequest",
-          "script": {
-            "exec": [
-              ""
-            ],
-            "type": "text/javascript"
-          }
-        }
-      ],
-      "protocolProfileBehavior": {
-        "disabledSystemHeaders": {
-          "content-type": true
-        }
-      },
-      "request": {
-        "method": "DELETE",
-        "header": [
-          {
-            "key": "Content-Type",
-            "type": "text",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": ""
-        },
-        "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/{{currentProductId}}",
-          "host": [
-            "{{eshop.host}}"
-          ],
-          "path": [
-            "{{application}}",
-            "api",
-            "v1",
-            "product",
-            "{{currentProductId}}"
           ]
         }
       },

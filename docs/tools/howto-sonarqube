@@ -1,0 +1,15 @@
+step-1: curl -O https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.5.1.38104.zip
+step-2: tar -xvzf ./sonarqube-*
+step-3: export JAVA_HOME=$(/usr/libexec/java_home -v11) && ./sonarqube-8.5.1.38104/bin/macosx-universal-64/sonar.sh start
+step-4: http://localhost:9000/ admin:admin
+step-5: ./sonarqube-8.5.1.38104/bin/macosx-universal-64/sonar.sh stop
+step-6: kill $(lsof -ti:9000)
+
+integrate to maven:
+step-1: add following plugin
+<plugin>
+    <groupId>org.sonarsource.scanner.maven</groupId>
+    <artifactId>sonar-maven-plugin</artifactId>
+    <version>3.7.0.1746</version>
+</plugin>
+step-2: mvn sonar:sonar

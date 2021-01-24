@@ -1,0 +1,8 @@
+step-1: curl -O https://ftp.halifax.rwth-aachen.de/apache/activemq/activemq-artemis/2.16.0/apache-artemis-2.16.0-bin.tar.gz
+step-2: tar -xvzf ./apache-artemis-*
+step-3: ./apache-artemis-2.16.0/bin/artemis create pine-broker
+step-4: ./pine-broker/bin/artemis-service start
+step-5: http://localhost:8161/ admin:admin
+step-6: ./pine-broker/bin/artemis-service" stop
+step-7: kill $(lsof -ti:8161)
+

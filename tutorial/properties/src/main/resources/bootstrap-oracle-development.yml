@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: oracle.jdbc.driver.OracleDriver
-    url: jdbc:oracle:thin:@oracle.host@:pine
+    url: jdbc:oracle:thin:@oracle.host@:eshop
     password: pine
     username: pine
     initialization-mode: never
