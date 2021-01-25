@@ -1,10 +1,11 @@
-#minikube stop
-#minikube start
+kubectl delete all --all
 kubectl delete secrets mysql-secret
 kubectl delete configMap mysql-configmap
 kubectl delete persistentvolume pine-mysql-pv
 kubectl delete persistentvolumeclaim pine-mysql-pvc
-kubectl delete all --all
+
+minikube stop
+minikube start
 
 kubectl apply -f ./k8-mysql-secret.yml
 kubectl apply -f ./k8-mysql-configmap.yml
