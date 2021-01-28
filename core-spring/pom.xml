@@ -28,7 +28,7 @@
         <country>US</country>
         <language>en</language>
         <cache>empty</cache>
-        <config-repository>empty</config-repository>
+        <config.repository>empty</config.repository>
         <spring-cloud.version>Hoxton.SR9</spring-cloud.version>
         <spring-boot.version>2.3.5.RELEASE</spring-boot.version>
     </properties>
@@ -163,8 +163,17 @@
                     naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
                     dialect: 'org.hibernate.dialect.MySQLDialect'
                     ddl-auto: 'update'
+                    default_schema: 'ESHOP'
                     generate_statistics: true
                 </mysql-orm>
+                <postgres-orm>
+                    hibernate:
+                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+                    dialect: 'org.hibernate.dialect.PostgreSQLDialect'
+                    ddl-auto: 'update'
+                    default_schema: 'ESHOP'
+                    generate_statistics: true
+                </postgres-orm>
                 <h2-orm>
                     hibernate:
                     naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
@@ -259,7 +268,7 @@
                 <config.server.host>localhost:8888</config.server.host>
                 <product.host>localhost</product.host>
                 <product.port>9091</product.port>
-                <config-repository>localhost</config-repository>
+                <config.repository>localhost</config.repository>
             </properties>
         </profile>
         <profile>
@@ -273,7 +282,7 @@
                 <config.server.host>pine-config-server:8888</config.server.host>
                 <product.host>0.0.0.0</product.host>
                 <product.port>9091</product.port>
-                <config-repository>accessdockertohost</config-repository>
+                <config.repository>accessdockertohost</config.repository>
             </properties>
         </profile>
         <profile>
@@ -287,7 +296,7 @@
                 <config.server.host>pine-config-server:8888</config.server.host>
                 <product.host>0.0.0.0</product.host>
                 <product.port>9091</product.port>
-                <config-repository>docker</config-repository>
+                <config.repository>docker</config.repository>
             </properties>
         </profile>
         <profile>
@@ -301,7 +310,7 @@
                 <config.server.host>pine-config-server:8888</config.server.host>
                 <product.host>0.0.0.0</product.host>
                 <product.port>9091</product.port>
-                <config-repository>k8</config-repository>
+                <config.repository>k8</config.repository>
             </properties>
         </profile>
         <profile>

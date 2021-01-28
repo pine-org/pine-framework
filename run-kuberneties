@@ -1,3 +1,5 @@
+minikube start
+
 kubectl delete all --all
 kubectl delete secrets mysql-secret
 kubectl delete configMap mysql-configmap
@@ -7,10 +9,11 @@ kubectl delete persistentvolumeclaim pine-mysql-pvc
 minikube stop
 minikube start
 
-kubectl apply -f ./k8-mysql-secret.yml
-kubectl apply -f ./k8-mysql-configmap.yml
-kubectl apply -f ./k8-mysql-deployment.yml
-kubectl apply -f ./k8-eshop-deployment.yml
+kubectl apply -f ./kubernaties-development/k8-mysql-secret.yml
+kubectl apply -f ./kubernaties-development/k8-mysql-configmap.yml
+kubectl apply -f ./kubernaties-development/k8-mysql-deployment.yml
+kubectl apply -f ./kubernaties-development/k8-phpmyadmin-deployment.yml
+kubectl apply -f ./kubernaties-development/k8-eshop-deployment.yml
 
 echo
 echo ========== persistentvolume ==========
@@ -36,6 +39,8 @@ echo
 echo ========== urls ==========
 minikube service pine-eshop
 minikube service pine-eshop --url
+minikube service phpmyadmin
+minikube service phpmyadmin --url
 kubectl cluster-info
 
 

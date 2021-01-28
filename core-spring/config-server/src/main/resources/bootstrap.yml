@@ -10,7 +10,7 @@ spring:
         git:
           cloneOnStart: true
           uri: https://github.com/pine-org/pine-framework
-          search-paths: config-@env@-@config-repository@
+          search-paths: config-@env@-@config.repository@
   main:
     banner-mode: off
   profiles:

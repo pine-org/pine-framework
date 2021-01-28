@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     initialization-mode: never
-    url: jdbc:mysql://@mysql.host@/eshop?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://@mysql.host@/eshop?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&eshopGlobalTxToPhysicalConnection=TRUE
     username: pine
     password: pine
   jpa:

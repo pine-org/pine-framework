@@ -23,8 +23,8 @@ services:
     hostname: "pine-discovery-server-eureka"
     image: discovery-server-eureka:latest
     build:
-      context: ./core-spring/discovery-server-eureka
-      dockerfile: Dockerfile
+      context: ../core-spring/discovery-server-eureka
+      dockerfile: ../core-spring/discovery-server-eureka/Dockerfile
     ports:
       - 8761:8761
     healthcheck:
@@ -36,8 +36,8 @@ services:
     hostname: "pine-config-server"
     image: config-server:latest
     build:
-      context: ./core-spring/config-server
-      dockerfile: Dockerfile
+      context: ../core-spring/config-server
+      dockerfile: ../core-spring/config-server/Dockerfile
     depends_on:
       pine-discovery-server-eureka:
         condition: service_healthy
@@ -54,8 +54,8 @@ services:
     hostname: "pine-eshop"
     image: eshop:latest
     build:
-      context: ./tutorial/eshop/rest-api
-      dockerfile: Dockerfile
+      context: ../tutorial/eshop/rest-api
+      dockerfile: ../tutorial/eshop/rest-api/Dockerfile
     depends_on:
       pine-discovery-server-eureka:
         condition: service_healthy

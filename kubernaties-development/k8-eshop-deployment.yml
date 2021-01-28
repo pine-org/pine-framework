@@ -23,6 +23,8 @@ spec:
   selector:
     matchLabels:
       app: pine-eshop
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -33,3 +35,8 @@ spec:
           image: samanalishiri/eshop:1.0.0-SNAPSHOT
           ports:
             - containerPort: 9091
+          imagePullPolicy: Always
+      initContainers:
+        - name: init-pine-mysql
+          image: busybox:1.28
+          command: [ 'sh', '-c', 'until nslookup pine-mysql; do echo waiting for pine-mysql; sleep 2; done;' ]

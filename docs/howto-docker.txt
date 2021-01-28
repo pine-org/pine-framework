@@ -32,7 +32,7 @@ run = create + start
 delete:
 docker image rm image-name/tag
 docker system prune [-a]
-docker volumes prune
+docker volume prune
 {
 rm  Library/Containers/com.docker.docker/Data/vms/0/data/*
 restart docker

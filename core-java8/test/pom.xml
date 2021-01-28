@@ -154,7 +154,7 @@
                 <config.server.host>localhost:8888</config.server.host>
                 <product.host>localhost</product.host>
                 <product.port>9091</product.port>
-                <config-repository>localhost</config-repository>
+                <config.repository>localhost</config.repository>
             </properties>
         </profile>
         <profile>
@@ -204,6 +204,7 @@
                     naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
                     dialect: 'org.hibernate.dialect.MySQLDialect'
                     ddl-auto: 'update'
+                    default_schema: 'ESHOP'
                     generate_statistics: true
                 </mysql-orm>
                 <postgres-orm>
@@ -211,6 +212,7 @@
                     naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
                     dialect: 'org.hibernate.dialect.PostgreSQLDialect'
                     ddl-auto: 'update'
+                    default_schema: 'ESHOP'
                     generate_statistics: true
                 </postgres-orm>
                 <h2-orm>

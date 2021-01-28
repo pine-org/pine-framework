@@ -1,0 +1,34 @@
+
+step-1: add profile in core-java-8/test, core security, core spring, tutorial, your project
+<profile>
+    <id>DatabaseName</id>//TitleCase
+    <properties>
+        <database-vendor>databasename-${env}</database-vendor>//lowercase
+    </properties>
+</profile>
+
+
+step-2: add host to Localhost, AccessDockerToHost, Docker and K8 profiles in
+        core-java-8/test, core security, core spring, tutorial, your project
+<databasename.host>pine-postgres:5432</databasename.host>
+
+
+step-3: add properties (.properties/.yml) file in properties module and config repositories for
+        development, production, uat and test environment
+
+step-4: add orm properties in ORM implementation profile e.g. Hibernate
+<databasename-orm>
+    hibernate:
+    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
+    dialect: 'org.hibernate.dialect.'
+    ddl-auto: 'update'
+    default_schema: ''
+    generate_statistics: true
+</databasename-orm>
+
+
+
+
+
+
+

@@ -4,7 +4,7 @@ metadata:
   name: mysql-configmap
 data:
   mysql-database: eshop
-  initdb.sql: |
+  initdb.sql: |-
     CREATE DATABASE IF NOT EXISTS `eshop` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
     CREATE USER IF NOT EXISTS 'pine' IDENTIFIED BY 'pine';
     GRANT BINLOG_ADMIN, SYSTEM_VARIABLES_ADMIN ON *.* TO 'pine';

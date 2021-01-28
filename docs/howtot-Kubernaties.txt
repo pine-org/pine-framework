@@ -22,6 +22,8 @@ kubectl get deployment
 create deployment: kubectl create deployment deployment-name --image=image-name
 show log: kubectl logs pod-name
 connect pod vm: kubectl exec -it pod-name -- bin/bash
+kubectl rollout restart deployments/name
+
 
 description: kubectl describe resource-type resource-name
 sample: kubectl describe pod pod-name
