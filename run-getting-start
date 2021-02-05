@@ -1,4 +1,0 @@
-mvn -f ./core-java8/pom.xml clean install -P English-Check-style
-mvn -f ./core-spring/pom.xml clean install -P English-Check-style
-mvn -f ./tutorial/pom.xml clean install -P English-Check-style
-java -jar ./tutorial/eshop/rest-api/target/eshop-1.0.0-SNAPSHOT.jar

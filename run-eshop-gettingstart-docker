@@ -13,15 +13,7 @@ docker run \
 -e ESHOP_HOST=0.0.0.0 \
 -e ESHOP_PORT=9091 \
 -e ENVIRONMENT=Development \
--e PROFILES=development,properties,i18n,mysql,hibernate,messaging,activemq,US \
--e MYSQL_HOST=host.docker.internal:3306 \
--e MYSQL_DATABASE=eshop \
--e MYSQL_PASSWORD=pine \
--e MYSQL_USERNAME=pine \
--e HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect \
--e DATABASE_SCHEMA=ESHOP \
--e ACTIVEMQ_URL=tcp://host.docker.internal:61616 \
--e ACTIVEMQ_USER=admin \
--e ACTIVEMQ_PASSWORD=admin \
+-e PROFILES=development,properties,i18n,h2,messaging,activemq-embedded,US \
+-e DATABASE=eshop \
 -e ACTIVEMQ_QUEUES=eshop,status \
 -it eshop:latest
