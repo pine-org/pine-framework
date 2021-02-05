@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    initialization-mode: never
+    url: jdbc:oracle:thin:@localhost1521:eshop
+    username: pine
+    password: pine
+  jpa:
+    show-sql: true
+    database: oracle
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate:
+          dialect: rg.hibernate.dialect.Oracle12cDialect
+          generate_statistics: true
+          default_schema: PINE
+          format_sql: true
+          naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy

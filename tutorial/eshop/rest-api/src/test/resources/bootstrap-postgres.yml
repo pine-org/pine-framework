@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    initialization-mode: never
+    url: jdbc:postgresql://localhost:5432/eshop
+    username: pine
+    password: pine
+  jpa:
+    show-sql: true
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate:
+          dialect: rg.hibernate.dialect.PostgreSQLDialect
+          generate_statistics: true
+          default_schema: ESHOP
+          format_sql: true
+          naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy

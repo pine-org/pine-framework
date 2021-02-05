@@ -1,0 +1,57 @@
+server:
+  address: ${EUREKA_HOST:0.0.0.0}
+  port: ${EUREKA_PORT:8761}
+  ssl:
+    enabled: true
+    key-store: classpath:server.jks
+    key-store-password: 123456
+    key-password: 123456
+    trust-store: classpath:server.jks
+    trust-store-password: 123456
+    key-alias: server
+    client-auth: want
+    key-store-type: JKS
+    trust-store-type: JKS
+spring:
+  main:
+    banner-mode: 'off'
+  profiles:
+    active: ${PROFILES:development}
+eureka:
+  datacenter: ${DATACENTER:'Default'}
+  environment: ${ENVIRONMENT:'Development'}
+  instance:
+    hostname: ${HOSTNAME}
+    status-page-url-path: https://${eureka.instance.hostname}:${server.port}/actuator/info
+    health-check-url-path: https://${eureka.instance.hostname}:${server.port}/actuator/health
+    home-page-url-path: https://${eureka.instance.hostname}:${server.port}/
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    secure-virtual-host-name: ${spring.application.name}
+    non-secure-port: ${server.port}
+    secure-port: 443
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: https://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+info:
+  app:
+    encoding: UTF-8
+    motd: Eureka Server
+logging:
+  file:
+    name: sample-boot-application.log
+    path: /var/log
+  pattern:
+    file: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID}){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx'

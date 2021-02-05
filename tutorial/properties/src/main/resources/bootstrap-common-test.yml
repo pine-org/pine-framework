@@ -1,6 +1,0 @@
-server:
-  address: @product.host@
-  port: @product.port@
-spring:
-  main:
-    banner-mode: 'off'

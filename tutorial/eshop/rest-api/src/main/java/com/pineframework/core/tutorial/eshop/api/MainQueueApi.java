@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "eshop/api/v1/queue", description = "E Shop Queue API")
 @RestController
 @RequestMapping("/api/v1/queue")
-@Profile(value = "activemq")
+@Profile(value = {"activemq", "activemq-embedded"})
 public class MainQueueApi extends AbstractQueueRestApi<String, MessageModel, QueueService<String, MessageModel>> {
 
     @Autowired

@@ -1,0 +1,5 @@
+spring:
+  messages:
+    basename: messages,module-messages,config.i18n.messages
+    fallback-to-system-locale: false
+

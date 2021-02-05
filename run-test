@@ -1,0 +1,9 @@
+mvn -f ./core-java8/pom.xml clean install -DskipTests=true
+mvn -f ./core-security/pom.xml clean install -DskipTests=true
+mvn -f ./core-spring/pom.xml clean install -DskipTests=true
+mvn -f ./tutorial/eshop/pom.xml clean install -DskipTests=true
+
+mvn -f ./core-java8/pom.xml test
+mvn -f ./core-spring/pom.xml test
+mvn -f ./core-security/pom.xml test
+mvn -f ./tutorial/pom.xml test

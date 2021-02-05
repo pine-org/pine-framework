@@ -1,10 +1,12 @@
 server:
-  address: '@product.host@'
-  port: '@product.port@'
+  address: ${ESHOP_HOST:0.0.0.0}
+  port: ${ESHOP_PORT:8080}
   servlet:
     context-path: /eshop
 spring:
+  main:
+    banner-mode: off
+  profiles:
+    active: ${PROFILES}
   application:
     name: eshop
-  profiles:
-    active: '@env@,@config-profile@,@messaging@,@message-queue-vendor@,@database-vendor@,@discovery-server-vendor@,@country@,@cache@'

@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    initialization-mode: embedded
+    url: jdbc:h2:mem:${DATABASE:test};DB_CLOSE_DELAY=-1;MODE=mysql
+    username: sa
+    password: ''
+  jpa:
+    show-sql: true
+    database: h2
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        generate_statistics: true
+        format_sql: true
+        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+  h2:
+    console:
+      enabled: true

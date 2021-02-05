@@ -1,17 +1,3 @@
-server:
-  address: 0.0.0.0
-  port: 8888
 spring:
   application:
     name: config-server
-  cloud:
-    config:
-      server:
-        git:
-          cloneOnStart: true
-          uri: https://github.com/pine-org/pine-framework
-          search-paths: config-@env@-@config.repository@
-  main:
-    banner-mode: off
-  profiles:
-    active: internationalization,@database-vendor@,@message-queue-vendor@,@discovery-server-vendor@

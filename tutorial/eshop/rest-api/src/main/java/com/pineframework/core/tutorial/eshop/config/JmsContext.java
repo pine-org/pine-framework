@@ -21,7 +21,7 @@ import java.util.Map;
 import static com.pineframework.core.spring.restapi.config.ApplicationContextBean.getBean;
 
 @Configuration
-@Profile(value = "activemq")
+@Profile(value = {"activemq", "activemq-embedded"})
 public class JmsContext {
 
     private final Map<String, Queue> queues;
@@ -35,13 +35,13 @@ public class JmsContext {
 
     @Bean(name = "mainQueueService")
     public QueueService mainQueueService(JmsTemplate jmsTemplate) {
-        SpringQueueService queueService = new SpringQueueService(queues.get("sample-queue"), jmsTemplate);
+        SpringQueueService queueService = new SpringQueueService(queues.get("eshop"), jmsTemplate);
         return txBeanFactory.create(new MainQueueProxyServiceImpl(queueService), QueueService.class);
     }
 
     @Bean(name = "statusQueueService")
     public QueueService statusQueueService(JmsTemplate jmsTemplate) {
-        SpringQueueService queueService = new SpringQueueService(queues.get("status-queue"), jmsTemplate);
+        SpringQueueService queueService = new SpringQueueService(queues.get("status"), jmsTemplate);
         return txBeanFactory.create(new StatusQueueProxyServiceImpl(queueService), QueueService.class);
     }
 

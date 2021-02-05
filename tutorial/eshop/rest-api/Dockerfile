@@ -1,5 +1,6 @@
-FROM openjdk:8
-COPY ./target/eshop-1.0.0-SNAPSHOT.jar eshop.jar
-WORKDIR ./
+FROM openjdk:8-jdk-alpine
 EXPOSE 9091
-CMD ["java", "-jar", "eshop.jar"]
+WORKDIR ./app
+ARG JAR_FILE=./target/eshop-1.0.0-SNAPSHOT.jar
+ADD ${JAR_FILE} application.jar
+ENTRYPOINT ["java","-jar","/app/application.jar"]
