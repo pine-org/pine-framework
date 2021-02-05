@@ -33,10 +33,6 @@
         <asciidoctorj.pdf.version>1.5.3</asciidoctorj.pdf.version>
         <asciidoctorj.version>2.3.0</asciidoctorj.version>
         <jruby.version>9.2.11.1</jruby.version>
-        <env>development</env>
-        <config-profile>empty</config-profile>
-        <message-queue-vendor>empty</message-queue-vendor>
-        <database-vendor>empty</database-vendor>
     </properties>
     <modules>
         <module>helper</module>
@@ -213,45 +209,6 @@
         </plugins>
     </build>
     <profiles>
-        <profile>
-            <id>Production</id>
-            <properties>
-                <env>production</env>
-                <build.profile.id>production</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>Development</id>
-            <properties>
-                <env>development</env>
-                <build.profile.id>development</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>UAT</id>
-            <properties>
-                <env>uat</env>
-                <build.profile.id>uat</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>BuildTest</id>
-            <properties>
-                <env>test</env>
-                <build.profile.id>test</build.profile.id>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-        <profile>
-            <id>Test</id>
-            <properties>
-                <env>test</env>
-                <build.profile.id>test</build.profile.id>
-            </properties>
-        </profile>
         <profile>
             <id>Parsi-Check-style</id>
             <build>

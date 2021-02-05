@@ -1,6 +1,0 @@
-message-queue-name: sample-queue,status-queue
-spring:
-  activemq:
-    broker-url: vm://embedded-broker?broker.persistent=false&broker.useShutdownHook=false
-    packages:
-      trust-all: true

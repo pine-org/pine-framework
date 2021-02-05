@@ -14,7 +14,7 @@ public class StatusQueueListener implements JmsListener {
 
     @Override
     public String getDestination() {
-        return "status-queue";
+        return "status";
     }
 
     @Override

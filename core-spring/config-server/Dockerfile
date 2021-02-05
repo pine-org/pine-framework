@@ -1,5 +1,6 @@
-FROM openjdk:8
-COPY ./target/config-server-1.0.0-SNAPSHOT.jar config-server.jar
-WORKDIR ./
+FROM openjdk:8-jdk-alpine
 EXPOSE 8888
-CMD ["java", "-jar", "config-server.jar"]
+WORKDIR ./app
+ARG JAR_FILE=./target/config-server-1.0.0-SNAPSHOT.jar
+ADD ${JAR_FILE} application.jar
+ENTRYPOINT ["java","-jar","/app/application.jar"]

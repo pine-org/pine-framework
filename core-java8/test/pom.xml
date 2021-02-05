@@ -100,9 +100,6 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-                        <!-- Work around. Surefire does not use JUnits Test Engine discovery functionality.
-                             Alternatively annotate a class with `io.cucumber.junit.platform.engine.Cucumber`
-                             to mark its package for the discovery of feature files.  -->
                         <id>CLI-test</id>
                         <phase>integration-test</phase>
                         <goals>
@@ -127,102 +124,5 @@
                 </executions>
             </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>bootstrap-internationalization.yml</include>
-                    <include>bootstrap-common.yml</include>
-                    <include>bootstrap-${database-vendor}.yml</include>
-                    <include>bootstrap-${message-queue-vendor}.yml</include>
-                    <include>log4j.properties</include>
-                    <include>banner.txt</include>
-                </includes>
-            </resource>
-        </resources>
     </build>
-    <profiles>
-        <profile>
-            <id>Localhost</id>
-            <properties>
-                <oracle.host>@localhost:1521</oracle.host>
-                <mysql.host>localhost:3306</mysql.host>
-                <postgres.host>@pine-postgres:5432</postgres.host>
-                <activemq.host>localhost:61616</activemq.host>
-                <discovery.server.host>localhost:8761</discovery.server.host>
-                <config.server.host>localhost:8888</config.server.host>
-                <product.host>localhost</product.host>
-                <product.port>9091</product.port>
-                <config.repository>localhost</config.repository>
-            </properties>
-        </profile>
-        <profile>
-            <id>ActiveMQ</id>
-            <properties>
-                <messaging>messaging,activemq</messaging>
-                <message-queue-vendor>activemq</message-queue-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>Oracle</id>
-            <properties>
-                <database-vendor>oracle</database-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>MySQL</id>
-            <properties>
-                <database-vendor>mysql</database-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>Postgres</id>
-            <properties>
-                <database-vendor>postgres</database-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>H2</id>
-            <properties>
-                <database-vendor>h2</database-vendor>
-            </properties>
-        </profile>
-        <profile>
-            <id>Hibernate</id>
-            <properties>
-                <oracle-orm>
-                    hibernate:
-                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
-                    dialect: 'org.hibernate.dialect.Oracle12cDialect'
-                    ddl-auto: 'update'
-                    default_schema: 'PINE'
-                    generate_statistics: true
-                </oracle-orm>
-                <mysql-orm>
-                    hibernate:
-                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
-                    dialect: 'org.hibernate.dialect.MySQLDialect'
-                    ddl-auto: 'update'
-                    default_schema: 'ESHOP'
-                    generate_statistics: true
-                </mysql-orm>
-                <postgres-orm>
-                    hibernate:
-                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
-                    dialect: 'org.hibernate.dialect.PostgreSQLDialect'
-                    ddl-auto: 'update'
-                    default_schema: 'ESHOP'
-                    generate_statistics: true
-                </postgres-orm>
-                <h2-orm>
-                    hibernate:
-                    naming-strategy: 'org.hibernate.cfg.ImprovedNamingStrategy'
-                    dialect: 'org.hibernate.dialect.H2Dialect'
-                    ddl-auto: 'update'
-                    generate_statistics: true
-                </h2-orm>
-            </properties>
-        </profile>
-    </profiles>
 </project>

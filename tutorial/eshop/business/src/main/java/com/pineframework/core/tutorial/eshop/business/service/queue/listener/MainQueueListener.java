@@ -25,7 +25,7 @@ public class MainQueueListener implements JmsListener {
 
     @Override
     public String getDestination() {
-        return "sample-queue";
+        return "eshop";
     }
 
     @Override

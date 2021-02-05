@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    initialization-mode: never
+    url: jdbc:oracle:thin:@${ORACLE_HOST}:${ORACLE_DATABASE}
+    username: ${ORACLE_USERNAME}
+    password: ${ORACLE_PASSWORD}
+  jpa:
+    show-sql: true
+    database: oracle

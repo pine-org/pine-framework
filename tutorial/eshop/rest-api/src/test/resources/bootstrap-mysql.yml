@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    initialization-mode: never
+    url: jdbc:mysql://localhost:3306/eshop?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&pinGlobalTxToPhysicalConnection=TRUE
+    username: pine
+    password: pine
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate:
+          dialect: rg.hibernate.dialect.MySQLDialect
+          generate_statistics: true
+          default_schema: ESHOP
+          format_sql: true
+          naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy

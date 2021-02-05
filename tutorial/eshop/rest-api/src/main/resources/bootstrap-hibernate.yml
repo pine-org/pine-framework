@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: ${HIBERNATE_DIALECT}
+        generate_statistics: true
+        default_schema: ${DATABASE_SCHEMA}
+        format_sql: true
+        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy

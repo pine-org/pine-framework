@@ -25,7 +25,7 @@ import static com.pineframework.core.helper.CollectionUtils.mapOf;
 @Profile(value = {"config-server & activemq"})
 public class ActiveMqDynamicConfiguration implements QueueConfiguration {
 
-    @Value("${message-queue-name}")
+    @Value("${ACTIVEMQ_QUEUES:pine}")
     private String[] queues;
 
     @Bean("queues")

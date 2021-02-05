@@ -7,4 +7,6 @@ spring:
   application:
     name: eshop
   profiles:
-    active: test,common,internationalization,messaging,activemq,h2
+    active: test,properties,i18n,h2,hibernate,messaging,activemq-embedded
+  main:
+    banner-mode: off

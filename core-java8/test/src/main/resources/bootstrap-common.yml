@@ -1,6 +1,0 @@
-server:
-  address: localhost
-  port: 0
-spring:
-  main:
-    banner-mode: 'off'
