@@ -39,18 +39,22 @@ Download [Jenkins](https://jenkins.io/download/) in WAR format then execute comm
 - Download [JFrog](https://jfrog.com/open-source/)
 - [Getting Start](https://www.jfrog.com/confluence/display/JFROG/Installing+Artifactory)
 
+## Build
+
+    mvn -f ./core-java8/pom.xml clean install -DskipTests=true -P English-Check-style
+    mvn -f ./core-security/pom.xml clean install -DskipTests=true -P English-Check-style
+    mvn -f ./core-spring/pom.xml clean install -DskipTests=true -P English-Check-style
+    mvn -f ./tutorial/pom.xml clean install -DskipTests=true -P English-Check-style
 
 ## Test
 
 - `file: run-test`
 
 ## Getting Start
-- `file: run-getting-start`
 
-## Build
-### Development Environment (prepare requirements, such as mysql, activemq, ...)
-- `file: build-development-properties`
+- `file: run-gettingstart`
 
 ## Run
+
 ### Development Environment (Tutorial: eshop)
 - `file: run-eshop`

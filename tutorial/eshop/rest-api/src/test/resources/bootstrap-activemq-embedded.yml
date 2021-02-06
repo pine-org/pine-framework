@@ -3,3 +3,4 @@ spring:
     broker-url: vm://embedded-broker?broker.persistent=false&broker.useShutdownHook=false
     packages:
       trust-all: true
+ACTIVEMQ_QUEUES: eshop,status
