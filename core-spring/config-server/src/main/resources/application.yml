@@ -9,7 +9,6 @@ server:
     trust-store: classpath:client.jks
     trust-store-password: 123456
     key-alias: client
-    client-auth: want
     key-store-type: JKS
     trust-store-type: JKS
 spring:

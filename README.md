@@ -52,7 +52,7 @@ Download [Jenkins](https://jenkins.io/download/) in WAR format then execute comm
 
 ## Getting Start
 
-- `file: run-gettingstart`
+- `file: run-eshop-gettingstart`
 
 ## Run
 

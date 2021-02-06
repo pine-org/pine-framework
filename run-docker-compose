@@ -1,5 +1,47 @@
+export EUREKA_HOST=0.0.0.0
+export EUREKA_PORT=8761
+export HOSTNAME=$(hostname)
+export EUREKA_SERVER_VERSION=1.0.0-SNAPSHOT
+export PROFILES=development
+export ENVIRONMENT=Development
+export DATACENTER=Pine
+export DISCOVERY_SERVER_URL=https://$(hostname):8761/eureka
+
+export CONFIG_SERVER_HOST=0.0.0.0
+export CONFIG_SERVER_PORT=8888
+export PROFILES=internationalization,activemq,mysql,eureka-server
+export CONFIG_REPOSITORY_URL=https://github.com/pine-org/pine-framework
+export CONFIG_REPOSITORY=config-development-docker
+export CONFIG_SERVER_URL=https://$(hostname):8888
+
+export ESHOP_HOST=0.0.0.0
+export ESHOP_PORT=9091
+export HOSTNAME=$(hostname)
+export ENVIRONMENT=Development
+export PROFILES=development,eureka-server,config-server,i18n,mysql,hibernate,messaging,activemq,US
+
+export MYSQL_HOST=localhost:3306
+export MYSQL_DATABASE=eshop
+export MYSQL_PASSWORD=pine
+export MYSQL_USERNAME=pine
+export HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+export DATABASE_SCHEMA=ESHOP
+
+export ACTIVEMQ_URL=tcp://localhost:61616
+export ACTIVEMQ_USER=admin
+export ACTIVEMQ_PASSWORD=admin
+export ACTIVEMQ_QUEUES=eshop,status
+
+export ESHOP_VERSION=1.0.0-SNAPSHOT
+
+mvn -f ./core-java8/pom.xml clean install -DskipTests=true
+mvn -f ./core-security/pom.xml clean install -DskipTests=true
+mvn -f ./core-spring/pom.xml clean install -DskipTests=true
+mvn -f ./tutorial/pom.xml clean install -DskipTests=true -P EurekaServer,ConfigServer
+
 docker system prune
-docker image rm discovery-server-eureka:latest
+docker
+docker image rm eureka-server:latest
 docker image rm config-server:latest
 docker image rm eshop:latest
 docker-compose up --build

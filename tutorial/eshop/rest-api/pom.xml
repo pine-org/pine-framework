@@ -115,6 +115,8 @@
                         <filtering>true</filtering>
                         <includes>
                             <include>bootstrap.yml</include>
+                            <include>client.jks</include>
+                            <include>server.jks</include>
                             <include>bootstrap-eureka-server.yml</include>
                         </includes>
                     </resource>
@@ -136,6 +138,8 @@
                         <filtering>true</filtering>
                         <includes>
                             <include>bootstrap.yml</include>
+                            <include>client.jks</include>
+                            <include>server.jks</include>
                             <include>bootstrap-config-server.yml</include>
                         </includes>
                     </resource>

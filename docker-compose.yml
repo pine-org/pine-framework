@@ -1,6 +1,7 @@
 version: '3'
 services:
   pine-mysql:
+    hostname: "pine-mysql"
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
@@ -8,27 +9,32 @@ services:
       - ./tutorial/resource:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: Root1234
+      MYSQL_USER: pine
+      MYSQL_PASSWORD: pine
+      MYSQL_DATABASE: pine
     ports:
       - 3306
     healthcheck:
       test: "mysqladmin --host=127.0.0.1 --user=root --password=Root1234 status"
       interval: 1s
       retries: 120
-  pine-postgres:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: pine
-  pine-discovery-server-eureka:
-    hostname: "pine-discovery-server-eureka"
-    image: discovery-server-eureka:latest
+  pine-eureka-server:
+    hostname: "pine-eureka-server"
+    image: eureka-server:latest
     build:
-      context: ../core-spring/discovery-server-eureka
-      dockerfile: ../core-spring/discovery-server-eureka/Dockerfile
+      context: ./core-spring/discovery-server-eureka
+      dockerfile: Dockerfile
     ports:
       - 8761:8761
+    environment:
+      EUREKA_HOST: 0.0.0.0
+      EUREKA_PORT: 8761
+      HOSTNAME: pine-eureka-server
+      PROFILES: development
+      ENVIRONMENT: Docker
+      DATACENTER: Pine
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      test: [ "CMD", "curl", "--insecure", "https://localhost:8761/actuator/health" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -36,17 +42,24 @@ services:
     hostname: "pine-config-server"
     image: config-server:latest
     build:
-      context: ../core-spring/config-server
-      dockerfile: ../core-spring/config-server/Dockerfile
+      context: ./core-spring/config-server
+      dockerfile: Dockerfile
+    environment:
+      CONFIG_SERVER_HOST: 0.0.0.0
+      CONFIG_SERVER_PORT: 8888
+      PROFILES: internationalization,activemq,mysql,eureka-server
+      CONFIG_REPOSITORY_URL: https://github.com/pine-org/pine-framework
+      CONFIG_REPOSITORY: config-development-docker
+      DISCOVERY_SERVER_URL: https://pine-eureka-server:8761/eureka
     depends_on:
-      pine-discovery-server-eureka:
+      pine-eureka-server:
         condition: service_healthy
     links:
-      - pine-discovery-server-eureka
+      - pine-eureka-server
     ports:
       - 8888:8888
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      test: [ "CMD", "curl", "--insecure", "https://localhost:8888/actuator/health" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -54,26 +67,61 @@ services:
     hostname: "pine-eshop"
     image: eshop:latest
     build:
-      context: ../tutorial/eshop/rest-api
-      dockerfile: ../tutorial/eshop/rest-api/Dockerfile
+      context: ./tutorial/eshop/rest-api
+      dockerfile: Dockerfile
+    environment:
+      ESHOP_HOST: 0.0.0.0
+      ESHOP_PORT: 9091
+      HOSTNAME: pine-eshop
+      ENVIRONMENT: Development
+      PROFILES: development,eureka-server,config-server,i18n,mysql,hibernate,US
+      MYSQL_HOST: pine-mysql:3306
+      MYSQL_DATABASE: eshop
+      MYSQL_PASSWORD: pine
+      MYSQL_USERNAME: pine
+      HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+      DATABASE_SCHEMA: ESHOP
+      ACTIVEMQ_URL: tcp://pine-activemq:61616
+      ACTIVEMQ_USER: admin
+      ACTIVEMQ_PASSWORD: admin
+      ACTIVEMQ_QUEUES: eshop,status
+      DISCOVERY_SERVER_URL: https://pine-eureka-server:8761/eureka
+      CONFIG_SERVER_URL: https://pine-config-server:8888
     depends_on:
-      pine-discovery-server-eureka:
+      pine-eureka-server:
         condition: service_healthy
       pine-config-server:
         condition: service_healthy
       pine-mysql:
         condition: service_healthy
     links:
-      - pine-discovery-server-eureka
+      - pine-eureka-server
       - pine-config-server
       - pine-mysql
     ports:
       - 9091:9091
   pine-test:
-    image: openjdk:8
+    image: busybox
     command: tail -F anything
   pine-adminer:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
+      - 8081:8080
+    depends_on:
+      pine-mysql:
+        condition: service_healthy
+    links:
+      - pine-mysql
+  pinephpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8082:80
+    environment:
+      - PMA_ARBITRARY=1
+    depends_on:
+      pine-mysql:
+        condition: service_healthy
+    links:
+      - pine-mysql

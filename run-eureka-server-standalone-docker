@@ -1,0 +1,17 @@
+mvn -f ./core-spring/discovery-server-eureka/pom.xml clean package -DskipTests=true
+
+docker rm eureka-server
+docker image rm eureka-server:latest
+
+docker build -t eureka-server:latest ./core-spring/discovery-server-eureka/
+docker run \
+--name eureka-server \
+-p 8761:8761 \
+-h eureka-server \
+-e EUREKA_HOST=0.0.0.0 \
+-e EUREKA_PORT=8761 \
+-e HOSTNAME=$(hostname) \
+-e PROFILES=development \
+-e ENVIRONMENT=Development \
+-e DATACENTER=Pine \
+-it eureka-server:latest
