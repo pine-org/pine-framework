@@ -18,6 +18,20 @@ services:
       test: "mysqladmin --host=127.0.0.1 --user=root --password=Root1234 status"
       interval: 1s
       retries: 120
+  pine-activemq:
+    hostname: "pine-activemq"
+    image: activemq:latest
+    build:
+      context: ./resource/docker/activemq
+      dockerfile: Dockerfile
+    ports:
+      - 8161
+      - 61616
+    healthcheck:
+      test: curl -u admin:admin http://localhost:8161/admin || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 5
   pine-eureka-server:
     hostname: "pine-eureka-server"
     image: eureka-server:latest
@@ -74,7 +88,7 @@ services:
       ESHOP_PORT: 9091
       HOSTNAME: pine-eshop
       ENVIRONMENT: Development
-      PROFILES: development,eureka-server,config-server,i18n,mysql,hibernate,US
+      PROFILES: development,eureka-server,config-server,i18n,mysql,hibernate,messaging,activemq,US
       MYSQL_HOST: pine-mysql:3306
       MYSQL_DATABASE: eshop
       MYSQL_PASSWORD: pine
@@ -94,10 +108,13 @@ services:
         condition: service_healthy
       pine-mysql:
         condition: service_healthy
+      pine-activemq:
+        condition: service_healthy
     links:
       - pine-eureka-server
       - pine-config-server
       - pine-mysql
+      - pine-activemq
     ports:
       - 9091:9091
   pine-test:
