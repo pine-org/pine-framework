@@ -1,10 +1,10 @@
 mvn clean package
 
 docker rm pine-config-server
-docker image rm pineframework/config-server:latest
+docker image rm samanalishiri/config-server:latest
 
 docker network create --driver bridge pine_network || true
-docker build -t pineframework/config-server:latest .
+docker build -t samanalishiri/config-server:latest .
 
 docker run \
 --name pine-config-server \
@@ -17,4 +17,4 @@ docker run \
 -e PROFILES=internationalization,oracle,mysql,postgres,h2,activemq,ssl-server \
 -e EUREKA_SERVER_URL=https://pine-eureka-server:8761/eureka \
 --network=pine_network \
--it pineframework/config-server:latest
+-it samanalishiri/config-server:latest

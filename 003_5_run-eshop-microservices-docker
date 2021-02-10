@@ -5,13 +5,13 @@ mvn -f ./tutorial/pom.xml clean install -DskipTests=true  -P Microservices,Engli
 
 # remove container and image if there are exist
 docker rm pine-eshop --force
-docker image rm pineframework/eshop:latest
+docker image rm samanalishiri/eshop:latest
 
 # create network interface if there is not exist
 docker network create --driver bridge pine_network || true
 
 # create image
-docker build -t pineframework/eshop:latest ./tutorial/eshop/rest-api/
+docker build -t samanalishiri/eshop:latest ./tutorial/eshop/rest-api/
 
 # create container
 docker run \
@@ -35,7 +35,7 @@ docker run \
 -e ACTIVEMQ_PASSWORD=admin \
 -e ACTIVEMQ_QUEUES=eshop,status \
 --network=pine_network \
--itd pineframework/eshop:latest
+-itd samanalishiri/eshop:latest
 
 #docker exec -it pine-eshop sh -c 'curl http://localhost:9091/actuator/health'
 #docker logs pine-eshop [-f]

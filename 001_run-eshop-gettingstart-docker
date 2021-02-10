@@ -7,10 +7,10 @@ mvn -f ./tutorial/pom.xml clean install -DskipTests=true -P English-Check-style
 
 # remove container and image if there are exist
 docker rm pine-eshop --force
-docker image rm pineframework/eshop:latest
+docker image rm samanalishiri/eshop:latest
 
 # create image
-docker build -t pineframework/eshop:latest ./tutorial/eshop/rest-api/
+docker build -t samanalishiri/eshop:latest ./tutorial/eshop/rest-api/
 
 # create container
 docker run \
@@ -23,4 +23,4 @@ docker run \
 -e PROFILES=development,properties,i18n,h2,messaging,activemq-embedded,US \
 -e DATABASE=eshop \
 -e ACTIVEMQ_QUEUES=eshop,status \
--itd pineframework/eshop:latest
+-itd samanalishiri/eshop:latest

@@ -32,10 +32,10 @@ export ACTIVEMQ_USER=admin
 export ACTIVEMQ_PASSWORD=admin
 export ACTIVEMQ_QUEUES=eshop,status
 
-mvn -f ./core-java8/pom.xml clean install -DskipTests=true
-mvn -f ./core-security/pom.xml clean install -DskipTests=true
-mvn -f ./core-spring/pom.xml clean install -DskipTests=true
-mvn -f ./tutorial/pom.xml clean install -DskipTests=true -P Microservices
+mvn -f ./core-java8/pom.xml clean install -DskipTests=true -P English-Check-style
+mvn -f ./core-security/pom.xml clean install -DskipTests=true -P English-Check-style
+mvn -f ./core-spring/pom.xml clean install -DskipTests=true -P English-Check-style
+mvn -f ./tutorial/pom.xml clean install -DskipTests=true -P Microservices,English-Check-style
 
 docker system prune --force
 

@@ -3,13 +3,13 @@
 
 # remove container and image if there are exist
 docker rm pine-activemq --force
-docker image rm pineframework/activemq:latest
+docker image rm samanalishiri/activemq:latest
 
 # create network interface if there is not exist
 docker network create --driver bridge pine_network || true
 
 # create image
-docker build -t pineframework/activemq:latest ./resource/docker/activemq
+docker build -t samanalishiri/activemq:latest ./resource/docker/activemq
 
 # create container
 docker run \
@@ -18,7 +18,7 @@ docker run \
 -p 61616:61616 \
 -h pine-activemq \
 --network=pine_network \
--itd pineframework/activemq:latest
+-itd samanalishiri/activemq:latest
 
 #docker exec -it pine-activemq sh -c 'curl -u admin:admin http://localhost:8161/admin'
 #docker logs pine-activemq [-f]

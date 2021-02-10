@@ -1,10 +1,10 @@
 mvn clean package
 
 docker rm pine-eureka-server
-docker image rm pineframework/eureka-server:latest
+docker image rm samanalishiri/eureka-server:latest
 
 docker network create --driver bridge pine_network || true
-docker build -t pineframework/eureka-server:latest .
+docker build -t samanalishiri/eureka-server:latest .
 
 docker run \
 --name pine-eureka-server \
@@ -18,4 +18,4 @@ docker run \
 -e DATACENTER=Pine \
 -e PROTOCOL=http \
 --network=pine_network \
--it pineframework/eureka-server:latest
+-it samanalishiri/eureka-server:latest

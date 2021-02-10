@@ -1,0 +1,66 @@
+#mvn -f ./core-java8/pom.xml clean install -DskipTests=true -P English-Check-style
+#mvn -f ./core-security/pom.xml clean install -DskipTests=true -P English-Check-style
+#mvn -f ./core-spring/pom.xml clean install -DskipTests=true -P English-Check-style
+#mvn -f ./tutorial/pom.xml clean install -DskipTests=true -P English-Check-style
+#
+#docker image rm samanalishiri/eshop:1.0.0-SNAPSHOT
+#docker build -t samanalishiri/eshop:1.0.0-SNAPSHOT ./tutorial/eshop/rest-api/
+#docker push samanalishiri/eshop:1.0.0-SNAPSHOT
+#
+#docker image rm samanalishiri/activemq:latest
+#docker build -t samanalishiri/activemq:latest ./resource/docker/activemq/
+#docker push samanalishiri/activemq:latest
+
+#minikube start
+
+kubectl delete all --all
+kubectl delete secrets mysql-secret
+kubectl delete secrets activemq-credentials
+kubectl delete configMap mysql-configmap
+kubectl delete persistentvolume pine-mysql-pv
+kubectl delete persistentvolumeclaim pine-mysql-pvc
+
+#minikube stop
+#minikube start
+
+kubectl apply -f ./kubernetes/development/k8-mysql-secret.yml
+kubectl apply -f ./kubernetes/development/k8-mysql-configmap.yml
+kubectl apply -f ./kubernetes/development/k8-mysql-deployment.yml
+kubectl apply -f ./kubernetes/development/k8-phpmyadmin-deployment.yml
+
+kubectl create secret generic activemq-credentials --from-file=./kubernetes/development/jetty-realm.properties -n activemq
+kubectl apply -f ./kubernetes/development/k8-activemq-deployment.yml
+
+kubectl apply -f ./kubernetes/development/k8-eshop-deployment.yml
+
+echo
+echo ========== persistentvolume ==========
+kubectl get persistentvolume
+
+echo
+echo ========== persistentvolumeclaim ==========
+kubectl get persistentvolumeclaim
+
+echo
+echo ========== services ==========
+kubectl get services
+
+echo
+echo ========== deployments ==========
+kubectl get deployments
+
+echo
+echo ========== pod ==========
+kubectl get pod
+
+echo
+echo ========== urls ==========
+minikube service pine-eshop
+minikube service pine-eshop --url
+minikube service phpmyadmin
+minikube service phpmyadmin --url
+kubectl cluster-info
+#kubectl port-forward svc/pine-activemq 8161:8161 &
+#kill $(lsof -ti:8161)
+
+

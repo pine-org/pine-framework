@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pine-activemq
+  labels:
+    app: pine-activemq
+spec:
+  selector:
+    app: pine-activemq
+  ports:
+    - name: dashboard
+      port: 8161
+      targetPort: 8161
+      protocol: TCP
+    - name: openwire
+      port: 61616
+      targetPort: 61616
+      protocol: TCP
+    - name: amqp
+      port: 5672
+      targetPort: 5672
+      protocol: TCP
+    - name: stomp
+      port: 61613
+      targetPort: 61613
+      protocol: TCP
+    - name: mqtt
+      port: 1883
+      targetPort: 1883
+      protocol: TCP
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pine-activemq
+  labels:
+    app: pine-activemq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pine-activemq
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: pine-activemq
+    spec:
+      containers:
+        - image: samanalishiri/activemq:latest
+          name: pine-activemq
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: 500Mi
+              cpu: 200m
+            limits:
+              memory: 1000Mi
+              cpu: 400m
+      restartPolicy: Always

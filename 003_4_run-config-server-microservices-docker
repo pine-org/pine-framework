@@ -1,10 +1,10 @@
 mvn  -f ./netflix/config-server/pom.xml clean package -P Microservices,English-Check-style
 
 docker rm pine-config-server --force
-docker image rm pineframework/config-server:latest
+docker image rm samanalishiri/config-server:latest
 
 docker network create --driver bridge pine_network || true
-docker build -t pineframework/config-server:latest ./netflix/config-server
+docker build -t samanalishiri/config-server:latest ./netflix/config-server
 
 docker run \
 --name pine-config-server \
@@ -17,7 +17,7 @@ docker run \
 -e PROFILES=eureka-server,internationalization,oracle,mysql,postgres,h2,activemq \
 -e EUREKA_SERVER_URL=http://pine-eureka-server:8761/eureka \
 --network=pine_network \
--itd pineframework/config-server:latest
+-itd samanalishiri/config-server:latest
 
 #docker exec -it pine-config-server sh -c 'curl localhost:8888/actuator/health'
 #docker logs pine-config-server [-f]
