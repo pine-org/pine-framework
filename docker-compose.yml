@@ -6,7 +6,7 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     volumes:
-      - ./tutorial/resource/eshop:/docker-entrypoint-initdb.d
+      - ./tutorial/eshop/resource:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: Root1234
       MYSQL_USER: pine
@@ -45,10 +45,10 @@ services:
       EUREKA_PORT: 8761
       HOSTNAME: pine-eureka-server
       PROFILES: development
-      ENVIRONMENT: Docker
+      ENVIRONMENT: Docker Compose
       DATACENTER: Pine
     healthcheck:
-      test: [ "CMD", "curl", "--insecure", "https://localhost:8761/actuator/health" ]
+      test: [ "CMD", "curl", "--insecure", "http://localhost:8761/actuator/health" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -64,7 +64,7 @@ services:
       PROFILES: internationalization,activemq,mysql,eureka-server
       CONFIG_REPOSITORY_URL: https://github.com/pine-org/pine-framework
       CONFIG_REPOSITORY: config-repository/development/eshop/docker
-      EUREKA_SERVER_URL: https://pine-eureka-server:8761/eureka
+      EUREKA_SERVER_URL: http://pine-eureka-server:8761/eureka
     depends_on:
       pine-eureka-server:
         condition: service_healthy
@@ -73,7 +73,7 @@ services:
     ports:
       - 8888:8888
     healthcheck:
-      test: [ "CMD", "curl", "--insecure", "https://localhost:8888/actuator/health" ]
+      test: [ "CMD", "curl", "--insecure", "http://localhost:8888/actuator/health" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -93,14 +93,14 @@ services:
       MYSQL_DATABASE: eshop
       MYSQL_PASSWORD: pine
       MYSQL_USERNAME: pine
-      HIBERNATE_DIALECT: org.hibernate.dialect.MySQLDialect
+      HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       DATABASE_SCHEMA: ESHOP
       ACTIVEMQ_URL: tcp://pine-activemq:61616
       ACTIVEMQ_USER: admin
       ACTIVEMQ_PASSWORD: admin
       ACTIVEMQ_QUEUES: eshop,status
-      EUREKA_SERVER_URL: https://pine-eureka-server:8761/eureka
-      CONFIG_SERVER_URL: https://pine-config-server:8888
+      EUREKA_SERVER_URL: http://pine-eureka-server:8761/eureka
+      CONFIG_SERVER_URL: http://pine-config-server:8888
     depends_on:
       pine-eureka-server:
         condition: service_healthy
@@ -111,10 +111,10 @@ services:
       pine-activemq:
         condition: service_healthy
     links:
-      - pine-eureka-server
-      - pine-config-server
       - pine-mysql
       - pine-activemq
+      - pine-eureka-server
+      - pine-config-server
     ports:
       - 9091:9091
   pine-test:
