@@ -10,10 +10,10 @@ spring:
     database: postgresql
     hibernate:
       ddl-auto: update
-      properties:
-        hibernate:
-          dialect: rg.hibernate.dialect.PostgreSQLDialect
-          generate_statistics: true
-          default_schema: ESHOP
-          format_sql: true
-          naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: rg.hibernate.dialect.PostgreSQLDialect
+        generate_statistics: true
+        default_schema: ESHOP
+        format_sql: true
+        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy

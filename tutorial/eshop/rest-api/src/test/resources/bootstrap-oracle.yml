@@ -10,10 +10,10 @@ spring:
     database: oracle
     hibernate:
       ddl-auto: update
-      properties:
-        hibernate:
-          dialect: rg.hibernate.dialect.Oracle12cDialect
-          generate_statistics: true
-          default_schema: PINE
-          format_sql: true
-          naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: rg.hibernate.dialect.Oracle12cDialect
+        generate_statistics: true
+        default_schema: PINE
+        format_sql: true
+        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy

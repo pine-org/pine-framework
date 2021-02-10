@@ -29,7 +29,10 @@ public class MessengerStepDefinitions implements En {
         });
 
         When("It generate {}", (String greeting) -> {
-            this.message = format("%s:%s %s", speaker.getName(), greeting, listener.getName()).trim();
+            this.message = format("%s%s:%s",
+                    speaker.getName(),
+                    (listener.represent ? " > " : "") + listener.getName(),
+                    greeting).trim();
         });
 
         Then("It should be {}", (String message) -> {
@@ -46,15 +49,15 @@ public class MessengerStepDefinitions implements En {
     static final class Person {
 
         private final String name;
-        private final Boolean isInclude;
+        private final Boolean represent;
 
-        public Person(String name, Boolean isInclude) {
+        public Person(String name, Boolean represent) {
             this.name = name;
-            this.isInclude = isInclude;
+            this.represent = represent;
         }
 
         public String getName() {
-            return isInclude ? name : "";
+            return represent ? name : "";
         }
     }
 }

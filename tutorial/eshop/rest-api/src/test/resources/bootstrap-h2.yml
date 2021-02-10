@@ -10,12 +10,12 @@ spring:
     database: h2
     hibernate:
       ddl-auto: update
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.H2Dialect
-          generate_statistics: true
-          format_sql: true
-          naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        generate_statistics: true
+        format_sql: true
+        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
   h2:
     console:
       enabled: true

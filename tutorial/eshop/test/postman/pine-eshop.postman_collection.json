@@ -1,12 +1,12 @@
 {
   "info": {
     "_postman_id": "1a976170-e0ed-483d-9ce6-48246effc5e5",
-    "name": "pine",
+    "name": "pine-eshop",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "E-Shop_Product_UP_GET",
+      "name": "EShop_Product_Health_GET",
       "event": [
         {
           "listen": "prerequest",
@@ -56,10 +56,12 @@
           "raw": ""
         },
         "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/status",
+          "raw": "{{protocol}}://{{host}}:{{port}}/{{application}}/api/v1/product/status",
+          "protocol": "{{protocol}}",
           "host": [
-            "{{eshop.host}}"
+            "{{host}}"
           ],
+          "port": "{{port}}",
           "path": [
             "{{application}}",
             "api",
@@ -72,7 +74,7 @@
       "response": []
     },
     {
-      "name": "E-Shop_Product_Save_POST",
+      "name": "EShop_Product_Save_POST",
       "event": [
         {
           "listen": "prerequest",
@@ -123,10 +125,12 @@
           "raw": "{\n    \"name\": \"Table\",\n    \"code\": \"001\",\n    \"description\": \"Table is made in the USA\",\n    \"price\": 1450\n}"
         },
         "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/",
+          "raw": "{{protocol}}://{{host}}:{{port}}/{{application}}/api/v1/product/",
+          "protocol": "{{protocol}}",
           "host": [
-            "{{eshop.host}}"
+            "{{host}}"
           ],
+          "port": "{{port}}",
           "path": [
             "{{application}}",
             "api",
@@ -139,7 +143,7 @@
       "response": []
     },
     {
-      "name": "E-Shop_Product_FindById_GET",
+      "name": "EShop_Product_FindById_GET",
       "event": [
         {
           "listen": "prerequest",
@@ -233,10 +237,12 @@
           "raw": ""
         },
         "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/{{currentProductId}}",
+          "raw": "{{protocol}}://{{host}}:{{port}}/{{application}}/api/v1/product/{{currentProductId}}",
+          "protocol": "{{protocol}}",
           "host": [
-            "{{eshop.host}}"
+            "{{host}}"
           ],
+          "port": "{{port}}",
           "path": [
             "{{application}}",
             "api",
@@ -249,7 +255,7 @@
       "response": []
     },
     {
-      "name": "E-Shop_Product_Update_PUT",
+      "name": "EShop_Product_Update_PUT",
       "event": [
         {
           "listen": "prerequest",
@@ -292,10 +298,12 @@
           "raw": "{\n    \"id\": {{currentProductId}},\n    \"insertDate\": \"{{currentProductInsertDate}}\",\n    \"insertUserId\": {{currentProductInsertUserId}},\n    \"insertUnitId\": {{currentProductInsertUnitId}},\n    \"modifyDate\": {{currentProductModifyDate}},\n    \"modifyUserId\": {{currentProductModifyUserId}},\n    \"modifyUnitId\": {{currentProductModifyUnitId}},\n    \"version\": {{currentProductVersion}},\n    \"name\": \"{{currentProductName}}_updated\",\n    \"code\": \"{{currentProductCode}}\",\n    \"description\": \"{{currentProductDescription}}\",\n    \"price\": {{currentProductPrice}}\n}"
         },
         "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/{{currentProductId}}",
+          "raw": "{{protocol}}://{{host}}:{{port}}/{{application}}/api/v1/product/{{currentProductId}}",
+          "protocol": "{{protocol}}",
           "host": [
-            "{{eshop.host}}"
+            "{{host}}"
           ],
+          "port": "{{port}}",
           "path": [
             "{{application}}",
             "api",
@@ -308,7 +316,7 @@
       "response": []
     },
     {
-      "name": "E-Shop_Product_FindById_GET _AfterUpdate",
+      "name": "EShop_Product_FindById_GET _AfterUpdate",
       "event": [
         {
           "listen": "prerequest",
@@ -402,10 +410,12 @@
           "raw": ""
         },
         "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/{{currentProductId}}",
+          "raw": "{{protocol}}://{{host}}:{{port}}/{{application}}/api/v1/product/{{currentProductId}}",
+          "protocol": "{{protocol}}",
           "host": [
-            "{{eshop.host}}"
+            "{{host}}"
           ],
+          "port": "{{port}}",
           "path": [
             "{{application}}",
             "api",
@@ -418,14 +428,14 @@
       "response": []
     },
     {
-      "name": "E-Shop_Product_Pagination_GET",
+      "name": "EShop_Product_Pagination_GET",
       "event": [
         {
           "listen": "prerequest",
           "script": {
             "exec": [
               "var encoded = encodeURIComponent(JSON.stringify({\"index\": 0,\"size\": 10}));",
-              "pm.environment.set(\"pageModel\", encoded);"
+              "pm.environment.set(\"page\", encoded);"
             ],
             "type": "text/javascript"
           }
@@ -497,10 +507,12 @@
           "raw": ""
         },
         "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/search/page/:pageModel",
+          "raw": "{{protocol}}://{{host}}:{{port}}/{{application}}/api/v1/product/search/page/:page",
+          "protocol": "{{protocol}}",
           "host": [
-            "{{eshop.host}}"
+            "{{host}}"
           ],
+          "port": "{{port}}",
           "path": [
             "{{application}}",
             "api",
@@ -508,12 +520,13 @@
             "product",
             "search",
             "page",
-            ":pageModel"
+            ":page"
           ],
           "variable": [
             {
-              "key": "pageModel",
-              "value": "{{pageModel}}"
+              "key": "page",
+              "value": "{{page}}",
+              "type": "string"
             }
           ]
         }
@@ -521,14 +534,14 @@
       "response": []
     },
     {
-      "name": "E-Shop_Product_PaginationByFilterAndProjection_GET",
+      "name": "EShop_Product_PaginationByFilterAndProjection_GET",
       "event": [
         {
           "listen": "prerequest",
           "script": {
             "exec": [
-              "var pageModel = encodeURIComponent(JSON.stringify({\"index\": 0,\"size\": 10,\"filters\":[{\"type\":\"equals\",\"field\":\"id\",\"value\":pm.environment.get(\"currentProductId\")}], \"projections\": ['photos']}));",
-              "pm.environment.set(\"pageModel\", pageModel);"
+              "var page = encodeURIComponent(JSON.stringify({\"index\": 0,\"size\": 10,\"filters\":[{\"type\":\"equals\",\"field\":\"id\",\"value\":pm.environment.get(\"currentProductId\")}], \"projections\": ['photos']}));",
+              "pm.environment.set(\"page\", page);"
             ],
             "type": "text/javascript"
           }
@@ -566,10 +579,12 @@
           "raw": ""
         },
         "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/search/page/:pageModel",
+          "raw": "{{protocol}}://{{host}}:{{port}}/{{application}}/api/v1/product/search/page/:page",
+          "protocol": "{{protocol}}",
           "host": [
-            "{{eshop.host}}"
+            "{{host}}"
           ],
+          "port": "{{port}}",
           "path": [
             "{{application}}",
             "api",
@@ -577,12 +592,13 @@
             "product",
             "search",
             "page",
-            ":pageModel"
+            ":page"
           ],
           "variable": [
             {
-              "key": "pageModel",
-              "value": "{{pageModel}}"
+              "key": "page",
+              "value": "{{page}}",
+              "type": "string"
             }
           ]
         }
@@ -590,7 +606,7 @@
       "response": []
     },
     {
-      "name": "E-Shop_Product_Delete_DELETE",
+      "name": "EShop_Product_Delete_DELETE",
       "event": [
         {
           "listen": "prerequest",
@@ -633,10 +649,12 @@
           "raw": ""
         },
         "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/{{currentProductId}}",
+          "raw": "{{protocol}}://{{host}}:{{port}}/{{application}}/api/v1/product/{{currentProductId}}",
+          "protocol": "{{protocol}}",
           "host": [
-            "{{eshop.host}}"
+            "{{host}}"
           ],
+          "port": "{{port}}",
           "path": [
             "{{application}}",
             "api",
@@ -649,7 +667,7 @@
       "response": []
     },
     {
-      "name": "E-Shop_Product_BatchSave_POST",
+      "name": "EShop_Product_BatchSave_POST",
       "event": [
         {
           "listen": "prerequest",
@@ -704,10 +722,12 @@
           "raw": "[\n    {\n        \"name\": \"Table\",\n        \"code\": \"001\",\n        \"description\": \"Table is made in the Iran\",\n        \"price\": 1450\n    },\n    {\n        \"name\": \"Chair\",\n        \"code\": \"002\",\n        \"description\": \"Chair is made in the Iran\",\n        \"price\": 1450\n    }\n]"
         },
         "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/batch/save",
+          "raw": "{{protocol}}://{{host}}:{{port}}/{{application}}/api/v1/product/batch/save",
+          "protocol": "{{protocol}}",
           "host": [
-            "{{eshop.host}}"
+            "{{host}}"
           ],
+          "port": "{{port}}",
           "path": [
             "{{application}}",
             "api",
@@ -721,7 +741,7 @@
       "response": []
     },
     {
-      "name": "E-Shop_Product_BatchDelete_DELETE",
+      "name": "EShop_Product_BatchDelete_DELETE",
       "event": [
         {
           "listen": "prerequest",
@@ -764,10 +784,12 @@
           "raw": ""
         },
         "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/product/batch/delete/{{currentProductBatchId}}",
+          "raw": "{{protocol}}://{{host}}:{{port}}/{{application}}/api/v1/product/batch/delete/{{currentProductBatchId}}",
+          "protocol": "{{protocol}}",
           "host": [
-            "{{eshop.host}}"
+            "{{host}}"
           ],
+          "port": "{{port}}",
           "path": [
             "{{application}}",
             "api",
@@ -782,7 +804,7 @@
       "response": []
     },
     {
-      "name": "E-Shop_Queue_Push_POST",
+      "name": "EShop_Queue_Push_POST",
       "event": [
         {
           "listen": "prerequest",
@@ -835,10 +857,12 @@
           "raw": "{\n    \"content\": \"Hello\"\n}"
         },
         "url": {
-          "raw": "{{eshop.host}}/{{application}}/api/v1/queue/",
+          "raw": "{{protocol}}://{{host}}:{{port}}/{{application}}/api/v1/queue/",
+          "protocol": "{{protocol}}",
           "host": [
-            "{{eshop.host}}"
+            "{{host}}"
           ],
+          "port": "{{port}}",
           "path": [
             "{{application}}",
             "api",

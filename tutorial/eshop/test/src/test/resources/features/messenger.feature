@@ -7,10 +7,10 @@ Feature: Messenger
     When It generate <message>
     Then It should be <result>
     Examples:
-      | speaker       | listener       | message       | result                |
-      | James   ,true | William ,true  | Hello         | James:Hello William   |
-      | William ,true | James   ,true  | Hello         | William:Hello James   |
-      | James   ,true | William ,false | How are you ? | James:How are you ?   |
-      | William ,true | James   ,false | I am good     | William:I am good     |
-      | James   ,true | William ,true  | Goodbye       | James:Goodbye William |
-      | William ,true | James   ,false | Goodbye       | William:Goodbye       |
+      | speaker       | listener       | message       | result                  |
+      | James   ,true | William ,false | Hello         | James:Hello             |
+      | William ,true | James   ,false | Hello         | William:Hello           |
+      | James   ,true | William ,false | How are you ? | James:How are you ?     |
+      | William ,true | James   ,false | I am good     | William:I am good       |
+      | James   ,true | William ,false | Goodbye       | James:Goodbye           |
+      | William ,true | James   ,true  | Goodbye       | William > James:Goodbye |
