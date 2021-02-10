@@ -1,0 +1,20 @@
+mvn clean package
+
+docker rm pine-config-server
+docker image rm pineframework/config-server:latest
+
+docker network create --driver bridge pine_network || true
+docker build -t pineframework/config-server:latest .
+
+docker run \
+--name pine-config-server \
+-p 8888:8888 \
+-h pine-config-server \
+-e CONFIG_SERVER_HOST=0.0.0.0 \
+-e CONFIG_SERVER_PORT=8888 \
+-e CONFIG_REPOSITORY_URL=https://github.com/pine-org/pine-framework \
+-e CONFIG_REPOSITORY=config-repository/development/eshop/docker \
+-e PROFILES=internationalization,oracle,mysql,postgres,h2,activemq,ssl-client \
+-e EUREKA_SERVER_URL=https://pine-eureka-server:8761/eureka \
+--network=pine_network \
+-it pineframework/config-server:latest

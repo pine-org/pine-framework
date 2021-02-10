@@ -148,8 +148,9 @@
                                 <id>validate</id>
                                 <phase>validate</phase>
                                 <configuration>
-                                    <configLocation>../parsi-check-style/checkstyle.xml</configLocation>
-                                    <configLocation>../parsi-check-style/google_check_style.xml</configLocation>
+                                    <configLocation>../code-style/parsi-check-style/checkstyle.xml</configLocation>
+                                    <configLocation>../code-style/parsi-check-style/google_check_style.xml
+                                    </configLocation>
                                     <encoding>UTF-8</encoding>
                                     <consoleOutput>true</consoleOutput>
                                     <failsOnError>true</failsOnError>
@@ -195,11 +196,13 @@
                                 <id>validate</id>
                                 <phase>validate</phase>
                                 <configuration>
-                                    <configLocation>../english-check-style/checkstyle.xml</configLocation>
-                                    <configLocation>../english-check-style/google_check_style.xml</configLocation>
+                                    <configLocation>../code-style/english-check-style/checkstyle.xml</configLocation>
+                                    <configLocation>../code-style/english-check-style/google_check_style.xml
+                                    </configLocation>
                                     <encoding>UTF-8</encoding>
                                     <consoleOutput>true</consoleOutput>
                                     <failsOnError>true</failsOnError>
+
                                     <failOnViolation>true</failOnViolation>
                                     <includeResources>false</includeResources>
                                     <includeTestResources>false</includeTestResources>

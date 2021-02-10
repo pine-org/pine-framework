@@ -1,0 +1,9 @@
+export EUREKA_HOST=0.0.0.0
+export EUREKA_PORT=8761
+export HOSTNAME=$(hostname)
+export PROFILES=development
+export ENVIRONMENT=localhost
+export DATACENTER=Pine
+
+mvn  -f ./netflix/eureka-server/pom.xml clean package
+java -jar ./target/eureka-server-1.0.0-SNAPSHOT.jar

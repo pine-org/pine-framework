@@ -1,0 +1,11 @@
+server:
+  ssl:
+    enabled: true
+    key-store: classpath:client.jks
+    key-store-password: 123456
+    key-password: 123456
+    trust-store: classpath:client.jks
+    trust-store-password: 123456
+    key-alias: client
+    key-store-type: JKS
+    trust-store-type: JKS

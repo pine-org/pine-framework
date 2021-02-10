@@ -1,0 +1,15 @@
+# OS variables
+export ESHOP_HOST=0.0.0.0
+export ESHOP_PORT=9091
+export ENVIRONMENT=Development
+export PROFILES=development,properties,i18n,h2,messaging,activemq-embedded,US
+export DATABASE=eshop
+export ACTIVEMQ_QUEUES=eshop,status
+
+# build application
+mvn -f ./core-java8/pom.xml clean install -DskipTests=true -P English-Check-style
+mvn -f ./core-spring/pom.xml clean install -DskipTests=true -P English-Check-style
+mvn -f ./tutorial/pom.xml clean install -DskipTests=true -P English-Check-style
+
+# run jar file
+java -jar ./tutorial/eshop/rest-api/target/eshop-1.0.0-SNAPSHOT.jar

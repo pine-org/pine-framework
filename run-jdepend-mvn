@@ -6,8 +6,8 @@ mvn -f ./core-java8/test/pom.xml jdepend:generate
 mvn -f ./core-java8/helper/pom.xml jdepend:generate
 mvn -f ./core-java8/i18n/pom.xml jdepend:generate
 
-mvn -f ./core-spring/config-server/pom.xml jdepend:generate
-mvn -f ./core-spring/discovery-server-eureka/pom.xml jdepend:generate
+mvn -f ./netflix/config-server/pom.xml jdepend:generate
+mvn -f ./netflix/eureka-server/pom.xml jdepend:generate
 mvn -f ./core-spring/properties/pom.xml jdepend:generate
 mvn -f ./core-spring/activemq/pom.xml jdepend:generate
 mvn -f ./core-spring/messaging/pom.xml jdepend:generate

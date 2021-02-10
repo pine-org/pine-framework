@@ -31,5 +31,10 @@ target/
 # IDE project file
 *.iml
 
+# certificate file
+*.crt
+*.jks
+*.p12
+
 .DS_Store
 /proofOfConcept/

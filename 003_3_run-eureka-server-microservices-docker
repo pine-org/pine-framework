@@ -1,0 +1,24 @@
+mvn -f ./netflix/eureka-server/pom.xml clean package -P English-Check-style
+
+docker rm pine-eureka-server --force
+docker image rm pineframework/eureka-server:latest
+
+docker network create --driver bridge pine_network || true
+docker build -t pineframework/eureka-server:latest ./netflix/eureka-server
+
+docker run \
+--name pine-eureka-server \
+-p 8761:8761 \
+-h pine-eureka-server \
+-e EUREKA_HOST=0.0.0.0 \
+-e EUREKA_PORT=8761 \
+-e HOSTNAME=pine-eureka-server \
+-e PROFILES=development,docker \
+-e ENVIRONMENT=Docker \
+-e DATACENTER=Pine \
+-e PROTOCOL=http \
+--network=pine_network \
+-itd pineframework/eureka-server:latest
+
+#docker exec -it pine-eureka-server sh -c 'curl localhost:8761/actuator/health'
+#docker logs pine-eureka-server [-f]

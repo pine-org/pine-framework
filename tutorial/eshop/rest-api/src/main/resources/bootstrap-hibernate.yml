@@ -9,3 +9,4 @@ spring:
         default_schema: ${DATABASE_SCHEMA}
         format_sql: true
         naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    database-platform: ${HIBERNATE_DIALECT}

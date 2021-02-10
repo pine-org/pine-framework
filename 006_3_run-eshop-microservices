@@ -1,0 +1,23 @@
+export ESHOP_HOST=0.0.0.0
+export ESHOP_PORT=9091
+export HOSTNAME=$(hostname)
+export ENVIRONMENT=Development
+export PROFILES=development,config-server,eureka-server,i18n,mysql,messaging,activemq,US
+export EUREKA_SERVER_URL=http://localhost:8761/eureka
+export CONFIG_SERVER_URL=http://localhost:8888
+export MYSQL_HOST=localhost:3306
+export MYSQL_DATABASE=eshop
+export MYSQL_PASSWORD=pine
+export MYSQL_USERNAME=pine
+export HIBERNATE_DIALECT=org.hibernate.dialect.MySQL8Dialect
+export DATABASE_SCHEMA=ESHOP
+export ACTIVEMQ_URL=tcp://localhost:61616
+export ACTIVEMQ_USER=admin
+export ACTIVEMQ_PASSWORD=admin
+export ACTIVEMQ_QUEUES=eshop,status
+
+mvn -f ./core-java8/pom.xml clean install -DskipTests=true -P English-Check-style
+mvn -f ./core-spring/pom.xml clean install -DskipTests=true -P English-Check-style
+mvn -f ./tutorial/pom.xml clean install -DskipTests=true -P Microservices,English-Check-style
+
+java -jar ./tutorial/eshop/rest-api/target/eshop-1.0.0-SNAPSHOT.jar

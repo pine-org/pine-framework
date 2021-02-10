@@ -87,8 +87,12 @@
     </build>
     <profiles>
         <profile>
-            <id>EurekaServer</id>
+            <id>Microservices</id>
             <dependencies>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-starter-config</artifactId>
+                </dependency>
                 <dependency>
                     <groupId>org.springframework.cloud</groupId>
                     <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -117,30 +121,8 @@
                             <include>bootstrap.yml</include>
                             <include>client.jks</include>
                             <include>server.jks</include>
-                            <include>bootstrap-eureka-server.yml</include>
-                        </includes>
-                    </resource>
-                </resources>
-            </build>
-        </profile>
-        <profile>
-            <id>ConfigServer</id>
-            <dependencies>
-                <dependency>
-                    <groupId>org.springframework.cloud</groupId>
-                    <artifactId>spring-cloud-starter-config</artifactId>
-                </dependency>
-            </dependencies>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                        <filtering>true</filtering>
-                        <includes>
-                            <include>bootstrap.yml</include>
-                            <include>client.jks</include>
-                            <include>server.jks</include>
                             <include>bootstrap-config-server.yml</include>
+                            <include>bootstrap-eureka-server.yml</include>
                         </includes>
                     </resource>
                 </resources>

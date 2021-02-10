@@ -1,0 +1,40 @@
+# build application
+mvn -f ./core-java8/pom.xml clean install -DskipTests=true -P English-Check-style
+mvn -f ./core-spring/pom.xml clean install -DskipTests=true -P English-Check-style
+mvn -f ./tutorial/pom.xml clean install -DskipTests=true -P English-Check-style
+
+# remove eshop container and image if there are exist
+docker rm pine-eshop --force
+docker image rm pineframework/eshop:latest
+
+# create network interface if there is not exist
+docker network create --driver bridge pine_network || true
+
+# create eshop image
+docker build -t pineframework/eshop:latest ./tutorial/eshop/rest-api/
+
+# create eshop container
+docker run \
+--name pine-eshop \
+-p 9091:9091 \
+-h pine-eshop \
+-e ESHOP_HOST=0.0.0.0 \
+-e ESHOP_PORT=9091 \
+-e ENVIRONMENT=Development \
+-e PROFILES=development,properties,i18n,mysql,hibernate,messaging,activemq,US \
+-e MYSQL_HOST=pine-mysql:3306 \
+-e MYSQL_DATABASE=eshop \
+-e DATABASE_SCHEMA=ESHOP \
+-e MYSQL_PASSWORD=pine \
+-e MYSQL_USERNAME=pine \
+-e HIBERNATE_DIALECT=org.hibernate.dialect.MySQL8Dialect \
+-e ACTIVEMQ_URL=tcp://pine-activemq:61616 \
+-e ACTIVEMQ_USER=admin \
+-e ACTIVEMQ_PASSWORD=admin \
+-e ACTIVEMQ_QUEUES=eshop,status \
+--network=pine_network \
+-itd pineframework/eshop:latest
+
+#docker exec -it pine-eshop sh -c 'curl http://localhost:9091/actuator/health'
+#docker logs pine-eshop [-f]
+#curl http://localhost:9091/actuator/health

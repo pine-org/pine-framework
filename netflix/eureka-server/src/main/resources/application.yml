@@ -1,0 +1,36 @@
+server:
+  address: ${EUREKA_HOST:0.0.0.0}
+  port: ${EUREKA_PORT:8761}
+spring:
+  main:
+    banner-mode: 'off'
+  profiles:
+    active: ${PROFILES:development}
+eureka:
+  datacenter: ${DATACENTER:'Default'}
+  environment: ${ENVIRONMENT:'Development'}
+  instance:
+    hostname: ${HOSTNAME}
+    status-page-url-path: ${PROTOCOL:http}://${eureka.instance.hostname}:${server.port}/actuator/info
+    health-check-url-path: ${PROTOCOL:http}://${eureka.instance.hostname}:${server.port}/actuator/health
+    home-page-url-path: ${PROTOCOL:http}://${eureka.instance.hostname}:${server.port}/
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    secure-virtual-host-name: ${spring.application.name}
+    non-secure-port: ${server.port}
+    secure-port: 443
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    healthcheck:
+      enabled: true
+    service-url:
+      defaultZone: ${PROTOCOL:http}://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    wait-time-in-ms-when-sync-empty: 0
+logging:
+  file:
+    name: eureka-server.log
+    path: /var/log
+  pattern:
+    file: '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID}){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n%wEx'

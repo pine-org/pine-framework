@@ -1,0 +1,21 @@
+mvn clean package
+
+docker rm pine-eureka-server
+docker image rm pineframework/eureka-server:latest
+
+docker network create --driver bridge pine_network || true
+docker build -t pineframework/eureka-server:latest .
+
+docker run \
+--name pine-eureka-server \
+-p 8761:8761 \
+-h pine-eureka-server \
+-e EUREKA_HOST=0.0.0.0 \
+-e EUREKA_PORT=8761 \
+-e HOSTNAME=pine-eureka-server \
+-e PROFILES=development,ssl-server \
+-e ENVIRONMENT=Docker \
+-e DATACENTER=Pine \
+-e PROTOCOL=https \
+--network=pine_network \
+-it pineframework/eureka-server:latest

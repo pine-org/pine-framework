@@ -1,0 +1,28 @@
+# stop mysql service on local machine
+# sudo /usr/local/mysql/support-files/mysql.server stop
+
+# remove container and image if there are exist
+docker rm pine-mysql --force
+docker image rm mysql:latest
+
+# create network interface if there is not exist
+docker network create --driver bridge pine_network || true
+
+# pull image (it does not need to pull an image every time, only for first time)
+docker pull mysql:latest
+
+# create container
+docker run \
+--name pine-mysql \
+-h pine-mysql \
+-p 3306:3306 \
+-e MYSQL_ROOT_PASSWORD=Root1234 \
+-e MYSQL_USER=pine \
+-e MYSQL_PASSWORD=pine \
+-e MYSQL_DATABASE=eshop \
+-v "$PWD/tutorial/resource":/docker-entrypoint-initdb.d \
+--network=pine_network \
+-itd mysql:latest
+
+#docker exec -it pine-mysql sh -c 'mysql -upine -ppine'
+#docker logs pine-mysql [-f]

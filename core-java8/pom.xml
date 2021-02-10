@@ -83,7 +83,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.19</version>
+            <version>8.0.23</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -234,8 +234,9 @@
                                 <id>validate</id>
                                 <phase>validate</phase>
                                 <configuration>
-                                    <configLocation>../parsi-check-style/checkstyle.xml</configLocation>
-                                    <configLocation>../parsi-check-style/google_check_style.xml</configLocation>
+                                    <configLocation>../code-style/parsi-check-style/checkstyle.xml</configLocation>
+                                    <configLocation>../code-style/parsi-check-style/google_check_style.xml
+                                    </configLocation>
                                     <encoding>UTF-8</encoding>
                                     <consoleOutput>true</consoleOutput>
                                     <failsOnError>true</failsOnError>
@@ -281,8 +282,9 @@
                                 <id>validate</id>
                                 <phase>validate</phase>
                                 <configuration>
-                                    <configLocation>../english-check-style/checkstyle.xml</configLocation>
-                                    <configLocation>../english-check-style/google_check_style.xml</configLocation>
+                                    <configLocation>../code-style/english-check-style/checkstyle.xml</configLocation>
+                                    <configLocation>../code-style/english-check-style/google_check_style.xml
+                                    </configLocation>
                                     <encoding>UTF-8</encoding>
                                     <consoleOutput>true</consoleOutput>
                                     <failsOnError>true</failsOnError>

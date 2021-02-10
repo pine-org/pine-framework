@@ -1,0 +1,5 @@
+docker build --rm -t pineframework/centos:7 .
+docker run -itd --privileged --name centos-container  pineframework/centos:7
+docker exec -it centos-container sh
+systemctl status
+docker stop centos-container
