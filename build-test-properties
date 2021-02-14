@@ -1,3 +1,0 @@
-mvn -f ./core-java8/pom.xml clean install -P BuildTest,ActiveMQ,Hibernate,H2,Localhost
-mvn -f ./core-spring/pom.xml clean install -P BuildTest,ActiveMQ,Hibernate,H2,Localhost,US
-mvn -f ./tutorial/pom.xml clean install -P BuildTest,ActiveMQ,Hibernate,H2,Localhost,US

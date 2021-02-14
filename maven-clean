@@ -1,3 +1,5 @@
+mvn -f ./netflix/eureka-server/pom.xml clean
+mvn -f ./netflix/config-server/pom.xml clean
 mvn -f ./core-java8/pom.xml clean
 mvn -f ./core-security/pom.xml clean
 mvn -f ./core-spring/pom.xml clean

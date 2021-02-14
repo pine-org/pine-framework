@@ -1,4 +1,0 @@
-mvn -f ./core-java8/pom.xml clean install -P Development,Localhost,ActiveMQ,MongoDB,English-Check-style,US
-mvn -f ./core-security/pom.xml clean install -P Development,Localhost,ActiveMQ,MongoDB,English-Check-style,US
-mvn -f ./core-spring/pom.xml clean install -P Development,Localhost,ActiveMQ,MongoDB,English-Check-style,US
-mvn -f ./tutorial/pom.xml clean install -P Development,Localhost,ActiveMQ,MongoDB,English-Check-style,PropertiesFile,US

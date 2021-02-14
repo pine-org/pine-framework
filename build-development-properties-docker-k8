@@ -1,8 +1,0 @@
-mvn -f ./core-java8/pom.xml clean install -P Development,K8,MySQL,English-Check-style,US
-mvn -f ./core-security/pom.xml clean install -P Development,K8,MySQL,English-Check-style
-mvn -f ./core-spring/pom.xml clean install -P Development,K8,MySQL,Hibernate,English-Check-style,US
-mvn -f ./tutorial/pom.xml clean install -P Development,K8,MySQL,Hibernate,English-Check-style,PropertiesFile,US
-
-docker image rm samanalishiri/eshop:1.0.0-SNAPSHOT
-docker build -t samanalishiri/eshop:1.0.0-SNAPSHOT ./tutorial/eshop/rest-api/
-docker push samanalishiri/eshop:1.0.0-SNAPSHOT
