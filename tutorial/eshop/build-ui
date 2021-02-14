@@ -1,0 +1,28 @@
+export WORK_SPACE=eshop-ui
+export WORK_SPACE_APP=$WORK_SPACE-app
+export COMPONENT_LIB=eshop-components-ui
+
+ng --version
+
+ng new $WORK_SPACE --create-application false
+
+cd ./$WORK_SPACE
+ng generate application $WORK_SPACE_APP --routing --style=scss --prefix=eshop
+npm install
+
+ng generate library $COMPONENT_LIB --prefix=eshop
+npm install
+npm install ./projects/$COMPONENT_LIB
+ng build $COMPONENT_LIB
+ng lint $COMPONENT_LIB
+
+npm uninstall @schematics/angular
+npm install @schematics/angular@9.1.0
+ng add @angular/material
+ng add single-spa-angular
+npm install
+
+npm install jquery --save
+npm install popper.js --save
+npm install bootstrap --save
+npm install --save @ng-bootstrap/ng-bootstrap

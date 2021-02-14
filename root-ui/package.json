@@ -1,5 +1,5 @@
 {
-  "name": "eshop-ui",
+  "name": "root-ui",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,36 +7,28 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "build:single-spa:eshop-ui-app": "ng build eshop-ui-app --prod --deploy-url http://localhost:4201/",
-    "serve:single-spa:eshop-ui-app": "ng s --project eshop-ui-app --disable-host-check --port 4201 --deploy-url http://localhost:4201/ --live-reload false"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.1.0",
-    "@angular/cdk": "^11.2.0",
     "@angular/common": "~11.1.0",
     "@angular/compiler": "~11.1.0",
     "@angular/core": "~11.1.0",
     "@angular/forms": "~11.1.0",
-    "@angular/material": "^11.2.0",
     "@angular/platform-browser": "~11.1.0",
     "@angular/platform-browser-dynamic": "~11.1.0",
     "@angular/router": "~11.1.0",
     "@ng-bootstrap/ng-bootstrap": "^9.0.2",
-    "@schematics/angular": "^9.1.0",
     "bootstrap": "^4.6.0",
-    "eshop-components-ui": "file:projects/eshop-components-ui",
     "jquery": "^3.5.1",
+    "pine-components-ui": "file:projects/pine-components-ui",
     "popper.js": "^1.16.1",
     "rxjs": "~6.6.0",
-    "single-spa": ">=4.0.0",
-    "single-spa-angular": "^4.9.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
   },
   "devDependencies": {
-    "@angular-builders/custom-webpack": "11.1.0-beta.1",
     "@angular-devkit/build-angular": "~0.1101.4",
     "@angular/cli": "~11.1.0",
     "@angular/compiler-cli": "~11.1.0",

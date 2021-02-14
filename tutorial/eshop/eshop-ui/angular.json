@@ -6,38 +6,38 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "eshop-main-ui": {
+    "eshop-ui-app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/eshop-main-ui",
-      "sourceRoot": "projects/eshop-main-ui/src",
-      "prefix": "eshop-main-ui",
+      "root": "projects/eshop-ui-app",
+      "sourceRoot": "projects/eshop-ui-app/src",
+      "prefix": "eshop",
       "architect": {
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "outputPath": "dist/eshop-main-ui",
-            "index": "projects/eshop-main-ui/src/index.html",
-            "main": "projects/eshop-main-ui/src/main.single-spa.ts",
-            "polyfills": "projects/eshop-main-ui/src/polyfills.ts",
-            "tsConfig": "projects/eshop-main-ui/tsconfig.app.json",
+            "outputPath": "dist/eshop-ui-app",
+            "index": "projects/eshop-ui-app/src/index.html",
+            "main": "projects/eshop-ui-app/src/main.single-spa.ts",
+            "polyfills": "projects/eshop-ui-app/src/polyfills.ts",
+            "tsConfig": "projects/eshop-ui-app/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "projects/eshop-main-ui/src/favicon.ico",
-              "projects/eshop-main-ui/src/assets"
+              "projects/eshop-ui-app/src/favicon.ico",
+              "projects/eshop-ui-app/src/assets"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "projects/eshop-main-ui/src/styles.scss"
+              "projects/eshop-ui-app/src/styles.scss"
             ],
             "scripts": [],
             "customWebpackConfig": {
-              "path": "projects/eshop-main-ui/extra-webpack.config.js",
-              "libraryName": "eshop-main-ui",
+              "path": "projects/eshop-ui-app/extra-webpack.config.js",
+              "libraryName": "eshop-ui-app",
               "libraryTarget": "umd"
             }
           },
@@ -45,8 +45,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/eshop-main-ui/src/environments/environment.ts",
-                  "with": "projects/eshop-main-ui/src/environments/environment.prod.ts"
+                  "replace": "projects/eshop-ui-app/src/environments/environment.ts",
+                  "with": "projects/eshop-ui-app/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -74,34 +74,34 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "eshop-main-ui:build"
+            "browserTarget": "eshop-ui-app:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "eshop-main-ui:build:production"
+              "browserTarget": "eshop-ui-app:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "eshop-main-ui:build"
+            "browserTarget": "eshop-ui-app:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/eshop-main-ui/src/test.ts",
-            "polyfills": "projects/eshop-main-ui/src/polyfills.ts",
-            "tsConfig": "projects/eshop-main-ui/tsconfig.spec.json",
-            "karmaConfig": "projects/eshop-main-ui/karma.conf.js",
+            "main": "projects/eshop-ui-app/src/test.ts",
+            "polyfills": "projects/eshop-ui-app/src/polyfills.ts",
+            "tsConfig": "projects/eshop-ui-app/tsconfig.spec.json",
+            "karmaConfig": "projects/eshop-ui-app/karma.conf.js",
             "assets": [
-              "projects/eshop-main-ui/src/favicon.ico",
-              "projects/eshop-main-ui/src/assets"
+              "projects/eshop-ui-app/src/favicon.ico",
+              "projects/eshop-ui-app/src/assets"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "projects/eshop-main-ui/src/styles.scss"
+              "projects/eshop-ui-app/src/styles.scss"
             ],
             "scripts": []
           }
@@ -110,9 +110,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/eshop-main-ui/tsconfig.app.json",
-              "projects/eshop-main-ui/tsconfig.spec.json",
-              "projects/eshop-main-ui/e2e/tsconfig.json"
+              "projects/eshop-ui-app/tsconfig.app.json",
+              "projects/eshop-ui-app/tsconfig.spec.json",
+              "projects/eshop-ui-app/e2e/tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -122,17 +122,57 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "projects/eshop-main-ui/e2e/protractor.conf.js",
-            "devServerTarget": "eshop-main-ui:serve"
+            "protractorConfig": "projects/eshop-ui-app/e2e/protractor.conf.js",
+            "devServerTarget": "eshop-ui-app:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "eshop-main-ui:serve:production"
+              "devServerTarget": "eshop-ui-app:serve:production"
             }
+          }
+        }
+      }
+    },
+    "eshop-components-ui": {
+      "projectType": "library",
+      "root": "projects/eshop-components-ui",
+      "sourceRoot": "projects/eshop-components-ui/src",
+      "prefix": "eshop",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "projects/eshop-components-ui/tsconfig.lib.json",
+            "project": "projects/eshop-components-ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/eshop-components-ui/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/eshop-components-ui/src/test.ts",
+            "tsConfig": "projects/eshop-components-ui/tsconfig.spec.json",
+            "karmaConfig": "projects/eshop-components-ui/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/eshop-components-ui/tsconfig.lib.json",
+              "projects/eshop-components-ui/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
     }
   },
-  "defaultProject": "eshop-main-ui"
+  "defaultProject": "eshop-ui-app"
 }

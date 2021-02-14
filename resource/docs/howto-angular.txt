@@ -4,6 +4,7 @@ step-3: npm install -g npm
 step-4: npm install -g @angular/cli
 step-5: ng --version
 
+
 ======================================================================================================
 ======================================================================================================
 ======================================================================================================
@@ -12,7 +13,24 @@ create project: ng new a-name --routing --style=scss --prefix a-name
 
 create workspace: ng new a-name --create-application false
 create workspace project: ng generate application a-name --routing --style=scss --prefix a-name
-create workspace lib:
+create workspace lib: ng generate library lib-name
+
+add bootstrap
+step-1: npm install jquery --save
+step-2: npm install popper.js --save
+step-3: npm install bootstrap --save
+step-4: add following code to angular.js
+"scripts": [
+  "node_modules/jquery/dist/jquery.slim.js",
+  "node_modules/popper.js/dist/umd/popper.js",
+  "node_modules/bootstrap/dist/js/bootstrap.js"
+],
+
+"styles": [
+  "node_modules/bootstrap/dist/css/bootstrap.css"
+],
+step-5: npm install --save @ng-bootstrap/ng-bootstrap
+
 
 create component: ng generate component component-name
 
@@ -20,13 +38,12 @@ create component: ng generate component component-name
 ======================================================================================================
 ======================================================================================================
 MICRO FRONTEND
-
-step-1: create root:
-step-2: ng new pine-ui --create-application false
-step-3: cd pine-ui
-step-4: ng generate application main-ui --routing --style=scss --prefix main-ui
-step-5: npm install
-step-6: replace following code to whole content of index.html
+########## create root ##########
+step-1: ng new workspace-nme --create-application false
+step-2: cd workspace-nme
+step-3: ng generate application app-name --routing --style=scss --prefix=name
+step-4: npm install
+step-5: replace following code to whole content of index.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +58,7 @@ step-6: replace following code to whole content of index.html
   <script type="systemjs-importmap">
       {
         "imports": {
-          "eshop-main-ui": "http://localhost:4201/main.js",
+          "child-app-name": "http://localhost:4201/main.js",
           "single-spa": "https://cdnjs.cloudflare.com/ajax/libs/single-spa/4.3.5/system/single-spa.min.js"
         }
       }
@@ -63,12 +80,12 @@ step-6: replace following code to whole content of index.html
 <script>
   System.import('single-spa').then(function (singleSpa) {
     singleSpa.registerApplication(
-      'eshop-main-ui',
+      'child-app-name',
       function () {
-        return System.import('eshop-main-ui');
+        return System.import('child-app-name');
       },
       function (location) {
-        // return location.pathname.startsWith('/eshop-main-ui');
+        // return location.pathname.startsWith('/child-app-name');
         return true;
       }
     )
@@ -79,14 +96,14 @@ step-6: replace following code to whole content of index.html
 <import-map-overrides-full></import-map-overrides-full>
 </body>
 </html>
-step-7: npm start
+step-6: npm start
 
 ======================================================================================================
-
-create other micro frontends:
-step-1: ng new eshop-ui --create-application false
-step-2: cd eshop-ui
-step-3: ng generate application eshop-main-ui --routing --style=scss --prefix eshop-main-ui
+MICRO FRONTEND
+########## create child ##########
+step-1: ng new child-workspace-name --create-application false
+step-2: cd child-workspace-name
+step-3: ng generate application child-app-name --routing --style=scss --prefix=name
 step-4: npm install
 step-5: npm uninstall @schematics/angular
 step-6: npm install @schematics/angular@9.1.0
@@ -111,14 +128,13 @@ step-13: replace following code to whole content of index.html
   <script type="systemjs-importmap">
       {
         "imports": {
-          "eshop-main-ui": "http://localhost:4201/main.js",
+          "child-app-name": "http://localhost:4201/main.js",
           "single-spa": "https://cdnjs.cloudflare.com/ajax/libs/single-spa/4.3.5/system/single-spa.min.js"
         }
       }
 
   </script>
-  <link as="script" crossorigin="anonymous"
-        href="https://cdnjs.cloudflare.com/ajax/libs/single-spa/4.3.5/system/single-spa.min.js" rel="preload"/>
+  <link as="script" crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/single-spa/4.3.5/system/single-spa.min.js" rel="preload"/>
   <script src='https://unpkg.com/core-js-bundle@3.1.4/minified.js'></script>
   <script src="https://unpkg.com/zone.js"></script>
   <script src="https://unpkg.com/import-map-overrides@1.6.0/dist/import-map-overrides.js"></script>
@@ -133,12 +149,12 @@ step-13: replace following code to whole content of index.html
 <script>
   System.import('single-spa').then(function (singleSpa) {
     singleSpa.registerApplication(
-      'eshop-main-ui',
+      'child-app-name',
       function () {
-        return System.import('eshop-main-ui');
+        return System.import('child-app-name');
       },
       function (location) {
-        // return location.pathname.startsWith('/eshop-main-ui');
+        // return location.pathname.startsWith('/child-app-name');
         return true;
       }
     )
@@ -147,8 +163,50 @@ step-13: replace following code to whole content of index.html
   })
 </script>
 <import-map-overrides-full></import-map-overrides-full>
-<eshop-main-ui-root></eshop-main-ui-root>
+<*-root></*-root>
 </body>
 </html>
-step-14: npm run build:single-spa:eshop-main-ui
-step-15: npm run serve:single-spa:eshop-main-ui
+step-14: npm run build:single-spa:child-app-name
+step-15: npm run serve:single-spa:child-app-name
+
+======================================================================================================
+MICRO FRONTEND
+########## create library ##########
+step-1: ng generate library lib-name
+step-2: ng build lib-name
+step-3: ng test lib-name
+step-4: ng lint lib-name
+step-5: npm install ./projects/lib-name
+step-6: npm install jquery --save
+step-7: npm install popper.js --save
+step-8: npm install bootstrap --save
+step-9: add following code to angular.js
+"scripts": [
+  "node_modules/jquery/dist/jquery.slim.js",
+  "node_modules/popper.js/dist/umd/popper.js",
+  "node_modules/bootstrap/dist/js/bootstrap.js"
+],
+
+"styles": [
+  "node_modules/bootstrap/dist/css/bootstrap.css",
+  "src/styles.css"
+],
+step-10: npm install --save @ng-bootstrap/ng-bootstrap
+
+======================================================================================================
+MICRO FRONTEND
+
+########## provide lib(s) to the local projects ##########
+step-1: cd ./dist/lib-name
+step-2: npm link
+step-3: cd project-name
+step-4: npm link lib-name
+
+########## in order to publish ##########
+step-1: ng build lib-name --prod
+step-2: cd dist/lib-name
+step-3: npm publish
+
+======================================================================================================
+======================================================================================================
+======================================================================================================

@@ -1,0 +1,3 @@
+ng build pine-components-ui
+cd ./dist/pine-components-ui
+npm link

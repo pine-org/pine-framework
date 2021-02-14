@@ -5,18 +5,18 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
-    "paths": {
-      "eshop-components-ui": [
-        "dist/eshop-components-ui/eshop-components-ui",
-        "dist/eshop-components-ui"
-      ]
-    },
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
+    "paths": {
+      "pine-components-ui": [
+        "dist/pine-components-ui/pine-components-ui",
+        "dist/pine-components-ui"
+      ]
+    },
     "module": "es2020",
     "lib": [
       "es2018",
