@@ -1,0 +1,8 @@
+<button *ngIf="!properties.hidden"
+        class="btn  {{shape}} {{border}} {{color}}"
+        type="button">
+
+  <i *ngIf="!properties.icon.hidden" class="{{properties.icon.name}}"></i>
+  {{properties.separator}}{{properties.title.content}}
+
+</button>

@@ -14,12 +14,15 @@ create project: ng new a-name --routing --style=scss --prefix a-name
 create workspace: ng new a-name --create-application false
 create workspace project: ng generate application a-name --routing --style=scss --prefix a-name
 create workspace lib: ng generate library lib-name
-
+create component: ng generate component component-name
+create service: ng generate service service-name
+#####################
 add bootstrap
 step-1: npm install jquery --save
 step-2: npm install popper.js --save
 step-3: npm install bootstrap --save
-step-4: add following code to angular.js
+step-4: npm install --save @ng-bootstrap/ng-bootstrap
+step-5: add following code to angular.js
 "scripts": [
   "node_modules/jquery/dist/jquery.slim.js",
   "node_modules/popper.js/dist/umd/popper.js",
@@ -29,10 +32,47 @@ step-4: add following code to angular.js
 "styles": [
   "node_modules/bootstrap/dist/css/bootstrap.css"
 ],
-step-5: npm install --save @ng-bootstrap/ng-bootstrap
+step-6: add @import "~bootstrap/dist/css/bootstrap.css"; to styles.(s)css
 
+#####################
+add fontawesome to angular 11
+step-1: npm install @fortawesome/fontawesome-svg-core
+step-2: npm install @fortawesome/free-solid-svg-icons
+step-3: npm install @fortawesome/free-brands-svg-icons
+step-4: npm install @fortawesome/free-regular-svg-icons
+step-5: npm install @fortawesome/angular-fontawesome@0.8
+step-6: import FontAwesomeModule in app.module.ts
 
-create component: ng generate component component-name
+#####################
+add fontawesome free
+step-1: npm install @fortawesome/fontawesome-free
+
+"styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "./node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "./node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
+              "src/styles.css"
+            ],
+            "scripts": [
+              "./node_modules/@fortawesome/fontawesome-free/js/all.min.js",
+              "./node_modules/@fortawesome/fontawesome-free/js/fontawesome.min.js",
+            ]
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import "~@fortawesome/fontawesome-free/css/fontawesome.min.css";
+@import "~@fortawesome/fontawesome-free/css/v4-shims.min.css";
+
+#####################
+add angular material
+step-1: npm uninstall @schematics/angular
+step-2: npm install @schematics/angular@9.1.0
+step-3: ng add @angular/material
+step-4: import following modules
+MatToolbarModule,
+MatIconModule,
+MatCardModule,
+MatButtonModule,
+MatProgressSpinnerModule,
+
 
 ======================================================================================================
 ======================================================================================================
@@ -43,7 +83,24 @@ step-1: ng new workspace-nme --create-application false
 step-2: cd workspace-nme
 step-3: ng generate application app-name --routing --style=scss --prefix=name
 step-4: npm install
-step-5: replace following code to whole content of index.html
+step-5: import following modules
+CommonModule,
+BrowserModule,
+AppRoutingModule,
+FontAwesomeModule,
+BrowserModule,
+AppRoutingModule,
+BrowserAnimationsModule,
+HttpClientModule,
+FontAwesomeModule,
+MatToolbarModule,
+MatIconModule,
+MatCardModule,
+MatButtonModule,
+MatProgressSpinnerModule,
+FormsModule
+step-6: Add providers: [{ provide: APP_BASE_HREF, useValue: '/' }] to app-routing.module.ts
+step-7: replace following code to whole content of index.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -96,7 +153,7 @@ step-5: replace following code to whole content of index.html
 <import-map-overrides-full></import-map-overrides-full>
 </body>
 </html>
-step-6: npm start
+step-8: npm start
 
 ======================================================================================================
 MICRO FRONTEND
@@ -113,7 +170,23 @@ step-9: npm install
 step-10: Add providers: [{ provide: APP_BASE_HREF, useValue: '/' }] to app-routing.module.ts
 step-11: Add { path: '**', component: EmptyRouteComponent } to your app-routing.module.ts
 step-12: Add a declaration for EmptyRouteComponent in app.module.ts
-step-13: replace following code to whole content of index.html
+step-13: import following modules
+CommonModule,
+BrowserModule,
+AppRoutingModule,
+FontAwesomeModule,
+BrowserModule,
+AppRoutingModule,
+BrowserAnimationsModule,
+HttpClientModule,
+FontAwesomeModule,
+MatToolbarModule,
+MatIconModule,
+MatCardModule,
+MatButtonModule,
+MatProgressSpinnerModule,
+FormsModule
+step-14: replace following code to whole content of index.html
 <!DOCTYPE html>
 <html>
 <head>
@@ -166,8 +239,8 @@ step-13: replace following code to whole content of index.html
 <*-root></*-root>
 </body>
 </html>
-step-14: npm run build:single-spa:child-app-name
-step-15: npm run serve:single-spa:child-app-name
+step-15: npm run build:single-spa:child-app-name
+step-16: npm run serve:single-spa:child-app-name
 
 ======================================================================================================
 MICRO FRONTEND
@@ -180,17 +253,6 @@ step-5: npm install ./projects/lib-name
 step-6: npm install jquery --save
 step-7: npm install popper.js --save
 step-8: npm install bootstrap --save
-step-9: add following code to angular.js
-"scripts": [
-  "node_modules/jquery/dist/jquery.slim.js",
-  "node_modules/popper.js/dist/umd/popper.js",
-  "node_modules/bootstrap/dist/js/bootstrap.js"
-],
-
-"styles": [
-  "node_modules/bootstrap/dist/css/bootstrap.css",
-  "src/styles.css"
-],
 step-10: npm install --save @ng-bootstrap/ng-bootstrap
 
 ======================================================================================================

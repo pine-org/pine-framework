@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductService} from "./product.service";
-import {Service} from "pine-components-ui/lib/service/Service";
-import {Properties} from "pine-components-ui/lib/component/Properties";
-import {Text} from "pine-components-ui/lib/component/Text";
+import {Properties, Service, Text} from 'pine-components-ui';
 
 @Component({
   selector: 'eshop-product',

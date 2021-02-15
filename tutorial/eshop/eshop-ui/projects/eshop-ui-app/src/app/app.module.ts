@@ -7,6 +7,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {EmptyRouteComponent} from "./empty-route/empty-route.component";
 import {ProductComponent} from './product/product.component';
 import {PineComponentsUiModule} from 'pine-components-ui';
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {HttpClientModule} from "@angular/common/http";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatIconModule} from "@angular/material/icon";
+import {MatCardModule} from "@angular/material/card";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {FormsModule} from "@angular/forms";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
   declarations: [
@@ -18,7 +26,15 @@ import {PineComponentsUiModule} from 'pine-components-ui';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    PineComponentsUiModule
+    HttpClientModule,
+    FontAwesomeModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatCardModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    FormsModule,
+    PineComponentsUiModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

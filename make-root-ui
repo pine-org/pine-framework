@@ -7,7 +7,7 @@ ng --version
 ng new $WORK_SPACE --create-application false
 
 cd ./$WORK_SPACE
-ng generate application $WORK_SPACE_APP --routing --style=scss --prefix=pine
+ng generate application $WORK_SPACE_APP --routing --style=css --prefix=pine
 npm install
 
 ng generate library $COMPONENT_LIB --prefix=pine
@@ -16,7 +16,17 @@ npm install ./projects/$COMPONENT_LIB
 ng build $COMPONENT_LIB
 ng lint $COMPONENT_LIB
 
+npm uninstall @schematics/angular
+npm install @schematics/angular@9.1.0
+ng add @angular/material
+
 npm install jquery --save
 npm install popper.js --save
 npm install bootstrap --save
 npm install --save @ng-bootstrap/ng-bootstrap
+
+npm install @fortawesome/fontawesome-svg-core
+npm install @fortawesome/free-solid-svg-icons
+npm install @fortawesome/free-brands-svg-icons
+npm install @fortawesome/free-regular-svg-icons
+npm install @fortawesome/angular-fontawesome@0.8

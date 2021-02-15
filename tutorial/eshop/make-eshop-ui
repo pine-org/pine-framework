@@ -7,7 +7,7 @@ ng --version
 ng new $WORK_SPACE --create-application false
 
 cd ./$WORK_SPACE
-ng generate application $WORK_SPACE_APP --routing --style=scss --prefix=eshop
+ng generate application $WORK_SPACE_APP --routing --style=css --prefix=eshop
 npm install
 
 ng generate library $COMPONENT_LIB --prefix=eshop
@@ -26,3 +26,9 @@ npm install jquery --save
 npm install popper.js --save
 npm install bootstrap --save
 npm install --save @ng-bootstrap/ng-bootstrap
+
+npm install @fortawesome/fontawesome-svg-core
+npm install @fortawesome/free-solid-svg-icons
+npm install @fortawesome/free-brands-svg-icons
+npm install @fortawesome/free-regular-svg-icons
+npm install @fortawesome/angular-fontawesome@0.8

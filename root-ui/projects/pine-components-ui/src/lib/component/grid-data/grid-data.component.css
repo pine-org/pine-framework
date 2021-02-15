@@ -1,0 +1,28 @@
+.table td.fit,
+.table th.fit {
+  white-space: nowrap;
+  width: 1%;
+}
+
+.table td.fit-logic,
+.table th.fit-logic {
+  white-space: nowrap;
+  width: 500px;
+}
+
+table th {
+  font-weight: bolder;
+}
+
+.fa-smile {
+  color: #ffe82b;
+  border: black;
+  background: radial-gradient(black 60%, transparent 60%) 25% 40%/30% 30% no-repeat,
+  radial-gradient(black 60%, transparent 60%) 75% 40%/30% 30% no-repeat,
+  radial-gradient(black 60%, transparent 60%) no-repeat;
+}
+
+.fa-coffee {
+  color: #c27947;
+  border: black;
+}

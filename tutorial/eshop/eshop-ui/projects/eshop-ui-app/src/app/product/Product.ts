@@ -1,4 +1,4 @@
-import {Links} from "../service/Links";
+import {Links} from "pine-components-ui";
 
 export class Product {
   id: number;

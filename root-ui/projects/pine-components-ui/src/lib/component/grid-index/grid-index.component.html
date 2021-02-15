@@ -1,0 +1,55 @@
+<div *ngIf="pageIndices" class="d-flex flex-row justify-content-center align-items-baseline">
+  <!--table indices---------------------------------------------------------------------------------->
+  <ul class="pagination">
+    <!--previous button---------------------------------------------------------------------------------->
+    <li class="page-item">
+      <pine-button-previous [border]="paginationButtonBorder"
+                            [click]="previousPage"
+                            [hiddenIcon]="hiddenIcon"
+                            [hiddenText]="hiddenText"
+                            [shape]="paginationButtonShape">
+      </pine-button-previous>
+    </li>
+    <!--previous button---------------------------------------------------------------------------------->
+    <div *ngIf="indicesOffset > 0" class="mx-2">
+      <pine-button-previous [border]="''"
+                            [click]="previousIndex"
+                            [hiddenIcon]="hiddenIcon"
+                            [hiddenText]="true"
+                            [shape]="paginationButtonShape">
+      </pine-button-previous>
+    </div>
+    <!--indices---------------------------------------------------------------------------------->
+    <li *ngFor='let num of page.indices' class="page-item">
+      <div *ngIf="num >= indicesOffset && num < indicesOffset + indicesLimit">
+        <pine-button-index [border]="paginationButtonBorder"
+                           [click]="getPage"
+                           [color]="isActive(num)"
+                           [index]="num"
+                           [shape]="paginationButtonShape">
+
+        </pine-button-index>
+      </div>
+    </li>
+    <!--indices---------------------------------------------------------------------------------->
+    <div *ngIf="indicesOffset + indicesLimit < page.indices.length" class="mx-2">
+      <pine-button-next [border]="''"
+                        [click]="nextIndex"
+                        [hiddenIcon]="hiddenIcon"
+                        [hiddenText]="true"
+                        [shape]="paginationButtonShape">
+      </pine-button-next>
+    </div>
+    <!--next button---------------------------------------------------------------------------------->
+    <li class="page-item">
+      <pine-button-next [border]="paginationButtonBorder"
+                        [click]="nextPage"
+                        [hiddenIcon]="hiddenIcon"
+                        [hiddenText]="hiddenText"
+                        [shape]="paginationButtonShape">
+      </pine-button-next>
+    </li>
+    <!--next button---------------------------------------------------------------------------------->
+  </ul>
+  <!--table indices---------------------------------------------------------------------------------->
+</div>

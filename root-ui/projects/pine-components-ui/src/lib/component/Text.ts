@@ -2,19 +2,19 @@ export class Text {
 
   public hidden: boolean = false
 
-  private content: string = '';
-
   constructor(builder: TextBuilder) {
-    this.content = builder._content;
+    this._content = builder._content;
     this.hidden = builder._hidden;
   }
 
-  get getContent(): string {
-    return this.hidden ? '' : this.content;
+  private _content: string = '';
+
+  get content(): string {
+    return this.hidden ? '' : this._content;
   }
 
-  set setContent(value: string) {
-    this.content = value;
+  set content(value: string) {
+    this._content = value;
   }
 
   public static builder(text: string): TextBuilder {
